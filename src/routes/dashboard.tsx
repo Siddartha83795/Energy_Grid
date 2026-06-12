@@ -12,15 +12,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import {
-  Zap,
-  Pause,
-  IndianRupee,
-  Factory,
-  AlertTriangle,
-  Lightbulb,
-  Loader2,
-} from "lucide-react";
+import { Zap, Pause, IndianRupee, Factory, AlertTriangle, Lightbulb, Loader2 } from "lucide-react";
 import { getDashboard, getRunId, type Recommendation } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -41,8 +33,7 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 const fmt = (n: number) => n.toLocaleString("en-IN", { maximumFractionDigits: 1 });
-const inr = (n: number) =>
-  "₹" + n.toLocaleString("en-IN", { maximumFractionDigits: 0 });
+const inr = (n: number) => "₹" + n.toLocaleString("en-IN", { maximumFractionDigits: 0 });
 
 function StatCard({
   label,
@@ -59,7 +50,9 @@ function StatCard({
     <div className="rounded-2xl border bg-card p-5 shadow-sm">
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground">{label}</span>
-        <div className={`grid place-items-center h-9 w-9 rounded-lg ${accent ?? "bg-primary/10 text-primary"}`}>
+        <div
+          className={`grid place-items-center h-9 w-9 rounded-lg ${accent ?? "bg-primary/10 text-primary"}`}
+        >
           <Icon className="h-4 w-4" />
         </div>
       </div>
@@ -172,8 +165,20 @@ function DashboardPage() {
               <YAxis fontSize={11} />
               <Tooltip />
               <Legend />
-              <Bar dataKey="active_kwh" stackId="a" fill="#16a34a" name="Active" radius={[0, 0, 0, 0]} />
-              <Bar dataKey="idle_kwh" stackId="a" fill="#f59e0b" name="Idle" radius={[4, 4, 0, 0]} />
+              <Bar
+                dataKey="active_kwh"
+                stackId="a"
+                fill="#16a34a"
+                name="Active"
+                radius={[0, 0, 0, 0]}
+              />
+              <Bar
+                dataKey="idle_kwh"
+                stackId="a"
+                fill="#f59e0b"
+                name="Idle"
+                radius={[4, 4, 0, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -186,13 +191,7 @@ function DashboardPage() {
               <XAxis dataKey="hour" fontSize={11} />
               <YAxis fontSize={11} />
               <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="kwh"
-                stroke="#16a34a"
-                strokeWidth={2}
-                dot={false}
-              />
+              <Line type="monotone" dataKey="kwh" stroke="#16a34a" strokeWidth={2} dot={false} />
             </LineChart>
           </ResponsiveContainer>
         </div>

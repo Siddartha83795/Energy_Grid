@@ -18,4 +18,3 @@ export async function setSessionCookie(token: string) {
 export async function deleteSessionCookie() {
   deleteCookie("session_token", { path: "/" });
 }
-

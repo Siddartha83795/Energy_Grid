@@ -1,7 +1,9 @@
 import crypto from "node:crypto";
 import process from "node:process";
 
-const SECRET = process.env.JWT_SECRET || "default-jwt-secret-please-configure-in-env-file-at-least-32-chars-long";
+const SECRET =
+  process.env.JWT_SECRET ||
+  "default-jwt-secret-please-configure-in-env-file-at-least-32-chars-long";
 
 export function hashPassword(password: string): string {
   const salt = crypto.randomBytes(16).toString("hex");
@@ -20,7 +22,10 @@ export function verifyPassword(password: string, stored: string): boolean {
 export function signSession(payload: any): string {
   const header = Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT" })).toString("base64url");
   const data = Buffer.from(JSON.stringify(payload)).toString("base64url");
-  const signature = crypto.createHmac("sha256", SECRET).update(`${header}.${data}`).digest("base64url");
+  const signature = crypto
+    .createHmac("sha256", SECRET)
+    .update(`${header}.${data}`)
+    .digest("base64url");
   return `${header}.${data}.${signature}`;
 }
 
@@ -28,7 +33,10 @@ export function verifySession(token: string): any | null {
   const parts = token.split(".");
   if (parts.length !== 3) return null;
   const [header, data, signature] = parts;
-  const expectedSignature = crypto.createHmac("sha256", SECRET).update(`${header}.${data}`).digest("base64url");
+  const expectedSignature = crypto
+    .createHmac("sha256", SECRET)
+    .update(`${header}.${data}`)
+    .digest("base64url");
   if (signature !== expectedSignature) return null;
   try {
     return JSON.parse(Buffer.from(data, "base64url").toString("utf8"));

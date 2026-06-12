@@ -17,7 +17,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { updateUserSettings } from "@/lib/energy.functions";
 import { toast } from "sonner";
 
-export function SettingsDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
+export function SettingsDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+}) {
   const { theme, setTheme } = useTheme();
   const { user, refreshUser } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -50,7 +56,7 @@ export function SettingsDialog({ open, onOpenChange }: { open: boolean; onOpenCh
           tariff_per_kwh: tariff,
           notifications_enabled: notif,
           theme,
-        }
+        },
       });
       await refreshUser();
       toast.success("Settings saved");
@@ -80,11 +86,13 @@ export function SettingsDialog({ open, onOpenChange }: { open: boolean; onOpenCh
           <TabsContent value="appearance" className="space-y-3 pt-4">
             <Label>Color mode</Label>
             <div className="grid grid-cols-3 gap-2">
-              {([
-                { v: "light", l: "Light", Icon: Sun },
-                { v: "dark", l: "Dark", Icon: Moon },
-                { v: "system", l: "System", Icon: Monitor },
-              ] as const).map(({ v, l, Icon }) => (
+              {(
+                [
+                  { v: "light", l: "Light", Icon: Sun },
+                  { v: "dark", l: "Dark", Icon: Moon },
+                  { v: "system", l: "System", Icon: Monitor },
+                ] as const
+              ).map(({ v, l, Icon }) => (
                 <button
                   key={v}
                   type="button"
@@ -108,11 +116,21 @@ export function SettingsDialog({ open, onOpenChange }: { open: boolean; onOpenCh
           <TabsContent value="billing" className="space-y-3 pt-4">
             <div className="space-y-2">
               <Label>Currency</Label>
-              <Input value={currency} onChange={(e) => setCurrency(e.target.value.toUpperCase().slice(0, 3))} maxLength={3} />
+              <Input
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value.toUpperCase().slice(0, 3))}
+                maxLength={3}
+              />
             </div>
             <div className="space-y-2">
               <Label>Tariff per kWh ({currency})</Label>
-              <Input type="number" step="0.01" min={0} value={tariff} onChange={(e) => setTariff(Number(e.target.value))} />
+              <Input
+                type="number"
+                step="0.01"
+                min={0}
+                value={tariff}
+                onChange={(e) => setTariff(Number(e.target.value))}
+              />
               <p className="text-xs text-muted-foreground">Used for idle-cost calculations</p>
             </div>
           </TabsContent>
@@ -134,7 +152,9 @@ export function SettingsDialog({ open, onOpenChange }: { open: boolean; onOpenCh
         </Tabs>
 
         <div className="flex justify-end gap-2 pt-3 border-t">
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
           <Button onClick={save} disabled={saving || loading}>
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save"}
           </Button>

@@ -73,7 +73,10 @@ function ReportPage() {
             <FileText className="h-6 w-6 text-primary print:hidden" />
             <h1 className="text-2xl font-bold tracking-tight">GenAI Energy Advisory Report</h1>
           </div>
-          <p className="text-xs text-muted-foreground">Run ID: <code className="bg-muted px-1 py-0.5 rounded font-mono text-[11px]">{run_id}</code></p>
+          <p className="text-xs text-muted-foreground">
+            Run ID:{" "}
+            <code className="bg-muted px-1 py-0.5 rounded font-mono text-[11px]">{run_id}</code>
+          </p>
         </div>
         <div className="flex gap-2 print:hidden">
           <Button variant="outline" asChild>
@@ -95,14 +98,22 @@ function ReportPage() {
         </div>
         <div className="rounded-xl border p-4 bg-muted/50 print:bg-transparent">
           <div className="text-[10px] uppercase font-bold text-muted-foreground">Idle Energy</div>
-          <div className="text-xl font-bold mt-1 text-amber-600 dark:text-amber-500">{fmt(data.summary.idle_kwh)} kWh</div>
+          <div className="text-xl font-bold mt-1 text-amber-600 dark:text-amber-500">
+            {fmt(data.summary.idle_kwh)} kWh
+          </div>
         </div>
         <div className="rounded-xl border p-4 bg-muted/50 print:bg-transparent">
-          <div className="text-[10px] uppercase font-bold text-muted-foreground">Estimated Idle Cost</div>
-          <div className="text-xl font-bold mt-1 text-destructive">{inr(data.summary.idle_cost_inr)}</div>
+          <div className="text-[10px] uppercase font-bold text-muted-foreground">
+            Estimated Idle Cost
+          </div>
+          <div className="text-xl font-bold mt-1 text-destructive">
+            {inr(data.summary.idle_cost_inr)}
+          </div>
         </div>
         <div className="rounded-xl border p-4 bg-muted/50 print:bg-transparent">
-          <div className="text-[10px] uppercase font-bold text-muted-foreground">Machines Analyzed</div>
+          <div className="text-[10px] uppercase font-bold text-muted-foreground">
+            Machines Analyzed
+          </div>
           <div className="text-xl font-bold mt-1">{data.summary.machines_analyzed}</div>
         </div>
       </section>
@@ -126,9 +137,15 @@ function ReportPage() {
                 <TableRow key={m.machine_name} className="print:border-b">
                   <TableCell className="py-2 text-sm font-medium">{m.machine_name}</TableCell>
                   <TableCell className="py-2 text-sm text-right">{fmt(m.total_kwh)}</TableCell>
-                  <TableCell className="py-2 text-sm text-right text-amber-600 dark:text-amber-500">{fmt(m.idle_kwh)}</TableCell>
-                  <TableCell className="py-2 text-sm text-right">{m.utilization_pct.toFixed(1)}%</TableCell>
-                  <TableCell className="py-2 text-sm text-right font-semibold text-destructive">{inr(m.idle_cost_inr)}</TableCell>
+                  <TableCell className="py-2 text-sm text-right text-amber-600 dark:text-amber-500">
+                    {fmt(m.idle_kwh)}
+                  </TableCell>
+                  <TableCell className="py-2 text-sm text-right">
+                    {m.utilization_pct.toFixed(1)}%
+                  </TableCell>
+                  <TableCell className="py-2 text-sm text-right font-semibold text-destructive">
+                    {inr(m.idle_cost_inr)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -149,11 +166,25 @@ function ReportPage() {
 
         <div className="space-y-3">
           {data.genai.recommendations.map((r) => (
-            <div key={r.rank} className="rounded-xl border p-4 space-y-2 bg-card print:border-b print:rounded-none print:p-2 break-inside-avoid">
+            <div
+              key={r.rank}
+              className="rounded-xl border p-4 space-y-2 bg-card print:border-b print:rounded-none print:p-2 break-inside-avoid"
+            >
               <div className="flex items-center justify-between">
-                <div className="font-semibold text-sm">#{r.rank} · {r.machine_name}</div>
+                <div className="font-semibold text-sm">
+                  #{r.rank} · {r.machine_name}
+                </div>
                 <div className="flex gap-2 print:hidden">
-                  <Badge variant={r.priority === "high" ? "destructive" : r.priority === "medium" ? "default" : "secondary"} className="text-[10px] py-0 px-1.5 font-medium">
+                  <Badge
+                    variant={
+                      r.priority === "high"
+                        ? "destructive"
+                        : r.priority === "medium"
+                          ? "default"
+                          : "secondary"
+                    }
+                    className="text-[10px] py-0 px-1.5 font-medium"
+                  >
                     {r.priority.toUpperCase()}
                   </Badge>
                   <Badge variant="outline" className="text-[10px] py-0 px-1.5 font-medium">
@@ -161,10 +192,17 @@ function ReportPage() {
                   </Badge>
                 </div>
               </div>
-              <div className="text-xs"><span className="font-semibold text-muted-foreground">Issue: </span>{r.issue}</div>
-              <div className="text-xs"><span className="font-semibold text-muted-foreground">Corrective Action: </span>{r.action}</div>
+              <div className="text-xs">
+                <span className="font-semibold text-muted-foreground">Issue: </span>
+                {r.issue}
+              </div>
+              <div className="text-xs">
+                <span className="font-semibold text-muted-foreground">Corrective Action: </span>
+                {r.action}
+              </div>
               <div className="text-xs text-primary font-medium">
-                Estimated savings: {fmt(r.estimated_monthly_savings_kwh)} kWh/month (≈ {inr(r.estimated_monthly_savings_inr)}/month)
+                Estimated savings: {fmt(r.estimated_monthly_savings_kwh)} kWh/month (≈{" "}
+                {inr(r.estimated_monthly_savings_inr)}/month)
               </div>
             </div>
           ))}
@@ -174,7 +212,9 @@ function ReportPage() {
       {/* Quick Wins */}
       {data.genai.quick_wins && data.genai.quick_wins.length > 0 && (
         <section className="rounded-xl border p-4 bg-primary/5 border-primary/20 print:border-none print:p-0 break-inside-avoid">
-          <h2 className="text-sm font-semibold text-primary print:text-foreground mb-2">Operational Quick Wins</h2>
+          <h2 className="text-sm font-semibold text-primary print:text-foreground mb-2">
+            Operational Quick Wins
+          </h2>
           <ul className="text-xs space-y-1.5 list-disc list-inside text-muted-foreground print:text-foreground">
             {data.genai.quick_wins.map((q, i) => (
               <li key={i}>{q}</li>

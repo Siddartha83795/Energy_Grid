@@ -12,31 +12,36 @@ async function getAuthUserId(): Promise<string> {
   return session.userId;
 }
 
-export const getEnergyEntries = createServerFn({ method: "GET" })
-  .handler(async () => {
-    const userId = await getAuthUserId();
-    const db = await getDb();
-    const cursor = db.collection("energy_entries")
-      .find({ user_id: userId })
-      .sort({ created_at: -1 })
-      .limit(200);
-    const items = await cursor.toArray();
-    return items.map(item => ({
-      id: item._id.toString(),
-      kind: item.kind,
-      machine_name: item.machine_name,
-      recorded_at: item.recorded_at || null,
-      kwh: item.kwh ?? null,
-      status: item.status ?? null,
-      entry_date: item.entry_date ?? null,
-      total_kwh: item.total_kwh ?? null,
-      idle_kwh: item.idle_kwh ?? null,
-    }));
-  });
+export const getEnergyEntries = createServerFn({ method: "GET" }).handler(async () => {
+  const userId = await getAuthUserId();
+  const db = await getDb();
+  const cursor = db
+    .collection("energy_entries")
+    .find({ user_id: userId })
+    .sort({ created_at: -1 })
+    .limit(200);
+  const items = await cursor.toArray();
+  return items.map((item) => ({
+    id: item._id.toString(),
+    kind: item.kind,
+    machine_name: item.machine_name,
+    recorded_at: item.recorded_at || null,
+    kwh: item.kwh ?? null,
+    status: item.status ?? null,
+    entry_date: item.entry_date ?? null,
+    total_kwh: item.total_kwh ?? null,
+    idle_kwh: item.idle_kwh ?? null,
+  }));
+});
 
 export const addDetailedEntry = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => {
-    const o = input as { machine_name?: string; recorded_at?: string; kwh?: number; status?: string };
+    const o = input as {
+      machine_name?: string;
+      recorded_at?: string;
+      kwh?: number;
+      status?: string;
+    };
     if (!o.machine_name || o.kwh === undefined) throw new Error("Missing required fields");
     return {
       machine_name: o.machine_name.trim(),
@@ -61,7 +66,12 @@ export const addDetailedEntry = createServerFn({ method: "POST" })
 
 export const addDailyEntry = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => {
-    const o = input as { machine_name?: string; entry_date?: string; total_kwh?: number; idle_kwh?: number };
+    const o = input as {
+      machine_name?: string;
+      entry_date?: string;
+      total_kwh?: number;
+      idle_kwh?: number;
+    };
     if (!o.machine_name || !o.entry_date || o.total_kwh === undefined || o.idle_kwh === undefined) {
       throw new Error("Missing required fields");
     }
@@ -94,14 +104,14 @@ export const deleteEnergyEntry = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const userId = await getAuthUserId();
     const db = await getDb();
-    
+
     // Non-admins can only delete their own entries
     const query: any = { _id: new ObjectId(data.id) };
     const user = await db.collection("users").findOne({ _id: new ObjectId(userId) });
     if (user?.role !== "admin") {
       query.user_id = userId;
     }
-    
+
     const res = await db.collection("energy_entries").deleteOne(query);
     return { deletedCount: res.deletedCount };
   });
@@ -115,10 +125,10 @@ export const clearAndInsertEntries = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const userId = await getAuthUserId();
     const db = await getDb();
-    
+
     // Clear old entries
     await db.collection("energy_entries").deleteMany({ user_id: userId });
-    
+
     if (data.entries.length > 0) {
       const documents = data.entries.map((e) => ({
         user_id: userId,
@@ -136,40 +146,50 @@ export const clearAndInsertEntries = createServerFn({ method: "POST" })
       }));
       await db.collection("energy_entries").insertMany(documents);
     }
-    
+
     return { success: true, count: data.entries.length };
   });
 
 export const updateUserSettings = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => {
-    const o = input as { fullName?: string; company?: string; theme?: string; currency?: string; tariff_per_kwh?: number; notifications_enabled?: boolean };
+    const o = input as {
+      fullName?: string;
+      company?: string;
+      theme?: string;
+      currency?: string;
+      tariff_per_kwh?: number;
+      notifications_enabled?: boolean;
+    };
     return o;
   })
   .handler(async ({ data }) => {
     const userId = await getAuthUserId();
     const db = await getDb();
-    
+
     const updateFields: any = {};
     if (data.fullName !== undefined) updateFields.full_name = data.fullName;
     if (data.company !== undefined) updateFields.company = data.company;
     if (data.theme !== undefined) updateFields.theme = data.theme;
     if (data.currency !== undefined) updateFields.currency = data.currency;
-    if (data.tariff_per_kwh !== undefined) updateFields.tariff_per_kwh = Number(data.tariff_per_kwh);
-    if (data.notifications_enabled !== undefined) updateFields.notifications_enabled = Boolean(data.notifications_enabled);
+    if (data.tariff_per_kwh !== undefined)
+      updateFields.tariff_per_kwh = Number(data.tariff_per_kwh);
+    if (data.notifications_enabled !== undefined)
+      updateFields.notifications_enabled = Boolean(data.notifications_enabled);
     updateFields.updated_at = new Date();
-    
-    await db.collection("users").updateOne(
-      { _id: new ObjectId(userId) },
-      { $set: updateFields }
-    );
-    
+
+    await db.collection("users").updateOne({ _id: new ObjectId(userId) }, { $set: updateFields });
+
     return { success: true };
   });
 
 export const processAnalysisRun = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => {
     const o = input as { energyData: any[]; shiftData: any[]; scheduleData: any[] };
-    if (!Array.isArray(o.energyData) || !Array.isArray(o.shiftData) || !Array.isArray(o.scheduleData)) {
+    if (
+      !Array.isArray(o.energyData) ||
+      !Array.isArray(o.shiftData) ||
+      !Array.isArray(o.scheduleData)
+    ) {
       throw new Error("Invalid input data arrays");
     }
     return o;
@@ -198,7 +218,10 @@ export const processAnalysisRun = createServerFn({ method: "POST" })
 
     // 1. Analyze active / idle status for each energy reading
     // Group energy meter readings by machine name
-    const machineGroups = new Map<string, Array<{ timestamp: number; kwh: number; isIdle: boolean }>>();
+    const machineGroups = new Map<
+      string,
+      Array<{ timestamp: number; kwh: number; isIdle: boolean }>
+    >();
     const uniqueMachines = new Set<string>();
 
     // Index schedules by machine_id for faster lookup
@@ -269,7 +292,8 @@ export const processAnalysisRun = createServerFn({ method: "POST" })
       const timestampStr = row.timestamp;
       if (!timestampStr) return;
       try {
-        const normalized = typeof timestampStr === "string" ? timestampStr.trim().replace(" ", "T") : timestampStr;
+        const normalized =
+          typeof timestampStr === "string" ? timestampStr.trim().replace(" ", "T") : timestampStr;
         const date = new Date(normalized);
         if (isNaN(date.getTime())) return;
         const hr = String(date.getHours()).padStart(2, "0") + ":00";
@@ -369,4 +393,3 @@ export const fetchDashboardData = createServerFn({ method: "GET" })
       genai: run.genai,
     };
   });
-

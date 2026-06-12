@@ -43,7 +43,12 @@ export function AppHeader() {
           )}
         </div>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)} aria-label="Settings">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setSettingsOpen(true)}
+            aria-label="Settings"
+          >
             <Settings className="h-4 w-4" />
           </Button>
           <DropdownMenu>
@@ -61,7 +66,10 @@ export function AppHeader() {
               <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
                 <Settings className="h-4 w-4 mr-2" /> Settings
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={signOut} className="text-destructive focus:text-destructive">
+              <DropdownMenuItem
+                onClick={signOut}
+                className="text-destructive focus:text-destructive"
+              >
                 <LogOut className="h-4 w-4 mr-2" /> Sign out
               </DropdownMenuItem>
             </DropdownMenuContent>

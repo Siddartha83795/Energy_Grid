@@ -64,12 +64,11 @@ function Landing() {
             <Sparkles className="h-3.5 w-3.5" /> GenAI for industrial energy
           </span>
           <h1 className="mt-6 text-4xl md:text-6xl font-bold tracking-tight">
-            Stop paying for{" "}
-            <span className="text-primary">idle machines.</span>
+            Stop paying for <span className="text-primary">idle machines.</span>
           </h1>
           <p className="mt-5 text-lg text-muted-foreground max-w-2xl mx-auto">
-            Upload your meter data, shift records, and machine schedules. Get a
-            prioritized list of fixes — with monthly savings in kWh and ₹.
+            Upload your meter data, shift records, and machine schedules. Get a prioritized list of
+            fixes — with monthly savings in kWh and ₹.
           </p>
           <div className="mt-8 flex items-center justify-center gap-3">
             <Button asChild size="lg">
@@ -161,9 +160,7 @@ function Landing() {
       {/* CTA */}
       <section className="border-t bg-primary/5">
         <div className="max-w-4xl mx-auto px-6 py-20 text-center">
-          <h2 className="text-3xl font-bold tracking-tight">
-            Ready to find your hidden savings?
-          </h2>
+          <h2 className="text-3xl font-bold tracking-tight">Ready to find your hidden savings?</h2>
           <p className="text-muted-foreground mt-3">
             Start your first analysis in under five minutes.
           </p>
@@ -191,15 +188,7 @@ function Stat({ value, label }: { value: string; label: string }) {
   );
 }
 
-function Feature({
-  icon: Icon,
-  title,
-  text,
-}: {
-  icon: typeof Zap;
-  title: string;
-  text: string;
-}) {
+function Feature({ icon: Icon, title, text }: { icon: typeof Zap; title: string; text: string }) {
   return (
     <div className="rounded-2xl border bg-card p-6 shadow-sm hover:border-primary/40 transition-colors">
       <div className="grid place-items-center h-10 w-10 rounded-lg bg-primary/10 text-primary">

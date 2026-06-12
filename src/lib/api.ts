@@ -66,7 +66,7 @@ export async function uploadFiles(files: { energy: File; shifts: File; schedules
         energyData,
         shiftData,
         scheduleData,
-      }
+      },
     });
     return result as { run_id: string };
   } catch (err) {

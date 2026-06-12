@@ -28,24 +28,39 @@ function AiInsightsPage() {
       toast.success("Analysis ready");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "AI analysis failed");
-    } finally { setBusy(false); }
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-6">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2"><Sparkles className="h-7 w-7 text-primary" /> AI insights</h1>
-          <p className="text-muted-foreground mt-1">Predictive analysis & prioritized actions, powered by Groq Llama 3.3.</p>
+          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+            <Sparkles className="h-7 w-7 text-primary" /> AI insights
+          </h1>
+          <p className="text-muted-foreground mt-1">
+            Predictive analysis & prioritized actions, powered by Groq Llama 3.3.
+          </p>
         </div>
         <Button onClick={analyze} disabled={busy} size="lg">
-          {busy ? <><Loader2 className="h-4 w-4 animate-spin" /> Analyzing</> : <><Sparkles className="h-4 w-4" /> Run AI analysis</>}
+          {busy ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" /> Analyzing
+            </>
+          ) : (
+            <>
+              <Sparkles className="h-4 w-4" /> Run AI analysis
+            </>
+          )}
         </Button>
       </header>
 
       {!insights && !busy && (
         <div className="rounded-2xl border bg-card p-12 text-center text-sm text-muted-foreground">
-          Click "Run AI analysis" to get a narrative summary, predictions, and a ranked action list based on your data.
+          Click "Run AI analysis" to get a narrative summary, predictions, and a ranked action list
+          based on your data.
         </div>
       )}
 
@@ -53,18 +68,28 @@ function AiInsightsPage() {
         <div className="space-y-6">
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="rounded-2xl border bg-card p-5">
-              <div className="text-xs uppercase text-muted-foreground">Potential monthly savings</div>
-              <div className="text-3xl font-bold mt-1">{insights.total_potential_savings_kwh.toFixed(0)} <span className="text-base font-normal text-muted-foreground">kWh</span></div>
+              <div className="text-xs uppercase text-muted-foreground">
+                Potential monthly savings
+              </div>
+              <div className="text-3xl font-bold mt-1">
+                {insights.total_potential_savings_kwh.toFixed(0)}{" "}
+                <span className="text-base font-normal text-muted-foreground">kWh</span>
+              </div>
             </div>
             <div className="rounded-2xl border bg-card p-5">
               <div className="text-xs uppercase text-muted-foreground">Predicted next month</div>
-              <div className="text-3xl font-bold mt-1">{insights.predicted_next_month_kwh.toFixed(0)} <span className="text-base font-normal text-muted-foreground">kWh</span></div>
+              <div className="text-3xl font-bold mt-1">
+                {insights.predicted_next_month_kwh.toFixed(0)}{" "}
+                <span className="text-base font-normal text-muted-foreground">kWh</span>
+              </div>
             </div>
           </div>
 
           <div className="rounded-2xl border bg-card p-5">
             <h2 className="font-semibold mb-2">Summary</h2>
-            <p className="text-sm text-muted-foreground leading-relaxed">{insights.summary_narrative}</p>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {insights.summary_narrative}
+            </p>
           </div>
 
           <div className="rounded-2xl border bg-card p-5 space-y-3">
@@ -72,15 +97,36 @@ function AiInsightsPage() {
             {insights.recommendations.map((r) => (
               <div key={r.rank} className="rounded-lg border p-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="font-semibold">#{r.rank} · {r.machine_name}</div>
+                  <div className="font-semibold">
+                    #{r.rank} · {r.machine_name}
+                  </div>
                   <div className="flex gap-2">
-                    <Badge variant={r.priority === "high" ? "destructive" : r.priority === "medium" ? "default" : "secondary"}>{r.priority}</Badge>
+                    <Badge
+                      variant={
+                        r.priority === "high"
+                          ? "destructive"
+                          : r.priority === "medium"
+                            ? "default"
+                            : "secondary"
+                      }
+                    >
+                      {r.priority}
+                    </Badge>
                     <Badge variant="outline">{r.implementation_effort}</Badge>
                   </div>
                 </div>
-                <div className="text-sm"><span className="text-muted-foreground">Issue: </span>{r.issue}</div>
-                <div className="text-sm"><span className="text-muted-foreground">Action: </span>{r.action}</div>
-                <div className="text-xs text-muted-foreground">Est. savings: {r.estimated_monthly_savings_kwh.toFixed(0)} kWh / ₹{r.estimated_monthly_savings_inr.toFixed(0)} per month</div>
+                <div className="text-sm">
+                  <span className="text-muted-foreground">Issue: </span>
+                  {r.issue}
+                </div>
+                <div className="text-sm">
+                  <span className="text-muted-foreground">Action: </span>
+                  {r.action}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Est. savings: {r.estimated_monthly_savings_kwh.toFixed(0)} kWh / ₹
+                  {r.estimated_monthly_savings_inr.toFixed(0)} per month
+                </div>
               </div>
             ))}
           </div>
@@ -89,7 +135,9 @@ function AiInsightsPage() {
             <div className="rounded-2xl border bg-card p-5">
               <h2 className="font-semibold mb-2">Quick wins</h2>
               <ul className="text-sm space-y-1 list-disc pl-5 text-muted-foreground">
-                {insights.quick_wins.map((q, i) => <li key={i}>{q}</li>)}
+                {insights.quick_wins.map((q, i) => (
+                  <li key={i}>{q}</li>
+                ))}
               </ul>
             </div>
           )}

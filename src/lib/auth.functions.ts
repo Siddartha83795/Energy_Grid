@@ -10,7 +10,11 @@ export const signUp = createServerFn({ method: "POST" })
     if (!o.email || !o.password || !o.fullName) {
       throw new Error("Missing required fields");
     }
-    return { email: o.email.toLowerCase().trim(), password: o.password, fullName: o.fullName.trim() };
+    return {
+      email: o.email.toLowerCase().trim(),
+      password: o.password,
+      fullName: o.fullName.trim(),
+    };
   })
   .handler(async ({ data }) => {
     const db = await getDb();
@@ -91,40 +95,38 @@ export const signIn = createServerFn({ method: "POST" })
     };
   });
 
-export const signOut = createServerFn({ method: "POST" })
-  .handler(async () => {
-    await deleteSessionCookie();
-    return { success: true };
-  });
+export const signOut = createServerFn({ method: "POST" }).handler(async () => {
+  await deleteSessionCookie();
+  return { success: true };
+});
 
-export const getCurrentUser = createServerFn({ method: "GET" })
-  .handler(async () => {
-    const token = await getSessionCookie();
-    if (!token) return null;
+export const getCurrentUser = createServerFn({ method: "GET" }).handler(async () => {
+  const token = await getSessionCookie();
+  if (!token) return null;
 
-    const session = verifySession(token);
-    if (!session || !session.userId) return null;
+  const session = verifySession(token);
+  if (!session || !session.userId) return null;
 
-    const db = await getDb();
-    let objId;
-    try {
-      objId = new ObjectId(session.userId);
-    } catch {
-      return null;
-    }
+  const db = await getDb();
+  let objId;
+  try {
+    objId = new ObjectId(session.userId);
+  } catch {
+    return null;
+  }
 
-    const user = await db.collection("users").findOne({ _id: objId });
-    if (!user) return null;
+  const user = await db.collection("users").findOne({ _id: objId });
+  if (!user) return null;
 
-    return {
-      id: user._id.toString(),
-      email: user.email,
-      fullName: user.full_name,
-      company: user.company || "",
-      role: user.role || "staff",
-      theme: user.theme || "system",
-      currency: user.currency || "INR",
-      tariff_per_kwh: user.tariff_per_kwh ?? 8.0,
-      notifications_enabled: user.notifications_enabled ?? true,
-    };
-  });
+  return {
+    id: user._id.toString(),
+    email: user.email,
+    fullName: user.full_name,
+    company: user.company || "",
+    role: user.role || "staff",
+    theme: user.theme || "system",
+    currency: user.currency || "INR",
+    tariff_per_kwh: user.tariff_per_kwh ?? 8.0,
+    notifications_enabled: user.notifications_enabled ?? true,
+  };
+});

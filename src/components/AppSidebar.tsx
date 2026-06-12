@@ -59,9 +59,7 @@ export function AppSidebar() {
           </Link>
         )}
       </nav>
-      <div className="p-4 text-xs text-muted-foreground border-t">
-        DB: MongoDB Atlas
-      </div>
+      <div className="p-4 text-xs text-muted-foreground border-t">DB: MongoDB Atlas</div>
     </aside>
   );
 }
