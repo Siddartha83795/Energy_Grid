@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Loader2, Sparkles } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { analyzeEnergy, type AiInsights } from "@/lib/ai.functions";
+import { getRunId } from "@/lib/api";
 
 export const Route = createFileRoute("/ai-insights")({
   head: () => ({ meta: [{ title: "AI insights — Energy Advisor" }] }),
@@ -18,12 +19,32 @@ function AiInsightsPage() {
   const run = useServerFn(analyzeEnergy);
   const [busy, setBusy] = useState(false);
   const [insights, setInsights] = useState<AiInsights | null>(null);
+  const [loaded, setLoaded] = useState(false);
+
+  const runId = typeof window !== "undefined" ? getRunId() : null;
+
+  useEffect(() => {
+    if (user && runId && !loaded) {
+      setLoaded(true);
+      setBusy(true);
+      run({ data: { runId } })
+        .then((result) => {
+          setInsights(result);
+        })
+        .catch((e) => {
+          console.error("Failed to auto-fetch AI insights:", e);
+        })
+        .finally(() => {
+          setBusy(false);
+        });
+    }
+  }, [user, runId, loaded, run]);
 
   const analyze = async () => {
     if (!user) return;
     setBusy(true);
     try {
-      const result = await run();
+      const result = await run({ data: { runId: getRunId() ?? undefined } });
       setInsights(result);
       toast.success("Analysis ready");
     } catch (e) {
