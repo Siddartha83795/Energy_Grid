@@ -1,10 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getSessionCookie } from "./auth-cookie.server";
-import { getDb } from "./mongodb.server";
-import { verifySession } from "./auth-session.server";
-import { ObjectId } from "mongodb";
 
 async function getAuthUserId(): Promise<string> {
+  const { getSessionCookie } = await import("./auth-cookie.server");
+  const { verifySession } = await import("./auth-session.server");
   const token = await getSessionCookie();
   if (!token) throw new Error("Unauthorized: No session token");
   const session = verifySession(token);
@@ -14,6 +12,7 @@ async function getAuthUserId(): Promise<string> {
 
 export const getEnergyEntries = createServerFn({ method: "GET" }).handler(async () => {
   const userId = await getAuthUserId();
+  const { getDb } = await import("./mongodb.server");
   const db = await getDb();
   const cursor = db
     .collection("energy_entries")
@@ -52,6 +51,7 @@ export const addDetailedEntry = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const userId = await getAuthUserId();
+    const { getDb } = await import("./mongodb.server");
     const db = await getDb();
     const res = await db.collection("energy_entries").insertOne({
       user_id: userId,
@@ -84,6 +84,7 @@ export const addDailyEntry = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const userId = await getAuthUserId();
+    const { getDb } = await import("./mongodb.server");
     const db = await getDb();
     const res = await db.collection("energy_entries").insertOne({
       user_id: userId,
@@ -103,6 +104,8 @@ export const deleteEnergyEntry = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const userId = await getAuthUserId();
+    const { getDb } = await import("./mongodb.server");
+    const { ObjectId } = await import("mongodb");
     const db = await getDb();
 
     // Non-admins can only delete their own entries
@@ -124,6 +127,7 @@ export const clearAndInsertEntries = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const userId = await getAuthUserId();
+    const { getDb } = await import("./mongodb.server");
     const db = await getDb();
 
     // Clear old entries
@@ -164,6 +168,8 @@ export const updateUserSettings = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const userId = await getAuthUserId();
+    const { getDb } = await import("./mongodb.server");
+    const { ObjectId } = await import("mongodb");
     const db = await getDb();
 
     const updateFields: any = {};
@@ -196,6 +202,8 @@ export const processAnalysisRun = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const userId = await getAuthUserId();
+    const { getDb } = await import("./mongodb.server");
+    const { ObjectId } = await import("mongodb");
     const db = await getDb();
 
     // Fetch user settings to get the current tariff rate
@@ -381,6 +389,7 @@ export const fetchDashboardData = createServerFn({ method: "GET" })
   })
   .handler(async ({ data }) => {
     const userId = await getAuthUserId();
+    const { getDb } = await import("./mongodb.server");
     const db = await getDb();
 
     const run = await db.collection("runs").findOne({ run_id: data.runId, user_id: userId });

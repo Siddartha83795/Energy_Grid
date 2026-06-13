@@ -1,10 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getSessionCookie } from "./auth-cookie.server";
-import { getDb } from "./mongodb.server";
-import { verifySession } from "./auth-session.server";
-import { ObjectId } from "mongodb";
 
 async function requireAdmin(): Promise<string> {
+  const { getSessionCookie } = await import("./auth-cookie.server");
+  const { verifySession } = await import("./auth-session.server");
+  const { getDb } = await import("./mongodb.server");
+  const { ObjectId } = await import("mongodb");
+
   const token = await getSessionCookie();
   if (!token) throw new Error("Unauthorized: No session token");
   const session = verifySession(token);
@@ -20,6 +21,7 @@ async function requireAdmin(): Promise<string> {
 
 export const getAdminData = createServerFn({ method: "GET" }).handler(async () => {
   await requireAdmin();
+  const { getDb } = await import("./mongodb.server");
   const db = await getDb();
 
   // Fetch all users
@@ -65,6 +67,8 @@ export const toggleUserRole = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     await requireAdmin();
+    const { getDb } = await import("./mongodb.server");
+    const { ObjectId } = await import("mongodb");
     const db = await getDb();
 
     await db
@@ -84,6 +88,8 @@ export const deleteUserProfile = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     await requireAdmin();
+    const { getDb } = await import("./mongodb.server");
+    const { ObjectId } = await import("mongodb");
     const db = await getDb();
 
     // Delete the user document
@@ -109,6 +115,8 @@ export const updateEnergyEntry = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     await requireAdmin();
+    const { getDb } = await import("./mongodb.server");
+    const { ObjectId } = await import("mongodb");
     const db = await getDb();
 
     const updateFields: any = {

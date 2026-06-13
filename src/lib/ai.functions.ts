@@ -1,8 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getSessionCookie } from "./auth-cookie.server";
-import { getDb } from "./mongodb.server";
-import { verifySession } from "./auth-session.server";
-import { ObjectId } from "mongodb";
 
 export type AiInsights = {
   summary_narrative: string;
@@ -27,6 +23,11 @@ export const analyzeEnergy = createServerFn({ method: "POST" })
     return { runId: o?.runId };
   })
   .handler(async ({ data }) => {
+    const { getSessionCookie } = await import("./auth-cookie.server");
+    const { verifySession } = await import("./auth-session.server");
+    const { getDb } = await import("./mongodb.server");
+    const { ObjectId } = await import("mongodb");
+
     const token = await getSessionCookie();
     if (!token) throw new Error("Unauthorized: No session token");
     const session = verifySession(token);

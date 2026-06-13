@@ -1,8 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getSessionCookie, setSessionCookie, deleteSessionCookie } from "./auth-cookie.server";
-import { getDb } from "./mongodb.server";
-import { hashPassword, verifyPassword, signSession, verifySession } from "./auth-session.server";
-import { ObjectId } from "mongodb";
 
 export const signUp = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => {
@@ -17,6 +13,10 @@ export const signUp = createServerFn({ method: "POST" })
     };
   })
   .handler(async ({ data }) => {
+    const { getDb } = await import("./mongodb.server");
+    const { hashPassword, signSession } = await import("./auth-session.server");
+    const { setSessionCookie } = await import("./auth-cookie.server");
+
     const db = await getDb();
     const existing = await db.collection("users").findOne({ email: data.email });
     if (existing) {
@@ -69,6 +69,10 @@ export const signIn = createServerFn({ method: "POST" })
     return { email: o.email.toLowerCase().trim(), password: o.password };
   })
   .handler(async ({ data }) => {
+    const { getDb } = await import("./mongodb.server");
+    const { verifyPassword, signSession } = await import("./auth-session.server");
+    const { setSessionCookie } = await import("./auth-cookie.server");
+
     const db = await getDb();
     const user = await db.collection("users").findOne({ email: data.email });
     if (!user) {
@@ -96,11 +100,17 @@ export const signIn = createServerFn({ method: "POST" })
   });
 
 export const signOut = createServerFn({ method: "POST" }).handler(async () => {
+  const { deleteSessionCookie } = await import("./auth-cookie.server");
   await deleteSessionCookie();
   return { success: true };
 });
 
 export const getCurrentUser = createServerFn({ method: "GET" }).handler(async () => {
+  const { getSessionCookie } = await import("./auth-cookie.server");
+  const { verifySession } = await import("./auth-session.server");
+  const { getDb } = await import("./mongodb.server");
+  const { ObjectId } = await import("mongodb");
+
   const token = await getSessionCookie();
   if (!token) return null;
 
