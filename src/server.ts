@@ -1,8 +1,7 @@
 import "./lib/error-capture";
 
 import { createRequire } from "node:module";
-// @ts-ignore
-globalThis.require = createRequire(import.meta.url);
+(globalThis as any).require = createRequire(import.meta.url);
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
