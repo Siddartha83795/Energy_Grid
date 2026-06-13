@@ -61,7 +61,11 @@ export function AppHeader() {
             <SheetContent side="left" className="w-60 p-0 flex flex-col bg-card">
               <div className="flex items-center gap-2 px-5 h-16 border-b">
                 <div className="h-9 w-9 rounded-lg overflow-hidden border">
-                  <img src="/favicon.png" alt="Energy Advisor" className="h-full w-full object-cover" />
+                  <img
+                    src="/favicon.png"
+                    alt="Energy Advisor"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
                 <div>
                   <div className="text-sm font-semibold leading-tight">Energy Advisor</div>
@@ -135,13 +139,22 @@ export function AppHeader() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setTheme("light")} className="flex items-center gap-2">
+              <DropdownMenuItem
+                onClick={() => setTheme("light")}
+                className="flex items-center gap-2"
+              >
                 <Sun className="h-4 w-4" /> Light
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")} className="flex items-center gap-2">
+              <DropdownMenuItem
+                onClick={() => setTheme("dark")}
+                className="flex items-center gap-2"
+              >
                 <Moon className="h-4 w-4" /> Dark
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("system")} className="flex items-center gap-2">
+              <DropdownMenuItem
+                onClick={() => setTheme("system")}
+                className="flex items-center gap-2"
+              >
                 <Monitor className="h-4 w-4" /> System
               </DropdownMenuItem>
             </DropdownMenuContent>
