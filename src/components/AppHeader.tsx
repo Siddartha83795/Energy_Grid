@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter, useRouterState, Link } from "@tanstack/react-router";
-import { ArrowLeft, Settings, LogOut, User as UserIcon } from "lucide-react";
+import { ArrowLeft, Settings, LogOut, User as UserIcon, Sun, Moon, Monitor } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,11 +12,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SettingsDialog } from "@/components/SettingsDialog";
 import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "@/components/ThemeProvider";
 
 export function AppHeader() {
   const router = useRouter();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user, isAdmin, signOut } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const canGoBack = pathname !== "/upload";
@@ -43,6 +45,27 @@ export function AppHeader() {
           )}
         </div>
         <div className="flex items-center gap-1">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="Toggle theme">
+                {theme === "light" && <Sun className="h-4 w-4" />}
+                {theme === "dark" && <Moon className="h-4 w-4" />}
+                {theme === "system" && <Monitor className="h-4 w-4" />}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTheme("light")} className="flex items-center gap-2">
+                <Sun className="h-4 w-4" /> Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")} className="flex items-center gap-2">
+                <Moon className="h-4 w-4" /> Dark
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")} className="flex items-center gap-2">
+                <Monitor className="h-4 w-4" /> System
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Button
             variant="ghost"
             size="icon"

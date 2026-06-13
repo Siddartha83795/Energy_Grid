@@ -8,8 +8,18 @@ import {
   IndianRupee,
   Gauge,
   ShieldCheck,
+  Sun,
+  Moon,
+  Monitor,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/components/ThemeProvider";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,6 +41,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Landing() {
+  const { theme, setTheme } = useTheme();
+
   return (
     <div className="min-h-screen">
       {/* Nav */}
@@ -49,6 +61,27 @@ function Landing() {
             <Button asChild variant="ghost" size="sm">
               <a href="#how">How it works</a>
             </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-9 w-9">
+                  {theme === "light" && <Sun className="h-4 w-4" />}
+                  {theme === "dark" && <Moon className="h-4 w-4" />}
+                  {theme === "system" && <Monitor className="h-4 w-4" />}
+                  <span className="sr-only">Toggle theme</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setTheme("light")} className="flex items-center gap-2">
+                  <Sun className="h-4 w-4" /> Light
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("dark")} className="flex items-center gap-2">
+                  <Moon className="h-4 w-4" /> Dark
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("system")} className="flex items-center gap-2">
+                  <Monitor className="h-4 w-4" /> System
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button asChild size="sm">
               <Link to="/auth">Sign in</Link>
             </Button>

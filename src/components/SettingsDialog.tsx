@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Sun, Moon, Monitor, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +24,7 @@ export function SettingsDialog({
   open: boolean;
   onOpenChange: (v: boolean) => void;
 }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const { user, refreshUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -76,42 +76,11 @@ export function SettingsDialog({
           <DialogDescription>Personalize your experience.</DialogDescription>
         </DialogHeader>
 
-        <Tabs defaultValue="appearance">
-          <TabsList className="grid grid-cols-3 w-full">
-            <TabsTrigger value="appearance">Theme</TabsTrigger>
-            <TabsTrigger value="billing">Billing</TabsTrigger>
+        <Tabs defaultValue="profile">
+          <TabsList className="grid grid-cols-2 w-full">
             <TabsTrigger value="profile">Profile</TabsTrigger>
+            <TabsTrigger value="billing">Billing</TabsTrigger>
           </TabsList>
-
-          <TabsContent value="appearance" className="space-y-3 pt-4">
-            <Label>Color mode</Label>
-            <div className="grid grid-cols-3 gap-2">
-              {(
-                [
-                  { v: "light", l: "Light", Icon: Sun },
-                  { v: "dark", l: "Dark", Icon: Moon },
-                  { v: "system", l: "System", Icon: Monitor },
-                ] as const
-              ).map(({ v, l, Icon }) => (
-                <button
-                  key={v}
-                  type="button"
-                  onClick={() => setTheme(v)}
-                  className={`flex flex-col items-center gap-1 rounded-lg border p-3 text-xs hover:bg-accent transition-colors ${theme === v ? "border-primary bg-accent" : ""}`}
-                >
-                  <Icon className="h-5 w-5" />
-                  {l}
-                </button>
-              ))}
-            </div>
-            <div className="flex items-center justify-between pt-4 border-t">
-              <div>
-                <Label className="text-sm">Notifications</Label>
-                <p className="text-xs text-muted-foreground">Get alerted on new insights</p>
-              </div>
-              <Switch checked={notif} onCheckedChange={setNotif} />
-            </div>
-          </TabsContent>
 
           <TabsContent value="billing" className="space-y-3 pt-4">
             <div className="space-y-2">
@@ -147,6 +116,13 @@ export function SettingsDialog({
             <div className="space-y-2">
               <Label>Email</Label>
               <Input value={user?.email ?? ""} disabled />
+            </div>
+            <div className="flex items-center justify-between pt-4 border-t">
+              <div>
+                <Label className="text-sm">Notifications</Label>
+                <p className="text-xs text-muted-foreground">Get alerted on new insights</p>
+              </div>
+              <Switch checked={notif} onCheckedChange={setNotif} />
             </div>
           </TabsContent>
         </Tabs>
