@@ -61,8 +61,8 @@ function AuthPage() {
     <div className="min-h-screen grid lg:grid-cols-2 bg-background">
       <div className="hidden lg:flex flex-col justify-between p-12 bg-gradient-to-br from-primary to-primary/70 text-primary-foreground">
         <Link to="/" className="flex items-center gap-2 font-semibold">
-          <div className="grid place-items-center h-9 w-9 rounded-lg bg-white/15">
-            <Zap className="h-5 w-5" />
+          <div className="h-9 w-9 rounded-lg overflow-hidden border border-white/20">
+            <img src="/favicon.png" alt="Energy Advisor" className="h-full w-full object-cover" />
           </div>
           Energy Advisor
         </Link>

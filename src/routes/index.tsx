@@ -37,8 +37,8 @@ function Landing() {
       <header className="sticky top-0 z-10 backdrop-blur bg-background/80 border-b">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-semibold">
-            <div className="grid place-items-center h-9 w-9 rounded-lg bg-primary text-primary-foreground">
-              <Zap className="h-5 w-5" />
+            <div className="h-9 w-9 rounded-lg overflow-hidden border">
+              <img src="/favicon.png" alt="Energy Advisor" className="h-full w-full object-cover" />
             </div>
             Energy Advisor
           </Link>

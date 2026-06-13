@@ -17,8 +17,8 @@ export function AppSidebar() {
   return (
     <aside className="hidden md:flex w-60 shrink-0 flex-col border-r bg-card">
       <div className="flex items-center gap-2 px-5 h-16 border-b">
-        <div className="grid place-items-center h-9 w-9 rounded-lg bg-primary text-primary-foreground">
-          <Zap className="h-5 w-5" />
+        <div className="h-9 w-9 rounded-lg overflow-hidden border">
+          <img src="/favicon.png" alt="Energy Advisor" className="h-full w-full object-cover" />
         </div>
         <div>
           <div className="text-sm font-semibold leading-tight">Energy Advisor</div>
