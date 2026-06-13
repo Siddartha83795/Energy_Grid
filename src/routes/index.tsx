@@ -55,10 +55,10 @@ function Landing() {
             Energy Advisor
           </Link>
           <nav className="flex items-center gap-2">
-            <Button asChild variant="ghost" size="sm">
+            <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
               <a href="#features">Features</a>
             </Button>
-            <Button asChild variant="ghost" size="sm">
+            <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
               <a href="#how">How it works</a>
             </Button>
             <DropdownMenu>
@@ -103,13 +103,13 @@ function Landing() {
             Upload your meter data, shift records, and machine schedules. Get a prioritized list of
             fixes — with monthly savings in kWh and ₹.
           </p>
-          <div className="mt-8 flex items-center justify-center gap-3">
-            <Button asChild size="lg">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Button asChild size="lg" className="w-full sm:w-auto">
               <Link to="/auth">
                 Get started <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
               <a href="#how">See how it works</a>
             </Button>
           </div>
