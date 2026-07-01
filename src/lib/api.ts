@@ -1,5 +1,5 @@
 import Papa from "papaparse";
-import { processAnalysisRun, fetchDashboardData } from "./energy.functions";
+import { processAnalysisRun, fetchDashboardData, getPastRuns } from "./energy.functions";
 
 const BASE = "";
 
@@ -91,13 +91,41 @@ export function reportUrl(run_id: string, token?: string) {
 }
 
 export const RUN_ID_KEY = "energy_advisor_run_id";
+export const RUN_TS_KEY = "energy_advisor_run_timestamp";
+
 export function getRunId() {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem(RUN_ID_KEY);
+  const id = localStorage.getItem(RUN_ID_KEY);
+  const tsStr = localStorage.getItem(RUN_TS_KEY);
+  if (!id) return null;
+
+  if (tsStr) {
+    const ts = Number(tsStr);
+    if (!isNaN(ts)) {
+      const ageMs = Date.now() - ts;
+      const oneDayMs = 24 * 60 * 60 * 1000;
+      if (ageMs > oneDayMs) {
+        // Expired! Clear active run
+        localStorage.removeItem(RUN_ID_KEY);
+        localStorage.removeItem(RUN_TS_KEY);
+        return null;
+      }
+    }
+  }
+  return id;
 }
-export function setRunId(id: string) {
+
+export function setRunId(id: string, timestamp?: number) {
   localStorage.setItem(RUN_ID_KEY, id);
+  localStorage.setItem(RUN_TS_KEY, String(timestamp ?? Date.now()));
 }
+
 export function clearRunId() {
   localStorage.removeItem(RUN_ID_KEY);
+  localStorage.removeItem(RUN_TS_KEY);
 }
+
+export async function getPastRunsList() {
+  return getPastRuns();
+}
+

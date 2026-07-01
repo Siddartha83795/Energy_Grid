@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  energy-advisor:
+    build: .
+    container_name: energy_advisor_streamlit
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    environment:
+      - DB_PATH=/app/energy_advisor.db
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - ANTHROPIC_MODEL=claude-3-5-sonnet-latest
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - GROQ_MODEL=llama-3.3-70b-versatile
+    restart: unless-stopped

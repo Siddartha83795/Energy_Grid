@@ -1,0 +1,11 @@
+# Emission factors for carbon footprint optimization
+emission_factors:
+  # Grid emission factor: kg CO2e per kWh
+  # Average grid intensity for regional grids (e.g., India is ~0.82, US is ~0.37)
+  grid_intensity_kg_co2_per_kwh: 0.82
+  
+  # Solar PV emission factor (offset potential)
+  solar_intensity_kg_co2_per_kwh: 0.05
+  
+  # Coal offset factor (if offsetting coal-fired generation)
+  coal_offset_kg_co2_per_kwh: 0.95

@@ -11,12 +11,18 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UploadRouteImport } from './routes/upload'
 import { Route as ReportRouteImport } from './routes/report'
+import { Route as MultiSignalRouteImport } from './routes/multi-signal'
 import { Route as ManualEntryRouteImport } from './routes/manual-entry'
+import { Route as LeaderboardRouteImport } from './routes/leaderboard'
+import { Route as ForecastRouteImport } from './routes/forecast'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CarbonCostRouteImport } from './routes/carbon-cost'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ApprovalQueueRouteImport } from './routes/approval-queue'
 import { Route as AiInsightsRouteImport } from './routes/ai-insights'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiIotRouteImport } from './routes/api.iot'
 
 const UploadRoute = UploadRouteImport.update({
   id: '/upload',
@@ -28,9 +34,24 @@ const ReportRoute = ReportRouteImport.update({
   path: '/report',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MultiSignalRoute = MultiSignalRouteImport.update({
+  id: '/multi-signal',
+  path: '/multi-signal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ManualEntryRoute = ManualEntryRouteImport.update({
   id: '/manual-entry',
   path: '/manual-entry',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeaderboardRoute = LeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForecastRoute = ForecastRouteImport.update({
+  id: '/forecast',
+  path: '/forecast',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -38,9 +59,19 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CarbonCostRoute = CarbonCostRouteImport.update({
+  id: '/carbon-cost',
+  path: '/carbon-cost',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApprovalQueueRoute = ApprovalQueueRouteImport.update({
+  id: '/approval-queue',
+  path: '/approval-queue',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiInsightsRoute = AiInsightsRouteImport.update({
@@ -58,37 +89,60 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiIotRoute = ApiIotRouteImport.update({
+  id: '/api/iot',
+  path: '/api/iot',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/ai-insights': typeof AiInsightsRoute
+  '/approval-queue': typeof ApprovalQueueRoute
   '/auth': typeof AuthRoute
+  '/carbon-cost': typeof CarbonCostRoute
   '/dashboard': typeof DashboardRoute
+  '/forecast': typeof ForecastRoute
+  '/leaderboard': typeof LeaderboardRoute
   '/manual-entry': typeof ManualEntryRoute
+  '/multi-signal': typeof MultiSignalRoute
   '/report': typeof ReportRoute
   '/upload': typeof UploadRoute
+  '/api/iot': typeof ApiIotRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/ai-insights': typeof AiInsightsRoute
+  '/approval-queue': typeof ApprovalQueueRoute
   '/auth': typeof AuthRoute
+  '/carbon-cost': typeof CarbonCostRoute
   '/dashboard': typeof DashboardRoute
+  '/forecast': typeof ForecastRoute
+  '/leaderboard': typeof LeaderboardRoute
   '/manual-entry': typeof ManualEntryRoute
+  '/multi-signal': typeof MultiSignalRoute
   '/report': typeof ReportRoute
   '/upload': typeof UploadRoute
+  '/api/iot': typeof ApiIotRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/ai-insights': typeof AiInsightsRoute
+  '/approval-queue': typeof ApprovalQueueRoute
   '/auth': typeof AuthRoute
+  '/carbon-cost': typeof CarbonCostRoute
   '/dashboard': typeof DashboardRoute
+  '/forecast': typeof ForecastRoute
+  '/leaderboard': typeof LeaderboardRoute
   '/manual-entry': typeof ManualEntryRoute
+  '/multi-signal': typeof MultiSignalRoute
   '/report': typeof ReportRoute
   '/upload': typeof UploadRoute
+  '/api/iot': typeof ApiIotRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -96,42 +150,66 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/ai-insights'
+    | '/approval-queue'
     | '/auth'
+    | '/carbon-cost'
     | '/dashboard'
+    | '/forecast'
+    | '/leaderboard'
     | '/manual-entry'
+    | '/multi-signal'
     | '/report'
     | '/upload'
+    | '/api/iot'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
     | '/ai-insights'
+    | '/approval-queue'
     | '/auth'
+    | '/carbon-cost'
     | '/dashboard'
+    | '/forecast'
+    | '/leaderboard'
     | '/manual-entry'
+    | '/multi-signal'
     | '/report'
     | '/upload'
+    | '/api/iot'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/ai-insights'
+    | '/approval-queue'
     | '/auth'
+    | '/carbon-cost'
     | '/dashboard'
+    | '/forecast'
+    | '/leaderboard'
     | '/manual-entry'
+    | '/multi-signal'
     | '/report'
     | '/upload'
+    | '/api/iot'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   AiInsightsRoute: typeof AiInsightsRoute
+  ApprovalQueueRoute: typeof ApprovalQueueRoute
   AuthRoute: typeof AuthRoute
+  CarbonCostRoute: typeof CarbonCostRoute
   DashboardRoute: typeof DashboardRoute
+  ForecastRoute: typeof ForecastRoute
+  LeaderboardRoute: typeof LeaderboardRoute
   ManualEntryRoute: typeof ManualEntryRoute
+  MultiSignalRoute: typeof MultiSignalRoute
   ReportRoute: typeof ReportRoute
   UploadRoute: typeof UploadRoute
+  ApiIotRoute: typeof ApiIotRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -150,11 +228,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReportRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/multi-signal': {
+      id: '/multi-signal'
+      path: '/multi-signal'
+      fullPath: '/multi-signal'
+      preLoaderRoute: typeof MultiSignalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/manual-entry': {
       id: '/manual-entry'
       path: '/manual-entry'
       fullPath: '/manual-entry'
       preLoaderRoute: typeof ManualEntryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leaderboard': {
+      id: '/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof LeaderboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forecast': {
+      id: '/forecast'
+      path: '/forecast'
+      fullPath: '/forecast'
+      preLoaderRoute: typeof ForecastRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -164,11 +263,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/carbon-cost': {
+      id: '/carbon-cost'
+      path: '/carbon-cost'
+      fullPath: '/carbon-cost'
+      preLoaderRoute: typeof CarbonCostRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/approval-queue': {
+      id: '/approval-queue'
+      path: '/approval-queue'
+      fullPath: '/approval-queue'
+      preLoaderRoute: typeof ApprovalQueueRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai-insights': {
@@ -192,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/iot': {
+      id: '/api/iot'
+      path: '/api/iot'
+      fullPath: '/api/iot'
+      preLoaderRoute: typeof ApiIotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -199,11 +319,17 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   AiInsightsRoute: AiInsightsRoute,
+  ApprovalQueueRoute: ApprovalQueueRoute,
   AuthRoute: AuthRoute,
+  CarbonCostRoute: CarbonCostRoute,
   DashboardRoute: DashboardRoute,
+  ForecastRoute: ForecastRoute,
+  LeaderboardRoute: LeaderboardRoute,
   ManualEntryRoute: ManualEntryRoute,
+  MultiSignalRoute: MultiSignalRoute,
   ReportRoute: ReportRoute,
   UploadRoute: UploadRoute,
+  ApiIotRoute: ApiIotRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

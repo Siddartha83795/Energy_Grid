@@ -13,6 +13,8 @@ export type AiInsights = {
     estimated_monthly_savings_inr: number;
     priority: "high" | "medium" | "low";
     implementation_effort: "easy" | "moderate" | "complex";
+    confidence?: number;
+    evidence?: string[];
   }>;
   quick_wins: string[];
 };
@@ -45,14 +47,71 @@ export const analyzeEnergy = createServerFn({ method: "POST" })
         .collection("runs")
         .findOne({ run_id: data.runId, user_id: session.userId });
       if (run) {
-        return {
-          summary_narrative: run.genai?.summary_narrative || "No recommendations available.",
-          total_potential_savings_kwh: run.genai?.total_potential_savings_kwh || 0,
-          predicted_next_month_kwh:
-            run.genai?.predicted_next_month_kwh || (run.summary?.total_kwh ?? 0) * 1.05,
-          recommendations: run.genai?.recommendations || [],
-          quick_wins: run.genai?.quick_wins || [],
-        } as AiInsights;
+        const hasRichInsights =
+          run.genai &&
+          run.genai.summary_narrative &&
+          run.genai.summary_narrative !== "No recommendations available." &&
+          run.genai.predicted_next_month_kwh !== undefined &&
+          (run.genai.recommendations?.length === 0 || run.genai.recommendations?.[0]?.confidence !== undefined);
+
+        if (hasRichInsights) {
+          return {
+            summary_narrative: run.genai.summary_narrative,
+            total_potential_savings_kwh: run.genai.total_potential_savings_kwh || 0,
+            predicted_next_month_kwh: run.genai.predicted_next_month_kwh,
+            recommendations: run.genai.recommendations || [],
+            quick_wins: run.genai.quick_wins || [],
+          } as AiInsights;
+        }
+
+        // Generate rich insights on demand for this run!
+        const key = process.env.GROQ_API_KEY;
+        if (!key) throw new Error("GROQ_API_KEY not configured in .env");
+
+        const machines = run.machines || [];
+        const totalKwh = run.summary?.total_kwh || 0;
+        const idleKwh = run.summary?.idle_kwh || 0;
+
+        const sys = `You are an industrial energy efficiency expert. Reply ONLY with strict JSON (no markdown, no code fences) matching exactly this shape:
+{"summary_narrative":string,"total_potential_savings_kwh":number,"predicted_next_month_kwh":number,"recommendations":[{"rank":number,"machine_name":string,"issue":string,"action":string,"estimated_monthly_savings_kwh":number,"estimated_monthly_savings_inr":number,"priority":"high"|"medium"|"low","implementation_effort":"easy"|"moderate"|"complex","confidence":number,"evidence":[string]}],"quick_wins":string[]}.
+Tariff for INR conversion: ${tariff} INR/kWh. Top 5 recommendations max. Predict next month assuming similar utilization. Exclude code block backticks.`;
+
+        const userPrompt = `Machine usage data (kWh):\n${JSON.stringify(machines.slice(0, 50))}\n\nOverall totals: total=${totalKwh.toFixed(1)} kWh, idle=${idleKwh.toFixed(1)} kWh.`;
+
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${key}`,
+          },
+          body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            temperature: 0.3,
+            response_format: { type: "json_object" },
+            messages: [
+              { role: "system", content: sys },
+              { role: "user", content: userPrompt },
+            ],
+          }),
+        });
+
+        if (!res.ok) {
+          const t = await res.text();
+          throw new Error(`Groq API error ${res.status}: ${t.slice(0, 200)}`);
+        }
+
+        const json = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
+        const content = json.choices?.[0]?.message?.content ?? "{}";
+        try {
+          const result = JSON.parse(content) as AiInsights;
+          await db.collection("runs").updateOne(
+            { run_id: data.runId, user_id: session.userId },
+            { $set: { genai: result } }
+          );
+          return result;
+        } catch {
+          throw new Error("AI returned non-JSON response");
+        }
       }
     }
 
@@ -97,8 +156,8 @@ export const analyzeEnergy = createServerFn({ method: "POST" })
     const idleKwh = rowsSlice.reduce((s, r) => s + Number(r.idle_kwh || 0), 0);
 
     const sys = `You are an industrial energy efficiency expert. Reply ONLY with strict JSON (no markdown, no code fences) matching exactly this shape:
-{"summary_narrative":string,"total_potential_savings_kwh":number,"predicted_next_month_kwh":number,"recommendations":[{"rank":number,"machine_name":string,"issue":string,"action":string,"estimated_monthly_savings_kwh":number,"estimated_monthly_savings_inr":number,"priority":"high"|"medium"|"low","implementation_effort":"easy"|"moderate"|"complex"}],"quick_wins":string[]}.
-Tariff for INR conversion: ${tariff} INR/kWh. Top 5 recommendations max. Predict next month assuming similar utilization.`;
+{"summary_narrative":string,"total_potential_savings_kwh":number,"predicted_next_month_kwh":number,"recommendations":[{"rank":number,"machine_name":string,"issue":string,"action":string,"estimated_monthly_savings_kwh":number,"estimated_monthly_savings_inr":number,"priority":"high"|"medium"|"low","implementation_effort":"easy"|"moderate"|"complex","confidence":number,"evidence":[string]}],"quick_wins":string[]}.
+Tariff for INR conversion: ${tariff} INR/kWh. Top 5 recommendations max. Predict next month assuming similar utilization. Exclude code block backticks.`;
 
     const userPrompt = `Machine usage data (kWh):\n${JSON.stringify(rowsSlice)}\n\nOverall totals: total=${totalKwh.toFixed(1)} kWh, idle=${idleKwh.toFixed(1)} kWh.`;
 

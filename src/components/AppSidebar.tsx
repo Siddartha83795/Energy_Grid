@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Upload, LayoutDashboard, FileText, Zap, PencilLine, Shield, Sparkles } from "lucide-react";
+import { Upload, LayoutDashboard, FileText, Zap, PencilLine, Shield, Sparkles, CheckSquare, LineChart, Leaf, Trophy, Activity } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -9,6 +9,11 @@ const items = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/ai-insights", label: "AI insights", icon: Sparkles },
   { to: "/report", label: "Report", icon: FileText },
+  { to: "/approval-queue", label: "Approval Queue", icon: CheckSquare },
+  { to: "/forecast", label: "Forecast", icon: LineChart },
+  { to: "/carbon-cost", label: "Carbon & Cost", icon: Leaf },
+  { to: "/leaderboard", label: "Leaderboard", icon: Trophy },
+  { to: "/multi-signal", label: "Multi-Signal Check", icon: Activity },
 ] as const;
 
 export function AppSidebar() {

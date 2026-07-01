@@ -1,5 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
+
 import {
   Bar,
   BarChart,
@@ -12,8 +14,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Zap, Pause, IndianRupee, Factory, AlertTriangle, Lightbulb, Loader2 } from "lucide-react";
-import { getDashboard, getRunId, type Recommendation } from "@/lib/api";
+import { Zap, Pause, IndianRupee, Factory, AlertTriangle, Lightbulb, Loader2, Trash2 } from "lucide-react";
+import { getDashboard, getRunId, clearRunId, type Recommendation } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -81,6 +83,7 @@ function statusBadge(util: number) {
 }
 
 function DashboardPage() {
+  const navigate = useNavigate();
   const run_id = typeof window !== "undefined" ? getRunId() : null;
   const { data, isLoading, error } = useQuery({
     queryKey: ["dashboard", run_id],
@@ -88,17 +91,23 @@ function DashboardPage() {
     enabled: !!run_id,
   });
 
+  const handleClearRun = () => {
+    clearRunId();
+    toast.success("Active run cleared. Redirecting to upload.");
+    navigate({ to: "/upload" });
+  };
+
   if (!run_id) {
     return (
       <div className="p-8">
         <div className="rounded-2xl border bg-card p-10 text-center max-w-md mx-auto">
           <AlertTriangle className="h-10 w-10 mx-auto text-muted-foreground" />
-          <h2 className="mt-3 text-lg font-semibold">No analysis yet</h2>
+          <h2 className="mt-3 text-lg font-semibold">No active run selected</h2>
           <p className="text-sm text-muted-foreground mt-1">
-            Upload your CSV files to generate a dashboard.
+            Choose an archived run or upload new data to start.
           </p>
           <Button asChild className="mt-4">
-            <Link to="/">Go to upload</Link>
+            <Link to="/upload">Go to upload</Link>
           </Button>
         </div>
       </div>
@@ -129,9 +138,14 @@ function DashboardPage() {
           <h1 className="text-3xl font-bold tracking-tight">Energy dashboard</h1>
           <p className="text-muted-foreground mt-1 text-sm">Run ID: {run_id}</p>
         </div>
-        <Button asChild variant="outline">
-          <Link to="/report">View report</Link>
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={handleClearRun} variant="destructive" size="sm" className="h-9">
+            <Trash2 className="h-4 w-4 mr-1.5" /> Clear Active Run
+          </Button>
+          <Button asChild variant="outline" size="sm" className="h-9">
+            <Link to="/report">View report</Link>
+          </Button>
+        </div>
       </header>
 
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -210,10 +224,11 @@ function DashboardPage() {
               <TableHead className="text-right">Utilization</TableHead>
               <TableHead className="text-right">Idle cost</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Multi-Signal Check</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.machines.map((m) => (
+            {data.machines.map((m: any) => (
               <TableRow key={m.machine_name}>
                 <TableCell className="font-medium">{m.machine_name}</TableCell>
                 <TableCell className="text-right">{fmt(m.total_kwh)}</TableCell>
@@ -221,6 +236,26 @@ function DashboardPage() {
                 <TableCell className="text-right">{m.utilization_pct.toFixed(1)}%</TableCell>
                 <TableCell className="text-right">{inr(m.idle_cost_inr)}</TableCell>
                 <TableCell>{statusBadge(m.utilization_pct)}</TableCell>
+                <TableCell>
+                  <Badge
+                    variant={
+                      m.multi_signal_status?.includes("stuck-on")
+                        ? "destructive"
+                        : m.multi_signal_status?.includes("idle waste")
+                          ? "secondary"
+                          : "default"
+                    }
+                    className={
+                      m.multi_signal_status?.includes("stuck-on")
+                        ? "bg-red-500/10 text-red-700 border-red-500/20"
+                        : m.multi_signal_status?.includes("idle waste")
+                          ? "bg-yellow-500/10 text-yellow-700 border-yellow-500/20"
+                          : "bg-green-500/10 text-green-700 border-green-500/20"
+                    }
+                  >
+                    {m.multi_signal_status || "Active operation"}
+                  </Badge>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

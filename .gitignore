@@ -36,3 +36,12 @@ dist-ssr
 
 # Vercel
 .vercel
+
+# Databases
+*.db
+
+# Python
+__pycache__/
+*.pyc
+
+

@@ -1,0 +1,83 @@
+{
+  "executive_summary": "The facility consumed 88079.98 kWh over 30 days, with top opportunities for savings discovered in unscheduled running and tariff optimization. The robotic welder and injection molder machines presented the most significant opportunities for reduction, with potential savings of \u20b9122.94 and \u20b91905.74 respectively. A comparison of shift-to-shift waste revealed that Shift A had 15% less waste than Shift C. Implementing these recommendations can lead to substantial financial and carbon savings, with an estimated reduction of 366.85 kg CO2e. By optimizing production schedules and reducing unscheduled running, the facility can minimize energy waste and lower costs. The recommended changes can be implemented with varying levels of difficulty, requiring collaboration between operators, production planners, and facility managers. Overall, addressing these opportunities will contribute to a more efficient and sustainable facility operation.",
+  "recommendations": [
+    {
+      "machine_name": "Robotic_Welder_1",
+      "opportunity_type": "Unscheduled Running",
+      "issue": "Excess power draw of +1.66 kW during unscheduled production",
+      "action": "Schedule production to minimize unscheduled running",
+      "estimated_weekly_savings_kwh": 18.02,
+      "estimated_weekly_savings_inr": 117.13,
+      "estimated_weekly_savings_co2_kg": 14.78,
+      "implementation_difficulty": "Medium",
+      "owner": "Production Planner",
+      "confidence": 0.8,
+      "evidence": [
+        "Machine utilization data",
+        "Production schedule analysis"
+      ],
+      "operator_action_step_by_step": "1. Review production schedule, 2. Identify unscheduled running, 3. Adjust schedule to minimize unscheduled running",
+      "management_impact_narrative": "Implementing this recommendation will result in estimated weekly savings of \u20b9117.13 and a reduction of 14.78 kg CO2e"
+    },
+    {
+      "machine_name": "CNC_Mill_1",
+      "opportunity_type": "Unscheduled Running",
+      "issue": "Excess power draw during unscheduled production running",
+      "action": "Schedule production to minimize unscheduled running",
+      "estimated_weekly_savings_kwh": 12.73,
+      "estimated_weekly_savings_inr": 127.26,
+      "estimated_weekly_savings_co2_kg": 10.44,
+      "implementation_difficulty": "Low",
+      "owner": "Operator",
+      "confidence": 0.7,
+      "evidence": [
+        "Machine utilization data",
+        "Production schedule analysis"
+      ],
+      "operator_action_step_by_step": "1. Review production schedule, 2. Identify unscheduled running, 3. Adjust schedule to minimize unscheduled running",
+      "management_impact_narrative": "Implementing this recommendation will result in estimated weekly savings of \u20b9127.26 and a reduction of 10.44 kg CO2e"
+    },
+    {
+      "machine_name": "Injection_Molder_2",
+      "opportunity_type": "Renewable Shift",
+      "issue": "Operational load scheduled during high-tariff or low-solar window",
+      "action": "Schedule production during low-tariff or high-solar window",
+      "estimated_weekly_savings_kwh": 476.43,
+      "estimated_weekly_savings_inr": 1667.52,
+      "estimated_weekly_savings_co2_kg": 366.85,
+      "implementation_difficulty": "Medium",
+      "owner": "Production Planner",
+      "confidence": 0.9,
+      "evidence": [
+        "Tariff data",
+        "Solar irradiance data"
+      ],
+      "operator_action_step_by_step": "1. Review production schedule, 2. Identify opportunities for renewable shift, 3. Adjust schedule to optimize energy usage",
+      "management_impact_narrative": "Implementing this recommendation will result in estimated weekly savings of \u20b91667.52 and a reduction of 366.85 kg CO2e"
+    },
+    {
+      "machine_name": "Injection_Molder_2",
+      "opportunity_type": "Tariff Optimization",
+      "issue": "Operational load scheduled during high-tariff or low-solar window",
+      "action": "Schedule production during low-tariff or high-solar window",
+      "estimated_weekly_savings_kwh": 317.62,
+      "estimated_weekly_savings_inr": 1905.74,
+      "estimated_weekly_savings_co2_kg": 0.0,
+      "implementation_difficulty": "Low",
+      "owner": "Operator",
+      "confidence": 0.8,
+      "evidence": [
+        "Tariff data",
+        "Solar irradiance data"
+      ],
+      "operator_action_step_by_step": "1. Review production schedule, 2. Identify opportunities for tariff optimization, 3. Adjust schedule to optimize energy usage",
+      "management_impact_narrative": "Implementing this recommendation will result in estimated weekly savings of \u20b91905.74"
+    }
+  ],
+  "quick_wins": [
+    "Turn off equipment when not in use",
+    "Adjust lighting schedules to match production shifts",
+    "Implement a regular maintenance schedule to optimize machine efficiency",
+    "Monitor and report energy consumption to identify areas for improvement"
+  ]
+}

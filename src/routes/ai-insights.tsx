@@ -1,13 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2, Sparkles, Check, X, CheckCheck } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { analyzeEnergy, type AiInsights } from "@/lib/ai.functions";
 import { getRunId } from "@/lib/api";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getRecStatuses, updateRecStatus } from "@/lib/new-features.functions";
 
 export const Route = createFileRoute("/ai-insights")({
   head: () => ({ meta: [{ title: "AI insights — Energy Advisor" }] }),
@@ -22,6 +24,32 @@ function AiInsightsPage() {
   const [loaded, setLoaded] = useState(false);
 
   const runId = typeof window !== "undefined" ? getRunId() : null;
+
+  const queryClient = useQueryClient();
+  const getStatuses = useServerFn(getRecStatuses);
+  const mutateStatus = useServerFn(updateRecStatus);
+
+  const recStatusesQuery = useQuery({
+    queryKey: ["recStatuses", runId],
+    queryFn: () => getStatuses({ data: { runId: runId || "manual" } }),
+    enabled: true,
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: (args: { rank: number; status: "Accepted" | "Rejected" | "Implemented" }) =>
+      mutateStatus({ data: { runId: runId || "manual", ...args } }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["recStatuses", runId] });
+      toast.success("Adoption status updated");
+    },
+    onError: (err) => {
+      toast.error(err instanceof Error ? err.message : "Failed to update status");
+    },
+  });
+
+  const changeStatus = (rank: number, status: "Accepted" | "Rejected" | "Implemented") => {
+    updateStatusMutation.mutate({ rank, status });
+  };
 
   useEffect(() => {
     if (user && runId && !loaded) {
@@ -115,41 +143,91 @@ function AiInsightsPage() {
 
           <div className="rounded-2xl border bg-card p-5 space-y-3">
             <h2 className="font-semibold">Recommendations</h2>
-            {insights.recommendations.map((r) => (
-              <div key={r.rank} className="rounded-lg border p-4 space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="font-semibold">
-                    #{r.rank} · {r.machine_name}
+            {insights.recommendations.map((r) => {
+              const statusDoc = recStatusesQuery.data?.find((s: any) => s.rank === r.rank);
+              const currentStatus = statusDoc?.status;
+
+              return (
+                <div key={r.rank} className="rounded-lg border p-4 space-y-2 bg-card">
+                  <div className="flex items-center justify-between">
+                    <div className="font-semibold">
+                      #{r.rank} · {r.machine_name}
+                    </div>
+                    <div className="flex gap-2">
+                      <Badge
+                        variant={
+                          r.priority === "high"
+                            ? "destructive"
+                            : r.priority === "medium"
+                              ? "default"
+                              : "secondary"
+                        }
+                      >
+                        {r.priority}
+                      </Badge>
+                      <Badge variant="outline">{r.implementation_effort}</Badge>
+                    </div>
                   </div>
-                  <div className="flex gap-2">
-                    <Badge
-                      variant={
-                        r.priority === "high"
-                          ? "destructive"
-                          : r.priority === "medium"
-                            ? "default"
-                            : "secondary"
-                      }
+                  <div className="text-sm">
+                    <span className="text-muted-foreground">Issue: </span>
+                    {r.issue}
+                  </div>
+                  <div className="text-sm">
+                    <span className="text-muted-foreground">Action: </span>
+                    {r.action}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Est. savings: {r.estimated_monthly_savings_kwh.toFixed(0)} kWh / ₹
+                    {r.estimated_monthly_savings_inr.toFixed(0)} per month
+                  </div>
+
+                  {/* Confidence and Evidence display */}
+                  {r.confidence !== undefined && (
+                    <div className="text-[11px] text-muted-foreground bg-muted/40 p-2 rounded border border-dashed mt-2">
+                      🛡️ <strong>Confidence:</strong> {Math.round(r.confidence * 100)}% 
+                      {r.evidence && r.evidence.length > 0 && (
+                        <span> · <strong>Based on:</strong> {r.evidence.join(", ")}</span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Adoption buttons */}
+                  <div className="flex items-center gap-2 mt-2 pt-2 border-t text-[11px] flex-wrap">
+                    <span className="text-muted-foreground font-medium">Adoption Status:</span>
+                    <button
+                      onClick={() => changeStatus(r.rank, "Accepted")}
+                      className={`flex items-center gap-1 px-2.5 py-1 rounded border font-medium cursor-pointer transition-colors ${
+                        currentStatus === "Accepted"
+                          ? "bg-green-500/10 text-green-700 border-green-500/30"
+                          : "bg-background text-muted-foreground border-input hover:bg-muted"
+                      }`}
                     >
-                      {r.priority}
-                    </Badge>
-                    <Badge variant="outline">{r.implementation_effort}</Badge>
+                      <Check className="h-3.5 w-3.5" /> Accepted
+                    </button>
+                    <button
+                      onClick={() => changeStatus(r.rank, "Rejected")}
+                      className={`flex items-center gap-1 px-2.5 py-1 rounded border font-medium cursor-pointer transition-colors ${
+                        currentStatus === "Rejected"
+                          ? "bg-red-500/10 text-red-700 border-red-500/30"
+                          : "bg-background text-muted-foreground border-input hover:bg-muted"
+                      }`}
+                    >
+                      <X className="h-3.5 w-3.5" /> Rejected
+                    </button>
+                    <button
+                      onClick={() => changeStatus(r.rank, "Implemented")}
+                      className={`flex items-center gap-1 px-2.5 py-1 rounded border font-medium cursor-pointer transition-colors ${
+                        currentStatus === "Implemented"
+                          ? "bg-blue-500/10 text-blue-700 border-blue-500/30"
+                          : "bg-background text-muted-foreground border-input hover:bg-muted"
+                      }`}
+                    >
+                      <CheckCheck className="h-3.5 w-3.5" /> Implemented
+                    </button>
                   </div>
                 </div>
-                <div className="text-sm">
-                  <span className="text-muted-foreground">Issue: </span>
-                  {r.issue}
-                </div>
-                <div className="text-sm">
-                  <span className="text-muted-foreground">Action: </span>
-                  {r.action}
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  Est. savings: {r.estimated_monthly_savings_kwh.toFixed(0)} kWh / ₹
-                  {r.estimated_monthly_savings_inr.toFixed(0)} per month
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {insights.quick_wins.length > 0 && (

@@ -318,6 +318,7 @@ export const processAnalysisRun = createServerFn({ method: "POST" })
     let genai = {
       summary_narrative: "No recommendations available.",
       total_potential_savings_kwh: 0,
+      predicted_next_month_kwh: totalKwh * 1.05,
       recommendations: [] as any[],
       quick_wins: [] as string[],
     };
@@ -326,8 +327,8 @@ export const processAnalysisRun = createServerFn({ method: "POST" })
     if (groqKey && machines.length > 0) {
       try {
         const sys = `You are an industrial energy efficiency expert. Reply ONLY with strict JSON (no markdown, no code fences) matching exactly this shape:
-{"summary_narrative":string,"total_potential_savings_kwh":number,"recommendations":[{"rank":number,"machine_name":string,"issue":string,"action":string,"estimated_monthly_savings_kwh":number,"estimated_monthly_savings_inr":number,"priority":"high"|"medium"|"low","implementation_effort":"easy"|"moderate"|"complex"}],"quick_wins":string[]}.
-Tariff for INR conversion: ${tariff} INR/kWh. Top 5 recommendations max.`;
+{"summary_narrative":string,"total_potential_savings_kwh":number,"predicted_next_month_kwh":number,"recommendations":[{"rank":number,"machine_name":string,"issue":string,"action":string,"estimated_monthly_savings_kwh":number,"estimated_monthly_savings_inr":number,"priority":"high"|"medium"|"low","implementation_effort":"easy"|"moderate"|"complex","confidence":number,"evidence":[string]}],"quick_wins":string[]}.
+Tariff for INR conversion: ${tariff} INR/kWh. Top 5 recommendations max. Predict next month assuming similar utilization. Exclude code block backticks.`;
 
         const userPrompt = `Machine usage data (kWh):\n${JSON.stringify(machines)}\n\nOverall totals: total=${totalKwh.toFixed(1)} kWh, idle=${totalIdleKwh.toFixed(1)} kWh.`;
 
@@ -395,10 +396,38 @@ export const fetchDashboardData = createServerFn({ method: "GET" })
     const run = await db.collection("runs").findOne({ run_id: data.runId, user_id: userId });
     if (!run) throw new Error("Analysis run not found");
 
+    const sensors = await db.collection("sensor_readings").find({ user_id: userId }).toArray();
+    const machinesWithTelemetry = run.machines.map((m: any) => {
+      const sensorDoc = sensors.find((s) => s.machine_id === m.machine_name);
+      return {
+        ...m,
+        multi_signal_status: sensorDoc ? sensorDoc.status : (m.utilization_pct < 75 ? "Likely true idle waste" : "Active operation")
+      };
+    });
+
     return {
       summary: run.summary,
-      machines: run.machines,
+      machines: machinesWithTelemetry,
       hourly: run.hourly,
       genai: run.genai,
     };
   });
+
+export const getPastRuns = createServerFn({ method: "GET" }).handler(async () => {
+  const userId = await getAuthUserId();
+  const { getDb } = await import("./mongodb.server");
+  const db = await getDb();
+
+  const cursor = db
+    .collection("runs")
+    .find({ user_id: userId })
+    .sort({ created_at: -1 });
+
+  const items = await cursor.toArray();
+  return items.map((item) => ({
+    run_id: item.run_id,
+    summary: item.summary,
+    created_at: item.created_at,
+  }));
+});
+
