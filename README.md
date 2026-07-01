@@ -24,7 +24,6 @@ pushed to Layer 1 ingestion broker.
 /tests               -> Unit tests for analytics, schemas, and closed-loop control
 ```
 
-
 ---
 
 ## ⚡ Key Features
@@ -43,28 +42,32 @@ pushed to Layer 1 ingestion broker.
 ### Method 1: Local Pip Run (Recommended for speed)
 
 1. **Install Python Dependencies**:
+
    ```bash
    pip install -r requirements.txt
    ```
 
 2. **Configure Environment Variables**:
    Create a `.env` file from the template `.env.example`:
+
    ```env
    ANTHROPIC_API_KEY=your_key_here
    GROQ_API_KEY=your_groq_key_here
    DB_PATH=energy_advisor.db
    ```
-   *Note: If no keys are provided, the system falls back to a safe mock responder automatically.*
+
+   _Note: If no keys are provided, the system falls back to a safe mock responder automatically._
 
 3. **Start the Dashboard**:
    ```bash
    streamlit run dashboard/app.py
    ```
-   *This automatically seeds the SQLite database (`energy_advisor.db`) with 30 days of data if it doesn't exist.*
+   _This automatically seeds the SQLite database (`energy_advisor.db`) with 30 days of data if it doesn't exist._
 
 ### Method 2: Docker Compose Run
 
 1. **Build and Start Containers**:
+
    ```bash
    docker-compose up --build
    ```
@@ -76,12 +79,11 @@ pushed to Layer 1 ingestion broker.
 
 ## 🔄 Production Swapping Guide
 
-| Prototype Component | SQLite/Local File | Production swap-in | Connection Mechanism |
-| :--- | :--- | :--- | :--- |
+| Prototype Component          | SQLite/Local File                     | Production swap-in                                                                                        | Connection Mechanism                                                   |
+| :--------------------------- | :------------------------------------ | :-------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------- |
 | **IoT Hardware & Protocols** | Simulated nodes (`getSensorReadings`) | Smart energy meters / CT clamps, MEMS accelerometers, acoustic & flow sensors, Modbus/OPC-UA/MQTT gateway | Connect physical sensors to edge gateway; send JSON telemetry payloads |
-| **Data Layer** | SQLite (`energy_advisor.db`) | PostgreSQL + TimescaleDB | Swap SQLAlchemy connection URIs |
-| **Ingestion** | `generator.py` CSV seeder | Kafka / MQTT Broker | Ingest JSON packets from IoT brokers directly into ETL |
-| **Analytics** | Scikit-learn Random Forest | Apache Spark ML / Databricks | Distribute calculations across clusters for high volume |
-| **Orchestration** | Sequential JSON Handoff | Apache Airflow / Temporal | Schedule tasks and workflows using DAGs |
-| **GenAI** | Claude REST API wrapper | Enterprise AWS Bedrock | Switch endpoint calls to secure cloud VPC gateways |
-
+| **Data Layer**               | SQLite (`energy_advisor.db`)          | PostgreSQL + TimescaleDB                                                                                  | Swap SQLAlchemy connection URIs                                        |
+| **Ingestion**                | `generator.py` CSV seeder             | Kafka / MQTT Broker                                                                                       | Ingest JSON packets from IoT brokers directly into ETL                 |
+| **Analytics**                | Scikit-learn Random Forest            | Apache Spark ML / Databricks                                                                              | Distribute calculations across clusters for high volume                |
+| **Orchestration**            | Sequential JSON Handoff               | Apache Airflow / Temporal                                                                                 | Schedule tasks and workflows using DAGs                                |
+| **GenAI**                    | Claude REST API wrapper               | Enterprise AWS Bedrock                                                                                    | Switch endpoint calls to secure cloud VPC gateways                     |

@@ -3,7 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Loader2, Leaf, ShieldAlert, Award, DollarSign } from "lucide-react";
 import { getCarbonCostSavings } from "@/lib/new-features.functions";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export const Route = createFileRoute("/carbon-cost")({
   head: () => ({ meta: [{ title: "Carbon & Cost — Energy Advisor" }] }),
@@ -13,7 +20,11 @@ export const Route = createFileRoute("/carbon-cost")({
 function CarbonCostPage() {
   const getSavings = useServerFn(getCarbonCostSavings);
 
-  const { data: savings, isLoading, error } = useQuery({
+  const {
+    data: savings,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["carbonCostSavings"],
     queryFn: () => getSavings(),
   });
@@ -27,7 +38,8 @@ function CarbonCostPage() {
           <Leaf className="h-7 w-7 text-green-500" /> Carbon & Cost Optimization
         </h1>
         <p className="text-muted-foreground mt-1">
-          Tariff-Aware & Solar PV Offsets — Estimated environmental and financial savings from load shifting.
+          Tariff-Aware & Solar PV Offsets — Estimated environmental and financial savings from load
+          shifting.
         </p>
       </header>
 
@@ -99,8 +111,12 @@ function CarbonCostPage() {
                 {savings.tariffs.map((t, idx) => (
                   <TableRow key={idx}>
                     <TableCell className="font-medium">{t.name.split(" (")[0]}</TableCell>
-                    <TableCell className="text-muted-foreground">({t.name.split(" (")[1]}</TableCell>
-                    <TableCell className="text-right font-semibold text-primary">{t.rate}</TableCell>
+                    <TableCell className="text-muted-foreground">
+                      ({t.name.split(" (")[1]}
+                    </TableCell>
+                    <TableCell className="text-right font-semibold text-primary">
+                      {t.rate}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -112,7 +128,10 @@ function CarbonCostPage() {
               🌱 Sustainability Impact Summary
             </h3>
             <p className="text-sm text-green-700 dark:text-green-300">
-              By shifting CNC Mill test runs to the peak solar generation window (10 AM to 3 PM), we leverage our on-site 150 kW Solar PV system. This effectively offsets grid emissions with clean zero-carbon energy and drops peak tariff charges to off-peak baselines, delivering combined environmental and operational cost dividends.
+              By shifting CNC Mill test runs to the peak solar generation window (10 AM to 3 PM), we
+              leverage our on-site 150 kW Solar PV system. This effectively offsets grid emissions
+              with clean zero-carbon energy and drops peak tariff charges to off-peak baselines,
+              delivering combined environmental and operational cost dividends.
             </p>
           </div>
         </div>

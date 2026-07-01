@@ -14,7 +14,16 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Zap, Pause, IndianRupee, Factory, AlertTriangle, Lightbulb, Loader2, Trash2 } from "lucide-react";
+import {
+  Zap,
+  Pause,
+  IndianRupee,
+  Factory,
+  AlertTriangle,
+  Lightbulb,
+  Loader2,
+  Trash2,
+} from "lucide-react";
 import { getDashboard, getRunId, clearRunId, type Recommendation } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

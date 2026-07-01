@@ -89,20 +89,23 @@ function UploadPage() {
   const oneDayMs = 24 * 60 * 60 * 1000;
   const twoDaysMs = 48 * 60 * 60 * 1000;
 
-  const activeRuns = pastRuns?.filter((r) => {
-    const age = now - new Date(r.created_at).getTime();
-    return age <= oneDayMs;
-  }) || [];
+  const activeRuns =
+    pastRuns?.filter((r) => {
+      const age = now - new Date(r.created_at).getTime();
+      return age <= oneDayMs;
+    }) || [];
 
-  const recentArchiveRuns = pastRuns?.filter((r) => {
-    const age = now - new Date(r.created_at).getTime();
-    return age > oneDayMs && age <= twoDaysMs;
-  }) || [];
+  const recentArchiveRuns =
+    pastRuns?.filter((r) => {
+      const age = now - new Date(r.created_at).getTime();
+      return age > oneDayMs && age <= twoDaysMs;
+    }) || [];
 
-  const olderRuns = pastRuns?.filter((r) => {
-    const age = now - new Date(r.created_at).getTime();
-    return age > twoDaysMs;
-  }) || [];
+  const olderRuns =
+    pastRuns?.filter((r) => {
+      const age = now - new Date(r.created_at).getTime();
+      return age > twoDaysMs;
+    }) || [];
 
   const renderRunRow = (run: any) => {
     const isActive = run.run_id === activeRunId;
@@ -133,13 +136,20 @@ function UploadPage() {
           {run.summary && (
             <div className="mt-2 flex gap-4 text-xs text-muted-foreground flex-wrap">
               <span>
-                Total: <strong className="text-foreground">{run.summary.total_kwh?.toFixed(1) || 0} kWh</strong>
+                Total:{" "}
+                <strong className="text-foreground">
+                  {run.summary.total_kwh?.toFixed(1) || 0} kWh
+                </strong>
               </span>
               <span>
-                Idle: <strong className="text-amber-600 dark:text-amber-400">{run.summary.idle_kwh?.toFixed(1) || 0} kWh</strong>
+                Idle:{" "}
+                <strong className="text-amber-600 dark:text-amber-400">
+                  {run.summary.idle_kwh?.toFixed(1) || 0} kWh
+                </strong>
               </span>
               <span>
-                Machines: <strong className="text-foreground">{run.summary.machines_analyzed || 0}</strong>
+                Machines:{" "}
+                <strong className="text-foreground">{run.summary.machines_analyzed || 0}</strong>
               </span>
             </div>
           )}
@@ -201,7 +211,11 @@ function UploadPage() {
 
           <div className="flex items-center justify-between pt-2 border-t">
             <span className="text-sm text-muted-foreground">
-              {busy ? stage : ready ? "All files validated. Ready to analyze." : "Waiting for files…"}
+              {busy
+                ? stage
+                : ready
+                  ? "All files validated. Ready to analyze."
+                  : "Waiting for files…"}
             </span>
             <Button onClick={onAnalyze} disabled={!ready} size="lg">
               {busy ? (
@@ -242,9 +256,7 @@ function UploadPage() {
                   <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
                   Active Runs (Created in last 24h)
                 </h3>
-                <div className="grid gap-3">
-                  {activeRuns.map(renderRunRow)}
-                </div>
+                <div className="grid gap-3">{activeRuns.map(renderRunRow)}</div>
               </div>
             )}
 
@@ -255,9 +267,7 @@ function UploadPage() {
                   <span className="h-2 w-2 rounded-full bg-amber-500" />
                   Recent Archive (24h - 48h old - Retrieve to view)
                 </h3>
-                <div className="grid gap-3">
-                  {recentArchiveRuns.map(renderRunRow)}
-                </div>
+                <div className="grid gap-3">{recentArchiveRuns.map(renderRunRow)}</div>
               </div>
             )}
 
@@ -268,9 +278,7 @@ function UploadPage() {
                   <span className="h-2 w-2 rounded-full bg-muted-foreground" />
                   Older History (Older than 48h)
                 </h3>
-                <div className="grid gap-3">
-                  {olderRuns.map(renderRunRow)}
-                </div>
+                <div className="grid gap-3">{olderRuns.map(renderRunRow)}</div>
               </div>
             )}
           </div>
@@ -279,4 +287,3 @@ function UploadPage() {
     </div>
   );
 }
-

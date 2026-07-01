@@ -1,5 +1,18 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Upload, LayoutDashboard, FileText, Zap, PencilLine, Shield, Sparkles, CheckSquare, LineChart, Leaf, Trophy, Activity } from "lucide-react";
+import {
+  Upload,
+  LayoutDashboard,
+  FileText,
+  Zap,
+  PencilLine,
+  Shield,
+  Sparkles,
+  CheckSquare,
+  LineChart,
+  Leaf,
+  Trophy,
+  Activity,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 

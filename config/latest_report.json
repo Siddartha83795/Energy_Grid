@@ -12,10 +12,7 @@
       "implementation_difficulty": "Medium",
       "owner": "Production Planner",
       "confidence": 0.8,
-      "evidence": [
-        "Machine utilization data",
-        "Production schedule analysis"
-      ],
+      "evidence": ["Machine utilization data", "Production schedule analysis"],
       "operator_action_step_by_step": "1. Review production schedule, 2. Identify unscheduled running, 3. Adjust schedule to minimize unscheduled running",
       "management_impact_narrative": "Implementing this recommendation will result in estimated weekly savings of \u20b9117.13 and a reduction of 14.78 kg CO2e"
     },
@@ -30,10 +27,7 @@
       "implementation_difficulty": "Low",
       "owner": "Operator",
       "confidence": 0.7,
-      "evidence": [
-        "Machine utilization data",
-        "Production schedule analysis"
-      ],
+      "evidence": ["Machine utilization data", "Production schedule analysis"],
       "operator_action_step_by_step": "1. Review production schedule, 2. Identify unscheduled running, 3. Adjust schedule to minimize unscheduled running",
       "management_impact_narrative": "Implementing this recommendation will result in estimated weekly savings of \u20b9127.26 and a reduction of 10.44 kg CO2e"
     },
@@ -48,10 +42,7 @@
       "implementation_difficulty": "Medium",
       "owner": "Production Planner",
       "confidence": 0.9,
-      "evidence": [
-        "Tariff data",
-        "Solar irradiance data"
-      ],
+      "evidence": ["Tariff data", "Solar irradiance data"],
       "operator_action_step_by_step": "1. Review production schedule, 2. Identify opportunities for renewable shift, 3. Adjust schedule to optimize energy usage",
       "management_impact_narrative": "Implementing this recommendation will result in estimated weekly savings of \u20b91667.52 and a reduction of 366.85 kg CO2e"
     },
@@ -66,10 +57,7 @@
       "implementation_difficulty": "Low",
       "owner": "Operator",
       "confidence": 0.8,
-      "evidence": [
-        "Tariff data",
-        "Solar irradiance data"
-      ],
+      "evidence": ["Tariff data", "Solar irradiance data"],
       "operator_action_step_by_step": "1. Review production schedule, 2. Identify opportunities for tariff optimization, 3. Adjust schedule to optimize energy usage",
       "management_impact_narrative": "Implementing this recommendation will result in estimated weekly savings of \u20b91905.74"
     }

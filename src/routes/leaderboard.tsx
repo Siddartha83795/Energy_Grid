@@ -3,7 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Loader2, Trophy, ShieldAlert, Award, Star } from "lucide-react";
 import { getLeaderboardStats } from "@/lib/new-features.functions";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export const Route = createFileRoute("/leaderboard")({
   head: () => ({ meta: [{ title: "Leaderboard — Energy Advisor" }] }),
@@ -13,7 +20,11 @@ export const Route = createFileRoute("/leaderboard")({
 function LeaderboardPage() {
   const getStats = useServerFn(getLeaderboardStats);
 
-  const { data: stats, isLoading, error } = useQuery({
+  const {
+    data: stats,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["leaderboardStats"],
     queryFn: () => getStats(),
   });
@@ -25,7 +36,8 @@ function LeaderboardPage() {
           <Trophy className="h-7 w-7 text-yellow-500" /> Efficiency Leaderboard
         </h1>
         <p className="text-muted-foreground mt-1">
-          Gamification — Shift-vs-shift and machine-vs-machine rankings based on utilization efficiency.
+          Gamification — Shift-vs-shift and machine-vs-machine rankings based on utilization
+          efficiency.
         </p>
       </header>
 
@@ -51,7 +63,7 @@ function LeaderboardPage() {
               <Award className="h-5 w-5 text-yellow-500" />
               <h2 className="font-semibold text-lg">Shift Standings</h2>
             </div>
-            
+
             <div className="p-4 space-y-3">
               {stats.shiftRankings.map((shift, idx) => {
                 const isWinner = idx === 0;
@@ -65,9 +77,11 @@ function LeaderboardPage() {
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`grid place-items-center h-8 w-8 rounded-lg font-bold text-sm ${
-                        isWinner ? "bg-green-500 text-white" : "bg-muted text-muted-foreground"
-                      }`}>
+                      <div
+                        className={`grid place-items-center h-8 w-8 rounded-lg font-bold text-sm ${
+                          isWinner ? "bg-green-500 text-white" : "bg-muted text-muted-foreground"
+                        }`}
+                      >
                         {idx + 1}
                       </div>
                       <div>
@@ -93,7 +107,7 @@ function LeaderboardPage() {
               <Star className="h-5 w-5 text-primary" />
               <h2 className="font-semibold text-lg">Machine Efficiency</h2>
             </div>
-            
+
             <div className="p-4 space-y-3">
               {stats.machineRankings.slice(0, 5).map((mach, idx) => {
                 const isWinner = idx === 0;
@@ -107,9 +121,11 @@ function LeaderboardPage() {
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`grid place-items-center h-8 w-8 rounded-lg font-bold text-sm ${
-                        isWinner ? "bg-green-500 text-white" : "bg-muted text-muted-foreground"
-                      }`}>
+                      <div
+                        className={`grid place-items-center h-8 w-8 rounded-lg font-bold text-sm ${
+                          isWinner ? "bg-green-500 text-white" : "bg-muted text-muted-foreground"
+                        }`}
+                      >
                         {idx + 1}
                       </div>
                       <div>

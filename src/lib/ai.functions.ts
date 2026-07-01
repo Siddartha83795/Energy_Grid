@@ -52,7 +52,8 @@ export const analyzeEnergy = createServerFn({ method: "POST" })
           run.genai.summary_narrative &&
           run.genai.summary_narrative !== "No recommendations available." &&
           run.genai.predicted_next_month_kwh !== undefined &&
-          (run.genai.recommendations?.length === 0 || run.genai.recommendations?.[0]?.confidence !== undefined);
+          (run.genai.recommendations?.length === 0 ||
+            run.genai.recommendations?.[0]?.confidence !== undefined);
 
         if (hasRichInsights) {
           return {
@@ -104,10 +105,12 @@ Tariff for INR conversion: ${tariff} INR/kWh. Top 5 recommendations max. Predict
         const content = json.choices?.[0]?.message?.content ?? "{}";
         try {
           const result = JSON.parse(content) as AiInsights;
-          await db.collection("runs").updateOne(
-            { run_id: data.runId, user_id: session.userId },
-            { $set: { genai: result } }
-          );
+          await db
+            .collection("runs")
+            .updateOne(
+              { run_id: data.runId, user_id: session.userId },
+              { $set: { genai: result } },
+            );
           return result;
         } catch {
           throw new Error("AI returned non-JSON response");

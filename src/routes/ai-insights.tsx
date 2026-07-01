@@ -184,9 +184,12 @@ function AiInsightsPage() {
                   {/* Confidence and Evidence display */}
                   {r.confidence !== undefined && (
                     <div className="text-[11px] text-muted-foreground bg-muted/40 p-2 rounded border border-dashed mt-2">
-                      🛡️ <strong>Confidence:</strong> {Math.round(r.confidence * 100)}% 
+                      🛡️ <strong>Confidence:</strong> {Math.round(r.confidence * 100)}%
                       {r.evidence && r.evidence.length > 0 && (
-                        <span> · <strong>Based on:</strong> {r.evidence.join(", ")}</span>
+                        <span>
+                          {" "}
+                          · <strong>Based on:</strong> {r.evidence.join(", ")}
+                        </span>
                       )}
                     </div>
                   )}

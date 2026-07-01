@@ -128,4 +128,3 @@ export function clearRunId() {
 export async function getPastRunsList() {
   return getPastRuns();
 }
-

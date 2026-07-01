@@ -36,12 +36,17 @@ function MultiSignalPage() {
   const queryClient = useQueryClient();
   const [simulating, setSimulating] = useState(false);
 
-  const { data: sensors, isLoading, error } = useQuery({
+  const {
+    data: sensors,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["sensorReadings"],
     queryFn: () => getSensors(),
   });
 
-  const hasEspData = sensors?.some((s) => s.updated_at !== null && s.updated_at !== undefined) || false;
+  const hasEspData =
+    sensors?.some((s) => s.updated_at !== null && s.updated_at !== undefined) || false;
 
   const simulateEspPost = async () => {
     setSimulating(true);
@@ -94,7 +99,8 @@ function MultiSignalPage() {
           <Activity className="h-7 w-7 text-primary" /> Multi-Signal Check
         </h1>
         <p className="text-muted-foreground mt-1 text-sm">
-          Multi-Modal Sensor Fusion — Dynamic readings from CT clamps, vibration accelerometers, acoustics, air flow meters, and limit switches validating electrical waste states.
+          Multi-Modal Sensor Fusion — Dynamic readings from CT clamps, vibration accelerometers,
+          acoustics, air flow meters, and limit switches validating electrical waste states.
         </p>
       </header>
 
@@ -105,12 +111,24 @@ function MultiSignalPage() {
             <Cpu className="h-5 w-5 animate-pulse" /> ESP32 Hardware Connector
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Connect physical hardware nodes (such as ESP32 boards equipped with CT clamps/sensors) directly to the system. Stream telemetry logs in real-time to the API endpoint to update analysis dashboards and forecasting predictions.
+            Connect physical hardware nodes (such as ESP32 boards equipped with CT clamps/sensors)
+            directly to the system. Stream telemetry logs in real-time to the API endpoint to update
+            analysis dashboards and forecasting predictions.
           </p>
           <div className="text-xs font-mono bg-muted p-3 rounded-lg border flex flex-col gap-1.5 text-muted-foreground overflow-x-auto">
-            <div><strong className="text-foreground">POST URL:</strong> {typeof window !== "undefined" ? `${window.location.origin}/api/iot` : "/api/iot"}</div>
-            <div><strong className="text-foreground">Headers:</strong> Content-Type: application/json</div>
-            <div><strong className="text-foreground">Payload shape:</strong> {"{ \"machine_id\": \"CNC_Mill_1\", \"temperature\": 27.5, \"vibration_db\": 35.0, \"kwh\": 0.25, \"status\": \"Active\" }"}</div>
+            <div>
+              <strong className="text-foreground">POST URL:</strong>{" "}
+              {typeof window !== "undefined" ? `${window.location.origin}/api/iot` : "/api/iot"}
+            </div>
+            <div>
+              <strong className="text-foreground">Headers:</strong> Content-Type: application/json
+            </div>
+            <div>
+              <strong className="text-foreground">Payload shape:</strong>{" "}
+              {
+                '{ "machine_id": "CNC_Mill_1", "temperature": 27.5, "vibration_db": 35.0, "kwh": 0.25, "status": "Active" }'
+              }
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-2.5 shrink-0 w-full md:w-auto">
@@ -192,7 +210,9 @@ function MultiSignalPage() {
                   <div className="mt-4 space-y-4 text-xs">
                     {/* Category 1: Electrical Sensing */}
                     <div className="space-y-1.5">
-                      <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Electrical Sensing</div>
+                      <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">
+                        Electrical Sensing
+                      </div>
                       <div className="grid grid-cols-2 gap-2">
                         <div className="flex items-center gap-1.5 bg-muted/20 p-1.5 rounded border border-dashed">
                           <Zap className="h-3.5 w-3.5 text-yellow-500" />
@@ -213,7 +233,9 @@ function MultiSignalPage() {
 
                     {/* Category 2: Condition Monitoring */}
                     <div className="space-y-1.5">
-                      <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Condition Monitoring</div>
+                      <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">
+                        Condition Monitoring
+                      </div>
                       <div className="grid grid-cols-2 gap-2">
                         <div className="flex items-center gap-1.5 bg-muted/20 p-1.5 rounded border border-dashed">
                           <Thermometer className="h-3.5 w-3.5 text-orange-500" />
@@ -248,27 +270,35 @@ function MultiSignalPage() {
 
                     {/* Category 3: Environmental & Aux */}
                     <div className="space-y-1.5">
-                      <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Environmental & Aux</div>
+                      <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">
+                        Environmental & Aux
+                      </div>
                       <div className="grid grid-cols-2 gap-2">
                         <div className="flex items-center gap-1.5 bg-muted/20 p-1.5 rounded border border-dashed">
                           <Wind className="h-3.5 w-3.5 text-sky-500" />
                           <div>
                             <div className="text-[9px] text-muted-foreground">Air Flow</div>
-                            <div className="font-semibold">{s.compressed_air_flow_rate.toFixed(1)} m³/m</div>
+                            <div className="font-semibold">
+                              {s.compressed_air_flow_rate.toFixed(1)} m³/m
+                            </div>
                           </div>
                         </div>
                         <div className="flex items-center gap-1.5 bg-muted/20 p-1.5 rounded border border-dashed">
                           <Gauge className="h-3.5 w-3.5 text-cyan-500" />
                           <div>
                             <div className="text-[9px] text-muted-foreground">Air Press.</div>
-                            <div className="font-semibold">{s.compressed_air_pressure_bar.toFixed(1)} bar</div>
+                            <div className="font-semibold">
+                              {s.compressed_air_pressure_bar.toFixed(1)} bar
+                            </div>
                           </div>
                         </div>
                         <div className="flex items-center gap-1.5 bg-muted/20 p-1.5 rounded border border-dashed">
                           <Users className="h-3.5 w-3.5 text-emerald-500" />
                           <div>
                             <div className="text-[9px] text-muted-foreground">Occupancy</div>
-                            <div className="font-semibold">{s.hvac_occupancy ? "Active" : "Vacant"}</div>
+                            <div className="font-semibold">
+                              {s.hvac_occupancy ? "Active" : "Vacant"}
+                            </div>
                           </div>
                         </div>
                         <div className="flex items-center gap-1.5 bg-muted/20 p-1.5 rounded border border-dashed">
@@ -283,7 +313,9 @@ function MultiSignalPage() {
 
                     {/* Category 4: Context & Actuation */}
                     <div className="space-y-1.5">
-                      <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">State & Actuation</div>
+                      <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">
+                        State & Actuation
+                      </div>
                       <div className="grid grid-cols-2 gap-2">
                         <div className="flex items-center gap-1.5 bg-muted/20 p-1.5 rounded border border-dashed">
                           <ToggleRight className="h-3.5 w-3.5 text-rose-500" />
@@ -307,7 +339,10 @@ function MultiSignalPage() {
                           </div>
                         </div>
                         <div className="flex items-center gap-1.5 bg-muted/20 p-1.5 rounded border border-dashed">
-                          <Settings className="h-3.5 w-3.5 text-gray-500 animate-spin" style={{ animationDuration: '6s' }} />
+                          <Settings
+                            className="h-3.5 w-3.5 text-gray-500 animate-spin"
+                            style={{ animationDuration: "6s" }}
+                          />
                           <div>
                             <div className="text-[9px] text-muted-foreground">VFD Speed</div>
                             <div className="font-semibold">{s.vfd_speed_pct.toFixed(0)}%</div>

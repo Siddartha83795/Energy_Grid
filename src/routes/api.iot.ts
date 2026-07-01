@@ -14,7 +14,7 @@ export const Route = createFileRoute("/api/iot")({
           {
             status: 200,
             headers: { "Content-Type": "application/json" },
-          }
+          },
         );
       },
       POST: async ({ request }: { request: Request }) => {
@@ -76,7 +76,7 @@ export const Route = createFileRoute("/api/iot")({
               {
                 status: 400,
                 headers: { "Content-Type": "application/json" },
-              }
+              },
             );
           }
 
@@ -114,7 +114,7 @@ export const Route = createFileRoute("/api/iot")({
             {
               $set: updateDoc,
             },
-            { upsert: true }
+            { upsert: true },
           );
 
           // 3. Log reading in energy_entries for analytical modeling and forecasting
@@ -148,7 +148,7 @@ export const Route = createFileRoute("/api/iot")({
             {
               status: 500,
               headers: { "Content-Type": "application/json" },
-            }
+            },
           );
         }
       },

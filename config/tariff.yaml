@@ -1,15 +1,15 @@
 # Tariff structure and solar generation curve config
 tariffs:
   peak:
-    rate: 10.0  # INR/kWh
+    rate: 10.0 # INR/kWh
     hours: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18] # 9 AM to 6 PM
   off_peak:
-    rate: 6.5   # INR/kWh
+    rate: 6.5 # INR/kWh
     hours: [6, 7, 8, 19, 20, 21, 22] # 6 AM - 9 AM, 7 PM - 11 PM
   night:
-    rate: 4.0   # INR/kWh
+    rate: 4.0 # INR/kWh
     hours: [23, 0, 1, 2, 3, 4, 5] # 11 PM to 6 AM
 
 solar:
-  peak_kw: 150.0  # Max simulated solar PV output (kW)
+  peak_kw: 150.0 # Max simulated solar PV output (kW)
   optimal_hours: [10, 11, 12, 13, 14, 15] # Peak solar generation hours

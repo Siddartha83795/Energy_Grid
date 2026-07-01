@@ -401,7 +401,11 @@ export const fetchDashboardData = createServerFn({ method: "GET" })
       const sensorDoc = sensors.find((s) => s.machine_id === m.machine_name);
       return {
         ...m,
-        multi_signal_status: sensorDoc ? sensorDoc.status : (m.utilization_pct < 75 ? "Likely true idle waste" : "Active operation")
+        multi_signal_status: sensorDoc
+          ? sensorDoc.status
+          : m.utilization_pct < 75
+            ? "Likely true idle waste"
+            : "Active operation",
       };
     });
 
@@ -418,10 +422,7 @@ export const getPastRuns = createServerFn({ method: "GET" }).handler(async () =>
   const { getDb } = await import("./mongodb.server");
   const db = await getDb();
 
-  const cursor = db
-    .collection("runs")
-    .find({ user_id: userId })
-    .sort({ created_at: -1 });
+  const cursor = db.collection("runs").find({ user_id: userId }).sort({ created_at: -1 });
 
   const items = await cursor.toArray();
   return items.map((item) => ({
@@ -430,4 +431,3 @@ export const getPastRuns = createServerFn({ method: "GET" }).handler(async () =>
     created_at: item.created_at,
   }));
 });
-

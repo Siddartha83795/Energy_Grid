@@ -2,18 +2,18 @@
 thresholds:
   # Base default idle draw limit (kW) for fallback
   base_idle_limit_kw: 5.0
-  
+
   # Configuration for self-tuning rolling baselines
   rolling_baseline:
-    window_days: 14      # Rolling window size in days
-    min_readings: 100    # Minimum readings in window to compute statistics
-    std_dev_multiplier: 2.0  # Number of standard deviations above mean to flag an anomaly
-  
+    window_days: 14 # Rolling window size in days
+    min_readings: 100 # Minimum readings in window to compute statistics
+    std_dev_multiplier: 2.0 # Number of standard deviations above mean to flag an anomaly
+
   # Detection Agent parameters
   detection:
     min_idle_duration_minutes: 30 # Min duration to classify as an anomalous idle event
-    confidence_threshold: 0.7     # Minimum confidence to flag to Root-Cause Agent
-    
+    confidence_threshold: 0.7 # Minimum confidence to flag to Root-Cause Agent
+
   # High-impact cost threshold for Action Agent (needs human approval)
   action_approvals:
-    cost_threshold_inr: 500.0     # Actions costing/saving more than this require manual sign-off
+    cost_threshold_inr: 500.0 # Actions costing/saving more than this require manual sign-off

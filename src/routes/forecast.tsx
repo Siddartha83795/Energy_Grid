@@ -34,19 +34,21 @@ function ForecastPage() {
     }
   }, [data, selectedMachine]);
 
-
   // Safe fallback if selectedMachine is empty but data loaded
   const activeMachine = selectedMachine || (data?.machines?.[0] ?? "");
-  const machineForecasts = data?.forecasts?.filter((f: any) => f.machine_name === activeMachine) || [];
+  const machineForecasts =
+    data?.forecasts?.filter((f: any) => f.machine_name === activeMachine) || [];
 
   const maxRiskPoint = machineForecasts.reduce((max: any, current: any) => {
     if (!max || current.forecasted_idle_pct > max.forecasted_idle_pct) return current;
     return max;
   }, null);
 
-  const avgIdlePct = machineForecasts.length > 0 
-    ? machineForecasts.reduce((sum: number, f: any) => sum + f.forecasted_idle_pct, 0) / machineForecasts.length
-    : 0;
+  const avgIdlePct =
+    machineForecasts.length > 0
+      ? machineForecasts.reduce((sum: number, f: any) => sum + f.forecasted_idle_pct, 0) /
+        machineForecasts.length
+      : 0;
 
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-6">
@@ -100,7 +102,9 @@ function ForecastPage() {
 
           <div className="grid sm:grid-cols-3 gap-4">
             <div className="rounded-2xl border bg-card p-5 shadow-sm">
-              <div className="text-xs uppercase text-muted-foreground font-semibold">Max Predicted Risk Slot</div>
+              <div className="text-xs uppercase text-muted-foreground font-semibold">
+                Max Predicted Risk Slot
+              </div>
               <div className="text-2xl font-bold mt-2 text-red-500">
                 {maxRiskPoint ? `${maxRiskPoint.forecasted_idle_pct}%` : "0%"}
               </div>
@@ -110,17 +114,19 @@ function ForecastPage() {
             </div>
 
             <div className="rounded-2xl border bg-card p-5 shadow-sm">
-              <div className="text-xs uppercase text-muted-foreground font-semibold">Avg Forecasted Idle Draw</div>
-              <div className="text-2xl font-bold mt-2 text-primary">
-                {avgIdlePct.toFixed(0)}%
+              <div className="text-xs uppercase text-muted-foreground font-semibold">
+                Avg Forecasted Idle Draw
               </div>
+              <div className="text-2xl font-bold mt-2 text-primary">{avgIdlePct.toFixed(0)}%</div>
               <div className="text-xs text-muted-foreground mt-1">
                 24-Hour average standby probability
               </div>
             </div>
 
             <div className="rounded-2xl border bg-card p-5 shadow-sm">
-              <div className="text-xs uppercase text-muted-foreground font-semibold">Idle Risk Level</div>
+              <div className="text-xs uppercase text-muted-foreground font-semibold">
+                Idle Risk Level
+              </div>
               <div className="text-2xl font-bold mt-2">
                 {avgIdlePct > 50 ? "⚠️ High" : avgIdlePct > 25 ? "⚡ Medium" : "✅ Low"}
               </div>
@@ -138,8 +144,17 @@ function ForecastPage() {
                 <LineChart data={machineForecasts}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-muted/40" />
                   <XAxis dataKey="hour" fontSize={11} />
-                  <YAxis fontSize={11} domain={[0, 100]} label={{ value: 'Probability (%)', angle: -90, position: 'insideLeft', style: { fontSize: 10, fill: '#64748b' } }} />
-                  <Tooltip formatter={(value) => [`${value}%`, 'Idle Probability']} />
+                  <YAxis
+                    fontSize={11}
+                    domain={[0, 100]}
+                    label={{
+                      value: "Probability (%)",
+                      angle: -90,
+                      position: "insideLeft",
+                      style: { fontSize: 10, fill: "#64748b" },
+                    }}
+                  />
+                  <Tooltip formatter={(value) => [`${value}%`, "Idle Probability"]} />
                   <Line
                     type="monotone"
                     dataKey="forecasted_idle_pct"
@@ -160,8 +175,14 @@ function ForecastPage() {
               <AlertTriangle className="h-4 w-4" /> Predictive Action Recommendations
             </h3>
             <ul className="text-sm text-yellow-700 dark:text-yellow-300 space-y-1 list-disc list-inside">
-              <li>High-risk idle windows detected between 22:00 and 06:00. Recommend enabling automatic sleep shutdown on {activeMachine}.</li>
-              <li>A backlog increase is expected to reduce idle opportunities. Monitor the forecast over the weekend.</li>
+              <li>
+                High-risk idle windows detected between 22:00 and 06:00. Recommend enabling
+                automatic sleep shutdown on {activeMachine}.
+              </li>
+              <li>
+                A backlog increase is expected to reduce idle opportunities. Monitor the forecast
+                over the weekend.
+              </li>
             </ul>
           </div>
         </div>
