@@ -27,6 +27,12 @@ function AuthPage() {
     if (!loading && user) navigate({ to: "/upload" });
   }, [user, loading, navigate]);
 
+  const handleTabChange = (v: string) => {
+    setTab(v as "login" | "signup");
+    setEmail("");
+    setPassword("");
+  };
+
   const onLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
@@ -42,8 +48,21 @@ function AuthPage() {
     }
   };
 
+  const rules = {
+    length: password.length >= 8,
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    special: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+  };
+  const isPasswordValid = Object.values(rules).every(Boolean);
+
   const onSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isPasswordValid) {
+      toast.error("Password does not meet complexity requirements");
+      return;
+    }
     setBusy(true);
     try {
       await signUp({ data: { email, password, fullName } });
@@ -90,7 +109,7 @@ function AuthPage() {
           </p>
         </div>
 
-        <Tabs value={tab} onValueChange={(v) => setTab(v as "login" | "signup")} className="w-full">
+        <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
           <TabsList className="grid grid-cols-2 w-full bg-white/5 border border-white/10 rounded-lg p-1">
             <TabsTrigger
               value="login"
@@ -195,24 +214,85 @@ function AuthPage() {
                   htmlFor="sp"
                   className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
                 >
-                  Password (min 6)
+                  Password
                 </Label>
                 <Input
                   id="sp"
                   type="password"
                   required
-                  minLength={6}
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
                 />
+
+                {password.length > 0 && (
+                  <div className="mt-2 p-3 bg-white/5 border border-white/10 rounded-lg text-xs space-y-1.5 text-white/70">
+                    <p className="font-semibold text-white/90">Password must contain:</p>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                      <div className="flex items-center gap-1.5">
+                        <span
+                          className={
+                            rules.length ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"
+                          }
+                        >
+                          {rules.length ? "✓" : "✗"}
+                        </span>
+                        <span>8+ characters</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span
+                          className={
+                            rules.uppercase
+                              ? "text-emerald-400 font-bold"
+                              : "text-rose-400 font-bold"
+                          }
+                        >
+                          {rules.uppercase ? "✓" : "✗"}
+                        </span>
+                        <span>Uppercase (A-Z)</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span
+                          className={
+                            rules.lowercase
+                              ? "text-emerald-400 font-bold"
+                              : "text-rose-400 font-bold"
+                          }
+                        >
+                          {rules.lowercase ? "✓" : "✗"}
+                        </span>
+                        <span>Lowercase (a-z)</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span
+                          className={
+                            rules.number ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"
+                          }
+                        >
+                          {rules.number ? "✓" : "✗"}
+                        </span>
+                        <span>Number (0-9)</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 col-span-2">
+                        <span
+                          className={
+                            rules.special ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"
+                          }
+                        >
+                          {rules.special ? "✓" : "✗"}
+                        </span>
+                        <span>Special character (e.g. !@#$%)</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
               <Button
                 type="submit"
                 variant="glass"
                 className="w-full font-bold font-display cursor-pointer mt-6 py-5"
-                disabled={busy}
+                disabled={!isPasswordValid || busy}
               >
                 {busy ? (
                   <Loader2 className="h-4 w-4 animate-spin" />

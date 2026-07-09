@@ -35,6 +35,7 @@ export function SettingsDialog({
   const [tariff, setTariff] = useState<number>(8);
   const [notif, setNotif] = useState(true);
   const [emissionFactor, setEmissionFactor] = useState<number>(0.82);
+  const [revoking, setRevoking] = useState(false);
 
   useEffect(() => {
     if (!open || !user) return;
@@ -71,6 +72,20 @@ export function SettingsDialog({
     }
   };
 
+  const handleRevokeSessions = async () => {
+    setRevoking(true);
+    try {
+      const { revokeAllUserSessions } = await import("@/lib/auth.functions");
+      await revokeAllUserSessions();
+      toast.success("Successfully logged out of all devices");
+      window.location.href = "/auth";
+    } catch (err) {
+      toast.error("Failed to revoke sessions");
+    } finally {
+      setRevoking(false);
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
@@ -80,9 +95,10 @@ export function SettingsDialog({
         </DialogHeader>
 
         <Tabs defaultValue="profile">
-          <TabsList className="grid grid-cols-2 w-full">
+          <TabsList className="grid grid-cols-3 w-full">
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="billing">Billing</TabsTrigger>
+            <TabsTrigger value="security">Security</TabsTrigger>
           </TabsList>
 
           <TabsContent value="billing" className="space-y-3 pt-4">
@@ -137,6 +153,31 @@ export function SettingsDialog({
                 <p className="text-xs text-muted-foreground">Get alerted on new insights</p>
               </div>
               <Switch checked={notif} onCheckedChange={setNotif} />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="security" className="space-y-4 pt-4">
+            <div className="space-y-2">
+              <Label className="text-sm font-semibold">Active Sessions</Label>
+              <p className="text-xs text-muted-foreground">
+                If you suspect unauthorized access, you can terminate all other active login
+                sessions. This will also log you out of your current device.
+              </p>
+              <Button
+                variant="destructive"
+                onClick={handleRevokeSessions}
+                disabled={revoking}
+                className="w-full text-xs font-semibold"
+              >
+                {revoking ? (
+                  <>
+                    <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+                    Revoking...
+                  </>
+                ) : (
+                  "Log out of all devices"
+                )}
+              </Button>
             </div>
           </TabsContent>
         </Tabs>

@@ -9,7 +9,7 @@ export async function setSessionCookie(token: string) {
   setCookie("session_token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: "strict",
     maxAge: 30 * 24 * 60 * 60, // 30 days
     path: "/",
   });
