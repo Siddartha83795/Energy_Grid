@@ -73,7 +73,7 @@ pushed to Layer 1 ingestion broker.
    ```
 
 2. **Access UI**:
-   Open browser at: https://energy-grid-smoky.vercel.app/
+   Open browser at: https://energy-grid-xh86.vercel.app/
 
 ---
 
