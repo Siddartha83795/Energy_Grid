@@ -11,6 +11,7 @@ type User = {
   currency?: string;
   tariff_per_kwh?: number;
   notifications_enabled?: boolean;
+  grid_emission_factor?: number;
 };
 
 type AuthCtx = {

@@ -54,7 +54,7 @@ export function AppHeader() {
         <div className="flex items-center gap-2">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden h-9 w-9">
+              <Button variant="ghost" size="icon" className="hidden h-9 w-9">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>

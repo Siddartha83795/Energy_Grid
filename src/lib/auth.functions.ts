@@ -138,5 +138,6 @@ export const getCurrentUser = createServerFn({ method: "GET" }).handler(async ()
     currency: user.currency || "INR",
     tariff_per_kwh: user.tariff_per_kwh ?? 8.0,
     notifications_enabled: user.notifications_enabled ?? true,
+    grid_emission_factor: user.grid_emission_factor ?? 0.82,
   };
 });

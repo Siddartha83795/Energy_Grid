@@ -163,6 +163,7 @@ export const updateUserSettings = createServerFn({ method: "POST" })
       currency?: string;
       tariff_per_kwh?: number;
       notifications_enabled?: boolean;
+      grid_emission_factor?: number;
     };
     return o;
   })
@@ -181,6 +182,8 @@ export const updateUserSettings = createServerFn({ method: "POST" })
       updateFields.tariff_per_kwh = Number(data.tariff_per_kwh);
     if (data.notifications_enabled !== undefined)
       updateFields.notifications_enabled = Boolean(data.notifications_enabled);
+    if (data.grid_emission_factor !== undefined)
+      updateFields.grid_emission_factor = Number(data.grid_emission_factor);
     updateFields.updated_at = new Date();
 
     await db.collection("users").updateOne({ _id: new ObjectId(userId) }, { $set: updateFields });

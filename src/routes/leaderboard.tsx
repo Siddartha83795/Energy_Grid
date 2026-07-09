@@ -70,7 +70,7 @@ function LeaderboardPage() {
                 return (
                   <div
                     key={shift.shift_name}
-                    className={`flex items-center justify-between p-4 rounded-xl border transition-all ${
+                    className={`flex items-center justify-between p-4 rounded-xl border transition-all glass-card-light-interactive ${
                       isWinner
                         ? "bg-green-500/10 border-green-500/30 text-green-800 dark:text-green-400"
                         : "bg-background"
@@ -114,7 +114,7 @@ function LeaderboardPage() {
                 return (
                   <div
                     key={mach.machine_name}
-                    className={`flex items-center justify-between p-4 rounded-xl border transition-all ${
+                    className={`flex items-center justify-between p-4 rounded-xl border transition-all glass-card-light-interactive ${
                       isWinner
                         ? "bg-green-500/10 border-green-500/30 text-green-800 dark:text-green-400"
                         : "bg-background"
@@ -132,6 +132,10 @@ function LeaderboardPage() {
                         <div className="font-semibold">{mach.machine_name}</div>
                         <div className="text-xs text-muted-foreground">
                           Idle: {mach.idle_kwh.toFixed(0)} kWh
+                        </div>
+                        <div className="text-[10px] text-muted-foreground mt-0.5">
+                          Adoption: {mach.accepted_count ?? 0} Acc / {mach.rejected_count ?? 0} Rej
+                          {mach.implemented_count > 0 ? ` / ${mach.implemented_count} Imp` : ""}
                         </div>
                       </div>
                     </div>

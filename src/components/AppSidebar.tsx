@@ -1,4 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { useState, useEffect, useRef } from "react";
 import {
   Upload,
   LayoutDashboard,
@@ -15,6 +16,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
+import { getPathIndex } from "@/lib/navigation";
 
 const items = [
   { to: "/upload", label: "Upload", icon: Upload },
@@ -22,9 +24,9 @@ const items = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/ai-insights", label: "AI insights", icon: Sparkles },
   { to: "/report", label: "Report", icon: FileText },
-  { to: "/approval-queue", label: "Approval Queue", icon: CheckSquare },
+  { to: "/approval-queue", label: "Approvals", icon: CheckSquare },
   { to: "/forecast", label: "Forecast", icon: LineChart },
-  { to: "/carbon-cost", label: "Carbon & Cost", icon: Leaf },
+  { to: "/carbon-cost", label: "Carbon & Cost Impact", icon: Leaf },
   { to: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { to: "/multi-signal", label: "Multi-Signal Check", icon: Activity },
 ] as const;
@@ -32,6 +34,23 @@ const items = [
 export function AppSidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { isAdmin } = useAuth();
+  const [direction, setDirection] = useState<"forward" | "backward">("forward");
+  const prevPathRef = useRef(pathname);
+
+  useEffect(() => {
+    const prevPath = prevPathRef.current;
+    if (prevPath !== pathname) {
+      const prevIdx = getPathIndex(prevPath);
+      const newIdx = getPathIndex(pathname);
+      if (prevIdx !== -1 && newIdx !== -1) {
+        setDirection(newIdx > prevIdx ? "forward" : "backward");
+      }
+      prevPathRef.current = pathname;
+    }
+  }, [pathname]);
+
+  const activeSeamClass = direction === "backward" ? "flow-seam-light-backward" : "flow-seam-light-forward";
+
   return (
     <aside className="hidden md:flex w-60 shrink-0 flex-col border-r bg-card">
       <div className="flex items-center gap-2 px-5 h-16 border-b">
@@ -51,10 +70,13 @@ export function AppSidebar() {
               key={it.to}
               to={it.to}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all border border-transparent",
                 active
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                  ? cn(
+                      "bg-white/80 dark:bg-white/10 text-foreground dark:text-white border-black/5 dark:border-white/10 shadow-sm relative overflow-hidden font-semibold",
+                      activeSeamClass
+                    )
+                  : "text-muted-foreground hover:bg-accent/40 hover:text-foreground",
               )}
             >
               <it.icon className="h-4 w-4" />
@@ -66,10 +88,13 @@ export function AppSidebar() {
           <Link
             to="/admin"
             className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors mt-4 border-t pt-4",
+              "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all mt-4 border-t pt-4 border-transparent",
               pathname === "/admin"
-                ? "bg-primary text-primary-foreground shadow-sm"
-                : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                ? cn(
+                    "bg-white/80 dark:bg-white/10 text-foreground dark:text-white border-black/5 dark:border-white/10 shadow-sm relative overflow-hidden font-semibold",
+                    activeSeamClass
+                  )
+                : "text-muted-foreground hover:bg-accent/40 hover:text-foreground",
             )}
           >
             <Shield className="h-4 w-4" />

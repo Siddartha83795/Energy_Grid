@@ -16,6 +16,8 @@ import { AppHeader } from "@/components/AppHeader";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { Toaster } from "@/components/ui/sonner";
+import { PageTransition } from "@/components/PageTransition";
+import { BottomNav } from "@/components/BottomNav";
 
 function NotFoundComponent() {
   return (
@@ -153,14 +155,14 @@ function Shell() {
   }
 
   return (
-    <div className="flex min-h-screen w-full bg-background">
-      <AppSidebar />
-      <main className="flex-1 min-w-0 flex flex-col">
+    <div className="flex min-h-screen w-full bg-background flex-col">
+      <main className="flex-1 min-w-0 flex flex-col pb-[calc(6rem+env(safe-area-inset-bottom))]">
         <AppHeader />
-        <div className="flex-1 min-w-0">
+        <PageTransition pathname={pathname}>
           <Outlet />
-        </div>
+        </PageTransition>
       </main>
+      <BottomNav />
     </div>
   );
 }

@@ -18,8 +18,8 @@ export const getActionQueue = createServerFn({ method: "GET" }).handler(async ()
   const { getDb } = await import("./mongodb.server");
   const db = await getDb();
 
-  // Fetch logged actions
-  let actions = await db.collection("action_log").find({ user_id: userId }).toArray();
+  // Fetch logged actions in action_queue
+  let actions = await db.collection("action_queue").find({ user_id: userId }).toArray();
 
   // If empty, let's detect some waste events from latest run and call Groq for root-cause analysis
   if (actions.length === 0) {
@@ -29,6 +29,7 @@ export const getActionQueue = createServerFn({ method: "GET" }).handler(async ()
 
     if (latestRun && latestRun.machines) {
       const key = process.env.GROQ_API_KEY;
+      const model = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
       if (key) {
         // Find machines with high idle draw
         const offenders = latestRun.machines.filter(
@@ -52,7 +53,7 @@ export const getActionQueue = createServerFn({ method: "GET" }).handler(async ()
                 Authorization: `Bearer ${key}`,
               },
               body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
+                model: model,
                 temperature: 0.5,
                 messages: [
                   { role: "system", content: sysPrompt },
@@ -70,8 +71,10 @@ export const getActionQueue = createServerFn({ method: "GET" }).handler(async ()
 
           // Action agent logic: high-impact (savings >= 500) requires approval
           const isHighImpact = savings >= 500;
+          const riskLevel = isHighImpact ? "High" : "Low";
+          const initialStatus = isHighImpact ? "Pending" : "Executed";
 
-          await db.collection("action_log").insertOne({
+          await db.collection("action_queue").insertOne({
             user_id: userId,
             timestamp: new Date(),
             machine_id: off.machine_name,
@@ -81,12 +84,13 @@ export const getActionQueue = createServerFn({ method: "GET" }).handler(async ()
               : "Send automatic low-power standby command",
             estimated_weekly_savings_inr: savings / 4,
             root_cause: rootCause,
-            status: isHighImpact ? "pending" : "auto-suggested",
+            risk_level: riskLevel,
+            status: initialStatus,
             created_at: new Date(),
           });
         }
 
-        actions = await db.collection("action_log").find({ user_id: userId }).toArray();
+        actions = await db.collection("action_queue").find({ user_id: userId }).toArray();
       }
     }
   }
@@ -99,14 +103,18 @@ export const getActionQueue = createServerFn({ method: "GET" }).handler(async ()
     estimated_weekly_savings_inr: act.estimated_weekly_savings_inr,
     root_cause: act.root_cause,
     status: act.status,
+    risk_level: act.risk_level || (act.estimated_weekly_savings_inr >= 125 ? "High" : "Low"),
     timestamp: act.timestamp,
   }));
 });
 
 export const updateActionStatus = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => {
-    const o = input as { actionId: string; status: "approved" | "rejected" };
+    const o = input as { actionId: string; status: "Approved" | "Rejected" };
     if (!o.actionId || !o.status) throw new Error("Missing arguments");
+    if (o.status !== "Approved" && o.status !== "Rejected") {
+      throw new Error("Invalid status transition requested");
+    }
     return o;
   })
   .handler(async ({ data }) => {
@@ -115,8 +123,16 @@ export const updateActionStatus = createServerFn({ method: "POST" })
     const { ObjectId } = await import("mongodb");
     const db = await getDb();
 
+    // Check action
+    const action = await db.collection("action_queue").findOne({ _id: new ObjectId(data.actionId), user_id: userId });
+    if (!action) throw new Error("Action not found");
+
+    if (action.risk_level === "High" && (data.status as string) === "Executed") {
+      throw new Error("High risk actions cannot be auto-executed or directly set to Executed");
+    }
+
     await db
-      .collection("action_log")
+      .collection("action_queue")
       .updateOne(
         { _id: new ObjectId(data.actionId), user_id: userId },
         { $set: { status: data.status, updated_at: new Date() } },
@@ -128,81 +144,112 @@ export const updateActionStatus = createServerFn({ method: "POST" })
 // -----------------
 // 2. PREDICTIVE FORECASTING
 // -----------------
-export const getForecastData = createServerFn({ method: "GET" }).handler(async () => {
-  const userId = await getAuthUserId();
-  const { getDb } = await import("./mongodb.server");
-  const db = await getDb();
+export const getForecastData = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) => {
+    const o = input as { runId?: string };
+    return { runId: o?.runId };
+  })
+  .handler(async ({ data }) => {
+    const userId = await getAuthUserId();
+    const { getDb } = await import("./mongodb.server");
+    const db = await getDb();
 
-  const entries = await db.collection("energy_entries").find({ user_id: userId }).toArray();
-  if (entries.length === 0) return { machines: [], forecasts: [] };
-
-  // Calculate historical idle probability per hour (0-23) for each machine
-  const hourlyStats = new Map<string, { totals: number[]; idles: number[] }>();
-
-  entries.forEach((e) => {
-    const m = e.machine_name || "Unknown";
-    if (!hourlyStats.has(m)) {
-      hourlyStats.set(m, {
-        totals: new Array(24).fill(0),
-        idles: new Array(24).fill(0),
-      });
+    let runId = data?.runId;
+    if (!runId) {
+      const latestRun = await db
+        .collection("runs")
+        .findOne({ user_id: userId }, { sort: { created_at: -1 } });
+      runId = latestRun?.run_id;
     }
 
-    // Parse hour
-    let hr = 0;
-    if (e.recorded_at) {
-      hr = new Date(e.recorded_at).getHours();
-    } else if (e.entry_date) {
-      hr = 12; // default middle of day
-    }
-
-    const stats = hourlyStats.get(m)!;
-
-    if (e.kind === "daily") {
-      stats.totals[hr] += Number(e.total_kwh ?? 0);
-      stats.idles[hr] += Number(e.idle_kwh ?? 0);
-    } else {
-      const k = Number(e.kwh ?? 0);
-      stats.totals[hr] += k;
-      if (e.status === "idle") {
-        stats.idles[hr] += k;
+    if (runId) {
+      const cached = await db.collection("forecast_runs").findOne({ user_id: userId, run_id: runId });
+      if (cached) {
+        return { machines: cached.machines, forecasts: cached.forecasts };
       }
     }
-  });
 
-  const machines = Array.from(hourlyStats.keys());
-  const forecasts: any[] = [];
+    const entries = await db.collection("energy_entries").find({ user_id: userId }).toArray();
+    if (entries.length === 0) return { machines: [], forecasts: [] };
 
-  // Project next 24 hours starting from now
-  const now = new Date();
-  for (let i = 0; i < 24; i++) {
-    const futureTime = new Date(now.getTime() + i * 60 * 60 * 1000);
-    const hr = futureTime.getHours();
+    // Calculate historical idle probability per hour (0-23) for each machine
+    const hourlyStats = new Map<string, { totals: number[]; idles: number[] }>();
 
-    machines.forEach((mach) => {
-      const stats = hourlyStats.get(mach)!;
-      const total = stats.totals[hr];
-      const idle = stats.idles[hr];
+    entries.forEach((e) => {
+      const m = e.machine_name || "Unknown";
+      if (!hourlyStats.has(m)) {
+        hourlyStats.set(m, {
+          totals: new Array(24).fill(0),
+          idles: new Array(24).fill(0),
+        });
+      }
 
-      const prob = total > 0 ? idle / total : 0.15 + Math.random() * 0.1;
-      const idlePct = Math.min(100, prob * 100);
+      // Parse hour
+      let hr = 0;
+      if (e.recorded_at) {
+        hr = new Date(e.recorded_at).getHours();
+      } else if (e.entry_date) {
+        hr = 12; // default middle of day
+      }
 
-      let risk: "Low" | "Medium" | "High" = "Low";
-      if (idlePct > 60) risk = "High";
-      else if (idlePct > 30) risk = "Medium";
+      const stats = hourlyStats.get(m)!;
 
-      forecasts.push({
-        timestamp: futureTime.toISOString(),
-        hour: `${String(hr).padStart(2, "0")}:00`,
-        machine_name: mach,
-        forecasted_idle_pct: Math.round(idlePct),
-        risk_rating: risk,
-      });
+      if (e.kind === "daily") {
+        stats.totals[hr] += Number(e.total_kwh ?? 0);
+        stats.idles[hr] += Number(e.idle_kwh ?? 0);
+      } else {
+        const k = Number(e.kwh ?? 0);
+        stats.totals[hr] += k;
+        if (e.status === "idle") {
+          stats.idles[hr] += k;
+        }
+      }
     });
-  }
 
-  return { machines, forecasts };
-});
+    const machines = Array.from(hourlyStats.keys());
+    const forecasts: any[] = [];
+
+    // Project next 48 hours starting from now
+    const now = new Date();
+    for (let i = 0; i < 48; i++) {
+      const futureTime = new Date(now.getTime() + i * 60 * 60 * 1000);
+      const hr = futureTime.getHours();
+
+      machines.forEach((mach) => {
+        const stats = hourlyStats.get(mach)!;
+        const total = stats.totals[hr];
+        const idle = stats.idles[hr];
+
+        const prob = total > 0 ? idle / total : 0.15 + Math.random() * 0.1;
+        const idlePct = Math.min(100, prob * 100);
+
+        let risk: "Low" | "Medium" | "High" = "Low";
+        if (idlePct > 60) risk = "High";
+        else if (idlePct > 30) risk = "Medium";
+
+        forecasts.push({
+          timestamp: futureTime.toISOString(),
+          hour: `${String(hr).padStart(2, "0")}:00`,
+          machine_name: mach,
+          forecasted_idle_pct: Math.round(idlePct),
+          risk_rating: risk,
+          index: i,
+        });
+      });
+    }
+
+    if (runId) {
+      await db.collection("forecast_runs").insertOne({
+        user_id: userId,
+        run_id: runId,
+        machines,
+        forecasts,
+        created_at: new Date(),
+      });
+    }
+
+    return { machines, forecasts };
+  });
 
 // -----------------
 // 3. CARBON & COST IMPACT (RENEWABLE / TARIFF OPTIMIZATION)
@@ -210,42 +257,63 @@ export const getForecastData = createServerFn({ method: "GET" }).handler(async (
 export const getCarbonCostSavings = createServerFn({ method: "GET" }).handler(async () => {
   const userId = await getAuthUserId();
   const { getDb } = await import("./mongodb.server");
+  const { ObjectId } = await import("mongodb");
   const db = await getDb();
 
-  // Calculate total idle kWh and cost from latest run
+  // Retrieve emission factor from settings
+  const user = await db.collection("users").findOne({ _id: new ObjectId(userId) });
+  const gridEmissionFactor = Number(user?.grid_emission_factor ?? 0.82);
+
+  // Sum up across all accepted/implemented recommendations to date
+  const acceptedRecs = await db
+    .collection("recommendation_status")
+    .find({
+      user_id: userId,
+      status: { $in: ["Accepted", "Implemented"] },
+    })
+    .toArray();
+
+  let totalSavingsKwh = 0;
+  let totalSavingsInr = 0;
+
+  acceptedRecs.forEach((r) => {
+    totalSavingsKwh += Number(r.estimated_monthly_savings_kwh ?? 0);
+    totalSavingsInr += Number(r.estimated_monthly_savings_inr ?? 0);
+  });
+
+  // Calculate fallback total idle kWh and cost from latest run
   const latestRun = await db
     .collection("runs")
     .findOne({ user_id: userId }, { sort: { created_at: -1 } });
 
-  let totalIdleKwh = 0;
-  let totalIdleCost = 0;
+  let latestIdleKwh = 0;
+  let latestIdleCost = 0;
 
   if (latestRun) {
-    totalIdleKwh = latestRun.summary?.idle_kwh || 0;
-    totalIdleCost = latestRun.summary?.idle_cost_inr || 0;
+    latestIdleKwh = latestRun.summary?.idle_kwh || 0;
+    latestIdleCost = latestRun.summary?.idle_cost_inr || 0;
   } else {
     const entries = await db.collection("energy_entries").find({ user_id: userId }).toArray();
     entries.forEach((e) => {
       if (e.kind === "daily") {
-        totalIdleKwh += Number(e.idle_kwh ?? 0);
+        latestIdleKwh += Number(e.idle_kwh ?? 0);
       } else if (e.status === "idle") {
-        totalIdleKwh += Number(e.kwh ?? 0);
+        latestIdleKwh += Number(e.kwh ?? 0);
       }
     });
-    totalIdleCost = totalIdleKwh * 8.0;
+    latestIdleCost = latestIdleKwh * Number(user?.tariff_per_kwh ?? 8.0);
   }
 
-  // Grid factor: 0.82 kg CO2e/kWh
-  const co2eSaved = totalIdleKwh * 0.82;
-
-  // Shift cost savings: if we move 15% of peak tariff (₹10/kWh) to solar peaks or off-peak (saving ₹3.5/kWh)
-  const costShiftingSavings = totalIdleKwh * 0.15 * 3.5;
+  const kwhMetric = totalSavingsKwh > 0 ? totalSavingsKwh : latestIdleKwh;
+  const costMetric = totalSavingsInr > 0 ? totalSavingsInr : latestIdleCost;
+  const co2eSaved = kwhMetric * gridEmissionFactor;
 
   return {
-    total_idle_kwh: totalIdleKwh,
+    total_idle_kwh: kwhMetric,
     co2_saved_kg: co2eSaved,
-    cost_saved_timing_shift_inr: costShiftingSavings,
-    grid_emission_factor: 0.82,
+    cost_saved_timing_shift_inr: costMetric,
+    grid_emission_factor: gridEmissionFactor,
+    accepted_count: acceptedRecs.length,
     tariffs: [
       { name: "Peak Band (09:00 - 18:00)", rate: "₹10.00 / kWh" },
       { name: "Off-Peak Band (06:00 - 09:00, 18:00 - 23:00)", rate: "₹6.50 / kWh" },
@@ -264,6 +332,22 @@ export const getLeaderboardStats = createServerFn({ method: "GET" }).handler(asy
 
   const entries = await db.collection("energy_entries").find({ user_id: userId }).toArray();
   if (entries.length === 0) return { machineRankings: [], shiftRankings: [] };
+
+  // Fetch recommendation statuses to aggregate accepted/rejected counts per machine
+  const recStatuses = await db
+    .collection("recommendation_status")
+    .find({ user_id: userId })
+    .toArray();
+
+  const mRecStats = new Map<string, { accepted: number; rejected: number; implemented: number }>();
+  recStatuses.forEach((r) => {
+    if (!r.machine_name) return;
+    const stats = mRecStats.get(r.machine_name) ?? { accepted: 0, rejected: 0, implemented: 0 };
+    if (r.status === "Accepted") stats.accepted++;
+    else if (r.status === "Rejected") stats.rejected++;
+    else if (r.status === "Implemented") stats.implemented++;
+    mRecStats.set(r.machine_name, stats);
+  });
 
   // Machine stats
   const mStats = new Map<string, { total: number; idle: number }>();
@@ -308,11 +392,15 @@ export const getLeaderboardStats = createServerFn({ method: "GET" }).handler(asy
     .map(([name, val]) => {
       const active = val.total - val.idle;
       const util = val.total > 0 ? (active / val.total) * 100 : 100;
+      const recs = mRecStats.get(name) ?? { accepted: 0, rejected: 0, implemented: 0 };
       return {
         machine_name: name,
         total_kwh: val.total,
         idle_kwh: val.idle,
         utilization_pct: util,
+        accepted_count: recs.accepted,
+        rejected_count: recs.rejected,
+        implemented_count: recs.implemented,
       };
     })
     .sort((a, b) => b.utilization_pct - a.utilization_pct);
@@ -361,8 +449,13 @@ export const updateRecStatus = createServerFn({ method: "POST" })
       runId: string;
       rank: number;
       status: "Accepted" | "Rejected" | "Implemented";
+      machineName: string;
+      estimatedMonthlySavingsKwh?: number;
+      estimatedMonthlySavingsInr?: number;
     };
-    if (!o.runId || o.rank === undefined || !o.status) throw new Error("Missing args");
+    if (!o.runId || o.rank === undefined || !o.status || !o.machineName) {
+      throw new Error("Missing arguments");
+    }
     return o;
   })
   .handler(async ({ data }) => {
@@ -370,13 +463,19 @@ export const updateRecStatus = createServerFn({ method: "POST" })
     const { getDb } = await import("./mongodb.server");
     const db = await getDb();
 
-    await db
-      .collection("recommendation_status")
-      .updateOne(
-        { user_id: userId, run_id: data.runId, rank: data.rank },
-        { $set: { status: data.status, updated_at: new Date() } },
-        { upsert: true },
-      );
+    await db.collection("recommendation_status").updateOne(
+      { user_id: userId, run_id: data.runId, rank: data.rank },
+      {
+        $set: {
+          status: data.status,
+          machine_name: data.machineName,
+          estimated_monthly_savings_kwh: Number(data.estimatedMonthlySavingsKwh ?? 0),
+          estimated_monthly_savings_inr: Number(data.estimatedMonthlySavingsInr ?? 0),
+          updated_at: new Date(),
+        },
+      },
+      { upsert: true },
+    );
 
     return { success: true };
   });

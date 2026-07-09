@@ -194,3 +194,118 @@ Tariff for INR conversion: ${tariff} INR/kWh. Top 5 recommendations max. Predict
       throw new Error("AI returned non-JSON response");
     }
   });
+
+export const getRecommendationRootCauses = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) => {
+    const o = input as { runId: string };
+    if (!o.runId) throw new Error("Missing runId");
+    return o;
+  })
+  .handler(async ({ data }) => {
+    const { getSessionCookie } = await import("./auth-cookie.server");
+    const { verifySession } = await import("./auth-session.server");
+    const token = await getSessionCookie();
+    if (!token) throw new Error("Unauthorized: No session token");
+    const session = verifySession(token);
+    if (!session || !session.userId) throw new Error("Unauthorized: Invalid session");
+    const userId = session.userId;
+
+    const { getDb } = await import("./mongodb.server");
+    const db = await getDb();
+
+    // Check cache
+    const cached = await db
+      .collection("recommendation_root_causes")
+      .find({ user_id: userId, run_id: data.runId })
+      .toArray();
+
+    if (cached.length > 0) {
+      return cached.map((c) => ({
+        rank: c.rank,
+        root_cause: c.root_cause,
+      }));
+    }
+
+    // Find recommendations from runs
+    const run = await db.collection("runs").findOne({ run_id: data.runId, user_id: userId });
+    const recommendations = run?.genai?.recommendations || [];
+
+    if (recommendations.length === 0) return [];
+
+    const key = process.env.GROQ_API_KEY;
+    const model = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+
+    const results: Array<{ rank: number; root_cause: string }> = [];
+
+    if (key) {
+      try {
+        const sysPrompt = `You are an industrial energy root-cause analyst.
+Given a list of energy waste recommendations, determine a plausible root cause for each machine's idle energy waste.
+Reply ONLY with a strict JSON object containing a mapping of recommendation rank to a single-sentence root cause explanation starting with "Likely cause: ".
+Shape: {"root_causes": [{"rank": number, "root_cause": string}]}`;
+
+        const userPrompt = `Recommendations:\n${JSON.stringify(
+          recommendations.map((r: any) => ({
+            rank: r.rank,
+            machine_name: r.machine_name,
+            issue: r.issue,
+            action: r.action,
+          })),
+        )}`;
+
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${key}`,
+          },
+          body: JSON.stringify({
+            model: model,
+            temperature: 0.5,
+            response_format: { type: "json_object" },
+            messages: [
+              { role: "system", content: sysPrompt },
+              { role: "user", content: userPrompt },
+            ],
+          }),
+        });
+
+        if (res.ok) {
+          const resJson = (await res.json()) as any;
+          const content = resJson.choices?.[0]?.message?.content ?? "{}";
+          const parsed = JSON.parse(content) as { root_causes?: Array<{ rank: number; root_cause: string }> };
+          if (parsed.root_causes && Array.isArray(parsed.root_causes)) {
+            results.push(...parsed.root_causes);
+          }
+        }
+      } catch (e) {
+        console.error("Groq root-causes generation failed:", e);
+      }
+    }
+
+    // Populate missing or fallback if API failed
+    recommendations.forEach((r: any) => {
+      const exists = results.some((x) => x.rank === r.rank);
+      if (!exists) {
+        results.push({
+          rank: r.rank,
+          root_cause: `Likely cause: standby operation during ${r.machine_name} inactive shifts.`,
+        });
+      }
+    });
+
+    // Save cache
+    const docs = results.map((r) => ({
+      user_id: userId,
+      run_id: data.runId,
+      rank: r.rank,
+      root_cause: r.root_cause,
+      created_at: new Date(),
+    }));
+
+    if (docs.length > 0) {
+      await db.collection("recommendation_root_causes").insertMany(docs);
+    }
+
+    return results;
+  });

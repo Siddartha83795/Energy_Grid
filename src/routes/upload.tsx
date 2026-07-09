@@ -6,6 +6,7 @@ import { Dropzone } from "@/components/Dropzone";
 import { Button } from "@/components/ui/button";
 import { uploadFiles, analyze, setRunId, getRunId, getPastRunsList } from "@/lib/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/upload")({
   head: () => ({
@@ -189,7 +190,10 @@ function UploadPage() {
           </p>
         </header>
 
-        <div className="grid gap-5 rounded-2xl border bg-card p-6 shadow-sm">
+        <div className={cn(
+          "grid gap-5 rounded-2xl border bg-card p-6 shadow-sm relative overflow-hidden",
+          busy && "loading-shimmer-flow"
+        )}>
           <Dropzone
             label="1. Energy meter data"
             description="Drag & drop or click to upload meter readings CSV"
@@ -217,16 +221,8 @@ function UploadPage() {
                   ? "All files validated. Ready to analyze."
                   : "Waiting for files…"}
             </span>
-            <Button onClick={onAnalyze} disabled={!ready} size="lg">
-              {busy ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" /> Analyzing
-                </>
-              ) : (
-                <>
-                  <Sparkles className="h-4 w-4" /> Run analysis
-                </>
-              )}
+            <Button onClick={onAnalyze} disabled={!ready || busy} size="lg">
+              {busy ? "Analyzing..." : "Run analysis"}
             </Button>
           </div>
         </div>

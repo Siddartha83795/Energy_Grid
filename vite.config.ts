@@ -5,6 +5,8 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import tailwindcss from "@tailwindcss/vite";
 import { nitro } from "nitro/vite";
 
+const isTest = typeof process !== "undefined" && !!process.env.VITEST;
+
 export default defineConfig({
   server: {
     port: 8081,
@@ -12,11 +14,11 @@ export default defineConfig({
   },
   plugins: [
     tsconfigPaths(),
-    tanstackStart({
+    !isTest && tanstackStart({
       server: { entry: "server" },
     }),
-    nitro(),
+    !isTest && nitro(),
     react(),
     tailwindcss(),
-  ],
+  ].filter(Boolean) as any[],
 });

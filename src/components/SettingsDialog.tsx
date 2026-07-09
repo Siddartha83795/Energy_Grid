@@ -34,6 +34,7 @@ export function SettingsDialog({
   const [currency, setCurrency] = useState("INR");
   const [tariff, setTariff] = useState<number>(8);
   const [notif, setNotif] = useState(true);
+  const [emissionFactor, setEmissionFactor] = useState<number>(0.82);
 
   useEffect(() => {
     if (!open || !user) return;
@@ -42,6 +43,7 @@ export function SettingsDialog({
     setCurrency(user.currency ?? "INR");
     setTariff(Number(user.tariff_per_kwh ?? 8));
     setNotif(user.notifications_enabled ?? true);
+    setEmissionFactor(Number(user.grid_emission_factor ?? 0.82));
   }, [open, user]);
 
   const save = async () => {
@@ -55,6 +57,7 @@ export function SettingsDialog({
           currency,
           tariff_per_kwh: tariff,
           notifications_enabled: notif,
+          grid_emission_factor: emissionFactor,
           theme,
         },
       });
@@ -101,6 +104,17 @@ export function SettingsDialog({
                 onChange={(e) => setTariff(Number(e.target.value))}
               />
               <p className="text-xs text-muted-foreground">Used for idle-cost calculations</p>
+            </div>
+            <div className="space-y-2">
+              <Label>Grid Emission Factor (kg CO2e/kWh)</Label>
+              <Input
+                type="number"
+                step="0.01"
+                min={0}
+                value={emissionFactor}
+                onChange={(e) => setEmissionFactor(Number(e.target.value))}
+              />
+              <p className="text-xs text-muted-foreground">Used for CO2e footprint calculations</p>
             </div>
           </TabsContent>
 

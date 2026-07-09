@@ -1,15 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Loader2, Sparkles, Check, X, CheckCheck } from "lucide-react";
+import { Sparkles, Check, X, CheckCheck } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
-import { analyzeEnergy, type AiInsights } from "@/lib/ai.functions";
+import { analyzeEnergy, getRecommendationRootCauses, type AiInsights } from "@/lib/ai.functions";
 import { getRunId } from "@/lib/api";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRecStatuses, updateRecStatus } from "@/lib/new-features.functions";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/ai-insights")({
   head: () => ({ meta: [{ title: "AI insights — Energy Advisor" }] }),
@@ -28,6 +29,7 @@ function AiInsightsPage() {
   const queryClient = useQueryClient();
   const getStatuses = useServerFn(getRecStatuses);
   const mutateStatus = useServerFn(updateRecStatus);
+  const getRootCauses = useServerFn(getRecommendationRootCauses);
 
   const recStatusesQuery = useQuery({
     queryKey: ["recStatuses", runId],
@@ -35,8 +37,20 @@ function AiInsightsPage() {
     enabled: true,
   });
 
+  const rootCausesQuery = useQuery({
+    queryKey: ["recommendationRootCauses", runId],
+    queryFn: () => getRootCauses({ data: { runId: runId || "" } }),
+    enabled: !!runId,
+  });
+
   const updateStatusMutation = useMutation({
-    mutationFn: (args: { rank: number; status: "Accepted" | "Rejected" | "Implemented" }) =>
+    mutationFn: (args: {
+      rank: number;
+      status: "Accepted" | "Rejected" | "Implemented";
+      machineName: string;
+      estimatedMonthlySavingsKwh: number;
+      estimatedMonthlySavingsInr: number;
+    }) =>
       mutateStatus({ data: { runId: runId || "manual", ...args } }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["recStatuses", runId] });
@@ -47,8 +61,20 @@ function AiInsightsPage() {
     },
   });
 
-  const changeStatus = (rank: number, status: "Accepted" | "Rejected" | "Implemented") => {
-    updateStatusMutation.mutate({ rank, status });
+  const changeStatus = (
+    rank: number,
+    status: "Accepted" | "Rejected" | "Implemented",
+    machineName: string,
+    kwh: number,
+    inr: number,
+  ) => {
+    updateStatusMutation.mutate({
+      rank,
+      status,
+      machineName,
+      estimatedMonthlySavingsKwh: kwh,
+      estimatedMonthlySavingsInr: inr,
+    });
   };
 
   useEffect(() => {
@@ -83,7 +109,7 @@ function AiInsightsPage() {
   };
 
   return (
-    <div className="p-8 max-w-5xl mx-auto space-y-6">
+    <div className={cn("p-8 max-w-5xl mx-auto space-y-6", busy && "loading-shimmer-flow relative overflow-hidden")}>
       <header className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
@@ -94,15 +120,7 @@ function AiInsightsPage() {
           </p>
         </div>
         <Button onClick={analyze} disabled={busy} size="lg">
-          {busy ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" /> Analyzing
-            </>
-          ) : (
-            <>
-              <Sparkles className="h-4 w-4" /> Run AI analysis
-            </>
-          )}
+          {busy ? "Analyzing..." : "Run AI analysis"}
         </Button>
       </header>
 
@@ -146,9 +164,11 @@ function AiInsightsPage() {
             {insights.recommendations.map((r) => {
               const statusDoc = recStatusesQuery.data?.find((s: any) => s.rank === r.rank);
               const currentStatus = statusDoc?.status;
+              const rootCauseDoc = rootCausesQuery.data?.find((x: any) => x.rank === r.rank);
+              const rootCause = rootCauseDoc?.root_cause;
 
               return (
-                <div key={r.rank} className="rounded-lg border p-4 space-y-2 bg-card">
+                <div key={r.rank} className="rounded-lg border p-4 space-y-2 bg-card glass-card-light-interactive">
                   <div className="flex items-center justify-between">
                     <div className="font-semibold">
                       #{r.rank} · {r.machine_name}
@@ -181,24 +201,52 @@ function AiInsightsPage() {
                     {r.estimated_monthly_savings_inr.toFixed(0)} per month
                   </div>
 
-                  {/* Confidence and Evidence display */}
-                  {r.confidence !== undefined && (
-                    <div className="text-[11px] text-muted-foreground bg-muted/40 p-2 rounded border border-dashed mt-2">
-                      🛡️ <strong>Confidence:</strong> {Math.round(r.confidence * 100)}%
-                      {r.evidence && r.evidence.length > 0 && (
-                        <span>
-                          {" "}
-                          · <strong>Based on:</strong> {r.evidence.join(", ")}
-                        </span>
-                      )}
+                  {rootCause && (
+                    <div className="text-xs text-amber-600 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-md font-medium inline-block mt-2">
+                      🔍 {rootCause}
                     </div>
+                  )}
+
+                  {/* Confidence and Evidence expandable section */}
+                  {r.confidence !== undefined && (
+                    <details className="text-xs border rounded-lg p-2.5 bg-muted/40 cursor-pointer group mt-2">
+                      <summary className="font-semibold text-muted-foreground flex items-center justify-between select-none">
+                        <span>🛡️ Confidence & Evidence</span>
+                        <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold">
+                          {Math.round(r.confidence * 100)}% Confidence
+                        </span>
+                      </summary>
+                      <div className="mt-2 text-muted-foreground pl-1 space-y-1">
+                        <p><strong>Confidence Score:</strong> {Math.round(r.confidence * 100)}%</p>
+                        {r.evidence && r.evidence.length > 0 ? (
+                          <div>
+                            <strong>Evidence / Data Points:</strong>
+                            <ul className="list-disc pl-5 mt-1 space-y-0.5">
+                              {r.evidence.map((ev, i) => (
+                                <li key={i}>{ev}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : (
+                          <p>No specific data points cited.</p>
+                        )}
+                      </div>
+                    </details>
                   )}
 
                   {/* Adoption buttons */}
                   <div className="flex items-center gap-2 mt-2 pt-2 border-t text-[11px] flex-wrap">
                     <span className="text-muted-foreground font-medium">Adoption Status:</span>
                     <button
-                      onClick={() => changeStatus(r.rank, "Accepted")}
+                      onClick={() =>
+                        changeStatus(
+                          r.rank,
+                          "Accepted",
+                          r.machine_name,
+                          r.estimated_monthly_savings_kwh,
+                          r.estimated_monthly_savings_inr,
+                        )
+                      }
                       className={`flex items-center gap-1 px-2.5 py-1 rounded border font-medium cursor-pointer transition-colors ${
                         currentStatus === "Accepted"
                           ? "bg-green-500/10 text-green-700 border-green-500/30"
@@ -208,7 +256,15 @@ function AiInsightsPage() {
                       <Check className="h-3.5 w-3.5" /> Accepted
                     </button>
                     <button
-                      onClick={() => changeStatus(r.rank, "Rejected")}
+                      onClick={() =>
+                        changeStatus(
+                          r.rank,
+                          "Rejected",
+                          r.machine_name,
+                          r.estimated_monthly_savings_kwh,
+                          r.estimated_monthly_savings_inr,
+                        )
+                      }
                       className={`flex items-center gap-1 px-2.5 py-1 rounded border font-medium cursor-pointer transition-colors ${
                         currentStatus === "Rejected"
                           ? "bg-red-500/10 text-red-700 border-red-500/30"
@@ -218,7 +274,15 @@ function AiInsightsPage() {
                       <X className="h-3.5 w-3.5" /> Rejected
                     </button>
                     <button
-                      onClick={() => changeStatus(r.rank, "Implemented")}
+                      onClick={() =>
+                        changeStatus(
+                          r.rank,
+                          "Implemented",
+                          r.machine_name,
+                          r.estimated_monthly_savings_kwh,
+                          r.estimated_monthly_savings_inr,
+                        )
+                      }
                       className={`flex items-center gap-1 px-2.5 py-1 rounded border font-medium cursor-pointer transition-colors ${
                         currentStatus === "Implemented"
                           ? "bg-blue-500/10 text-blue-700 border-blue-500/30"

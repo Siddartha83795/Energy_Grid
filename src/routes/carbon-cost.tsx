@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table";
 
 export const Route = createFileRoute("/carbon-cost")({
-  head: () => ({ meta: [{ title: "Carbon & Cost — Energy Advisor" }] }),
+  head: () => ({ meta: [{ title: "Carbon & Cost Impact — Energy Advisor" }] }),
   component: CarbonCostPage,
 });
 
@@ -35,11 +35,10 @@ function CarbonCostPage() {
     <div className="p-8 max-w-4xl mx-auto space-y-6">
       <header>
         <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-          <Leaf className="h-7 w-7 text-green-500" /> Carbon & Cost Optimization
+          <Leaf className="h-7 w-7 text-green-500" /> Carbon & Cost Impact
         </h1>
         <p className="text-muted-foreground mt-1">
-          Tariff-Aware & Solar PV Offsets — Estimated environmental and financial savings from load
-          shifting.
+          Tariff-Aware & Solar PV Offsets — Cumulative environmental and financial savings from adopted energy recommendations.
         </p>
       </header>
 
@@ -68,19 +67,19 @@ function CarbonCostPage() {
                 {savings.co2_saved_kg.toFixed(1)} kg CO2e
               </div>
               <div className="text-xs text-muted-foreground mt-1">
-                Avoided footprint this analysis run
+                Footprint offset from {savings.accepted_count} adopted recommendations
               </div>
             </div>
 
             <div className="rounded-2xl border bg-card p-5 shadow-sm border-l-4 border-l-primary">
               <div className="text-xs uppercase text-muted-foreground font-semibold flex items-center gap-1.5">
-                <Award className="h-4 w-4 text-primary" /> Cost Shifting Savings
+                <Award className="h-4 w-4 text-primary" /> Financial Savings
               </div>
               <div className="text-2xl font-bold mt-2 text-primary">
                 {inr(savings.cost_saved_timing_shift_inr)}
               </div>
               <div className="text-xs text-muted-foreground mt-1">
-                Savings by shifting 15% to solar/night
+                Accumulated savings from adopted recommendations
               </div>
             </div>
 
@@ -92,7 +91,7 @@ function CarbonCostPage() {
                 {savings.grid_emission_factor} kg/kWh
               </div>
               <div className="text-xs text-muted-foreground mt-1">
-                Regional grid average carbon index
+                Regional grid average carbon emission factor
               </div>
             </div>
           </div>

@@ -23,7 +23,9 @@ import {
   Lightbulb,
   Loader2,
   Trash2,
+  Leaf,
 } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 import { getDashboard, getRunId, clearRunId, type Recommendation } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -58,7 +60,7 @@ function StatCard({
   accent?: string;
 }) {
   return (
-    <div className="rounded-2xl border bg-card p-5 shadow-sm">
+    <div className="rounded-2xl border bg-card p-5 shadow-sm glass-card-light-interactive">
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground">{label}</span>
         <div
@@ -92,6 +94,7 @@ function statusBadge(util: number) {
 }
 
 function DashboardPage() {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const run_id = typeof window !== "undefined" ? getRunId() : null;
   const { data, isLoading, error } = useQuery({
@@ -157,7 +160,7 @@ function DashboardPage() {
         </div>
       </header>
 
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         <StatCard label="Total kWh" value={fmt(data.summary.total_kwh)} icon={Zap} />
         <StatCard
           label="Idle kWh"
@@ -175,6 +178,12 @@ function DashboardPage() {
           label="Machines analyzed"
           value={String(data.summary.machines_analyzed)}
           icon={Factory}
+        />
+        <StatCard
+          label="CO2e saved potential"
+          value={`${fmt(data.summary.idle_kwh * (user?.grid_emission_factor ?? 0.82))} kg`}
+          icon={Leaf}
+          accent="bg-green-500/15 text-green-600"
         />
       </section>
 
@@ -239,7 +248,23 @@ function DashboardPage() {
           <TableBody>
             {data.machines.map((m: any) => (
               <TableRow key={m.machine_name}>
-                <TableCell className="font-medium">{m.machine_name}</TableCell>
+                <TableCell className="font-medium">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span>{m.machine_name}</span>
+                    {m.idle_kwh > 20 && (
+                      <Badge
+                        variant={(100 - m.utilization_pct > 30 && m.idle_kwh > 40) ? "default" : "outline"}
+                        className={(100 - m.utilization_pct > 30 && m.idle_kwh > 40)
+                          ? "bg-green-500/10 text-green-700 border-green-500/20 text-[10px] py-0 px-1.5 font-medium"
+                          : "bg-amber-500/10 text-amber-700 border-amber-500/20 text-[10px] py-0 px-1.5 font-medium"
+                        }
+                      >
+                        {/* Placeholder rule-based check. Ready to accept real sensor data later (e.g., idle % > threshold + duration > X hours = "Confirmed") */}
+                        {(100 - m.utilization_pct > 30 && m.idle_kwh > 40) ? "Confirmed idle" : "Needs review"}
+                      </Badge>
+                    )}
+                  </div>
+                </TableCell>
                 <TableCell className="text-right">{fmt(m.total_kwh)}</TableCell>
                 <TableCell className="text-right">{fmt(m.idle_kwh)}</TableCell>
                 <TableCell className="text-right">{m.utilization_pct.toFixed(1)}%</TableCell>
