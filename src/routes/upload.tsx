@@ -190,10 +190,12 @@ function UploadPage() {
           </p>
         </header>
 
-        <div className={cn(
-          "grid gap-5 rounded-2xl border bg-card p-6 shadow-sm relative overflow-hidden",
-          busy && "loading-shimmer-flow"
-        )}>
+        <div
+          className={cn(
+            "grid gap-5 rounded-2xl border bg-card p-6 shadow-sm relative overflow-hidden",
+            busy && "loading-shimmer-flow",
+          )}
+        >
           <Dropzone
             label="1. Energy meter data"
             description="Drag & drop or click to upload meter readings CSV"

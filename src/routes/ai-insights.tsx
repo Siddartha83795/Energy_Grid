@@ -50,8 +50,7 @@ function AiInsightsPage() {
       machineName: string;
       estimatedMonthlySavingsKwh: number;
       estimatedMonthlySavingsInr: number;
-    }) =>
-      mutateStatus({ data: { runId: runId || "manual", ...args } }),
+    }) => mutateStatus({ data: { runId: runId || "manual", ...args } }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["recStatuses", runId] });
       toast.success("Adoption status updated");
@@ -109,7 +108,12 @@ function AiInsightsPage() {
   };
 
   return (
-    <div className={cn("p-8 max-w-5xl mx-auto space-y-6", busy && "loading-shimmer-flow relative overflow-hidden")}>
+    <div
+      className={cn(
+        "p-8 max-w-5xl mx-auto space-y-6",
+        busy && "loading-shimmer-flow relative overflow-hidden",
+      )}
+    >
       <header className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
@@ -168,7 +172,10 @@ function AiInsightsPage() {
               const rootCause = rootCauseDoc?.root_cause;
 
               return (
-                <div key={r.rank} className="rounded-lg border p-4 space-y-2 bg-card glass-card-light-interactive">
+                <div
+                  key={r.rank}
+                  className="rounded-lg border p-4 space-y-2 bg-card glass-card-light-interactive"
+                >
                   <div className="flex items-center justify-between">
                     <div className="font-semibold">
                       #{r.rank} · {r.machine_name}
@@ -217,7 +224,9 @@ function AiInsightsPage() {
                         </span>
                       </summary>
                       <div className="mt-2 text-muted-foreground pl-1 space-y-1">
-                        <p><strong>Confidence Score:</strong> {Math.round(r.confidence * 100)}%</p>
+                        <p>
+                          <strong>Confidence Score:</strong> {Math.round(r.confidence * 100)}%
+                        </p>
                         {r.evidence && r.evidence.length > 0 ? (
                           <div>
                             <strong>Evidence / Data Points:</strong>

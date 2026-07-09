@@ -1,13 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  Upload,
-  Sparkles,
-  IndianRupee,
-  ArrowRight,
-  Gauge,
-  Cpu,
-  Trophy,
-} from "lucide-react";
+import { Upload, Sparkles, IndianRupee, ArrowRight, Gauge, Cpu, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
@@ -74,12 +66,11 @@ function Landing() {
             </span>
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight font-display">
               Idle machines are quietly{" "}
-              <span className="text-[#33D6A6] relative inline-block">
-                burning your margin.
-              </span>
+              <span className="text-[#33D6A6] relative inline-block">burning your margin.</span>
             </h1>
             <p className="text-sm md:text-base text-[#8D97A3] max-w-lg leading-relaxed font-body">
-              Identify standby machine power waste. Upload your meter data, shift logs, and schedules to immediately generate prioritized, actionable optimization tasks.
+              Identify standby machine power waste. Upload your meter data, shift logs, and
+              schedules to immediately generate prioritized, actionable optimization tasks.
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
               <Button
@@ -139,7 +130,7 @@ function Landing() {
                       strokeDasharray: "15, 12",
                     }}
                   />
-                  
+
                   {/* Idle flow waveform - Amber */}
                   <path
                     d="M 10,120 Q 50,180 90,120 T 170,120 T 250,120 T 330,120 T 390,120"
@@ -185,9 +176,16 @@ function Landing() {
 
                 {/* Simulated readings overlay inside card */}
                 <div className="absolute bottom-2 left-2 right-2 flex justify-between text-[10px] font-mono text-[#8D97A3] bg-[#0A0D12]/70 p-2.5 rounded border border-white/5 backdrop-blur-sm">
-                  <div>ACTIVE DRAW: <span className="text-[#33D6A6] font-bold font-mono">142.8 kW</span></div>
-                  <div>IDLE WASTE: <span className="text-[#F5A623] font-bold font-mono">34.3 kW</span></div>
-                  <div>LEAKAGE: <span className="text-red-400 font-bold font-mono">24%</span></div>
+                  <div>
+                    ACTIVE DRAW:{" "}
+                    <span className="text-[#33D6A6] font-bold font-mono">142.8 kW</span>
+                  </div>
+                  <div>
+                    IDLE WASTE: <span className="text-[#F5A623] font-bold font-mono">34.3 kW</span>
+                  </div>
+                  <div>
+                    LEAKAGE: <span className="text-red-400 font-bold font-mono">24%</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -197,8 +195,12 @@ function Landing() {
         {/* Parallel Capabilities Cards */}
         <section id="capabilities" className="space-y-6 pt-8">
           <div className="text-left space-y-1">
-            <h2 className="text-2xl font-bold font-display text-white tracking-tight">Capabilities</h2>
-            <p className="text-sm text-[#8D97A3]">Parallel analysis engine layers working in harmony.</p>
+            <h2 className="text-2xl font-bold font-display text-white tracking-tight">
+              Capabilities
+            </h2>
+            <p className="text-sm text-[#8D97A3]">
+              Parallel analysis engine layers working in harmony.
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -206,9 +208,12 @@ function Landing() {
               <div className="grid place-items-center h-10 w-10 rounded-lg bg-white/5 border border-white/10 text-[#33D6A6]">
                 <Upload className="h-5 w-5" />
               </div>
-              <h3 className="text-lg font-bold font-display text-white tracking-tight">Upload CSVs</h3>
+              <h3 className="text-lg font-bold font-display text-white tracking-tight">
+                Upload CSVs
+              </h3>
               <p className="text-xs text-[#8D97A3] leading-relaxed font-body">
-                Drop machine energy readings, factory shift logs, and production schedules directly into the interface without complex integration.
+                Drop machine energy readings, factory shift logs, and production schedules directly
+                into the interface without complex integration.
               </p>
             </div>
 
@@ -216,9 +221,12 @@ function Landing() {
               <div className="grid place-items-center h-10 w-10 rounded-lg bg-white/5 border border-white/10 text-[#33D6A6]">
                 <Sparkles className="h-5 w-5" />
               </div>
-              <h3 className="text-lg font-bold font-display text-white tracking-tight">AI Finds Waste</h3>
+              <h3 className="text-lg font-bold font-display text-white tracking-tight">
+                AI Finds Waste
+              </h3>
               <p className="text-xs text-[#8D97A3] leading-relaxed font-body">
-                Llama 3.3 models cross-reference data streams to pinpoint excessive standby power draw and flag non-operational leaks.
+                Llama 3.3 models cross-reference data streams to pinpoint excessive standby power
+                draw and flag non-operational leaks.
               </p>
             </div>
 
@@ -226,9 +234,12 @@ function Landing() {
               <div className="grid place-items-center h-10 w-10 rounded-lg bg-white/5 border border-white/10 text-[#33D6A6]">
                 <IndianRupee className="h-5 w-5" />
               </div>
-              <h3 className="text-lg font-bold font-display text-white tracking-tight">Act on Savings</h3>
+              <h3 className="text-lg font-bold font-display text-white tracking-tight">
+                Act on Savings
+              </h3>
               <p className="text-xs text-[#8D97A3] leading-relaxed font-body">
-                Receive prioritised recommendation lists mapped to monetary figures (₹), auto-execute low-risk actions, and download reports.
+                Receive prioritised recommendation lists mapped to monetary figures (₹),
+                auto-execute low-risk actions, and download reports.
               </p>
             </div>
           </div>
@@ -238,21 +249,37 @@ function Landing() {
         <section className="glass-panel p-4 overflow-hidden border border-white/5 relative bg-white/[0.02]">
           <div className="flex flex-col sm:flex-row items-center justify-around gap-6 text-center font-mono py-2 relative z-10">
             <div>
-              <span className="text-[10px] text-[#8D97A3] block uppercase tracking-wider mb-1">METER READINGS DATA</span>
-              <span className="text-xl md:text-2xl font-bold text-[#EDF1F5] font-mono">34.3k kWh</span>
-              <span className="text-xs text-muted-foreground block font-mono">analyzed this month</span>
+              <span className="text-[10px] text-[#8D97A3] block uppercase tracking-wider mb-1">
+                METER READINGS DATA
+              </span>
+              <span className="text-xl md:text-2xl font-bold text-[#EDF1F5] font-mono">
+                34.3k kWh
+              </span>
+              <span className="text-xs text-muted-foreground block font-mono">
+                analyzed this month
+              </span>
             </div>
             <div className="hidden sm:block h-8 w-[1px] bg-white/10" />
             <div>
-              <span className="text-[10px] text-[#8D97A3] block uppercase tracking-wider mb-1">STANDBY LOSS IDENTIFIED</span>
-              <span className="text-xl md:text-2xl font-bold text-[#F5A623] font-mono">8.7k kWh</span>
-              <span className="text-xs text-muted-foreground block font-mono">idle consumption found</span>
+              <span className="text-[10px] text-[#8D97A3] block uppercase tracking-wider mb-1">
+                STANDBY LOSS IDENTIFIED
+              </span>
+              <span className="text-xl md:text-2xl font-bold text-[#F5A623] font-mono">
+                8.7k kWh
+              </span>
+              <span className="text-xs text-muted-foreground block font-mono">
+                idle consumption found
+              </span>
             </div>
             <div className="hidden sm:block h-8 w-[1px] bg-white/10" />
             <div>
-              <span className="text-[10px] text-[#8D97A3] block uppercase tracking-wider mb-1">RECOVERABLE OPERATING COST</span>
+              <span className="text-[10px] text-[#8D97A3] block uppercase tracking-wider mb-1">
+                RECOVERABLE OPERATING COST
+              </span>
               <span className="text-xl md:text-2xl font-bold text-[#33D6A6] font-mono">₹69.6k</span>
-              <span className="text-xs text-muted-foreground block font-mono">estimated monthly savings</span>
+              <span className="text-xs text-muted-foreground block font-mono">
+                estimated monthly savings
+              </span>
             </div>
           </div>
         </section>
@@ -263,9 +290,15 @@ function Landing() {
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <span>© Energy Advisor Control Panel. All rights reserved.</span>
           <div className="flex gap-4 text-[10px] uppercase tracking-wider font-mono">
-            <a href="#" className="hover:text-white transition-colors">Documentation</a>
-            <a href="#" className="hover:text-white transition-colors">API</a>
-            <a href="#" className="hover:text-white transition-colors">Privacy</a>
+            <a href="#" className="hover:text-white transition-colors">
+              Documentation
+            </a>
+            <a href="#" className="hover:text-white transition-colors">
+              API
+            </a>
+            <a href="#" className="hover:text-white transition-colors">
+              Privacy
+            </a>
           </div>
         </div>
       </footer>

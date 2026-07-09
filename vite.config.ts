@@ -14,9 +14,10 @@ export default defineConfig({
   },
   plugins: [
     tsconfigPaths(),
-    !isTest && tanstackStart({
-      server: { entry: "server" },
-    }),
+    !isTest &&
+      tanstackStart({
+        server: { entry: "server" },
+      }),
     !isTest && nitro(),
     react(),
     tailwindcss(),

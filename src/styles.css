@@ -1,7 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -64,7 +64,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #F6F8F7;
+  --background: #f6f8f7;
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
@@ -147,18 +147,18 @@
 
 /* Scoped liquid glass styling classes */
 .liquid-glass-root {
-  --bg-void: #0A0D12;
+  --bg-void: #0a0d12;
   --glass-surface: rgba(255, 255, 255, 0.055);
   --glass-border: rgba(255, 255, 255, 0.14);
-  --current-teal: #33D6A6;
-  --idle-amber: #F5A623;
-  --signal-violet: #8C7EFF;
-  --text-primary: #EDF1F5;
-  --text-muted: #8D97A3;
+  --current-teal: #33d6a6;
+  --idle-amber: #f5a623;
+  --signal-violet: #8c7eff;
+  --text-primary: #edf1f5;
+  --text-muted: #8d97a3;
 
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
 
   font-family: var(--font-body);
   background-color: var(--bg-void);
@@ -166,9 +166,9 @@
   min-height: 100vh;
 }
 
-.liquid-glass-root h1, 
-.liquid-glass-root h2, 
-.liquid-glass-root h3, 
+.liquid-glass-root h1,
+.liquid-glass-root h2,
+.liquid-glass-root h3,
 .liquid-glass-root .font-display {
   font-family: var(--font-display) !important;
 }
@@ -184,7 +184,7 @@
   backdrop-filter: blur(12px) saturate(120%);
   -webkit-backdrop-filter: blur(12px) saturate(120%);
   border: 1px solid var(--glass-border);
-  box-shadow: 
+  box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 0.1),
     0 10px 40px rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
@@ -201,8 +201,12 @@
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(90deg, transparent, var(--current-teal), transparent);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
@@ -213,8 +217,12 @@
 }
 
 @keyframes flowBorder {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .liquid-glass-root .flow-seam-interactive {
@@ -229,8 +237,12 @@
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(90deg, transparent, var(--current-teal), transparent);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
@@ -266,9 +278,9 @@
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  color: #EDF1F5 !important;
+  color: #edf1f5 !important;
   border-radius: 0.5rem !important;
-  font-family: 'Inter', sans-serif !important;
+  font-family: "Inter", sans-serif !important;
   transition: all 0.3s ease !important;
 }
 
@@ -277,9 +289,9 @@
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  color: #EDF1F5 !important;
+  color: #edf1f5 !important;
   border-radius: 0.5rem !important;
-  font-family: 'Inter', sans-serif !important;
+  font-family: "Inter", sans-serif !important;
   transition: all 0.3s ease !important;
 }
 
@@ -291,8 +303,12 @@
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(90deg, transparent, var(--current-teal), transparent);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
@@ -317,7 +333,7 @@
 .btn-glass-secondary:hover,
 .btn-glass-secondary:focus-visible {
   border-color: rgba(51, 214, 166, 0.5) !important;
-  box-shadow: 
+  box-shadow:
     0 0 12px rgba(51, 214, 166, 0.25),
     inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
   outline: none !important;
@@ -334,30 +350,30 @@
 :root {
   --glass-surface-light: rgba(255, 255, 255, 0.65);
   --glass-border-light: rgba(20, 30, 25, 0.08);
-  --signal-violet: #8C7EFF;
+  --signal-violet: #8c7eff;
 }
 
 /* Unified Light Glass Card override (Light Mode) */
-:root:not(.dark) .bg-card:not(aside), 
+:root:not(.dark) .bg-card:not(aside),
 :root:not(.dark) .rounded-2xl.border.bg-card {
   background: var(--glass-surface-light) !important;
   backdrop-filter: blur(12px) saturate(110%) !important;
   -webkit-backdrop-filter: blur(12px) saturate(110%) !important;
   border: 1px solid var(--glass-border-light) !important;
-  box-shadow: 
+  box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.6),
     0 4px 15px rgba(20, 30, 25, 0.03) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* Unified Dark Glass Card override (Dark Mode) */
-.dark .bg-card:not(aside), 
+.dark .bg-card:not(aside),
 .dark .rounded-2xl.border.bg-card {
   background: rgba(20, 20, 25, 0.65) !important;
   backdrop-filter: blur(12px) saturate(120%) !important;
   -webkit-backdrop-filter: blur(12px) saturate(120%) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 
+  box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.15),
     0 4px 15px rgba(0, 0, 0, 0.3) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -373,14 +389,14 @@
 }
 
 :root:not(.dark) .glass-card-light-interactive:hover {
-  box-shadow: 
+  box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.6),
     0 8px 20px rgba(20, 30, 25, 0.06) !important;
   border-color: rgba(20, 30, 25, 0.15) !important;
 }
 
 .dark .glass-card-light-interactive:hover {
-  box-shadow: 
+  box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.15),
     0 8px 20px rgba(0, 0, 0, 0.4) !important;
   border-color: rgba(255, 255, 255, 0.15) !important;
@@ -481,13 +497,21 @@
 
 /* Sidebar flow seam animation directions */
 @keyframes flowBorderForward {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @keyframes flowBorderBackward {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .flow-seam-light-forward,
@@ -503,8 +527,12 @@
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(90deg, transparent, oklch(0.6 0.18 145), transparent);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
@@ -514,11 +542,15 @@
 }
 
 .flow-seam-light-forward::after {
-  animation: flowBorderForward 10s linear infinite, briefPulse 1s ease-out 1;
+  animation:
+    flowBorderForward 10s linear infinite,
+    briefPulse 1s ease-out 1;
 }
 
 .flow-seam-light-backward::after {
-  animation: flowBorderBackward 10s linear infinite, briefPulse 1s ease-out 1;
+  animation:
+    flowBorderBackward 10s linear infinite,
+    briefPulse 1s ease-out 1;
 }
 
 @keyframes briefPulse {
@@ -545,8 +577,12 @@
   border-radius: inherit;
   padding: 2px;
   background: linear-gradient(90deg, transparent, oklch(0.6 0.18 145), transparent);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
@@ -618,7 +654,7 @@
 
 /* Premium spring pop-up transition for the bottom nav bar */
 .nav-pop-transition {
-  transition: 
+  transition:
     transform 800ms cubic-bezier(0.16, 1, 0.3, 1),
     translate 800ms cubic-bezier(0.16, 1, 0.3, 1),
     scale 800ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -631,11 +667,9 @@
 
 /* Utility to hide scrollbars for scrollable capsule menus */
 .scrollbar-none {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 .scrollbar-none::-webkit-scrollbar {
   display: none; /* Chrome, Safari, and Opera */
 }
-
-

@@ -23,7 +23,7 @@ export const NAV_ORDER = [
   "/carbon-cost",
   "/leaderboard",
   "/multi-signal",
-  "/admin"
+  "/admin",
 ] as const;
 
 export function getPathIndex(path: string): number {

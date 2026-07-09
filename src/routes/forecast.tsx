@@ -68,12 +68,17 @@ function ForecastPage() {
   const getMachineRiskSummary = (forecastsList: any[], machinesList: string[]) => {
     return machinesList.map((m) => {
       const mForecasts = forecastsList.filter((f: any) => f.machine_name === m);
-      const maxIdle = mForecasts.reduce((max: number, f: any) => Math.max(max, f.forecasted_idle_pct), 0);
+      const maxIdle = mForecasts.reduce(
+        (max: number, f: any) => Math.max(max, f.forecasted_idle_pct),
+        0,
+      );
       let risk: "Low" | "Medium" | "High" = "Low";
       if (maxIdle > 60) risk = "High";
       else if (maxIdle > 30) risk = "Medium";
 
-      const peakHours = mForecasts.filter((f: any) => f.forecasted_idle_pct > 50).map((f) => f.hour);
+      const peakHours = mForecasts
+        .filter((f: any) => f.forecasted_idle_pct > 50)
+        .map((f) => f.hour);
       let timeWindow = "Stable / Low Risk";
       if (peakHours.length > 0) {
         timeWindow = `${peakHours[0]} - ${peakHours[peakHours.length - 1]}`;
@@ -94,8 +99,18 @@ function ForecastPage() {
     });
   };
 
-  const riskSummary24 = data?.forecasts ? getMachineRiskSummary(data.forecasts.filter((f: any) => f.index < 24), data.machines) : [];
-  const riskSummary48 = data?.forecasts ? getMachineRiskSummary(data.forecasts.filter((f: any) => f.index >= 24), data.machines) : [];
+  const riskSummary24 = data?.forecasts
+    ? getMachineRiskSummary(
+        data.forecasts.filter((f: any) => f.index < 24),
+        data.machines,
+      )
+    : [];
+  const riskSummary48 = data?.forecasts
+    ? getMachineRiskSummary(
+        data.forecasts.filter((f: any) => f.index >= 24),
+        data.machines,
+      )
+    : [];
 
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-6">
@@ -104,7 +119,8 @@ function ForecastPage() {
           <ChartIcon className="h-7 w-7 text-primary" /> Idle-Window Forecasting
         </h1>
         <p className="text-muted-foreground mt-1">
-          Predictive Analytics — Forecasted machine idle waste probabilities for the next 24–48 hours.
+          Predictive Analytics — Forecasted machine idle waste probabilities for the next 24–48
+          hours.
         </p>
       </header>
 
@@ -204,7 +220,9 @@ function ForecastPage() {
                     Max Predicted Risk Slot
                   </div>
                   <div className="text-2xl font-bold mt-2 text-red-500">
-                    {metrics24.maxRiskPoint ? `${metrics24.maxRiskPoint.forecasted_idle_pct}%` : "0%"}
+                    {metrics24.maxRiskPoint
+                      ? `${metrics24.maxRiskPoint.forecasted_idle_pct}%`
+                      : "0%"}
                   </div>
                   <div className="text-xs text-muted-foreground mt-1">
                     Predicted at: {metrics24.maxRiskPoint ? metrics24.maxRiskPoint.hour : "N/A"}
@@ -215,7 +233,9 @@ function ForecastPage() {
                   <div className="text-xs uppercase text-muted-foreground font-semibold">
                     Avg Forecasted Idle Draw
                   </div>
-                  <div className="text-2xl font-bold mt-2 text-primary">{metrics24.avgIdlePct.toFixed(0)}%</div>
+                  <div className="text-2xl font-bold mt-2 text-primary">
+                    {metrics24.avgIdlePct.toFixed(0)}%
+                  </div>
                   <div className="text-xs text-muted-foreground mt-1">
                     24-Hour average standby probability
                   </div>
@@ -226,7 +246,11 @@ function ForecastPage() {
                     Idle Risk Level
                   </div>
                   <div className="text-2xl font-bold mt-2">
-                    {metrics24.avgIdlePct > 50 ? "⚠️ High" : metrics24.avgIdlePct > 25 ? "⚡ Medium" : "✅ Low"}
+                    {metrics24.avgIdlePct > 50
+                      ? "⚠️ High"
+                      : metrics24.avgIdlePct > 25
+                        ? "⚡ Medium"
+                        : "✅ Low"}
                   </div>
                   <div className="text-xs text-muted-foreground mt-1">
                     Risk status for upcoming shifts
@@ -236,7 +260,9 @@ function ForecastPage() {
 
               {/* Chart */}
               <div className="rounded-2xl border bg-card p-5 shadow-sm">
-                <h2 className="text-sm font-semibold mb-4">24-Hour Predicted Idle Probability (%)</h2>
+                <h2 className="text-sm font-semibold mb-4">
+                  24-Hour Predicted Idle Probability (%)
+                </h2>
                 <div className="h-80 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={forecasts24h}>
@@ -319,7 +345,9 @@ function ForecastPage() {
                     Max Predicted Risk Slot
                   </div>
                   <div className="text-2xl font-bold mt-2 text-red-500">
-                    {metrics48.maxRiskPoint ? `${metrics48.maxRiskPoint.forecasted_idle_pct}%` : "0%"}
+                    {metrics48.maxRiskPoint
+                      ? `${metrics48.maxRiskPoint.forecasted_idle_pct}%`
+                      : "0%"}
                   </div>
                   <div className="text-xs text-muted-foreground mt-1">
                     Predicted at: {metrics48.maxRiskPoint ? metrics48.maxRiskPoint.hour : "N/A"}
@@ -330,7 +358,9 @@ function ForecastPage() {
                   <div className="text-xs uppercase text-muted-foreground font-semibold">
                     Avg Forecasted Idle Draw
                   </div>
-                  <div className="text-2xl font-bold mt-2 text-primary">{metrics48.avgIdlePct.toFixed(0)}%</div>
+                  <div className="text-2xl font-bold mt-2 text-primary">
+                    {metrics48.avgIdlePct.toFixed(0)}%
+                  </div>
                   <div className="text-xs text-muted-foreground mt-1">
                     48-Hour average standby probability
                   </div>
@@ -341,7 +371,11 @@ function ForecastPage() {
                     Idle Risk Level
                   </div>
                   <div className="text-2xl font-bold mt-2">
-                    {metrics48.avgIdlePct > 50 ? "⚠️ High" : metrics48.avgIdlePct > 25 ? "⚡ Medium" : "✅ Low"}
+                    {metrics48.avgIdlePct > 50
+                      ? "⚠️ High"
+                      : metrics48.avgIdlePct > 25
+                        ? "⚡ Medium"
+                        : "✅ Low"}
                   </div>
                   <div className="text-xs text-muted-foreground mt-1">
                     Risk status for extended shifts
@@ -351,7 +385,9 @@ function ForecastPage() {
 
               {/* Chart */}
               <div className="rounded-2xl border bg-card p-5 shadow-sm">
-                <h2 className="text-sm font-semibold mb-4">24–48h Predicted Idle Probability (%)</h2>
+                <h2 className="text-sm font-semibold mb-4">
+                  24–48h Predicted Idle Probability (%)
+                </h2>
                 <div className="h-80 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={forecasts48h}>

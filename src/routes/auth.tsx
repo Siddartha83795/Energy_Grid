@@ -80,7 +80,9 @@ function AuthPage() {
             <div className="h-9 w-9 rounded-lg overflow-hidden border border-white/10">
               <img src="/favicon.png" alt="Energy Advisor" className="h-full w-full object-cover" />
             </div>
-            <span className="font-display tracking-tight text-white text-lg font-bold">Energy Advisor</span>
+            <span className="font-display tracking-tight text-white text-lg font-bold">
+              Energy Advisor
+            </span>
           </Link>
           <h2 className="text-xl font-bold font-display mt-6 tracking-tight text-white">Sign In</h2>
           <p className="text-xs text-[#8D97A3] mt-1 text-center">
@@ -107,7 +109,12 @@ function AuthPage() {
           <TabsContent value="login">
             <form onSubmit={onLogin} className="space-y-4 mt-6">
               <div className="space-y-2">
-                <Label htmlFor="le" className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider">Email Address</Label>
+                <Label
+                  htmlFor="le"
+                  className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
+                >
+                  Email Address
+                </Label>
                 <Input
                   id="le"
                   type="email"
@@ -120,7 +127,12 @@ function AuthPage() {
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="lp" className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider">Password</Label>
+                  <Label
+                    htmlFor="lp"
+                    className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
+                  >
+                    Password
+                  </Label>
                 </div>
                 <Input
                   id="lp"
@@ -146,7 +158,12 @@ function AuthPage() {
           <TabsContent value="signup">
             <form onSubmit={onSignup} className="space-y-4 mt-6">
               <div className="space-y-2">
-                <Label htmlFor="sn" className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider">Full Name</Label>
+                <Label
+                  htmlFor="sn"
+                  className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
+                >
+                  Full Name
+                </Label>
                 <Input
                   id="sn"
                   required
@@ -157,7 +174,12 @@ function AuthPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="se" className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider">Email Address</Label>
+                <Label
+                  htmlFor="se"
+                  className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
+                >
+                  Email Address
+                </Label>
                 <Input
                   id="se"
                   type="email"
@@ -169,7 +191,12 @@ function AuthPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="sp" className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider">Password (min 6)</Label>
+                <Label
+                  htmlFor="sp"
+                  className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
+                >
+                  Password (min 6)
+                </Label>
                 <Input
                   id="sp"
                   type="password"
@@ -187,7 +214,11 @@ function AuthPage() {
                 className="w-full font-bold font-display cursor-pointer mt-6 py-5"
                 disabled={busy}
               >
-                {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : "Create Control Panel Account"}
+                {busy ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  "Create Control Panel Account"
+                )}
               </Button>
               <p className="text-[10px] text-[#8D97A3] text-center mt-3">
                 Note: First account created automatically registers as administrator.

@@ -2,7 +2,13 @@ import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { cn } from "@/lib/utils";
 import { getPathIndex } from "@/lib/navigation";
 
-export function PageTransition({ children, pathname }: { children: React.ReactNode; pathname: string }) {
+export function PageTransition({
+  children,
+  pathname,
+}: {
+  children: React.ReactNode;
+  pathname: string;
+}) {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [direction, setDirection] = useState<"forward" | "backward">("forward");
   const [outgoingHtml, setOutgoingHtml] = useState<string | null>(null);
@@ -73,11 +79,7 @@ export function PageTransition({ children, pathname }: { children: React.ReactNo
   }, []);
 
   if (prefersReducedMotion) {
-    return (
-      <div className="flex-1 min-w-0 w-full h-full">
-        {children}
-      </div>
-    );
+    return <div className="flex-1 min-w-0 w-full h-full">{children}</div>;
   }
 
   const isForward = direction === "forward";
@@ -93,7 +95,7 @@ export function PageTransition({ children, pathname }: { children: React.ReactNo
           key={outgoingKey || "outgoing"}
           className={cn(
             "transition-page-container pointer-events-none select-none",
-            isForward ? "animate-exit-forward" : "animate-exit-backward"
+            isForward ? "animate-exit-forward" : "animate-exit-backward",
           )}
           dangerouslySetInnerHTML={{ __html: outgoingHtml }}
         />
@@ -105,7 +107,7 @@ export function PageTransition({ children, pathname }: { children: React.ReactNo
         className={cn(
           "w-full h-full",
           isTransitioning && "transition-page-container",
-          isTransitioning && (isForward ? "animate-enter-forward" : "animate-enter-backward")
+          isTransitioning && (isForward ? "animate-enter-forward" : "animate-enter-backward"),
         )}
       >
         {children}

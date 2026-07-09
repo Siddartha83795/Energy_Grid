@@ -55,19 +55,22 @@ describe("Approval Queue (Agentic Action Layer) Guardrails", () => {
     // Mock database checks
     // First call to find action_queue returns empty array to trigger creation logic
     mockCollection.find.mockReturnValue({
-      toArray: vi.fn().mockResolvedValueOnce([]).mockResolvedValueOnce([
-        {
-          _id: "507f1f77bcf86cd799439011",
-          machine_id: "CNC-01",
-          issue: "Excessive standby draw",
-          action: "Send automatic low-power standby command",
-          estimated_weekly_savings_inr: 100, // < 500
-          root_cause: "Operator left CNC-01 standby",
-          risk_level: "Low",
-          status: "Executed",
-          timestamp: new Date(),
-        }
-      ])
+      toArray: vi
+        .fn()
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([
+          {
+            _id: "507f1f77bcf86cd799439011",
+            machine_id: "CNC-01",
+            issue: "Excessive standby draw",
+            action: "Send automatic low-power standby command",
+            estimated_weekly_savings_inr: 100, // < 500
+            root_cause: "Operator left CNC-01 standby",
+            risk_level: "Low",
+            status: "Executed",
+            timestamp: new Date(),
+          },
+        ]),
     });
 
     // Mock runs table lookup for offenders
@@ -79,8 +82,8 @@ describe("Approval Queue (Agentic Action Layer) Guardrails", () => {
           idle_kwh: 60,
           utilization_pct: 50,
           idle_cost_inr: 400, // savings = 400. weekly savings = savings / 4 = 100 (< 500)
-        }
-      ]
+        },
+      ],
     });
 
     const queue = await getActionQueue();
@@ -99,19 +102,22 @@ describe("Approval Queue (Agentic Action Layer) Guardrails", () => {
 
   it("2. Should queue a high-impact action (>= ₹500 weekly savings) as Pending", async () => {
     mockCollection.find.mockReturnValue({
-      toArray: vi.fn().mockResolvedValueOnce([]).mockResolvedValueOnce([
-        {
-          _id: "507f1f77bcf86cd799439012",
-          machine_id: "CNC-02",
-          issue: "Excessive standby draw",
-          action: "Power down main breaker switch",
-          estimated_weekly_savings_inr: 600, // >= 500
-          root_cause: "Operator left CNC-02 standby",
-          risk_level: "High",
-          status: "Pending",
-          timestamp: new Date(),
-        }
-      ])
+      toArray: vi
+        .fn()
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([
+          {
+            _id: "507f1f77bcf86cd799439012",
+            machine_id: "CNC-02",
+            issue: "Excessive standby draw",
+            action: "Power down main breaker switch",
+            estimated_weekly_savings_inr: 600, // >= 500
+            root_cause: "Operator left CNC-02 standby",
+            risk_level: "High",
+            status: "Pending",
+            timestamp: new Date(),
+          },
+        ]),
     });
 
     // Mock runs lookup
@@ -123,8 +129,8 @@ describe("Approval Queue (Agentic Action Layer) Guardrails", () => {
           idle_kwh: 300,
           utilization_pct: 40,
           idle_cost_inr: 2400, // weekly savings = 2400 / 4 = 600 (>= 500)
-        }
-      ]
+        },
+      ],
     });
 
     const queue = await getActionQueue();
@@ -144,16 +150,17 @@ describe("Approval Queue (Agentic Action Layer) Guardrails", () => {
     mockCollection.findOne.mockResolvedValueOnce({
       _id: "507f1f77bcf86cd799439013",
       risk_level: "High",
-      status: "Pending"
+      status: "Pending",
     });
 
     // Call updateActionStatus with status "Executed"
-    const badCall = () => updateActionStatus({
-      data: {
-        actionId: "507f1f77bcf86cd799439013",
-        status: "Executed" as any // force invalid transition
-      }
-    });
+    const badCall = () =>
+      updateActionStatus({
+        data: {
+          actionId: "507f1f77bcf86cd799439013",
+          status: "Executed" as any, // force invalid transition
+        },
+      });
 
     await expect(badCall).rejects.toThrow();
     expect(mockCollection.updateOne).not.toHaveBeenCalled();
@@ -164,41 +171,41 @@ describe("Approval Queue (Agentic Action Layer) Guardrails", () => {
     mockCollection.findOne.mockResolvedValueOnce({
       _id: "507f1f77bcf86cd799439014",
       risk_level: "High",
-      status: "Pending"
+      status: "Pending",
     });
     const goodCall = await updateActionStatus({
       data: {
         actionId: "507f1f77bcf86cd799439014",
-        status: "Approved"
-      }
+        status: "Approved",
+      },
     });
     expect(goodCall.success).toBe(true);
-    expect(mockCollection.updateOne).toHaveBeenCalledWith(
-      expect.any(Object),
-      { $set: { status: "Approved", updated_at: expect.any(Date) } }
-    );
+    expect(mockCollection.updateOne).toHaveBeenCalledWith(expect.any(Object), {
+      $set: { status: "Approved", updated_at: expect.any(Date) },
+    });
 
     // Rejected casing
     mockCollection.findOne.mockResolvedValueOnce({
       _id: "507f1f77bcf86cd799439015",
       risk_level: "High",
-      status: "Pending"
+      status: "Pending",
     });
     const goodCall2 = await updateActionStatus({
       data: {
         actionId: "507f1f77bcf86cd799439015",
-        status: "Rejected"
-      }
+        status: "Rejected",
+      },
     });
     expect(goodCall2.success).toBe(true);
 
     // Invalid casing / status throws error
-    const badCall = () => updateActionStatus({
-      data: {
-        actionId: "507f1f77bcf86cd799439016",
-        status: "invalid-status" as any
-      }
-    });
+    const badCall = () =>
+      updateActionStatus({
+        data: {
+          actionId: "507f1f77bcf86cd799439016",
+          status: "invalid-status" as any,
+        },
+      });
     await expect(badCall).rejects.toThrow();
   });
 });

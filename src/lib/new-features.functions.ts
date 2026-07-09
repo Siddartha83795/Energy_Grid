@@ -124,7 +124,9 @@ export const updateActionStatus = createServerFn({ method: "POST" })
     const db = await getDb();
 
     // Check action
-    const action = await db.collection("action_queue").findOne({ _id: new ObjectId(data.actionId), user_id: userId });
+    const action = await db
+      .collection("action_queue")
+      .findOne({ _id: new ObjectId(data.actionId), user_id: userId });
     if (!action) throw new Error("Action not found");
 
     if (action.risk_level === "High" && (data.status as string) === "Executed") {
@@ -163,7 +165,9 @@ export const getForecastData = createServerFn({ method: "GET" })
     }
 
     if (runId) {
-      const cached = await db.collection("forecast_runs").findOne({ user_id: userId, run_id: runId });
+      const cached = await db
+        .collection("forecast_runs")
+        .findOne({ user_id: userId, run_id: runId });
       if (cached) {
         return { machines: cached.machines, forecasts: cached.forecasts };
       }

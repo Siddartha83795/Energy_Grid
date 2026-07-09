@@ -49,7 +49,8 @@ export function AppSidebar() {
     }
   }, [pathname]);
 
-  const activeSeamClass = direction === "backward" ? "flow-seam-light-backward" : "flow-seam-light-forward";
+  const activeSeamClass =
+    direction === "backward" ? "flow-seam-light-backward" : "flow-seam-light-forward";
 
   return (
     <aside className="hidden md:flex w-60 shrink-0 flex-col border-r bg-card">
@@ -74,7 +75,7 @@ export function AppSidebar() {
                 active
                   ? cn(
                       "bg-white/80 dark:bg-white/10 text-foreground dark:text-white border-black/5 dark:border-white/10 shadow-sm relative overflow-hidden font-semibold",
-                      activeSeamClass
+                      activeSeamClass,
                     )
                   : "text-muted-foreground hover:bg-accent/40 hover:text-foreground",
               )}
@@ -92,7 +93,7 @@ export function AppSidebar() {
               pathname === "/admin"
                 ? cn(
                     "bg-white/80 dark:bg-white/10 text-foreground dark:text-white border-black/5 dark:border-white/10 shadow-sm relative overflow-hidden font-semibold",
-                    activeSeamClass
+                    activeSeamClass,
                   )
                 : "text-muted-foreground hover:bg-accent/40 hover:text-foreground",
             )}

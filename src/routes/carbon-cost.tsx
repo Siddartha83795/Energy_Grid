@@ -38,7 +38,8 @@ function CarbonCostPage() {
           <Leaf className="h-7 w-7 text-green-500" /> Carbon & Cost Impact
         </h1>
         <p className="text-muted-foreground mt-1">
-          Tariff-Aware & Solar PV Offsets — Cumulative environmental and financial savings from adopted energy recommendations.
+          Tariff-Aware & Solar PV Offsets — Cumulative environmental and financial savings from
+          adopted energy recommendations.
         </p>
       </header>
 

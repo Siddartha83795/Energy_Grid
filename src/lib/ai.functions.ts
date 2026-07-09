@@ -273,7 +273,9 @@ Shape: {"root_causes": [{"rank": number, "root_cause": string}]}`;
         if (res.ok) {
           const resJson = (await res.json()) as any;
           const content = resJson.choices?.[0]?.message?.content ?? "{}";
-          const parsed = JSON.parse(content) as { root_causes?: Array<{ rank: number; root_cause: string }> };
+          const parsed = JSON.parse(content) as {
+            root_causes?: Array<{ rank: number; root_cause: string }>;
+          };
           if (parsed.root_causes && Array.isArray(parsed.root_causes)) {
             results.push(...parsed.root_causes);
           }

@@ -253,14 +253,19 @@ function DashboardPage() {
                     <span>{m.machine_name}</span>
                     {m.idle_kwh > 20 && (
                       <Badge
-                        variant={(100 - m.utilization_pct > 30 && m.idle_kwh > 40) ? "default" : "outline"}
-                        className={(100 - m.utilization_pct > 30 && m.idle_kwh > 40)
-                          ? "bg-green-500/10 text-green-700 border-green-500/20 text-[10px] py-0 px-1.5 font-medium"
-                          : "bg-amber-500/10 text-amber-700 border-amber-500/20 text-[10px] py-0 px-1.5 font-medium"
+                        variant={
+                          100 - m.utilization_pct > 30 && m.idle_kwh > 40 ? "default" : "outline"
+                        }
+                        className={
+                          100 - m.utilization_pct > 30 && m.idle_kwh > 40
+                            ? "bg-green-500/10 text-green-700 border-green-500/20 text-[10px] py-0 px-1.5 font-medium"
+                            : "bg-amber-500/10 text-amber-700 border-amber-500/20 text-[10px] py-0 px-1.5 font-medium"
                         }
                       >
                         {/* Placeholder rule-based check. Ready to accept real sensor data later (e.g., idle % > threshold + duration > X hours = "Confirmed") */}
-                        {(100 - m.utilization_pct > 30 && m.idle_kwh > 40) ? "Confirmed idle" : "Needs review"}
+                        {100 - m.utilization_pct > 30 && m.idle_kwh > 40
+                          ? "Confirmed idle"
+                          : "Needs review"}
                       </Badge>
                     )}
                   </div>
