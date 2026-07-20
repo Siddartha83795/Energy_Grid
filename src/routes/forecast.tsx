@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState, useEffect } from "react";
@@ -16,6 +16,7 @@ import { getForecastData } from "@/lib/new-features.functions";
 import { getRunId } from "@/lib/api";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/forecast")({
   head: () => ({ meta: [{ title: "Forecast — Energy Advisor" }] }),
@@ -139,8 +140,19 @@ function ForecastPage() {
       )}
 
       {data && data.machines && data.machines.length === 0 && (
-        <div className="rounded-2xl border bg-card p-12 text-center text-sm text-muted-foreground">
-          No historical machine data available to train predictive models. Upload csv logs first.
+        <div className="rounded-2xl border bg-card p-10 text-center space-y-4 shadow-sm max-w-lg mx-auto">
+          <div className="h-12 w-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto text-primary">
+            <ChartIcon className="h-6 w-6" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold font-display text-foreground">No forecast data available</h2>
+            <p className="text-xs text-muted-foreground mt-1.5 font-body leading-relaxed max-w-sm mx-auto">
+              No machine telemetry found in active run to train 24–48h predictive models. Upload CSV energy logs to start forecasting.
+            </p>
+          </div>
+          <Button asChild className="font-bold cursor-pointer">
+            <Link to="/upload">Upload meter CSVs</Link>
+          </Button>
         </div>
       )}
 

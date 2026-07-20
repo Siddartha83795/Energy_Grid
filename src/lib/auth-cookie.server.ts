@@ -18,3 +18,21 @@ export async function setSessionCookie(token: string) {
 export async function deleteSessionCookie() {
   deleteCookie("session_token", { path: "/" });
 }
+
+export async function getOAuthStateCookie(): Promise<string | undefined> {
+  return getCookie("oauth_state");
+}
+
+export async function setOAuthStateCookie(state: string) {
+  setCookie("oauth_state", state, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 10 * 60, // 10 minutes short-lived
+    path: "/",
+  });
+}
+
+export async function deleteOAuthStateCookie() {
+  deleteCookie("oauth_state", { path: "/" });
+}

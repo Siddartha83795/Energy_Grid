@@ -34,13 +34,19 @@ function ReportPage() {
 
   if (!run_id) {
     return (
-      <div className="p-8">
-        <div className="rounded-2xl border bg-card p-10 text-center max-w-md mx-auto">
-          <AlertTriangle className="h-10 w-10 mx-auto text-muted-foreground" />
-          <h2 className="mt-3 text-lg font-semibold">No report available</h2>
-          <p className="text-sm text-muted-foreground mt-1">Run an analysis first.</p>
-          <Button asChild className="mt-4">
-            <Link to="/">Go to upload</Link>
+      <div className="p-8 max-w-lg mx-auto">
+        <div className="rounded-2xl border bg-card p-10 text-center space-y-4 shadow-sm">
+          <div className="h-12 w-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto text-primary">
+            <FileText className="h-6 w-6" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold font-display text-foreground">No active advisory report</h2>
+            <p className="text-xs text-muted-foreground mt-1.5 font-body leading-relaxed max-w-sm mx-auto">
+              Upload machine telemetry or select an active run to compile a comprehensive executive energy advisory report.
+            </p>
+          </div>
+          <Button asChild className="font-bold cursor-pointer">
+            <Link to="/upload">Upload meter dataset</Link>
           </Button>
         </div>
       </div>

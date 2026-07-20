@@ -30,6 +30,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/components/ThemeProvider";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { AskEnergyDataPanel } from "@/components/AskEnergyDataPanel";
 
 const navItems = [
   { to: "/upload", label: "Upload", icon: Upload },
@@ -129,7 +130,8 @@ export function AppHeader() {
             </Link>
           )}
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
+          <AskEnergyDataPanel />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" aria-label="Toggle theme">

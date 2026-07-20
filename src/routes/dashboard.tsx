@@ -29,6 +29,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { getDashboard, getRunId, clearRunId, type Recommendation } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { AskEnergyDataPanel } from "@/components/AskEnergyDataPanel";
 import {
   Table,
   TableBody,
@@ -150,7 +151,8 @@ function DashboardPage() {
           <h1 className="text-3xl font-bold tracking-tight">Energy dashboard</h1>
           <p className="text-muted-foreground mt-1 text-sm">Run ID: {run_id}</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+          <AskEnergyDataPanel />
           <Button onClick={handleClearRun} variant="destructive" size="sm" className="h-9">
             <Trash2 className="h-4 w-4 mr-1.5" /> Clear Active Run
           </Button>

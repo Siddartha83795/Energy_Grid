@@ -11,6 +11,7 @@ import { getRunId } from "@/lib/api";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRecStatuses, updateRecStatus } from "@/lib/new-features.functions";
 import { cn } from "@/lib/utils";
+import { AgentPersonaBadge } from "@/components/AgentPersonaBadge";
 
 export const Route = createFileRoute("/ai-insights")({
   head: () => ({ meta: [{ title: "AI insights — Energy Advisor" }] }),
@@ -156,15 +157,21 @@ function AiInsightsPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border bg-card p-5">
-            <h2 className="font-semibold mb-2">Summary</h2>
+          <div className="rounded-2xl border bg-card p-5 space-y-2">
+            <div className="flex items-center justify-between">
+              <h2 className="font-semibold text-[#EDF1F5]">Summary</h2>
+              <AgentPersonaBadge persona="Brief" size="sm" />
+            </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               {insights.summary_narrative}
             </p>
           </div>
 
           <div className="rounded-2xl border bg-card p-5 space-y-3">
-            <h2 className="font-semibold">Recommendations</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="font-semibold text-[#EDF1F5]">Recommendations</h2>
+              <AgentPersonaBadge persona="Act" size="sm" />
+            </div>
             {insights.recommendations.map((r) => {
               const statusDoc = recStatusesQuery.data?.find((s: any) => s.rank === r.rank);
               const currentStatus = statusDoc?.status;
@@ -174,11 +181,12 @@ function AiInsightsPage() {
               return (
                 <div
                   key={r.rank}
-                  className="rounded-lg border p-4 space-y-2 bg-card glass-card-light-interactive"
+                  className="rounded-lg border p-4 space-y-2.5 bg-card glass-card-light-interactive"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="font-semibold">
+                    <div className="font-semibold flex items-center gap-2">
                       #{r.rank} · {r.machine_name}
+                      <AgentPersonaBadge persona="Watch" size="sm" showRole={false} />
                     </div>
                     <div className="flex gap-2">
                       <Badge
@@ -196,11 +204,11 @@ function AiInsightsPage() {
                     </div>
                   </div>
                   <div className="text-sm">
-                    <span className="text-muted-foreground">Issue: </span>
+                    <span className="text-muted-foreground font-medium">Issue: </span>
                     {r.issue}
                   </div>
                   <div className="text-sm">
-                    <span className="text-muted-foreground">Action: </span>
+                    <span className="text-muted-foreground font-medium">Action: </span>
                     {r.action}
                   </div>
                   <div className="text-xs text-muted-foreground">
@@ -209,8 +217,9 @@ function AiInsightsPage() {
                   </div>
 
                   {rootCause && (
-                    <div className="text-xs text-amber-600 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-md font-medium inline-block mt-2">
-                      🔍 {rootCause}
+                    <div className="text-xs text-amber-500 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-lg font-medium flex items-center gap-2 mt-2">
+                      <AgentPersonaBadge persona="Diagnose" size="sm" showRole={false} />
+                      <span>{rootCause}</span>
                     </div>
                   )}
 

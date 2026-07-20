@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UploadRouteImport } from './routes/upload'
 import { Route as ReportRouteImport } from './routes/report'
+import { Route as PendingApprovalRouteImport } from './routes/pending-approval'
 import { Route as MultiSignalRouteImport } from './routes/multi-signal'
 import { Route as ManualEntryRouteImport } from './routes/manual-entry'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
@@ -23,6 +24,8 @@ import { Route as AiInsightsRouteImport } from './routes/ai-insights'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiIotRouteImport } from './routes/api.iot'
+import { Route as ApiAuthGoogleLoginRouteImport } from './routes/api.auth.google.login'
+import { Route as ApiAuthGoogleCallbackRouteImport } from './routes/api.auth.google.callback'
 
 const UploadRoute = UploadRouteImport.update({
   id: '/upload',
@@ -32,6 +35,11 @@ const UploadRoute = UploadRouteImport.update({
 const ReportRoute = ReportRouteImport.update({
   id: '/report',
   path: '/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PendingApprovalRoute = PendingApprovalRouteImport.update({
+  id: '/pending-approval',
+  path: '/pending-approval',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MultiSignalRoute = MultiSignalRouteImport.update({
@@ -94,6 +102,16 @@ const ApiIotRoute = ApiIotRouteImport.update({
   path: '/api/iot',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAuthGoogleLoginRoute = ApiAuthGoogleLoginRouteImport.update({
+  id: '/api/auth/google/login',
+  path: '/api/auth/google/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthGoogleCallbackRoute = ApiAuthGoogleCallbackRouteImport.update({
+  id: '/api/auth/google/callback',
+  path: '/api/auth/google/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -107,9 +125,12 @@ export interface FileRoutesByFullPath {
   '/leaderboard': typeof LeaderboardRoute
   '/manual-entry': typeof ManualEntryRoute
   '/multi-signal': typeof MultiSignalRoute
+  '/pending-approval': typeof PendingApprovalRoute
   '/report': typeof ReportRoute
   '/upload': typeof UploadRoute
   '/api/iot': typeof ApiIotRoute
+  '/api/auth/google/callback': typeof ApiAuthGoogleCallbackRoute
+  '/api/auth/google/login': typeof ApiAuthGoogleLoginRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -123,9 +144,12 @@ export interface FileRoutesByTo {
   '/leaderboard': typeof LeaderboardRoute
   '/manual-entry': typeof ManualEntryRoute
   '/multi-signal': typeof MultiSignalRoute
+  '/pending-approval': typeof PendingApprovalRoute
   '/report': typeof ReportRoute
   '/upload': typeof UploadRoute
   '/api/iot': typeof ApiIotRoute
+  '/api/auth/google/callback': typeof ApiAuthGoogleCallbackRoute
+  '/api/auth/google/login': typeof ApiAuthGoogleLoginRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -140,9 +164,12 @@ export interface FileRoutesById {
   '/leaderboard': typeof LeaderboardRoute
   '/manual-entry': typeof ManualEntryRoute
   '/multi-signal': typeof MultiSignalRoute
+  '/pending-approval': typeof PendingApprovalRoute
   '/report': typeof ReportRoute
   '/upload': typeof UploadRoute
   '/api/iot': typeof ApiIotRoute
+  '/api/auth/google/callback': typeof ApiAuthGoogleCallbackRoute
+  '/api/auth/google/login': typeof ApiAuthGoogleLoginRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -158,9 +185,12 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/manual-entry'
     | '/multi-signal'
+    | '/pending-approval'
     | '/report'
     | '/upload'
     | '/api/iot'
+    | '/api/auth/google/callback'
+    | '/api/auth/google/login'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -174,9 +204,12 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/manual-entry'
     | '/multi-signal'
+    | '/pending-approval'
     | '/report'
     | '/upload'
     | '/api/iot'
+    | '/api/auth/google/callback'
+    | '/api/auth/google/login'
   id:
     | '__root__'
     | '/'
@@ -190,9 +223,12 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/manual-entry'
     | '/multi-signal'
+    | '/pending-approval'
     | '/report'
     | '/upload'
     | '/api/iot'
+    | '/api/auth/google/callback'
+    | '/api/auth/google/login'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -207,9 +243,12 @@ export interface RootRouteChildren {
   LeaderboardRoute: typeof LeaderboardRoute
   ManualEntryRoute: typeof ManualEntryRoute
   MultiSignalRoute: typeof MultiSignalRoute
+  PendingApprovalRoute: typeof PendingApprovalRoute
   ReportRoute: typeof ReportRoute
   UploadRoute: typeof UploadRoute
   ApiIotRoute: typeof ApiIotRoute
+  ApiAuthGoogleCallbackRoute: typeof ApiAuthGoogleCallbackRoute
+  ApiAuthGoogleLoginRoute: typeof ApiAuthGoogleLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -226,6 +265,13 @@ declare module '@tanstack/react-router' {
       path: '/report'
       fullPath: '/report'
       preLoaderRoute: typeof ReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pending-approval': {
+      id: '/pending-approval'
+      path: '/pending-approval'
+      fullPath: '/pending-approval'
+      preLoaderRoute: typeof PendingApprovalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/multi-signal': {
@@ -312,6 +358,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiIotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/auth/google/login': {
+      id: '/api/auth/google/login'
+      path: '/api/auth/google/login'
+      fullPath: '/api/auth/google/login'
+      preLoaderRoute: typeof ApiAuthGoogleLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/google/callback': {
+      id: '/api/auth/google/callback'
+      path: '/api/auth/google/callback'
+      fullPath: '/api/auth/google/callback'
+      preLoaderRoute: typeof ApiAuthGoogleCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -327,9 +387,12 @@ const rootRouteChildren: RootRouteChildren = {
   LeaderboardRoute: LeaderboardRoute,
   ManualEntryRoute: ManualEntryRoute,
   MultiSignalRoute: MultiSignalRoute,
+  PendingApprovalRoute: PendingApprovalRoute,
   ReportRoute: ReportRoute,
   UploadRoute: UploadRoute,
   ApiIotRoute: ApiIotRoute,
+  ApiAuthGoogleCallbackRoute: ApiAuthGoogleCallbackRoute,
+  ApiAuthGoogleLoginRoute: ApiAuthGoogleLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

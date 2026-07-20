@@ -311,3 +311,187 @@ Shape: {"root_causes": [{"rank": number, "root_cause": string}]}`;
 
     return results;
   });
+
+export type EnergyChatResponse = {
+  answer: string;
+  cited_machines: string[];
+  evidence: string[];
+  confidence: number;
+  persona: "Watch" | "Diagnose" | "Act" | "Brief";
+};
+
+export const askEnergyData = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => {
+    const o = input as { question?: string; runId?: string };
+    if (!o.question || typeof o.question !== "string" || !o.question.trim()) {
+      throw new Error("Please ask a valid question.");
+    }
+    return { question: o.question.trim(), runId: o.runId };
+  })
+  .handler(async ({ data }): Promise<EnergyChatResponse> => {
+    const { getSessionCookie } = await import("./auth-cookie.server");
+    const { verifySession } = await import("./auth-session.server");
+    const token = await getSessionCookie();
+    if (!token) throw new Error("Unauthorized: No session token");
+    const session = verifySession(token);
+    if (!session || !session.userId) throw new Error("Unauthorized: Invalid session");
+    const userId = session.userId;
+
+    const { getDb } = await import("./mongodb.server");
+    const db = await getDb();
+
+    // 1. Gather context from MongoDB
+    const runs = await db
+      .collection("runs")
+      .find({ user_id: userId })
+      .sort({ created_at: -1 })
+      .limit(3)
+      .toArray();
+
+    const entries = await db
+      .collection("energy_entries")
+      .find({ user_id: userId })
+      .sort({ created_at: -1 })
+      .limit(50)
+      .toArray();
+
+    const actionItems = await db
+      .collection("action_queue")
+      .find({ user_id: userId })
+      .limit(20)
+      .toArray();
+
+    const user = await db.collection("users").findOne({ _id: (await import("mongodb")).ObjectId.createFromHexString(userId) });
+    const tariff = Number(user?.tariff_per_kwh ?? 8.0);
+
+    // Summarize machine data context
+    const machineMap = new Map<string, { total_kwh: number; idle_kwh: number; idle_cost_inr: number }>();
+    runs.forEach((r) => {
+      (r.machines || []).forEach((m: any) => {
+        const name = m.machine_name || "Unknown";
+        const cur = machineMap.get(name) || { total_kwh: 0, idle_kwh: 0, idle_cost_inr: 0 };
+        cur.total_kwh += m.total_kwh || 0;
+        cur.idle_kwh += m.idle_kwh || 0;
+        cur.idle_cost_inr += m.idle_cost_inr || (m.idle_kwh || 0) * tariff;
+        machineMap.set(name, cur);
+      });
+    });
+
+    entries.forEach((e) => {
+      const name = e.machine_name || "Unknown";
+      const cur = machineMap.get(name) || { total_kwh: 0, idle_kwh: 0, idle_cost_inr: 0 };
+      if (e.kind === "daily") {
+        cur.total_kwh += Number(e.total_kwh || 0);
+        cur.idle_kwh += Number(e.idle_kwh || 0);
+        cur.idle_cost_inr += Number(e.idle_kwh || 0) * tariff;
+      } else {
+        const kwh = Number(e.kwh || 0);
+        cur.total_kwh += kwh;
+        if (e.status === "idle") {
+          cur.idle_kwh += kwh;
+          cur.idle_cost_inr += kwh * tariff;
+        }
+      }
+      machineMap.set(name, cur);
+    });
+
+    const contextMachines = Array.from(machineMap.entries()).map(([machine_name, stats]) => ({
+      machine_name,
+      total_kwh: Math.round(stats.total_kwh * 10) / 10,
+      idle_kwh: Math.round(stats.idle_kwh * 10) / 10,
+      idle_cost_inr: Math.round(stats.idle_cost_inr),
+      idle_ratio_pct: stats.total_kwh > 0 ? Math.round((stats.idle_kwh / stats.total_kwh) * 100) : 0,
+    }));
+
+    const contextActions = actionItems.map((a) => ({
+      machine_id: a.machine_id,
+      issue: a.issue,
+      root_cause: a.root_cause,
+      status: a.status,
+    }));
+
+    const key = process.env.GROQ_API_KEY;
+    const model = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+
+    if (key && contextMachines.length > 0) {
+      try {
+        const sysPrompt = `You are the Conversational Energy Advisor Q&A Assistant.
+Reply ONLY with a valid JSON object matching exactly this shape:
+{"answer": string, "cited_machines": [string], "evidence": [string], "confidence": number, "persona": "Watch"|"Diagnose"|"Act"|"Brief"}.
+
+RULES:
+1. Base your answer strictly on the provided user energy dataset.
+2. Always cite specific machine names and numbers in 'cited_machines' and 'evidence'.
+3. READ-ONLY GUARDRAIL: Do not execute actions or change database state; answer questions concisely and informatively.
+4. Select persona: 'Watch' if identifying waste/anomalies, 'Diagnose' if explaining causes, 'Act' if discussing recommended fixes, or 'Brief' if giving general summaries.
+5. Tariff rate: ₹${tariff}/kWh.`;
+
+        const userPrompt = `User Question: "${data.question}"
+
+Available Machine Dataset:
+${JSON.stringify(contextMachines)}
+
+Action Queue Items:
+${JSON.stringify(contextActions)}`;
+
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${key}`,
+          },
+          body: JSON.stringify({
+            model: model,
+            temperature: 0.2,
+            response_format: { type: "json_object" },
+            messages: [
+              { role: "system", content: sysPrompt },
+              { role: "user", content: userPrompt },
+            ],
+          }),
+        });
+
+        if (res.ok) {
+          const resJson = (await res.json()) as any;
+          const content = resJson.choices?.[0]?.message?.content ?? "{}";
+          const parsed = JSON.parse(content) as EnergyChatResponse;
+          if (parsed.answer) {
+            return {
+              answer: parsed.answer,
+              cited_machines: parsed.cited_machines || [],
+              evidence: parsed.evidence || [],
+              confidence: parsed.confidence || 0.9,
+              persona: parsed.persona || "Brief",
+            };
+          }
+        }
+      } catch (e) {
+        console.error("Groq chat Q&A call failed:", e);
+      }
+    }
+
+    // Smart local fallback if API unavailable or dataset empty
+    if (contextMachines.length > 0) {
+      const highestWaste = [...contextMachines].sort((a, b) => b.idle_kwh - a.idle_kwh)[0];
+      return {
+        answer: `Based on your uploaded dataset, ${highestWaste.machine_name} produced the highest standby energy waste with ${highestWaste.idle_kwh} kWh (${highestWaste.idle_ratio_pct}% idle ratio), resulting in ₹${highestWaste.idle_cost_inr.toLocaleString("en-IN")} in lost operating cost.`,
+        cited_machines: [highestWaste.machine_name],
+        evidence: [
+          `Standby draw: ${highestWaste.idle_kwh} kWh`,
+          `Idle waste cost: ₹${highestWaste.idle_cost_inr}`,
+          `Idle ratio: ${highestWaste.idle_ratio_pct}%`,
+        ],
+        confidence: 0.95,
+        persona: "Watch",
+      };
+    }
+
+    return {
+      answer: "No active machine telemetry found in your session. Please upload a meter readings CSV or log entries to ask questions about your energy data.",
+      cited_machines: [],
+      evidence: ["Dataset is empty"],
+      confidence: 1.0,
+      persona: "Brief",
+    };
+  });
+

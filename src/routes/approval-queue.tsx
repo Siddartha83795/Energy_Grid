@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
@@ -8,6 +8,7 @@ import { getActionQueue, updateActionStatus } from "@/lib/new-features.functions
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { AgentPersonaBadge } from "@/components/AgentPersonaBadge";
 
 export const Route = createFileRoute("/approval-queue")({
   head: () => ({ meta: [{ title: "Approvals — Energy Advisor" }] }),
@@ -126,8 +127,19 @@ function ApprovalQueuePage() {
       )}
 
       {actions && actions.length === 0 && (
-        <div className="rounded-2xl border bg-card p-12 text-center text-sm text-muted-foreground">
-          No actions currently in the queue. Complete a dataset upload or run analysis to populate.
+        <div className="rounded-2xl border bg-card p-10 text-center space-y-4 shadow-sm max-w-lg mx-auto">
+          <div className="h-12 w-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto text-primary">
+            <ShieldCheck className="h-6 w-6" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold font-display text-foreground">Approval queue is empty</h2>
+            <p className="text-xs text-muted-foreground mt-1.5 font-body leading-relaxed max-w-sm mx-auto">
+              No high-impact actions currently pending human authorization. Upload meter telemetry or run AI analysis to detect standby waste events.
+            </p>
+          </div>
+          <Button asChild className="font-bold cursor-pointer">
+            <Link to="/upload">Upload energy dataset</Link>
+          </Button>
         </div>
       )}
 
@@ -155,7 +167,10 @@ function ApprovalQueuePage() {
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h3 className="font-semibold text-lg">{act.machine_id}</h3>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-semibold text-lg">{act.machine_id}</h3>
+                      <AgentPersonaBadge persona="Watch" size="sm" showRole={false} />
+                    </div>
                     <p className="text-sm text-muted-foreground mt-0.5">{act.issue}</p>
                   </div>
                   <Badge
@@ -181,9 +196,12 @@ function ApprovalQueuePage() {
                   </Badge>
                 </div>
 
-                <div className="bg-muted/40 p-3 rounded-lg border border-dashed space-y-1">
-                  <div className="text-sm font-medium">Causal Explanation (Root Cause):</div>
-                  <div className="text-sm text-muted-foreground italic">"{act.root_cause}"</div>
+                <div className="bg-muted/40 p-3.5 rounded-xl border border-dashed space-y-1.5">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-sky-400">
+                    <AgentPersonaBadge persona="Diagnose" size="sm" />
+                    <span>Causal Explanation</span>
+                  </div>
+                  <div className="text-sm text-muted-foreground italic pl-1">"{act.root_cause}"</div>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm mt-3 pt-3 border-t">
@@ -211,7 +229,10 @@ function ApprovalQueuePage() {
                     </span>
                   </div>
                   <div>
-                    <span className="text-muted-foreground block text-xs">Suggested Action</span>
+                    <div className="flex items-center gap-1">
+                      <span className="text-muted-foreground block text-xs">Action Plan</span>
+                      <AgentPersonaBadge persona="Act" size="sm" showRole={false} />
+                    </div>
                     <span
                       className="font-medium text-foreground block truncate max-w-[200px]"
                       title={act.action}
