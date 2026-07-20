@@ -22,7 +22,7 @@ import {
   generateOAuthState,
   verifyOAuthState,
   handleGoogleOAuthCallback,
-} from "../src/lib/auth.functions";
+} from "../src/lib/auth-oauth.server";
 
 // Mock MongoDB
 const mockCollection = {

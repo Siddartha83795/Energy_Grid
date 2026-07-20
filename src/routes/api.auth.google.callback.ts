@@ -11,7 +11,7 @@ export const Route = createFileRoute("/api/auth/google/callback")({
 
         const { getOAuthStateCookie, deleteOAuthStateCookie, setSessionCookie } =
           await import("../lib/auth-cookie.server");
-        const { verifyOAuthState, handleGoogleOAuthCallback } = await import("../lib/auth.functions");
+        const { verifyOAuthState, handleGoogleOAuthCallback } = await import("../lib/auth-oauth.server");
         const { signSession } = await import("../lib/auth-session.server");
 
         const storedState = await getOAuthStateCookie();

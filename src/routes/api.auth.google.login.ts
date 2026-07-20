@@ -5,7 +5,7 @@ export const Route = createFileRoute("/api/auth/google/login")({
     handlers: {
       GET: async () => {
         const { setOAuthStateCookie } = await import("../lib/auth-cookie.server");
-        const { generateOAuthState } = await import("../lib/auth.functions");
+        const { generateOAuthState } = await import("../lib/auth-oauth.server");
 
         const state = generateOAuthState();
         await setOAuthStateCookie(state);
