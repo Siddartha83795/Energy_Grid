@@ -58,7 +58,9 @@ function Landing() {
               <span className="font-display tracking-tight text-white font-bold leading-none">
                 Energy Advisor
               </span>
-              <span className="text-[9px] font-mono text-[#33D6A6] mt-0.5">GENAI OPERATIONAL INTEL</span>
+              <span className="text-[9px] font-mono text-[#33D6A6] mt-0.5">
+                GENAI OPERATIONAL INTEL
+              </span>
             </div>
           </Link>
           <nav className="flex items-center gap-4">
@@ -86,7 +88,6 @@ function Landing() {
 
       {/* Hero & Product Tour */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-12 lg:py-16 relative z-10 space-y-20">
-        
         {/* HERO SECTION */}
         <section className="grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 space-y-6 text-left">
@@ -176,7 +177,8 @@ function Landing() {
                 </svg>
                 <div className="absolute bottom-2 left-2 right-2 flex justify-between text-[10px] font-mono text-[#8D97A3] bg-[#0A0D12]/70 p-2.5 rounded border border-white/5 backdrop-blur-sm">
                   <div>
-                    ACTIVE DRAW: <span className="text-[#33D6A6] font-bold font-mono">142.8 kW</span>
+                    ACTIVE DRAW:{" "}
+                    <span className="text-[#33D6A6] font-bold font-mono">142.8 kW</span>
                   </div>
                   <div>
                     IDLE WASTE: <span className="text-[#F5A623] font-bold font-mono">34.3 kW</span>
@@ -197,9 +199,7 @@ function Landing() {
               <span className="h-1.5 w-1.5 rounded-full bg-[#33D6A6] animate-pulse" />
               Pilot Dataset Aggregate Metrics
             </span>
-            <span className="text-[10px] font-mono text-[#8D97A3]">
-              REAL DEMO DATA (PILOT RUN)
-            </span>
+            <span className="text-[10px] font-mono text-[#8D97A3]">REAL DEMO DATA (PILOT RUN)</span>
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center font-mono">
@@ -272,7 +272,8 @@ function Landing() {
                   Idle Detection & Analytics
                 </h3>
                 <p className="text-xs text-[#8D97A3] leading-relaxed mt-2 font-body">
-                  ML-based per-machine idle waste detection that cross-references electrical meter telemetry, factory shift schedules, and production logs.
+                  ML-based per-machine idle waste detection that cross-references electrical meter
+                  telemetry, factory shift schedules, and production logs.
                 </p>
               </div>
             </div>
@@ -286,7 +287,8 @@ function Landing() {
                   GenAI Recommendations
                 </h3>
                 <p className="text-xs text-[#8D97A3] leading-relaxed mt-2 font-body">
-                  Groq Llama 3.3-generated, evidence-cited action plans tailored for shopfloor operators, plant engineers, and energy managers.
+                  Groq Llama 3.3-generated, evidence-cited action plans tailored for shopfloor
+                  operators, plant engineers, and energy managers.
                 </p>
               </div>
             </div>
@@ -300,7 +302,8 @@ function Landing() {
                   Multi-Signal Verification
                 </h3>
                 <p className="text-xs text-[#8D97A3] leading-relaxed mt-2 font-body">
-                  Cross-validates electrical draw with vibration, acoustic, and environmental sensors to confirm true un-productive idle waste vs. a mechanical fault.
+                  Cross-validates electrical draw with vibration, acoustic, and environmental
+                  sensors to confirm true un-productive idle waste vs. a mechanical fault.
                 </p>
               </div>
             </div>
@@ -314,7 +317,8 @@ function Landing() {
                   Carbon & Cost Accounting
                 </h3>
                 <p className="text-xs text-[#8D97A3] leading-relaxed mt-2 font-body">
-                  Tariff-aware, solar-aware savings calculations tracked in both monetary currency (₹) and equivalent carbon emissions (kg CO2e).
+                  Tariff-aware, solar-aware savings calculations tracked in both monetary currency
+                  (₹) and equivalent carbon emissions (kg CO2e).
                 </p>
               </div>
             </div>
@@ -434,7 +438,8 @@ function Landing() {
                   </div>
                 </div>
                 <p className="text-xs text-center text-[#8D97A3] italic font-sans">
-                  Caption: Executive Dashboard view showing total vs idle consumption breakdown and top waste offenders.
+                  Caption: Executive Dashboard view showing total vs idle consumption breakdown and
+                  top waste offenders.
                 </p>
               </div>
             )}
@@ -453,18 +458,25 @@ function Landing() {
                     <span className="text-xs font-mono text-[#33D6A6]">94% Confidence</span>
                   </div>
                   <p className="text-xs text-[#8D97A3] leading-relaxed font-body">
-                    <strong>Issue:</strong> Continuous 14.2 kW power draw during third shift when zero output is logged in production schedules.
+                    <strong>Issue:</strong> Continuous 14.2 kW power draw during third shift when
+                    zero output is logged in production schedules.
                   </p>
                   <div className="p-2.5 rounded bg-white/[0.02] border border-white/5 text-[11px] font-mono text-amber-400">
-                    🔍 Cited Evidence: Meter telemetry shows 112 kWh consumed between 02:00–06:00 AM while shift log indicates line shutdown.
+                    🔍 Cited Evidence: Meter telemetry shows 112 kWh consumed between 02:00–06:00 AM
+                    while shift log indicates line shutdown.
                   </div>
                   <div className="flex justify-between items-center text-xs pt-1">
-                    <span className="text-[#33D6A6] font-mono font-bold">Action: Program auto-shutdown routine</span>
-                    <span className="text-[#F5A623] font-mono font-bold">Est. Savings: ₹28,400 / mo</span>
+                    <span className="text-[#33D6A6] font-mono font-bold">
+                      Action: Program auto-shutdown routine
+                    </span>
+                    <span className="text-[#F5A623] font-mono font-bold">
+                      Est. Savings: ₹28,400 / mo
+                    </span>
                   </div>
                 </div>
                 <p className="text-xs text-center text-[#8D97A3] italic font-sans">
-                  Caption: AI Insights view displaying Groq Llama 3.3 ranked recommendations with cited evidence data points.
+                  Caption: AI Insights view displaying Groq Llama 3.3 ranked recommendations with
+                  cited evidence data points.
                 </p>
               </div>
             )}
@@ -491,10 +503,12 @@ function Landing() {
                   </div>
                 </div>
                 <div className="p-3 rounded bg-[#33D6A6]/10 border border-[#33D6A6]/20 text-xs text-[#33D6A6] font-mono">
-                  ✓ Verified: Machine is consuming active electrical power with negligible mechanical vibration/sound, ruling out bearing fault or production load.
+                  ✓ Verified: Machine is consuming active electrical power with negligible
+                  mechanical vibration/sound, ruling out bearing fault or production load.
                 </div>
                 <p className="text-xs text-center text-[#8D97A3] italic font-sans">
-                  Caption: Multi-Signal Verification matrix cross-validating telemetry streams to confirm true un-productive waste.
+                  Caption: Multi-Signal Verification matrix cross-validating telemetry streams to
+                  confirm true un-productive waste.
                 </p>
               </div>
             )}
@@ -567,7 +581,6 @@ function Landing() {
             </div>
           </div>
         </section>
-
       </main>
 
       {/* Footer */}

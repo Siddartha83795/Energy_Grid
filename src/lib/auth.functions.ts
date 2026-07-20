@@ -379,5 +379,3 @@ export const revokeAllUserSessions = createServerFn({ method: "POST" }).handler(
   await deleteSessionCookie();
   return { success: true };
 });
-
-

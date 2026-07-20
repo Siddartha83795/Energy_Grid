@@ -11,7 +11,8 @@ export const Route = createFileRoute("/api/auth/google/callback")({
 
         const { getOAuthStateCookie, deleteOAuthStateCookie, setSessionCookie } =
           await import("../lib/auth-cookie.server");
-        const { verifyOAuthState, handleGoogleOAuthCallback } = await import("../lib/auth-oauth.server");
+        const { verifyOAuthState, handleGoogleOAuthCallback } =
+          await import("../lib/auth-oauth.server");
         const { signSession } = await import("../lib/auth-session.server");
 
         const storedState = await getOAuthStateCookie();
@@ -32,11 +33,13 @@ export const Route = createFileRoute("/api/auth/google/callback")({
           });
         }
 
-        const clientId = process.env.GOOGLE_CLIENT_ID || "";
-        const clientSecret = process.env.GOOGLE_CLIENT_SECRET || "";
-        const redirectUri =
-          process.env.GOOGLE_REDIRECT_URI ||
-          "http://localhost:3000/api/auth/google/callback";
+        const clientId = (process.env.GOOGLE_CLIENT_ID || "").trim();
+        const clientSecret = (process.env.GOOGLE_CLIENT_SECRET || "").trim();
+        let redirectUri = (process.env.GOOGLE_REDIRECT_URI || "").trim();
+        if (!redirectUri) {
+          const origin = new URL(request.url).origin;
+          redirectUri = `${origin}/api/auth/google/callback`;
+        }
 
         // 2. Exchange authorization code for Google access token
         try {

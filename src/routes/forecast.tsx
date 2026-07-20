@@ -145,9 +145,12 @@ function ForecastPage() {
             <ChartIcon className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold font-display text-foreground">No forecast data available</h2>
+            <h2 className="text-xl font-bold font-display text-foreground">
+              No forecast data available
+            </h2>
             <p className="text-xs text-muted-foreground mt-1.5 font-body leading-relaxed max-w-sm mx-auto">
-              No machine telemetry found in active run to train 24–48h predictive models. Upload CSV energy logs to start forecasting.
+              No machine telemetry found in active run to train 24–48h predictive models. Upload CSV
+              energy logs to start forecasting.
             </p>
           </div>
           <Button asChild className="font-bold cursor-pointer">

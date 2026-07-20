@@ -31,11 +31,7 @@ const PRESET_QUESTIONS = [
   "Which machine has the lowest utilization ratio?",
 ];
 
-export function AskEnergyDataPanel({
-  trigger,
-}: {
-  trigger?: React.ReactNode;
-}) {
+export function AskEnergyDataPanel({ trigger }: { trigger?: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -121,9 +117,12 @@ export function AskEnergyDataPanel({
             <div className="space-y-4 pt-4">
               <div className="glass-panel p-4 border border-white/5 space-y-2 text-center">
                 <Bot className="h-8 w-8 text-[#38BDF8] mx-auto opacity-80" />
-                <h4 className="text-xs font-bold text-white">Ask anything about your shopfloor telemetry</h4>
+                <h4 className="text-xs font-bold text-white">
+                  Ask anything about your shopfloor telemetry
+                </h4>
                 <p className="text-[11px] text-[#8D97A3] font-body leading-relaxed">
-                  Query machine standby losses, total costs, highest waste offenders, and causal reasoning in plain English.
+                  Query machine standby losses, total costs, highest waste offenders, and causal
+                  reasoning in plain English.
                 </p>
               </div>
 
@@ -150,9 +149,7 @@ export function AskEnergyDataPanel({
           {messages.map((m) => (
             <div
               key={m.id}
-              className={`flex flex-col ${
-                m.sender === "user" ? "items-end" : "items-start"
-              }`}
+              className={`flex flex-col ${m.sender === "user" ? "items-end" : "items-start"}`}
             >
               {m.sender === "user" ? (
                 <div className="bg-[#38BDF8]/10 text-white border border-[#38BDF8]/30 px-3.5 py-2.5 rounded-2xl max-w-[85%] text-xs font-body shadow-sm">
@@ -173,9 +170,7 @@ export function AskEnergyDataPanel({
                     )}
                   </div>
 
-                  <p className="text-xs text-[#EDF1F5] leading-relaxed font-body">
-                    {m.text}
-                  </p>
+                  <p className="text-xs text-[#EDF1F5] leading-relaxed font-body">{m.text}</p>
 
                   {/* Cited machines */}
                   {m.responseObj?.cited_machines && m.responseObj.cited_machines.length > 0 && (
@@ -241,7 +236,11 @@ export function AskEnergyDataPanel({
               variant="glass"
               className="bg-[#38BDF8] text-[#0A0D12] hover:bg-[#38BDF8]/90 font-bold shrink-0 cursor-pointer"
             >
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+              {loading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Send className="h-4 w-4" />
+              )}
             </Button>
           </form>
         </div>

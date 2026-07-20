@@ -40,9 +40,12 @@ function ReportPage() {
             <FileText className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold font-display text-foreground">No active advisory report</h2>
+            <h2 className="text-xl font-bold font-display text-foreground">
+              No active advisory report
+            </h2>
             <p className="text-xs text-muted-foreground mt-1.5 font-body leading-relaxed max-w-sm mx-auto">
-              Upload machine telemetry or select an active run to compile a comprehensive executive energy advisory report.
+              Upload machine telemetry or select an active run to compile a comprehensive executive
+              energy advisory report.
             </p>
           </div>
           <Button asChild className="font-bold cursor-pointer">

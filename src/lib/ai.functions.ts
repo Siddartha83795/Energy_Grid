@@ -361,11 +361,16 @@ export const askEnergyData = createServerFn({ method: "POST" })
       .limit(20)
       .toArray();
 
-    const user = await db.collection("users").findOne({ _id: (await import("mongodb")).ObjectId.createFromHexString(userId) });
+    const user = await db
+      .collection("users")
+      .findOne({ _id: (await import("mongodb")).ObjectId.createFromHexString(userId) });
     const tariff = Number(user?.tariff_per_kwh ?? 8.0);
 
     // Summarize machine data context
-    const machineMap = new Map<string, { total_kwh: number; idle_kwh: number; idle_cost_inr: number }>();
+    const machineMap = new Map<
+      string,
+      { total_kwh: number; idle_kwh: number; idle_cost_inr: number }
+    >();
     runs.forEach((r) => {
       (r.machines || []).forEach((m: any) => {
         const name = m.machine_name || "Unknown";
@@ -400,7 +405,8 @@ export const askEnergyData = createServerFn({ method: "POST" })
       total_kwh: Math.round(stats.total_kwh * 10) / 10,
       idle_kwh: Math.round(stats.idle_kwh * 10) / 10,
       idle_cost_inr: Math.round(stats.idle_cost_inr),
-      idle_ratio_pct: stats.total_kwh > 0 ? Math.round((stats.idle_kwh / stats.total_kwh) * 100) : 0,
+      idle_ratio_pct:
+        stats.total_kwh > 0 ? Math.round((stats.idle_kwh / stats.total_kwh) * 100) : 0,
     }));
 
     const contextActions = actionItems.map((a) => ({
@@ -487,11 +493,11 @@ ${JSON.stringify(contextActions)}`;
     }
 
     return {
-      answer: "No active machine telemetry found in your session. Please upload a meter readings CSV or log entries to ask questions about your energy data.",
+      answer:
+        "No active machine telemetry found in your session. Please upload a meter readings CSV or log entries to ask questions about your energy data.",
       cited_machines: [],
       evidence: ["Dataset is empty"],
       confidence: 1.0,
       persona: "Brief",
     };
   });
-

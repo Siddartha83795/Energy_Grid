@@ -33,7 +33,9 @@ function AuthPage() {
       const err = params.get("error");
       if (err) {
         if (err === "unverified_email") {
-          toast.error("Your Google email is unverified. Please verify your email before signing in.");
+          toast.error(
+            "Your Google email is unverified. Please verify your email before signing in.",
+          );
         } else if (err === "invalid_state") {
           toast.error("Security validation failed (invalid OAuth state). Please try again.");
         } else {
@@ -212,134 +214,140 @@ function AuthPage() {
                 <div className="border-t border-white/10 w-full" />
               </div>
               <form onSubmit={onSignup} className="space-y-4">
-              <div className="space-y-2">
-                <Label
-                  htmlFor="sn"
-                  className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
-                >
-                  Full Name
-                </Label>
-                <Input
-                  id="sn"
-                  required
-                  placeholder="e.g. Ramesh Kumar"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label
-                  htmlFor="se"
-                  className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
-                >
-                  Email Address
-                </Label>
-                <Input
-                  id="se"
-                  type="email"
-                  required
-                  placeholder="e.g. supervisor@factory.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label
-                  htmlFor="sp"
-                  className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
-                >
-                  Password
-                </Label>
-                <Input
-                  id="sp"
-                  type="password"
-                  required
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
-                />
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="sn"
+                    className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
+                  >
+                    Full Name
+                  </Label>
+                  <Input
+                    id="sn"
+                    required
+                    placeholder="e.g. Ramesh Kumar"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="se"
+                    className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
+                  >
+                    Email Address
+                  </Label>
+                  <Input
+                    id="se"
+                    type="email"
+                    required
+                    placeholder="e.g. supervisor@factory.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="sp"
+                    className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
+                  >
+                    Password
+                  </Label>
+                  <Input
+                    id="sp"
+                    type="password"
+                    required
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
+                  />
 
-                {password.length > 0 && (
-                  <div className="mt-2 p-3 bg-white/5 border border-white/10 rounded-lg text-xs space-y-1.5 text-white/70">
-                    <p className="font-semibold text-white/90">Password must contain:</p>
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                      <div className="flex items-center gap-1.5">
-                        <span
-                          className={
-                            rules.length ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"
-                          }
-                        >
-                          {rules.length ? "✓" : "✗"}
-                        </span>
-                        <span>8+ characters</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span
-                          className={
-                            rules.uppercase
-                              ? "text-emerald-400 font-bold"
-                              : "text-rose-400 font-bold"
-                          }
-                        >
-                          {rules.uppercase ? "✓" : "✗"}
-                        </span>
-                        <span>Uppercase (A-Z)</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span
-                          className={
-                            rules.lowercase
-                              ? "text-emerald-400 font-bold"
-                              : "text-rose-400 font-bold"
-                          }
-                        >
-                          {rules.lowercase ? "✓" : "✗"}
-                        </span>
-                        <span>Lowercase (a-z)</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span
-                          className={
-                            rules.number ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"
-                          }
-                        >
-                          {rules.number ? "✓" : "✗"}
-                        </span>
-                        <span>Number (0-9)</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 col-span-2">
-                        <span
-                          className={
-                            rules.special ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"
-                          }
-                        >
-                          {rules.special ? "✓" : "✗"}
-                        </span>
-                        <span>Special character (e.g. !@#$%)</span>
+                  {password.length > 0 && (
+                    <div className="mt-2 p-3 bg-white/5 border border-white/10 rounded-lg text-xs space-y-1.5 text-white/70">
+                      <p className="font-semibold text-white/90">Password must contain:</p>
+                      <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                        <div className="flex items-center gap-1.5">
+                          <span
+                            className={
+                              rules.length
+                                ? "text-emerald-400 font-bold"
+                                : "text-rose-400 font-bold"
+                            }
+                          >
+                            {rules.length ? "✓" : "✗"}
+                          </span>
+                          <span>8+ characters</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span
+                            className={
+                              rules.uppercase
+                                ? "text-emerald-400 font-bold"
+                                : "text-rose-400 font-bold"
+                            }
+                          >
+                            {rules.uppercase ? "✓" : "✗"}
+                          </span>
+                          <span>Uppercase (A-Z)</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span
+                            className={
+                              rules.lowercase
+                                ? "text-emerald-400 font-bold"
+                                : "text-rose-400 font-bold"
+                            }
+                          >
+                            {rules.lowercase ? "✓" : "✗"}
+                          </span>
+                          <span>Lowercase (a-z)</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span
+                            className={
+                              rules.number
+                                ? "text-emerald-400 font-bold"
+                                : "text-rose-400 font-bold"
+                            }
+                          >
+                            {rules.number ? "✓" : "✗"}
+                          </span>
+                          <span>Number (0-9)</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 col-span-2">
+                          <span
+                            className={
+                              rules.special
+                                ? "text-emerald-400 font-bold"
+                                : "text-rose-400 font-bold"
+                            }
+                          >
+                            {rules.special ? "✓" : "✗"}
+                          </span>
+                          <span>Special character (e.g. !@#$%)</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-              <Button
-                type="submit"
-                variant="glass"
-                className="w-full font-bold font-display cursor-pointer mt-6 py-5"
-                disabled={!isPasswordValid || busy}
-              >
-                {busy ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  "Create Control Panel Account"
-                )}
-              </Button>
-              <p className="text-[10px] text-[#8D97A3] text-center mt-3">
-                Note: First account created automatically registers as administrator.
-              </p>
-            </form>
+                  )}
+                </div>
+                <Button
+                  type="submit"
+                  variant="glass"
+                  className="w-full font-bold font-display cursor-pointer mt-6 py-5"
+                  disabled={!isPasswordValid || busy}
+                >
+                  {busy ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    "Create Control Panel Account"
+                  )}
+                </Button>
+                <p className="text-[10px] text-[#8D97A3] text-center mt-3">
+                  Note: First account created automatically registers as administrator.
+                </p>
+              </form>
             </div>
           </TabsContent>
         </Tabs>

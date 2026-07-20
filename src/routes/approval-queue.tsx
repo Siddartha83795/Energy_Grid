@@ -132,9 +132,12 @@ function ApprovalQueuePage() {
             <ShieldCheck className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold font-display text-foreground">Approval queue is empty</h2>
+            <h2 className="text-xl font-bold font-display text-foreground">
+              Approval queue is empty
+            </h2>
             <p className="text-xs text-muted-foreground mt-1.5 font-body leading-relaxed max-w-sm mx-auto">
-              No high-impact actions currently pending human authorization. Upload meter telemetry or run AI analysis to detect standby waste events.
+              No high-impact actions currently pending human authorization. Upload meter telemetry
+              or run AI analysis to detect standby waste events.
             </p>
           </div>
           <Button asChild className="font-bold cursor-pointer">
@@ -201,7 +204,9 @@ function ApprovalQueuePage() {
                     <AgentPersonaBadge persona="Diagnose" size="sm" />
                     <span>Causal Explanation</span>
                   </div>
-                  <div className="text-sm text-muted-foreground italic pl-1">"{act.root_cause}"</div>
+                  <div className="text-sm text-muted-foreground italic pl-1">
+                    "{act.root_cause}"
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm mt-3 pt-3 border-t">

@@ -32,7 +32,10 @@ function PendingApprovalPage() {
             Role Approval Pending
           </h1>
           <p className="text-xs text-[#8D97A3] leading-relaxed font-body max-w-sm mx-auto">
-            Your Google account (<strong className="text-white">{user?.email || "authenticated user"}</strong>) has been created with viewer privileges. An administrator must approve your role to grant operational control room access.
+            Your Google account (
+            <strong className="text-white">{user?.email || "authenticated user"}</strong>) has been
+            created with viewer privileges. An administrator must approve your role to grant
+            operational control room access.
           </p>
         </div>
 
@@ -43,7 +46,9 @@ function PendingApprovalPage() {
           </div>
           <div className="flex justify-between">
             <span>Current Privilege:</span>
-            <span className="text-[#F5A623] font-bold">{user?.role?.toUpperCase() || "VIEWER"}</span>
+            <span className="text-[#F5A623] font-bold">
+              {user?.role?.toUpperCase() || "VIEWER"}
+            </span>
           </div>
         </div>
 
