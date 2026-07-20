@@ -23,6 +23,7 @@ import { Route as ApprovalQueueRouteImport } from './routes/approval-queue'
 import { Route as AiInsightsRouteImport } from './routes/ai-insights'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthGoogleRouteImport } from './routes/auth.google'
 import { Route as ApiIotRouteImport } from './routes/api.iot'
 import { Route as ApiAuthGoogleLoginRouteImport } from './routes/api.auth.google.login'
 import { Route as ApiAuthGoogleCallbackRouteImport } from './routes/api.auth.google.callback'
@@ -97,6 +98,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthGoogleRoute = AuthGoogleRouteImport.update({
+  id: '/google',
+  path: '/google',
+  getParentRoute: () => AuthRoute,
+} as any)
 const ApiIotRoute = ApiIotRouteImport.update({
   id: '/api/iot',
   path: '/api/iot',
@@ -118,7 +124,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/ai-insights': typeof AiInsightsRoute
   '/approval-queue': typeof ApprovalQueueRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/carbon-cost': typeof CarbonCostRoute
   '/dashboard': typeof DashboardRoute
   '/forecast': typeof ForecastRoute
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/report': typeof ReportRoute
   '/upload': typeof UploadRoute
   '/api/iot': typeof ApiIotRoute
+  '/auth/google': typeof AuthGoogleRoute
   '/api/auth/google/callback': typeof ApiAuthGoogleCallbackRoute
   '/api/auth/google/login': typeof ApiAuthGoogleLoginRoute
 }
@@ -137,7 +144,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/ai-insights': typeof AiInsightsRoute
   '/approval-queue': typeof ApprovalQueueRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/carbon-cost': typeof CarbonCostRoute
   '/dashboard': typeof DashboardRoute
   '/forecast': typeof ForecastRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/report': typeof ReportRoute
   '/upload': typeof UploadRoute
   '/api/iot': typeof ApiIotRoute
+  '/auth/google': typeof AuthGoogleRoute
   '/api/auth/google/callback': typeof ApiAuthGoogleCallbackRoute
   '/api/auth/google/login': typeof ApiAuthGoogleLoginRoute
 }
@@ -157,7 +165,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/ai-insights': typeof AiInsightsRoute
   '/approval-queue': typeof ApprovalQueueRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/carbon-cost': typeof CarbonCostRoute
   '/dashboard': typeof DashboardRoute
   '/forecast': typeof ForecastRoute
@@ -168,6 +176,7 @@ export interface FileRoutesById {
   '/report': typeof ReportRoute
   '/upload': typeof UploadRoute
   '/api/iot': typeof ApiIotRoute
+  '/auth/google': typeof AuthGoogleRoute
   '/api/auth/google/callback': typeof ApiAuthGoogleCallbackRoute
   '/api/auth/google/login': typeof ApiAuthGoogleLoginRoute
 }
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/report'
     | '/upload'
     | '/api/iot'
+    | '/auth/google'
     | '/api/auth/google/callback'
     | '/api/auth/google/login'
   fileRoutesByTo: FileRoutesByTo
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/report'
     | '/upload'
     | '/api/iot'
+    | '/auth/google'
     | '/api/auth/google/callback'
     | '/api/auth/google/login'
   id:
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/report'
     | '/upload'
     | '/api/iot'
+    | '/auth/google'
     | '/api/auth/google/callback'
     | '/api/auth/google/login'
   fileRoutesById: FileRoutesById
@@ -236,7 +248,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AiInsightsRoute: typeof AiInsightsRoute
   ApprovalQueueRoute: typeof ApprovalQueueRoute
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   CarbonCostRoute: typeof CarbonCostRoute
   DashboardRoute: typeof DashboardRoute
   ForecastRoute: typeof ForecastRoute
@@ -351,6 +363,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/google': {
+      id: '/auth/google'
+      path: '/google'
+      fullPath: '/auth/google'
+      preLoaderRoute: typeof AuthGoogleRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/api/iot': {
       id: '/api/iot'
       path: '/api/iot'
@@ -375,12 +394,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthRouteChildren {
+  AuthGoogleRoute: typeof AuthGoogleRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthGoogleRoute: AuthGoogleRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   AiInsightsRoute: AiInsightsRoute,
   ApprovalQueueRoute: ApprovalQueueRoute,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   CarbonCostRoute: CarbonCostRoute,
   DashboardRoute: DashboardRoute,
   ForecastRoute: ForecastRoute,
