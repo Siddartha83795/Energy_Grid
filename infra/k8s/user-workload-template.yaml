@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: user-interactive-dev-session
+  namespace: user-tier-1
+  labels:
+    tier: dev-light
+    user: member042
+spec:
+  restartPolicy: Never
+  runtimeClassName: nvidia
+  containers:
+    - name: dev-container
+      image: nvcr.io/nvidia/pytorch:24.01-py3
+      command: ["/bin/bash", "-c"]
+      args:
+        - "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root"
+      resources:
+        limits:
+          nvidia.com/mig-1g.10gb: 1
+          cpu: "4"
+          memory: "32Gi"
+          rdma/hca_shared: 1
+          ephemeral-storage: "100Gi"
+        requests:
+          nvidia.com/mig-1g.10gb: 1
+          cpu: "4"
+          memory: "32Gi"
+      volumeMounts:
+        - name: nvme-scratch
+          mountPath: /scratch
+        - name: user-home
+          mountPath: /workspace
+  volumes:
+    - name: nvme-scratch
+      hostPath:
+        path: /mnt/fast-nvme-scratch/member042
+        type: DirectoryOrCreate
+    - name: user-home
+      persistentVolumeClaim:
+        claimName: nfs-user-home-member042

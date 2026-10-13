@@ -51,7 +51,7 @@ export function AppHeader() {
 
   return (
     <>
-      <header className="h-14 border-b bg-card/60 backdrop-blur flex items-center justify-between px-4">
+      <header className="h-14 border-b border-white/80 dark:border-white/10 bg-white/45 dark:bg-[#0B0F17]/75 backdrop-blur-xl flex items-center justify-between px-4 sm:px-6 shadow-xs text-slate-800 dark:text-slate-100 transition-colors">
         <div className="flex items-center gap-2">
           <Sheet>
             <SheetTrigger asChild>

@@ -1,0 +1,17 @@
+{
+  "include": [
+    "analytics-engine",
+    "data-ingestion",
+    "agents",
+    "reporting",
+    "genai",
+    "dashboard"
+  ],
+  "extraPaths": [
+    "analytics-engine",
+    "data-ingestion",
+    "agents",
+    "reporting",
+    "genai"
+  ]
+}

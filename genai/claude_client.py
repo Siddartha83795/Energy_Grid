@@ -52,11 +52,12 @@ def call_llm(system_prompt: str, user_prompt: str, response_schema=None) -> str:
 
     # Fallback to Groq
     if groq_key and groq_key.strip():
-        model = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+        groq_key_clean = groq_key.strip().strip("'\"")
+        model = os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b").strip().strip("'\"")
         print(f"Calling Groq API ({model})...")
         try:
             headers = {
-                "Authorization": f"Bearer {groq_key}",
+                "Authorization": f"Bearer {groq_key_clean}",
                 "Content-Type": "application/json"
             }
             

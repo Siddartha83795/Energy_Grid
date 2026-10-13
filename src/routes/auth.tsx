@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Loader2, ArrowLeft } from "lucide-react";
+import { Loader2, ArrowLeft, LogOut, User as UserIcon, Shield, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,16 +16,12 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const { user, loading, refreshUser } = useAuth();
+  const { user, loading, refreshUser, signOut } = useAuth();
   const [tab, setTab] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [busy, setBusy] = useState(false);
-
-  useEffect(() => {
-    if (!loading && user) navigate({ to: "/upload" });
-  }, [user, loading, navigate]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -48,7 +44,6 @@ function AuthPage() {
 
   const handleTabChange = (v: string) => {
     setTab(v as "login" | "signup");
-    setEmail("");
     setPassword("");
   };
 
@@ -106,7 +101,7 @@ function AuthPage() {
       <Button
         variant="glassSecondary"
         size="sm"
-        className="absolute top-6 left-6 text-white/70 hover:text-white"
+        className="absolute top-6 left-6 text-white/70 hover:text-white cursor-pointer"
         onClick={() => navigate({ to: "/" })}
       >
         <ArrowLeft className="h-4 w-4" /> Back to landing
@@ -122,27 +117,72 @@ function AuthPage() {
               Energy Advisor
             </span>
           </Link>
-          <h2 className="text-xl font-bold font-display mt-6 tracking-tight text-white">Sign In</h2>
+          <h2 className="text-xl font-bold font-display mt-6 tracking-tight text-white">
+            {user ? "Active Session" : tab === "signup" ? "Create Account" : "Sign In"}
+          </h2>
           <p className="text-xs text-[#8D97A3] mt-1 text-center">
-            Access the industrial energy control-room panel
+            {user
+              ? "You are currently logged in to this workspace"
+              : tab === "signup"
+                ? "Register to access the industrial energy control-room panel"
+                : "Access the industrial energy control-room panel"}
           </p>
         </div>
 
-        <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
-          <TabsList className="grid grid-cols-2 w-full bg-white/5 border border-white/10 rounded-lg p-1">
-            <TabsTrigger
-              value="login"
-              className="data-[state=active]:bg-white/10 data-[state=active]:text-white text-xs text-[#8D97A3] font-medium py-1.5 rounded-md transition-all cursor-pointer"
-            >
-              Sign in
-            </TabsTrigger>
-            <TabsTrigger
-              value="signup"
-              className="data-[state=active]:bg-white/10 data-[state=active]:text-white text-xs text-[#8D97A3] font-medium py-1.5 rounded-md transition-all cursor-pointer"
-            >
-              Sign up
-            </TabsTrigger>
-          </TabsList>
+        {user ? (
+          <div className="space-y-5">
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2.5">
+              <div className="flex items-center justify-between text-xs text-[#8D97A3]">
+                <span>Logged-in Account</span>
+                <span className="inline-flex items-center gap-1 text-[#33D6A6] font-mono text-[10px] uppercase">
+                  <CheckCircle2 className="h-3 w-3" /> Active
+                </span>
+              </div>
+              <div className="font-semibold text-white font-mono text-sm break-all">{user.email}</div>
+              {user.fullName && (
+                <div className="text-xs text-[#8D97A3]">{user.fullName}</div>
+              )}
+              <div className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase bg-[#33D6A6]/10 text-[#33D6A6] border border-[#33D6A6]/20">
+                {user.role || "Staff"}
+              </div>
+            </div>
+
+            <div className="space-y-2 pt-1">
+              <Button
+                variant="glass"
+                className="w-full font-bold cursor-pointer py-5"
+                onClick={() => navigate({ to: "/upload" })}
+              >
+                Continue to Workspace
+              </Button>
+              <Button
+                variant="glassSecondary"
+                className="w-full text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 cursor-pointer border-red-500/20"
+                onClick={async () => {
+                  await signOut();
+                  toast.success("Signed out successfully. You can now log in or create a new account.");
+                }}
+              >
+                <LogOut className="h-3.5 w-3.5 mr-1.5" /> Sign Out & Switch Account
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
+            <TabsList className="grid grid-cols-2 w-full bg-white/5 border border-white/10 rounded-lg p-1">
+              <TabsTrigger
+                value="login"
+                className="data-[state=active]:bg-white/10 data-[state=active]:text-white text-xs text-[#8D97A3] font-medium py-1.5 rounded-md transition-all cursor-pointer"
+              >
+                Sign in
+              </TabsTrigger>
+              <TabsTrigger
+                value="signup"
+                className="data-[state=active]:bg-white/10 data-[state=active]:text-white text-xs text-[#8D97A3] font-medium py-1.5 rounded-md transition-all cursor-pointer"
+              >
+                Sign up
+              </TabsTrigger>
+            </TabsList>
 
           <TabsContent value="login">
             <div className="space-y-4 mt-6">
@@ -351,6 +391,7 @@ function AuthPage() {
             </div>
           </TabsContent>
         </Tabs>
+        )}
       </div>
     </div>
   );

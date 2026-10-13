@@ -66,7 +66,8 @@ export const analyzeEnergy = createServerFn({ method: "POST" })
         }
 
         // Generate rich insights on demand for this run!
-        const key = process.env.GROQ_API_KEY;
+        const key = (process.env.GROQ_API_KEY || "").replace(/^["']|["']$/g, "").trim();
+        const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b").replace(/^["']|["']$/g, "").trim();
         if (!key) throw new Error("GROQ_API_KEY not configured in .env");
 
         const machines = run.machines || [];
@@ -86,7 +87,7 @@ Tariff for INR conversion: ${tariff} INR/kWh. Top 5 recommendations max. Predict
             Authorization: `Bearer ${key}`,
           },
           body: JSON.stringify({
-            model: "llama-3.3-70b-versatile",
+            model: model,
             temperature: 0.3,
             response_format: { type: "json_object" },
             messages: [
@@ -151,7 +152,8 @@ Tariff for INR conversion: ${tariff} INR/kWh. Top 5 recommendations max. Predict
       active_kwh: v.total - v.idle,
     }));
 
-    const key = process.env.GROQ_API_KEY;
+    const key = (process.env.GROQ_API_KEY || "").replace(/^["']|["']$/g, "").trim();
+    const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b").replace(/^["']|["']$/g, "").trim();
     if (!key) throw new Error("GROQ_API_KEY not configured in .env");
 
     const rowsSlice = rows.slice(0, 50);
@@ -171,7 +173,7 @@ Tariff for INR conversion: ${tariff} INR/kWh. Top 5 recommendations max. Predict
         Authorization: `Bearer ${key}`,
       },
       body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
+        model: model,
         temperature: 0.3,
         response_format: { type: "json_object" },
         messages: [
@@ -232,8 +234,8 @@ export const getRecommendationRootCauses = createServerFn({ method: "GET" })
 
     if (recommendations.length === 0) return [];
 
-    const key = process.env.GROQ_API_KEY;
-    const model = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+    const key = (process.env.GROQ_API_KEY || "").replace(/^["']|["']$/g, "").trim();
+    const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b").replace(/^["']|["']$/g, "").trim();
 
     const results: Array<{ rank: number; root_cause: string }> = [];
 
@@ -416,8 +418,8 @@ export const askEnergyData = createServerFn({ method: "POST" })
       status: a.status,
     }));
 
-    const key = process.env.GROQ_API_KEY;
-    const model = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+    const key = (process.env.GROQ_API_KEY || "").replace(/^["']|["']$/g, "").trim();
+    const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b").replace(/^["']|["']$/g, "").trim();
 
     if (key && contextMachines.length > 0) {
       try {

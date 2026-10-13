@@ -148,7 +148,7 @@ with st.sidebar:
         st.caption("Trigger analysis to generate PDF report.")
 
     st.markdown("---")
-    st.caption("Active model: `claude-sonnet-4-6` (Fallback: `llama-3.3-70b-versatile`)")
+    st.caption("Active model: `claude-sonnet-4-6` (Fallback: `openai/gpt-oss-120b`)")
     st.caption("Prototype Mode | SQLite Data Store")
 
 # Load global dataset
@@ -158,6 +158,8 @@ def get_cached_anomaly_data():
     return df
 
 df_full = get_cached_anomaly_data()
+if not df_full.empty and "timestamp" in df_full.columns:
+    df_full["timestamp"] = pd.to_datetime(df_full["timestamp"])
 
 # TAB LAYOUT
 tabs = st.tabs([
@@ -425,7 +427,7 @@ with tabs[3]:
             else:
                 return "Shift C (Night)"
                 
-        df_full["shift_label"] = df_full["timestamp"].dt.hour.apply(get_shift_label)
+        df_full["shift_label"] = pd.to_datetime(df_full["timestamp"]).dt.hour.apply(get_shift_label)
         
         shift_standings = df_full.groupby("shift_label").agg(
             total_kwh=("kwh", "sum"),
@@ -436,11 +438,11 @@ with tabs[3]:
         shift_standings["efficiency_score"] = 100.0 - shift_standings["idle_pct"]
         shift_standings = shift_standings.sort_values(by="efficiency_score", ascending=False).reset_index(drop=True)
         
-        for idx, row in shift_standings.iterrows():
-            medal = "🥇" if idx == 0 else ("🥈" if idx == 1 else "🥉")
+        for rank, (_, row) in enumerate(shift_standings.iterrows(), start=1):
+            medal = "🥇" if rank == 1 else ("🥈" if rank == 2 else "🥉")
             st.markdown(f"""
             <div class="glass-card">
-                <h4>{medal} Rank {idx+1}: {row['shift_label']}</h4>
+                <h4>{medal} Rank {rank}: {row['shift_label']}</h4>
                 Total Consumption: {row['total_kwh']:,.1f} kWh | <b>Waste Idle Pct: {row['idle_pct']:.1f}%</b>
             </div>
             """, unsafe_allow_html=True)
@@ -460,11 +462,11 @@ with tabs[3]:
         line_standings["efficiency_score"] = 100.0 - line_standings["idle_pct"]
         line_standings = line_standings.sort_values(by="efficiency_score", ascending=False).reset_index(drop=True)
         
-        for idx, row in line_standings.iterrows():
-            medal = "🥇" if idx == 0 else "🥈"
+        for rank, (_, row) in enumerate(line_standings.iterrows(), start=1):
+            medal = "🥇" if rank == 1 else "🥈"
             st.markdown(f"""
             <div class="glass-card">
-                <h4>{medal} Rank {idx+1}: {row['line_label']}</h4>
+                <h4>{medal} Rank {rank}: {row['line_label']}</h4>
                 Total Consumption: {row['total_kwh']:,.1f} kWh | <b>Waste Idle Pct: {row['idle_pct']:.1f}%</b>
             </div>
             """, unsafe_allow_html=True)
@@ -506,6 +508,8 @@ with tabs[4]:
         return df_fc
         
     df_forecast = get_cached_forecast()
+    if not df_forecast.empty and "timestamp" in df_forecast.columns:
+        df_forecast["timestamp"] = pd.to_datetime(df_forecast["timestamp"])
     
     if df_forecast.empty:
         st.info("No forecast available. Train ML model or run analysis.")
@@ -528,7 +532,8 @@ with tabs[4]:
             st.success("No upcoming high-risk idle waste slots predicted. Operation schedules are fully matched.")
         else:
             for idx, r in high_risk.head(5).iterrows():
-                st.markdown(f"- 🔴 **{r['timestamp'].strftime('%Y-%m-%d %H:%M')}**: Prediction shows **{r['idle_probability']*100:.0f}% idle waste probability** (reason: machine scheduled OFF but backlog is cleared).")
+                ts_str = pd.to_datetime(r['timestamp']).strftime('%Y-%m-%d %H:%M')
+                st.markdown(f"- 🔴 **{ts_str}**: Prediction shows **{r['idle_probability']*100:.0f}% idle waste probability** (reason: machine scheduled OFF but backlog is cleared).")
 
 # -----------------
 # TAB 6: CARBON & SOLAR OPTIMIZATION

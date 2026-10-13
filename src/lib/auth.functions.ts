@@ -48,8 +48,7 @@ export const signUp = createServerFn({ method: "POST" })
     const db = await getDb();
     const existing = await db.collection("users").findOne({ email: data.email });
     if (existing) {
-      // Use generic error message to prevent account enumeration
-      throw new Error("Invalid email or password");
+      throw new Error("An account with this email address already exists. Please sign in instead.");
     }
 
     const count = await db.collection("users").countDocuments();

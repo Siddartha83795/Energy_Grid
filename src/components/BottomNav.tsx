@@ -40,15 +40,13 @@ export function BottomNav() {
   return (
     <nav
       className={cn(
-        "fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 w-fit max-w-[95%] z-50 h-16 rounded-full nav-pop-transition pointer-events-auto overflow-hidden",
-        isScrolled
-          ? "bg-card/85 backdrop-blur-md border border-border/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
-          : "bg-transparent border-transparent shadow-none",
+        "fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 w-fit max-w-[95%] z-50 h-16 rounded-full nav-pop-transition pointer-events-auto overflow-hidden transition-colors",
+        "bg-white/70 dark:bg-[#0F172A]/85 backdrop-blur-2xl border border-white/80 dark:border-white/12 shadow-[-6px_-6px_20px_rgba(255,255,255,0.95),8px_10px_24px_rgba(160,175,200,0.35)] dark:shadow-[0_12px_32px_rgba(0,0,0,0.7),inset_1px_1px_1px_rgba(255,255,255,0.1)]"
       )}
     >
       <div
         ref={scrollContainerRef}
-        className="flex items-center gap-1 h-full w-full overflow-x-auto scrollbar-none px-4 flex-nowrap"
+        className="flex items-center gap-1.5 h-full w-full overflow-x-auto scrollbar-none px-4 flex-nowrap"
       >
         {ALL_NAV_ITEMS.map((item) => {
           // If it is admin-only and the user is not admin, hide it
@@ -63,14 +61,16 @@ export function BottomNav() {
               className={cn(
                 "flex items-center justify-center h-full select-none text-[11px] tracking-tight transition-all shrink-0 px-0.5",
                 active
-                  ? "text-primary font-semibold"
-                  : "text-muted-foreground hover:text-foreground",
+                  ? "text-blue-700 dark:text-blue-400 font-bold"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white",
               )}
             >
               <div
                 className={cn(
                   "px-3.5 py-2 rounded-full transition-all flex items-center justify-center gap-1.5",
-                  active ? "bg-primary/15 text-primary scale-105" : "bg-transparent text-current",
+                  active
+                    ? "bg-blue-600 text-white shadow-sm border border-blue-400/30 scale-105"
+                    : "bg-transparent text-current hover:bg-white/50 dark:hover:bg-white/10",
                 )}
               >
                 <item.icon className="h-4 w-4" />

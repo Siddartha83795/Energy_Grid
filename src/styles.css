@@ -5,6 +5,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@keyframes dash {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+
 /*
  * Design system definition.
  *
@@ -63,18 +70,18 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: #f6f8f7;
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.6 0.18 145);
-  --primary-foreground: oklch(0.99 0.01 145);
-  --primary-glow: oklch(0.72 0.18 145);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
+  --radius: 0.75rem;
+  --background: #F0F4F8;
+  --foreground: #1E293B;
+  --card: rgba(255, 255, 255, 0.45);
+  --card-foreground: #1E293B;
+  --popover: rgba(255, 255, 255, 0.85);
+  --popover-foreground: #1E293B;
+  --primary: #3B82F6;
+  --primary-foreground: #FFFFFF;
+  --primary-glow: rgba(59, 130, 246, 0.4);
+  --secondary: rgba(255, 255, 255, 0.6);
+  --secondary-foreground: #1E293B;
   --muted: oklch(0.968 0.007 247.896);
   --muted-foreground: oklch(0.48 0.035 257.417);
   --accent: oklch(0.968 0.007 247.896);
@@ -100,38 +107,38 @@
 }
 
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --background: #0A0E17;
+  --foreground: #F8FAFC;
+  --card: rgba(18, 24, 38, 0.7);
+  --card-foreground: #F8FAFC;
+  --popover: rgba(18, 24, 38, 0.95);
+  --popover-foreground: #F8FAFC;
+  --primary: #3B82F6;
+  --primary-foreground: #FFFFFF;
+  --secondary: rgba(30, 41, 59, 0.7);
+  --secondary-foreground: #F8FAFC;
+  --muted: rgba(26, 34, 52, 0.7);
+  --muted-foreground: #94A3B8;
+  --accent: rgba(30, 41, 59, 0.7);
+  --accent-foreground: #F8FAFC;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(15, 23, 42, 0.7);
+  --ring: rgba(59, 130, 246, 0.5);
+  --chart-1: #3B82F6;
+  --chart-2: #10B981;
+  --chart-3: #8B5CF6;
+  --chart-4: #F59E0B;
+  --chart-5: #EC4899;
+  --sidebar: rgba(18, 24, 38, 0.85);
+  --sidebar-foreground: #F8FAFC;
+  --sidebar-primary: #3B82F6;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: rgba(30, 41, 59, 0.7);
+  --sidebar-accent-foreground: #F8FAFC;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: rgba(59, 130, 246, 0.5);
 }
 
 @layer base {
@@ -673,3 +680,945 @@
 .scrollbar-none::-webkit-scrollbar {
   display: none; /* Chrome, Safari, and Opera */
 }
+
+/* ==========================================================================
+   NEO-BRUTALIST & SWISS EDITORIAL VISUAL SYSTEM
+   Strictly Zero Soft Gradients | Sharp 90° Corners | Solid 3px Borders
+   Palette: Stark White (#FFFFFF), Pitch Black (#000000), Electric Cobalt Blue (#0022FF)
+   ========================================================================== */
+
+.brutalist-root {
+  background-color: #F4F4F0;
+  color: #000000;
+  font-family: var(--font-body, "Inter", sans-serif);
+}
+
+.brutalist-border-3 {
+  border: 3px solid #000000;
+}
+
+.brutalist-pane {
+  background-color: #FFFFFF;
+  border: 3px solid #000000;
+  box-shadow: 6px 6px 0px #000000;
+  border-radius: 0px !important;
+}
+
+.brutalist-pane-dark {
+  background-color: #000000;
+  color: #FFFFFF;
+  border: 3px solid #000000;
+  box-shadow: 6px 6px 0px #0022FF;
+  border-radius: 0px !important;
+}
+
+.brutalist-pane-cobalt {
+  background-color: #0022FF;
+  color: #FFFFFF;
+  border: 3px solid #000000;
+  box-shadow: 6px 6px 0px #000000;
+  border-radius: 0px !important;
+}
+
+.brutalist-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 3px solid #000000;
+  background-color: #0022FF;
+  color: #FFFFFF;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px #000000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
+  cursor: pointer;
+}
+
+.brutalist-btn:hover {
+  background-color: #000000;
+  color: #FFFFFF;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #0022FF;
+}
+
+.brutalist-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.brutalist-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 3px solid #000000;
+  background-color: #FFFFFF;
+  color: #000000;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px #000000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
+  cursor: pointer;
+}
+
+.brutalist-btn-secondary:hover {
+  background-color: #0022FF;
+  color: #FFFFFF;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.brutalist-btn-secondary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.brutalist-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.6rem;
+  border: 2px solid #000000;
+  background-color: #FFFFFF;
+  color: #000000;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 0px !important;
+}
+
+.brutalist-tag-cobalt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.6rem;
+  border: 2px solid #000000;
+  background-color: #0022FF;
+  color: #FFFFFF;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 0px !important;
+}
+
+.brutalist-tag-black {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.6rem;
+  border: 2px solid #000000;
+  background-color: #000000;
+  color: #FFFFFF;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 0px !important;
+}
+
+.font-swiss {
+  font-family: "Space Grotesk", "Inter", -apple-system, sans-serif;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  font-weight: 900;
+}
+
+/* ==========================================================================
+   NEUMORPHISM (SOFT UI) ENGINE
+   Identical Substrate Molding | Dual-Shadow Physics (Extruded vs. Sunken)
+   ========================================================================== */
+
+:root,
+.neu-theme-light {
+  --neu-bg-base: #e0e5ec;
+  --neu-shadow-dark: rgba(163, 177, 198, 0.72);
+  --neu-shadow-light: rgba(255, 255, 255, 0.95);
+  --neu-text-headline: #1e2432;
+  --neu-text-body: #4b5568;
+  --neu-text-muted: #718096;
+  --neu-accent-primary: #0066ff;
+  --neu-accent-glow: rgba(0, 102, 255, 0.35);
+  --neu-accent-success: #059669;
+  --neu-accent-success-glow: rgba(5, 150, 105, 0.35);
+  --neu-border-subtle: transparent;
+}
+
+.neu-theme-dark {
+  --neu-bg-base: #24272c;
+  --neu-shadow-dark: rgba(18, 20, 24, 0.85);
+  --neu-shadow-light: rgba(48, 53, 60, 0.75);
+  --neu-text-headline: #f1f5f9;
+  --neu-text-body: #cbd5e1;
+  --neu-text-muted: #94a3b8;
+  --neu-accent-primary: #38bdf8;
+  --neu-accent-glow: rgba(56, 189, 248, 0.35);
+  --neu-accent-success: #10b981;
+  --neu-accent-success-glow: rgba(16, 185, 129, 0.4);
+  --neu-border-subtle: rgba(255, 255, 255, 0.03);
+}
+
+.neu-surface {
+  background-color: var(--neu-bg-base);
+  color: var(--neu-text-body);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Extruded Surfaces */
+.neu-extruded-card {
+  background-color: var(--neu-bg-base);
+  border-radius: 24px;
+  box-shadow: 
+    9px 9px 18px var(--neu-shadow-dark),
+    -9px -9px 18px var(--neu-shadow-light);
+  border: 1px solid var(--neu-border-subtle);
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neu-extruded-sm {
+  background-color: var(--neu-bg-base);
+  border-radius: 16px;
+  box-shadow: 
+    5px 5px 10px var(--neu-shadow-dark),
+    -5px -5px 10px var(--neu-shadow-light);
+  border: 1px solid var(--neu-border-subtle);
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sunken Surfaces */
+.neu-sunken-panel {
+  background-color: var(--neu-bg-base);
+  border-radius: 16px;
+  box-shadow: 
+    inset 5px 5px 10px var(--neu-shadow-dark),
+    inset -5px -5px 10px var(--neu-shadow-light);
+  border: 1px solid var(--neu-border-subtle);
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tactile Button */
+.neu-btn {
+  background-color: var(--neu-bg-base);
+  color: var(--neu-text-headline);
+  border-radius: 9999px;
+  box-shadow: 
+    5px 5px 10px var(--neu-shadow-dark),
+    -5px -5px 10px var(--neu-shadow-light);
+  border: 1px solid var(--neu-border-subtle);
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neu-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    7px 7px 14px var(--neu-shadow-dark),
+    -7px -7px 14px var(--neu-shadow-light);
+}
+
+.neu-btn:active,
+.neu-btn.is-pressed {
+  transform: translateY(1px);
+  box-shadow: 
+    inset 4px 4px 8px var(--neu-shadow-dark),
+    inset -4px -4px 8px var(--neu-shadow-light);
+}
+
+.neu-btn:focus-visible {
+  outline: 2px solid var(--neu-accent-primary);
+  outline-offset: 3px;
+}
+
+/* Sunken Input */
+.neu-input-field {
+  background-color: var(--neu-bg-base);
+  color: var(--neu-text-headline);
+  border-radius: 14px;
+  box-shadow: 
+    inset 4px 4px 8px var(--neu-shadow-dark),
+    inset -4px -4px 8px var(--neu-shadow-light);
+  border: 1px solid var(--neu-border-subtle);
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.neu-input-field:focus {
+  border-color: var(--neu-accent-primary);
+  box-shadow: 
+    inset 5px 5px 10px var(--neu-shadow-dark),
+    inset -5px -5px 10px var(--neu-shadow-light);
+}
+
+/* ==========================================================================
+   GLASSONEUMORPHISM (GLASS-NEUMORPHIC SOFT TRANSLUCENT ENGINE)
+   Fusion of Neumorphic physical extrusions & debossed sunken shadows
+   with Glassmorphic frosted glass translucency, specular rims & luminescent glows.
+   ========================================================================== */
+
+.glassoneu-root {
+  background: transparent;
+  min-height: 100vh;
+}
+
+/* GlassoNeumorphic Extruded Card (Dual Light/Dark Mode) */
+:root:not(.dark) .glassoneu-card {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 1.25rem;
+  box-shadow: 
+    -8px -8px 24px rgba(255, 255, 255, 0.9),
+    10px 12px 28px rgba(160, 175, 200, 0.35);
+  color: #1E293B;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:root:not(.dark) .glassoneu-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    -10px -10px 28px rgba(255, 255, 255, 0.95),
+    12px 14px 32px rgba(160, 175, 200, 0.4);
+}
+
+.dark .glassoneu-card {
+  background: rgba(18, 24, 38, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.25rem;
+  box-shadow: 
+    12px 12px 28px rgba(0, 0, 0, 0.55),
+    -8px -8px 24px rgba(255, 255, 255, 0.04),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.16),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.35);
+  color: #F8FAFC;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glassoneu-card:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 
+    16px 16px 36px rgba(0, 0, 0, 0.65),
+    -10px -10px 28px rgba(255, 255, 255, 0.06),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.24),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* GlassoNeumorphic Sunken Inset Panel */
+:root:not(.dark) .glassoneu-sunken {
+  background: rgba(240, 244, 248, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 1rem;
+  box-shadow: 
+    inset 4px 4px 10px rgba(160, 175, 200, 0.45),
+    inset -4px -4px 10px rgba(255, 255, 255, 0.9);
+  color: #1E293B;
+}
+
+.dark .glassoneu-sunken {
+  background: rgba(8, 12, 18, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1rem;
+  box-shadow: 
+    inset 5px 5px 12px rgba(0, 0, 0, 0.7),
+    inset -4px -4px 10px rgba(255, 255, 255, 0.03);
+  color: #F8FAFC;
+}
+
+/* GlassoNeumorphic Tactile Extruded Button */
+:root:not(.dark) .glassoneu-btn {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #1E293B;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 0.75rem;
+  box-shadow: 
+    -4px -4px 12px rgba(255, 255, 255, 0.95),
+    5px 6px 14px rgba(160, 175, 200, 0.35);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+:root:not(.dark) .glassoneu-btn:hover {
+  background: rgba(255, 255, 255, 0.85);
+  transform: translateY(-1px);
+  box-shadow: 
+    -6px -6px 16px rgba(255, 255, 255, 1),
+    7px 8px 18px rgba(160, 175, 200, 0.4);
+}
+
+.dark .glassoneu-btn {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #F8FAFC;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 0.75rem;
+  box-shadow: 
+    6px 6px 14px rgba(0, 0, 0, 0.5),
+    -4px -4px 10px rgba(255, 255, 255, 0.05),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.dark .glassoneu-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 
+    8px 8px 18px rgba(0, 0, 0, 0.6),
+    -5px -5px 12px rgba(255, 255, 255, 0.08),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.glassoneu-btn:active {
+  transform: translateY(1px);
+  box-shadow: 
+    inset 4px 4px 10px rgba(0, 0, 0, 0.7),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.04);
+}
+
+/* Primary GlassoNeumorphic Button (Glowing Teal/Emerald) */
+.glassoneu-btn-primary {
+  background: linear-gradient(135deg, rgba(51, 214, 166, 0.25), rgba(16, 185, 129, 0.15));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #33D6A6;
+  border: 1px solid rgba(51, 214, 166, 0.4);
+  border-radius: 0.75rem;
+  box-shadow: 
+    6px 6px 16px rgba(0, 0, 0, 0.55),
+    -4px -4px 12px rgba(51, 214, 166, 0.08),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.25),
+    0 0 16px rgba(51, 214, 166, 0.2);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glassoneu-btn-primary:hover {
+  background: linear-gradient(135deg, rgba(51, 214, 166, 0.35), rgba(16, 185, 129, 0.25));
+  border-color: rgba(51, 214, 166, 0.6);
+  box-shadow: 
+    8px 8px 20px rgba(0, 0, 0, 0.65),
+    -5px -5px 14px rgba(51, 214, 166, 0.12),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.35),
+    0 0 24px rgba(51, 214, 166, 0.35);
+  transform: translateY(-1px);
+}
+
+.glassoneu-btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: 
+    inset 5px 5px 12px rgba(0, 0, 0, 0.75),
+    inset -3px -3px 8px rgba(51, 214, 166, 0.1);
+}
+
+/* GlassoNeumorphic Badge */
+.glassoneu-badge {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    inset 1px 1px 1px rgba(255, 255, 255, 0.15),
+    2px 2px 6px rgba(0, 0, 0, 0.3);
+  border-radius: 9999px;
+  font-family: var(--font-mono, monospace);
+}
+
+/* ==========================================================================
+   LIGHT "ANTI-GRAVITY" THEME & GLASSONEUMORPHISM SYSTEM
+   ========================================================================== */
+
+@keyframes floatOrb1 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -45px) scale(1.06);
+  }
+  66% {
+    transform: translate(-25px, 25px) scale(0.96);
+  }
+}
+
+@keyframes floatOrb2 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(-35px, 35px) scale(1.08);
+  }
+  66% {
+    transform: translate(25px, -30px) scale(0.94);
+  }
+}
+
+@keyframes floatOrb3 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  40% {
+    transform: translate(25px, 35px) scale(1.04);
+  }
+  75% {
+    transform: translate(-30px, -20px) scale(0.97);
+  }
+}
+
+.antigravity-orb-1 {
+  animation: floatOrb1 18s ease-in-out infinite;
+}
+
+.antigravity-orb-2 {
+  animation: floatOrb2 22s ease-in-out infinite;
+}
+
+.antigravity-orb-3 {
+  animation: floatOrb3 26s ease-in-out infinite;
+}
+
+/* Light GlassoNeumorphic Hybrid Card */
+.glass-neumorph {
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 1.25rem;
+  box-shadow:
+    -8px -8px 24px rgba(255, 255, 255, 0.9),
+    10px 12px 28px rgba(160, 175, 200, 0.35);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-neumorph:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    -10px -10px 30px rgba(255, 255, 255, 0.95),
+    14px 18px 36px rgba(160, 175, 200, 0.42);
+}
+
+/* GlassoNeumorphic Sunken (Recessed Inset Cavity) */
+.glass-neumorph-sunken {
+  background: rgba(240, 244, 248, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 1rem;
+  box-shadow:
+    inset 4px 4px 10px rgba(160, 175, 200, 0.45),
+    inset -4px -4px 10px rgba(255, 255, 255, 0.9);
+}
+
+/* GlassoNeumorphic Tactile Extruded Button */
+.glass-neumorph-btn {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 0.875rem;
+  color: #1E293B;
+  box-shadow:
+    -4px -4px 12px rgba(255, 255, 255, 0.95),
+    5px 6px 14px rgba(160, 175, 200, 0.35);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+  user-select: none;
+}
+
+.glass-neumorph-btn:hover {
+  background: rgba(255, 255, 255, 0.82);
+  transform: translateY(-2px);
+  box-shadow:
+    -6px -6px 16px rgba(255, 255, 255, 1),
+    7px 8px 18px rgba(160, 175, 200, 0.4);
+}
+
+.glass-neumorph-btn:active,
+.glass-neumorph-btn.active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 3px 3px 8px rgba(160, 175, 200, 0.5),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.9);
+}
+
+/* GlassoNeumorphic Primary Button */
+.glass-neumorph-btn-primary {
+  background: linear-gradient(135deg, #3B82F6, #6366F1);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0.875rem;
+  box-shadow:
+    -4px -4px 14px rgba(255, 255, 255, 0.9),
+    6px 8px 20px rgba(99, 102, 241, 0.4);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.glass-neumorph-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    -5px -5px 16px rgba(255, 255, 255, 0.95),
+    8px 12px 24px rgba(99, 102, 241, 0.5);
+}
+
+.glass-neumorph-btn-primary:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 3px 3px 8px rgba(30, 58, 138, 0.6),
+    inset -2px -2px 6px rgba(255, 255, 255, 0.3);
+}
+
+/* GlassoNeumorphic Switch Toggle */
+.glass-neumorph-toggle {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  border-radius: 9999px;
+  background: rgba(240, 244, 248, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    inset 3px 3px 6px rgba(160, 175, 200, 0.45),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.glass-neumorph-toggle.checked {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(99, 102, 241, 0.8));
+}
+
+.glass-neumorph-toggle-handle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow:
+    1px 2px 4px rgba(0, 0, 0, 0.15),
+    -1px -1px 3px rgba(255, 255, 255, 0.8);
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.glass-neumorph-toggle.checked .glass-neumorph-toggle-handle {
+  transform: translateX(24px);
+}
+
+/* ==========================================================================
+   GLOBAL GLASSONEUMORPHIC OVERRIDES FOR ALL CARDS, FORMS, AND TABS
+   ========================================================================== */
+
+/* ==========================================================================
+   GLOBAL GLASSONEUMORPHIC OVERRIDES (DUAL LIGHT & DARK MODE SYSTEM)
+   ========================================================================== */
+
+/* --- LIGHT MODE CARDS --- */
+:root:not(.dark) .bg-card,
+:root:not(.dark) [class*="bg-card"],
+:root:not(.dark) .card,
+:root:not(.dark) .glass-neumorph {
+  background-color: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.75) !important;
+  border-radius: 1.25rem;
+  box-shadow:
+    -8px -8px 24px rgba(255, 255, 255, 0.9),
+    10px 12px 28px rgba(160, 175, 200, 0.35) !important;
+  color: #1E293B !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+:root:not(.dark) .bg-card:hover,
+:root:not(.dark) [class*="bg-card"]:hover,
+:root:not(.dark) .glass-neumorph:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    -10px -10px 28px rgba(255, 255, 255, 0.95),
+    12px 14px 32px rgba(160, 175, 200, 0.4) !important;
+}
+
+/* --- DARK MODE CARDS --- */
+.dark .bg-card,
+.dark [class*="bg-card"],
+.dark .card,
+.dark .glass-neumorph {
+  background-color: rgba(18, 24, 38, 0.65) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 1.25rem;
+  box-shadow:
+    12px 14px 32px rgba(0, 0, 0, 0.65),
+    -6px -6px 20px rgba(255, 255, 255, 0.03),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.12) !important;
+  color: #F8FAFC !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.dark .bg-card:hover,
+.dark [class*="bg-card"]:hover,
+.dark .glass-neumorph:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow:
+    16px 18px 40px rgba(0, 0, 0, 0.75),
+    -8px -8px 24px rgba(255, 255, 255, 0.05),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.18) !important;
+}
+
+/* --- SUNKEN PANELS --- */
+:root:not(.dark) .glass-neumorph-sunken {
+  background: rgba(240, 244, 248, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow:
+    inset 4px 4px 10px rgba(160, 175, 200, 0.45),
+    inset -4px -4px 10px rgba(255, 255, 255, 0.9) !important;
+  color: #1E293B !important;
+}
+
+.dark .glass-neumorph-sunken {
+  background: rgba(10, 15, 26, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  box-shadow:
+    inset 4px 4px 10px rgba(0, 0, 0, 0.7),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.03) !important;
+  color: #F8FAFC !important;
+}
+
+/* --- RECESSED FORM INPUTS --- */
+:root:not(.dark) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+:root:not(.dark) select,
+:root:not(.dark) textarea {
+  background: rgba(240, 244, 248, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.75) !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(160, 175, 200, 0.35),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.9) !important;
+  color: #1E293B !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.dark input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+.dark select,
+.dark textarea {
+  background: rgba(10, 15, 26, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(0, 0, 0, 0.65),
+    inset -2px -2px 6px rgba(255, 255, 255, 0.03) !important;
+  color: #F8FAFC !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.2s ease !important;
+}
+
+:root:not(.dark) input:focus, :root:not(.dark) select:focus, :root:not(.dark) textarea:focus {
+  outline: none !important;
+  border-color: rgba(59, 130, 246, 0.6) !important;
+  box-shadow:
+    inset 2px 2px 5px rgba(160, 175, 200, 0.25),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.9),
+    0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+}
+
+.dark input:focus, .dark select:focus, .dark textarea:focus {
+  outline: none !important;
+  border-color: rgba(59, 130, 246, 0.6) !important;
+  box-shadow:
+    inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.05),
+    0 0 0 3px rgba(59, 130, 246, 0.25) !important;
+}
+
+/* --- TABS --- */
+:root:not(.dark) [role="tablist"],
+:root:not(.dark) [data-slot="tabs-list"] {
+  background: rgba(240, 244, 248, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow:
+    inset 2px 2px 6px rgba(160, 175, 200, 0.35),
+    inset -2px -2px 6px rgba(255, 255, 255, 0.9) !important;
+  border-radius: 9999px !important;
+  padding: 4px !important;
+  color: #64748B !important;
+}
+
+.dark [role="tablist"],
+.dark [data-slot="tabs-list"] {
+  background: rgba(10, 15, 26, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow:
+    inset 2px 2px 6px rgba(0, 0, 0, 0.6),
+    inset -2px -2px 6px rgba(255, 255, 255, 0.03) !important;
+  border-radius: 9999px !important;
+  padding: 4px !important;
+  color: #94A3B8 !important;
+}
+
+:root:not(.dark) [role="tab"][data-state="active"],
+:root:not(.dark) [data-slot="tabs-trigger"][data-state="active"] {
+  background: #FFFFFF !important;
+  color: #1E293B !important;
+  box-shadow:
+    -2px -2px 6px rgba(255, 255, 255, 0.95),
+    3px 4px 10px rgba(160, 175, 200, 0.35) !important;
+}
+
+.dark [role="tab"][data-state="active"],
+.dark [data-slot="tabs-trigger"][data-state="active"] {
+  background: rgba(30, 41, 59, 0.9) !important;
+  color: #FFFFFF !important;
+  box-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.5),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.15) !important;
+}
+
+/* --- TACTILE BUTTONS --- */
+:root:not(.dark) .glass-neumorph-btn {
+  background: rgba(255, 255, 255, 0.65) !important;
+  color: #1E293B !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow:
+    -4px -4px 12px rgba(255, 255, 255, 0.95),
+    5px 6px 14px rgba(160, 175, 200, 0.35) !important;
+}
+
+.dark .glass-neumorph-btn {
+  background: rgba(255, 255, 255, 0.07) !important;
+  color: #F8FAFC !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow:
+    6px 6px 16px rgba(0, 0, 0, 0.55),
+    -4px -4px 12px rgba(255, 255, 255, 0.03),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.15) !important;
+}
+
+.dark .glass-neumorph-btn:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  box-shadow:
+    8px 8px 20px rgba(0, 0, 0, 0.65),
+    -5px -5px 14px rgba(255, 255, 255, 0.05) !important;
+}
+
+button.btn-primary,
+.bg-primary:not(span):not(div) {
+  background: linear-gradient(135deg, #3B82F6, #6366F1) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 0.75rem !important;
+  box-shadow:
+    -3px -3px 8px rgba(255, 255, 255, 0.9),
+    4px 6px 14px rgba(99, 102, 241, 0.35) !important;
+  font-weight: 600 !important;
+}
+
+/* --- LABELS & TYPOGRAPHY --- */
+:root:not(.dark) label,
+:root:not(.dark) .form-label {
+  color: #334155 !important;
+  font-weight: 600 !important;
+  font-size: 0.8125rem !important;
+}
+
+.dark label,
+.dark .form-label {
+  color: #CBD5E1 !important;
+  font-weight: 600 !important;
+  font-size: 0.8125rem !important;
+}
+
+/* --- TABLES --- */
+:root:not(.dark) table {
+  color: #1E293B !important;
+}
+
+.dark table {
+  color: #F8FAFC !important;
+}
+
+:root:not(.dark) th {
+  color: #475569 !important;
+  font-weight: 700 !important;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9) !important;
+}
+
+.dark th {
+  color: #94A3B8 !important;
+  font-weight: 700 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+:root:not(.dark) td {
+  color: #1E293B !important;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6) !important;
+}
+
+.dark td {
+  color: #F8FAFC !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* --- UNIVERSAL DARK MODE TEXT & BORDER CONTRAST ENHANCEMENTS --- */
+.dark .text-slate-900,
+.dark .text-slate-800 {
+  color: #F8FAFC !important;
+}
+
+.dark .text-slate-700 {
+  color: #E2E8F0 !important;
+}
+
+.dark .text-slate-600 {
+  color: #CBD5E1 !important;
+}
+
+.dark .text-slate-500 {
+  color: #94A3B8 !important;
+}
+
+.dark .border-slate-200,
+.dark [class*="border-slate-200"] {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark [class*="bg-slate-100"] {
+  background-color: rgba(15, 23, 42, 0.6) !important;
+}
+
+.dark [class*="bg-white/40"],
+.dark [class*="bg-white/60"],
+.dark [class*="bg-white/70"] {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+
+

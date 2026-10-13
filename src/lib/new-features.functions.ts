@@ -28,8 +28,8 @@ export const getActionQueue = createServerFn({ method: "GET" }).handler(async ()
       .findOne({ user_id: userId }, { sort: { created_at: -1 } });
 
     if (latestRun && latestRun.machines) {
-      const key = process.env.GROQ_API_KEY;
-      const model = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+      const key = (process.env.GROQ_API_KEY || "").replace(/^["']|["']$/g, "").trim();
+      const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b").replace(/^["']|["']$/g, "").trim();
       if (key) {
         // Find machines with high idle draw
         const offenders = latestRun.machines.filter(
@@ -693,6 +693,14 @@ export const getSensorReadings = createServerFn({ method: "GET" }).handler(async
       machine_id: r.machine_id,
       temperature: r.temperature,
       vibration_db: r.vibration_db,
+      vibration_g: r.vibration_g !== undefined ? r.vibration_g : (r.vibration_db ? Number(r.vibration_db) / 100 : 0.15),
+      voltage_v: r.voltage_v !== undefined ? Number(r.voltage_v) : 230.0,
+      current_a: r.current_a !== undefined ? Number(r.current_a) : 1.2,
+      power_w: r.power_w !== undefined ? Number(r.power_w) : (r.kwh ? Number(r.kwh) * 1000 : 260.0),
+      sct_current_a: r.sct_current_a !== undefined ? Number(r.sct_current_a) : (r.current_a !== undefined ? Number(r.current_a) : 1.2),
+      estop_active: Boolean(r.estop_active),
+      ai_state: r.ai_state || "NORMAL_OPERATION",
+      ai_recommendation: r.ai_recommendation || "",
       status: r.status,
       power_factor,
       harmonics_thd_pct,

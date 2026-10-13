@@ -10,12 +10,16 @@ import {
   Leaf,
   Trophy,
   Activity,
+  Server,
+  Cpu,
 } from "lucide-react";
 
 export const NAV_ORDER = [
   "/upload",
   "/manual-entry",
   "/dashboard",
+  "/digital-twin",
+  "/cluster-devices",
   "/ai-insights",
   "/report",
   "/approval-queue",
@@ -33,6 +37,8 @@ export function getPathIndex(path: string): number {
 // Configured list of primary items displayed directly on the mobile bottom tab bar
 export const PRIMARY_NAV_ITEMS = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/digital-twin", label: "Digital Twin", icon: Cpu },
+  { to: "/cluster-devices", label: "Devices", icon: Server },
   { to: "/upload", label: "Upload", icon: Upload },
   { to: "/ai-insights", label: "AI Insights", icon: Sparkles },
   { to: "/approval-queue", label: "Approvals", icon: CheckSquare },
@@ -48,3 +54,4 @@ export const SECONDARY_NAV_ITEMS = [
   { to: "/multi-signal", label: "Multi-Signal", icon: Activity },
   { to: "/admin", label: "Admin", icon: Shield, isAdminOnly: true },
 ] as const;
+

@@ -1,603 +1,483 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import {
-  Upload,
-  Sparkles,
-  IndianRupee,
   ArrowRight,
-  Gauge,
-  Cpu,
-  Trophy,
   Activity,
-  ShieldCheck,
-  LineChart,
-  CheckCircle2,
-  AlertTriangle,
+  Cpu,
   Zap,
-  Leaf,
+  Check,
+  ShieldCheck,
+  TrendingDown,
+  Clock,
+  Sparkles,
+  Waves,
+  Sliders,
+  ExternalLink,
   Layers,
-  ChevronRight,
-  Database,
-  Search,
+  FileText,
+  BarChart3,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AntiGravityEnergyDashboard } from "@/components/AntiGravityEnergyDashboard";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "GenAI Energy Advisor — Cut Industrial Energy Waste" },
+      { title: "GenAI Energy Advisor // Anti-Gravity Industrial Telemetry" },
       {
         name: "description",
         content:
-          "AI-powered industrial energy advisor. Identify idle machine power waste, cross-validate multi-signal sensors, and execute role-specific optimization plans.",
+          "Autonomous Industrial Energy Intelligence & Standby Telemetry. Pure light Anti-Gravity GlassoNeumorphic interface for real-time voltage, current, and load optimization.",
       },
     ],
   }),
   component: Landing,
 });
 
-function Landing() {
-  const [activeTab, setActiveTab] = useState<"dashboard" | "ai" | "multisignal">("dashboard");
+type CopyVariation = "roi" | "telemetry" | "autonomous";
+
+export function Landing() {
+  const [copyVar, setCopyVar] = useState<CopyVariation>("roi");
+  const [activeTab, setActiveTab] = useState<"live-matrix" | "ai-synthesis" | "verification">("live-matrix");
+
+  const copyData: Record<
+    CopyVariation,
+    {
+      label: string;
+      headline: string;
+      subheadline: string;
+      cta: string;
+      secondaryCta: string;
+      targetAudience: string;
+      coreBenefit: string;
+    }
+  > = {
+    roi: {
+      label: "VARIATION 01 // DIRECT ROI & FINANCIAL",
+      headline: "Stop paying for machines that are running on empty.",
+      subheadline:
+        "Industrial plants bleed up to 28% of their power bill during non-productive standby cycles. Energy Advisor continuously intercepts idle draw, correlates shift logs, and guarantees verified electrical cost recovery.",
+      cta: "Audit Your Facility Now",
+      secondaryCta: "Explore Telemetry Matrix",
+      targetAudience: "Operations Directors & CFOs at Continuous-Process Manufacturing Plants",
+      coreBenefit: "Direct bottom-line margin recovery with zero capital equipment overhaul",
+    },
+    telemetry: {
+      label: "VARIATION 02 // MULTI-SIGNAL SENSOR RIGOR",
+      headline: "Raw multi-signal telemetry. Zero phantom idle drain.",
+      subheadline:
+        "Cross-correlate high-frequency electrical meters with vibration, acoustic, and SCADA shift records. Differentiate mechanical anomalies from actual productive load with auditable sensor mathematics.",
+      cta: "Ingest Sensor Streams",
+      secondaryCta: "Inspect Sensor Matrix",
+      targetAudience: "Lead Electrical Engineers, Plant Reliability Teams & SCADA Architects",
+      coreBenefit: "Definitive multi-modal proof eliminating false alarms and motor diagnostics errors",
+    },
+    autonomous: {
+      label: "VARIATION 03 // AUTONOMOUS AGENT ORCHESTRATION",
+      headline: "Autonomous energy intelligence for the modern factory floor.",
+      subheadline:
+        "Synthesize plant-wide energy telemetry into auditable shutdown schedules and Groq-powered engineering work orders. Gated by engineer approvals, verified down to the kilowatt-hour.",
+      cta: "Deploy Operational Agent",
+      secondaryCta: "View Agent Pipeline",
+      targetAudience: "Manufacturing Executives & Sustainability Operations Directors",
+      coreBenefit: "Self-governing, auditable operational action queues executing shutdown routines",
+    },
+  };
+
+  const currentCopy = copyData[copyVar];
 
   return (
-    <div className="liquid-glass-root min-h-screen relative bg-[#0A0D12] overflow-hidden flex flex-col justify-between">
-      {/* Background ambient lighting */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20 dark:opacity-30">
-        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full bg-[#33D6A6]/5 blur-[160px] motion-safe:animate-pulse motion-safe:duration-[12000ms]" />
-        <div className="absolute bottom-12 left-1/4 w-[700px] h-[700px] rounded-full bg-[#8C7EFF]/5 blur-[200px] motion-safe:animate-pulse motion-safe:duration-[18000ms]" />
-      </div>
-
-      {/* Nav */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-[#0A0D12]/70 border-b border-white/5 relative z-10">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
-            <div className="h-9 w-9 rounded-lg overflow-hidden border border-white/10">
-              <img src="/favicon.png" alt="Energy Advisor" className="h-full w-full object-cover" />
+    <div className="min-h-screen text-[#1E293B] font-sans selection:bg-blue-500/20 selection:text-blue-900 pb-20">
+      {/* Top Floating Glass Navigation Bar */}
+      <header className="sticky top-4 z-50 max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="glass-neumorph px-5 sm:px-8 py-3.5 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="h-10 w-10 rounded-2xl bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center font-bold text-base shadow-md group-hover:scale-105 transition-transform">
+              <Zap className="h-5 w-5" />
             </div>
             <div className="flex flex-col">
-              <span className="font-display tracking-tight text-white font-bold leading-none">
+              <span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 leading-none">
                 Energy Advisor
               </span>
-              <span className="text-[9px] font-mono text-[#33D6A6] mt-0.5">
-                GENAI OPERATIONAL INTEL
+              <span className="text-[10px] uppercase tracking-widest text-blue-600 font-bold mt-1">
+                Anti-Gravity Telemetry
               </span>
             </div>
           </Link>
-          <nav className="flex items-center gap-4">
-            <Button
-              asChild
-              variant="glassSecondary"
-              size="sm"
-              className="text-[#8D97A3] hover:text-white cursor-pointer"
+
+          <nav className="flex items-center gap-2 sm:gap-4">
+            <Link
+              to="/antigravity"
+              className="glass-neumorph-btn px-3.5 py-2 text-xs font-semibold text-slate-700 hidden sm:inline-flex items-center gap-1.5"
             >
-              <Link to="/auth">Sign In</Link>
-            </Button>
-            <Button
-              asChild
-              variant="glass"
-              size="sm"
-              className="text-[#0A0D12] font-bold px-4 py-2 cursor-pointer transition-all"
+              <Activity className="w-3.5 h-3.5 text-blue-600" />
+              Live Telemetry
+            </Link>
+            <Link
+              to="/neumorphic"
+              className="glass-neumorph-btn px-3 py-2 text-xs font-semibold text-slate-700 hidden md:inline-flex"
             >
-              <Link to="/auth">
-                Get Started <ArrowRight className="h-3 w-3 ml-1" />
-              </Link>
-            </Button>
+              Soft UI View
+            </Link>
+            <Link
+              to="/dashboard"
+              className="glass-neumorph-btn px-3.5 py-2 text-xs font-semibold text-slate-700"
+            >
+              Dashboard
+            </Link>
+            <Link
+              to="/auth"
+              className="glass-neumorph-btn-primary px-4 sm:px-5 py-2 text-xs font-semibold flex items-center gap-1.5 shadow-sm"
+            >
+              Sign In <ArrowRight className="h-3 w-3" />
+            </Link>
           </nav>
         </div>
       </header>
 
-      {/* Hero & Product Tour */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-12 lg:py-16 relative z-10 space-y-20">
-        {/* HERO SECTION */}
-        <section className="grid lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-6 space-y-6 text-left">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#33D6A6]/30 bg-[#33D6A6]/5 px-3 py-1 text-[10px] font-mono uppercase tracking-wider text-[#33D6A6]">
-              <Cpu className="h-3 w-3" /> GenAI Energy Advisor
+      {/* Main Content Container */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 space-y-16">
+        {/* Above-The-Fold Copy Experiment Controls */}
+        <section className="glass-neumorph p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-ping" />
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              CRO Copy Variation Control:
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight font-display">
-              Idle machines are quietly{" "}
-              <span className="text-[#33D6A6] relative inline-block">burning your margin.</span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {(["roi", "telemetry", "autonomous"] as CopyVariation[]).map((key) => (
+              <button
+                key={key}
+                onClick={() => setCopyVar(key)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                  copyVar === key
+                    ? "glass-neumorph-btn-primary shadow-md"
+                    : "glass-neumorph-btn text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                {key === "roi" && "01. Direct ROI"}
+                {key === "telemetry" && "02. Multi-Signal Rigor"}
+                {key === "autonomous" && "03. Autonomous Agent"}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* Hero Section: Editorial Weightless Showcase */}
+        <section className="grid lg:grid-cols-12 gap-8 items-center">
+          {/* Left Hero Content (7 Cols) */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/60 border border-white/80 shadow-xs text-blue-700">
+              <Sparkles className="w-3.5 h-3.5 text-blue-500" />
+              {currentCopy.label}
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.08]">
+              {currentCopy.headline}
             </h1>
-            <p className="text-sm md:text-base text-[#8D97A3] max-w-lg leading-relaxed font-body">
-              Identify standby machine power waste. Upload your meter data, shift logs, and
-              schedules to immediately generate prioritized, actionable optimization tasks.
+
+            <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed max-w-2xl">
+              {currentCopy.subheadline}
             </p>
-            <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
-              <Button
-                asChild
-                size="lg"
-                variant="glass"
-                className="w-full sm:w-auto font-bold font-display cursor-pointer transition-colors duration-200"
+
+            {/* Target Audience & Core Benefit Card */}
+            <div className="glass-neumorph p-5 space-y-3">
+              <div className="flex items-start gap-3">
+                <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-slate-200/80 text-slate-800 uppercase tracking-wide">
+                  Target
+                </span>
+                <span className="text-xs sm:text-sm text-slate-700 font-semibold">
+                  {currentCopy.targetAudience}
+                </span>
+              </div>
+              <div className="flex items-start gap-3 pt-2.5 border-t border-slate-200/60">
+                <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-blue-100/80 text-blue-800 uppercase tracking-wide">
+                  Outcome
+                </span>
+                <span className="text-xs sm:text-sm text-slate-700 font-semibold">
+                  {currentCopy.coreBenefit}
+                </span>
+              </div>
+            </div>
+
+            {/* Call to Actions */}
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              <Link
+                to="/auth"
+                className="glass-neumorph-btn-primary px-8 py-3.5 text-sm font-bold text-center flex items-center justify-center gap-2 shadow-lg"
               >
-                <Link to="/auth">
-                  Get Started <ArrowRight className="h-4 w-4 ml-1" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="glassSecondary"
-                className="w-full sm:w-auto font-semibold font-display cursor-pointer transition-all"
+                {currentCopy.cta} <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a
+                href="#live-dashboard-section"
+                className="glass-neumorph-btn px-7 py-3.5 text-sm font-semibold text-slate-700 text-center hover:text-blue-600"
               >
-                <a href="#tour">Explore Product Tour</a>
-              </Button>
+                {currentCopy.secondaryCta}
+              </a>
+            </div>
+
+            {/* Micro Metric Badges */}
+            <div className="grid grid-cols-3 gap-3 pt-2">
+              <div className="glass-neumorph p-3.5 text-center">
+                <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+                  Avg Savings
+                </span>
+                <span className="text-xl sm:text-2xl font-black text-slate-900 mt-0.5 block">
+                  28.4%
+                </span>
+                <span className="text-[10px] text-emerald-600 font-bold">Verified kWh</span>
+              </div>
+              <div className="glass-neumorph p-3.5 text-center">
+                <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+                  False Alerts
+                </span>
+                <span className="text-xl sm:text-2xl font-black text-blue-600 mt-0.5 block">
+                  0.0%
+                </span>
+                <span className="text-[10px] text-slate-600 font-medium">3-Signal Gate</span>
+              </div>
+              <div className="glass-neumorph p-3.5 text-center">
+                <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+                  Payback
+                </span>
+                <span className="text-xl sm:text-2xl font-black text-slate-900 mt-0.5 block">
+                  &lt; 14 Days
+                </span>
+                <span className="text-[10px] text-indigo-600 font-bold">Rapid ROI</span>
+              </div>
             </div>
           </div>
 
-          {/* Hero Instrument Panel */}
-          <div className="lg:col-span-6 flex justify-center">
-            <div className="w-full max-w-md glass-panel p-6 shadow-2xl relative overflow-hidden flow-seam md:rotate-[1deg] hover:rotate-0 transition-transform duration-500 cursor-pointer group">
-              <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
-                <span className="text-[9px] font-mono uppercase tracking-wider text-[#33D6A6] flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#33D6A6] animate-ping" />
-                  Live Power Stream
-                </span>
-                <span className="text-[9px] font-mono text-[#8D97A3]">
-                  IDLE DRAW RESOLUTION ENGINE
+          {/* Right Hero Card: Floating Live Telemetry Snippet (5 Cols) */}
+          <div className="lg:col-span-5 relative">
+            <div className="glass-neumorph p-6 space-y-5">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-200/60">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="font-bold text-slate-800 text-sm">
+                    Live Feeder Telemetry // L1-L2-L3
+                  </span>
+                </div>
+                <span className="text-xs font-mono font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">
+                  50.02 Hz
                 </span>
               </div>
-              <div className="relative">
-                <svg className="w-full h-44 sm:h-52" viewBox="0 0 400 200">
-                  <g className="stroke-white/5 stroke-[0.5] fill-none">
-                    <line x1="0" y1="50" x2="400" y2="50" />
-                    <line x1="0" y1="100" x2="400" y2="100" />
-                    <line x1="0" y1="150" x2="400" y2="150" />
-                    <line x1="100" y1="0" x2="100" y2="200" />
-                    <line x1="200" y1="0" x2="200" y2="200" />
-                    <line x1="300" y1="0" x2="300" y2="200" />
-                  </g>
-                  <path
-                    d="M 10,100 Q 50,20 90,100 T 170,100 T 250,100 T 330,100 T 390,100"
-                    fill="none"
-                    stroke="url(#activeTealGrad)"
-                    strokeWidth="3.5"
-                    className="motion-safe:animate-[dash_4s_linear_infinite]"
-                    style={{ strokeDasharray: "15, 12" }}
-                  />
-                  <path
-                    d="M 10,120 Q 50,180 90,120 T 170,120 T 250,120 T 330,120 T 390,120"
-                    fill="none"
-                    stroke="url(#idleAmberGrad)"
-                    strokeWidth="2.5"
-                    className="opacity-80 motion-safe:animate-[dash_8s_linear_infinite]"
-                    style={{ strokeDasharray: "8, 15" }}
-                  />
-                  <defs>
-                    <linearGradient id="activeTealGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#33D6A6" stopOpacity="0.3" />
-                      <stop offset="50%" stopColor="#33D6A6" stopOpacity="1" />
-                      <stop offset="100%" stopColor="#33D6A6" stopOpacity="0.3" />
-                    </linearGradient>
-                    <linearGradient id="idleAmberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#F5A623" stopOpacity="0.2" />
-                      <stop offset="50%" stopColor="#F5A623" stopOpacity="0.9" />
-                      <stop offset="100%" stopColor="#F5A623" stopOpacity="0.2" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-                <div className="absolute bottom-2 left-2 right-2 flex justify-between text-[10px] font-mono text-[#8D97A3] bg-[#0A0D12]/70 p-2.5 rounded border border-white/5 backdrop-blur-sm">
-                  <div>
-                    ACTIVE DRAW:{" "}
-                    <span className="text-[#33D6A6] font-bold font-mono">142.8 kW</span>
-                  </div>
-                  <div>
-                    IDLE WASTE: <span className="text-[#F5A623] font-bold font-mono">34.3 kW</span>
-                  </div>
-                  <div>
-                    LEAKAGE: <span className="text-red-400 font-bold font-mono">24%</span>
-                  </div>
+
+              {/* 3-Phase Meter Summary */}
+              <div className="grid grid-cols-3 gap-3">
+                <div className="glass-neumorph-sunken p-3 text-center">
+                  <span className="text-[10px] font-semibold text-slate-500 uppercase">Phase L1</span>
+                  <div className="text-lg font-extrabold text-slate-800 mt-1">230.4 V</div>
+                  <div className="text-xs text-blue-600 font-medium">48.2 A</div>
+                </div>
+                <div className="glass-neumorph-sunken p-3 text-center">
+                  <span className="text-[10px] font-semibold text-slate-500 uppercase">Phase L2</span>
+                  <div className="text-lg font-extrabold text-slate-800 mt-1">229.8 V</div>
+                  <div className="text-xs text-indigo-600 font-medium">46.8 A</div>
+                </div>
+                <div className="glass-neumorph-sunken p-3 text-center">
+                  <span className="text-[10px] font-semibold text-slate-500 uppercase">Phase L3</span>
+                  <div className="text-lg font-extrabold text-slate-800 mt-1">231.1 V</div>
+                  <div className="text-xs text-purple-600 font-medium">47.9 A</div>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
 
-        {/* PART 1.1 — LIVE-FEELING STAT STRIP */}
-        <section className="glass-panel p-6 border border-white/10 relative overflow-hidden bg-white/[0.02]">
-          <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#33D6A6] flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#33D6A6] animate-pulse" />
-              Pilot Dataset Aggregate Metrics
-            </span>
-            <span className="text-[10px] font-mono text-[#8D97A3]">REAL DEMO DATA (PILOT RUN)</span>
-          </div>
+              {/* Mini Oscilloscope Wave */}
+              <div className="p-3 glass-neumorph-sunken rounded-xl space-y-1">
+                <div className="flex items-center justify-between text-xs text-slate-500 font-medium mb-1">
+                  <span>Waveform Symmetry (THD 1.1%)</span>
+                  <span className="text-emerald-600 font-bold">Synchronized</span>
+                </div>
+                <svg className="w-full h-16" viewBox="0 0 300 60">
+                  <path
+                    d="M 0 30 Q 37.5 5, 75 30 T 150 30 T 225 30 T 300 30"
+                    fill="none"
+                    stroke="#3B82F6"
+                    strokeWidth="2.5"
+                  />
+                  <path
+                    d="M 0 30 Q 37.5 15, 75 30 T 150 30 T 225 30 T 300 30"
+                    fill="none"
+                    stroke="#10B981"
+                    strokeWidth="2"
+                    strokeDasharray="3 3"
+                    transform="translate(8, 0)"
+                  />
+                </svg>
+              </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center font-mono">
-            <div className="space-y-1">
-              <span className="text-[10px] text-[#8D97A3] block uppercase tracking-wider">
-                MACHINES MONITORED
-              </span>
-              <div className="text-2xl lg:text-3xl font-extrabold text-white font-mono">12</div>
-              <span className="text-[11px] text-muted-foreground block font-sans">
-                Active shopfloor units
-              </span>
-            </div>
-            <div className="space-y-1 border-l border-white/5 pl-4 sm:pl-0">
-              <span className="text-[10px] text-[#8D97A3] block uppercase tracking-wider">
-                IDLE WASTE IDENTIFIED
-              </span>
-              <div className="text-2xl lg:text-3xl font-extrabold text-[#F5A623] font-mono">
-                8,740 <span className="text-xs text-[#F5A623]/70 font-normal">kWh</span>
-              </div>
-              <span className="text-[11px] text-muted-foreground block font-sans">
-                Standby power draw
-              </span>
-            </div>
-            <div className="space-y-1 border-l border-white/5 pl-4 sm:pl-0">
-              <span className="text-[10px] text-[#8D97A3] block uppercase tracking-wider">
-                RECOMMENDATIONS GENERATED
-              </span>
-              <div className="text-2xl lg:text-3xl font-extrabold text-[#38BDF8] font-mono">
-                24 <span className="text-xs text-[#38BDF8]/70 font-normal">plans</span>
-              </div>
-              <span className="text-[11px] text-muted-foreground block font-sans">
-                Groq Llama 3.3 cited
-              </span>
-            </div>
-            <div className="space-y-1 border-l border-white/5 pl-4 sm:pl-0">
-              <span className="text-[10px] text-[#8D97A3] block uppercase tracking-wider">
-                CO2e TRACKED
-              </span>
-              <div className="text-2xl lg:text-3xl font-extrabold text-[#33D6A6] font-mono">
-                7,166 <span className="text-xs text-[#33D6A6]/70 font-normal">kg</span>
-              </div>
-              <span className="text-[11px] text-muted-foreground block font-sans">
-                Carbon reduction target
-              </span>
-            </div>
-          </div>
-        </section>
-
-        {/* PART 1.2 — MODULE EXPLAINER GRID */}
-        <section id="tour" className="space-y-6 pt-4">
-          <div className="text-left space-y-1">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#33D6A6]">
-              CORE ARCHITECTURE
-            </span>
-            <h2 className="text-2xl md:text-3xl font-bold font-display text-white tracking-tight">
-              Every Core Module Explained
-            </h2>
-            <p className="text-sm text-[#8D97A3]">
-              GenAI Energy Advisor is engineered explicitly for industrial standby waste detection.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="glass-panel p-6 space-y-4 flow-seam-interactive border border-white/5 hover:border-[#33D6A6]/30 transition-all">
-              <div className="h-10 w-10 rounded-xl bg-[#F5A623]/10 border border-[#F5A623]/20 flex items-center justify-center text-[#F5A623]">
-                <Gauge className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-base font-bold font-display text-white tracking-tight">
-                  Idle Detection & Analytics
-                </h3>
-                <p className="text-xs text-[#8D97A3] leading-relaxed mt-2 font-body">
-                  ML-based per-machine idle waste detection that cross-references electrical meter
-                  telemetry, factory shift schedules, and production logs.
-                </p>
-              </div>
-            </div>
-
-            <div className="glass-panel p-6 space-y-4 flow-seam-interactive border border-white/5 hover:border-[#38BDF8]/30 transition-all">
-              <div className="h-10 w-10 rounded-xl bg-[#38BDF8]/10 border border-[#38BDF8]/20 flex items-center justify-center text-[#38BDF8]">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-base font-bold font-display text-white tracking-tight">
-                  GenAI Recommendations
-                </h3>
-                <p className="text-xs text-[#8D97A3] leading-relaxed mt-2 font-body">
-                  Groq Llama 3.3-generated, evidence-cited action plans tailored for shopfloor
-                  operators, plant engineers, and energy managers.
-                </p>
-              </div>
-            </div>
-
-            <div className="glass-panel p-6 space-y-4 flow-seam-interactive border border-white/5 hover:border-[#8C7EFF]/30 transition-all">
-              <div className="h-10 w-10 rounded-xl bg-[#8C7EFF]/10 border border-[#8C7EFF]/20 flex items-center justify-center text-[#8C7EFF]">
-                <Activity className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-base font-bold font-display text-white tracking-tight">
-                  Multi-Signal Verification
-                </h3>
-                <p className="text-xs text-[#8D97A3] leading-relaxed mt-2 font-body">
-                  Cross-validates electrical draw with vibration, acoustic, and environmental
-                  sensors to confirm true un-productive idle waste vs. a mechanical fault.
-                </p>
-              </div>
-            </div>
-
-            <div className="glass-panel p-6 space-y-4 flow-seam-interactive border border-white/5 hover:border-[#33D6A6]/30 transition-all">
-              <div className="h-10 w-10 rounded-xl bg-[#33D6A6]/10 border border-[#33D6A6]/20 flex items-center justify-center text-[#33D6A6]">
-                <Leaf className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-base font-bold font-display text-white tracking-tight">
-                  Carbon & Cost Accounting
-                </h3>
-                <p className="text-xs text-[#8D97A3] leading-relaxed mt-2 font-body">
-                  Tariff-aware, solar-aware savings calculations tracked in both monetary currency
-                  (₹) and equivalent carbon emissions (kg CO2e).
-                </p>
+              {/* Intercept Highlight */}
+              <div className="p-3.5 rounded-xl bg-blue-50/70 border border-blue-200/60 flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-bold text-blue-900 block">
+                    Phantom Standby Intercepted
+                  </span>
+                  <span className="text-[11px] text-blue-700">
+                    Auto-decoupled 4 idle assembly motors
+                  </span>
+                </div>
+                <span className="text-sm font-black text-blue-700 bg-white/80 px-2.5 py-1 rounded-lg shadow-xs">
+                  -14.8 kW
+                </span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* PART 1.3 — SCREENSHOT / UI SHOWCASE */}
-        <section className="space-y-6 pt-4">
+        {/* Featured Live Anti-Gravity Energy Dashboard Component Section */}
+        <section id="live-dashboard-section" className="space-y-6 pt-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#33D6A6]">
-                INTERFACE PREVIEW
+              <span className="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50/80 px-3 py-1 rounded-full border border-blue-200/50">
+                Interactive Showcase
               </span>
-              <h2 className="text-2xl md:text-3xl font-bold font-display text-white tracking-tight mt-1">
-                Explore the Real Application
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-2">
+                Live Anti-Gravity Energy & Voltage Console
               </h2>
-              <p className="text-sm text-[#8D97A3]">
-                Preview actual workspace screens before signing in.
+              <p className="text-slate-600 text-sm sm:text-base mt-1 max-w-2xl">
+                Experience the weightless GlassoNeumorphic interface in action with real-time 3-phase
+                telemetry, interactive frequency waveforms, and tactile soft UI toggles.
               </p>
             </div>
-            <div className="flex items-center gap-2 bg-white/5 p-1 rounded-xl border border-white/10">
-              <button
-                onClick={() => setActiveTab("dashboard")}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer ${
-                  activeTab === "dashboard"
-                    ? "bg-[#33D6A6] text-[#0A0D12] font-bold"
-                    : "text-[#8D97A3] hover:text-white"
-                }`}
-              >
-                Dashboard
-              </button>
-              <button
-                onClick={() => setActiveTab("ai")}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer ${
-                  activeTab === "ai"
-                    ? "bg-[#33D6A6] text-[#0A0D12] font-bold"
-                    : "text-[#8D97A3] hover:text-white"
-                }`}
-              >
-                AI Insights
-              </button>
-              <button
-                onClick={() => setActiveTab("multisignal")}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer ${
-                  activeTab === "multisignal"
-                    ? "bg-[#33D6A6] text-[#0A0D12] font-bold"
-                    : "text-[#8D97A3] hover:text-white"
-                }`}
-              >
-                Multi-Signal Check
-              </button>
-            </div>
+
+            <Link
+              to="/antigravity"
+              className="glass-neumorph-btn px-4 py-2.5 text-xs font-semibold text-slate-700 self-start md:self-auto flex items-center gap-2"
+            >
+              Open Fullscreen Matrix <ExternalLink className="w-3.5 h-3.5 text-blue-600" />
+            </Link>
           </div>
 
-          {/* Interactive UI Mockup Window */}
-          <div className="glass-panel border border-white/10 rounded-2xl overflow-hidden shadow-2xl relative">
-            {/* Window Header bar */}
-            <div className="bg-[#0D121B] px-4 py-3 border-b border-white/10 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-full bg-red-500/80 inline-block" />
-                <span className="h-3 w-3 rounded-full bg-amber-500/80 inline-block" />
-                <span className="h-3 w-3 rounded-full bg-green-500/80 inline-block" />
-                <span className="ml-2 text-xs font-mono text-[#8D97A3]">
-                  app.energyadvisor.io/{activeTab}
-                </span>
-              </div>
-              <span className="text-[10px] font-mono text-[#33D6A6] bg-[#33D6A6]/10 px-2 py-0.5 rounded border border-[#33D6A6]/20">
-                LIVE DEMO STATE
-              </span>
-            </div>
-
-            {/* TAB CONTENT 1: DASHBOARD MOCKUP */}
-            {activeTab === "dashboard" && (
-              <div className="p-6 space-y-6 bg-[#0A0D12]">
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="glass-panel p-4 border border-white/5 space-y-1">
-                    <span className="text-[10px] font-mono text-[#8D97A3]">TOTAL CONSUMPTION</span>
-                    <div className="text-xl font-bold text-white font-mono">34,310 kWh</div>
-                    <span className="text-[10px] text-[#33D6A6]">Baseline tracked</span>
-                  </div>
-                  <div className="glass-panel p-4 border border-white/5 space-y-1">
-                    <span className="text-[10px] font-mono text-[#8D97A3]">IDLE CONSUMPTION</span>
-                    <div className="text-xl font-bold text-[#F5A623] font-mono">8,740 kWh</div>
-                    <span className="text-[10px] text-[#F5A623]">25.5% standby waste</span>
-                  </div>
-                  <div className="glass-panel p-4 border border-white/5 space-y-1">
-                    <span className="text-[10px] font-mono text-[#8D97A3]">RECOVERABLE COST</span>
-                    <div className="text-xl font-bold text-[#33D6A6] font-mono">₹69,920</div>
-                    <span className="text-[10px] text-[#33D6A6]">Estimated monthly savings</span>
-                  </div>
-                </div>
-
-                <div className="glass-panel p-4 border border-white/5 space-y-3">
-                  <div className="flex justify-between items-center text-xs font-mono">
-                    <span className="text-[#8D97A3]">MACHINE POWER DRAW COMPARISON</span>
-                    <span className="text-[#33D6A6]">CNC_Lathe_01 vs Compressor_A</span>
-                  </div>
-                  <div className="h-28 flex items-end gap-3 pt-2">
-                    <div className="flex-1 space-y-1">
-                      <div className="h-20 bg-gradient-to-t from-[#33D6A6]/20 to-[#33D6A6] rounded-t" />
-                      <span className="text-[10px] font-mono text-[#8D97A3] block text-center">
-                        CNC_Lathe_01 (Active)
-                      </span>
-                    </div>
-                    <div className="flex-1 space-y-1">
-                      <div className="h-16 bg-gradient-to-t from-[#F5A623]/20 to-[#F5A623] rounded-t" />
-                      <span className="text-[10px] font-mono text-[#8D97A3] block text-center">
-                        Compressor_A (Idle 42%)
-                      </span>
-                    </div>
-                    <div className="flex-1 space-y-1">
-                      <div className="h-12 bg-gradient-to-t from-[#38BDF8]/20 to-[#38BDF8] rounded-t" />
-                      <span className="text-[10px] font-mono text-[#8D97A3] block text-center">
-                        Hydraulic_Press_3
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-xs text-center text-[#8D97A3] italic font-sans">
-                  Caption: Executive Dashboard view showing total vs idle consumption breakdown and
-                  top waste offenders.
-                </p>
-              </div>
-            )}
-
-            {/* TAB CONTENT 2: AI INSIGHTS MOCKUP */}
-            {activeTab === "ai" && (
-              <div className="p-6 space-y-4 bg-[#0A0D12]">
-                <div className="glass-panel p-4 border border-white/5 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-white flex items-center gap-2">
-                      <span className="px-2 py-0.5 text-[10px] font-mono rounded bg-sky-500/20 text-sky-400 border border-sky-500/30">
-                        Diagnose Agent
-                      </span>
-                      #1 · Compressor_A Standby Leakage
-                    </span>
-                    <span className="text-xs font-mono text-[#33D6A6]">94% Confidence</span>
-                  </div>
-                  <p className="text-xs text-[#8D97A3] leading-relaxed font-body">
-                    <strong>Issue:</strong> Continuous 14.2 kW power draw during third shift when
-                    zero output is logged in production schedules.
-                  </p>
-                  <div className="p-2.5 rounded bg-white/[0.02] border border-white/5 text-[11px] font-mono text-amber-400">
-                    🔍 Cited Evidence: Meter telemetry shows 112 kWh consumed between 02:00–06:00 AM
-                    while shift log indicates line shutdown.
-                  </div>
-                  <div className="flex justify-between items-center text-xs pt-1">
-                    <span className="text-[#33D6A6] font-mono font-bold">
-                      Action: Program auto-shutdown routine
-                    </span>
-                    <span className="text-[#F5A623] font-mono font-bold">
-                      Est. Savings: ₹28,400 / mo
-                    </span>
-                  </div>
-                </div>
-                <p className="text-xs text-center text-[#8D97A3] italic font-sans">
-                  Caption: AI Insights view displaying Groq Llama 3.3 ranked recommendations with
-                  cited evidence data points.
-                </p>
-              </div>
-            )}
-
-            {/* TAB CONTENT 3: MULTI-SIGNAL CHECK MOCKUP */}
-            {activeTab === "multisignal" && (
-              <div className="p-6 space-y-4 bg-[#0A0D12]">
-                <div className="grid grid-cols-4 gap-3 text-center font-mono">
-                  <div className="p-3 glass-panel border border-emerald-500/30 text-emerald-400">
-                    <span className="text-[9px] block text-white/60">ELECTRICAL</span>
-                    <span className="text-sm font-bold">18.4 kW (High)</span>
-                  </div>
-                  <div className="p-3 glass-panel border border-emerald-500/30 text-emerald-400">
-                    <span className="text-[9px] block text-white/60">VIBRATION</span>
-                    <span className="text-sm font-bold">0.4 mm/s (Low)</span>
-                  </div>
-                  <div className="p-3 glass-panel border border-emerald-500/30 text-emerald-400">
-                    <span className="text-[9px] block text-white/60">ACOUSTIC</span>
-                    <span className="text-sm font-bold">42 dB (Silent)</span>
-                  </div>
-                  <div className="p-3 glass-panel border border-amber-500/30 text-amber-400">
-                    <span className="text-[9px] block text-white/60">VERDICT</span>
-                    <span className="text-sm font-bold">True Idle Waste</span>
-                  </div>
-                </div>
-                <div className="p-3 rounded bg-[#33D6A6]/10 border border-[#33D6A6]/20 text-xs text-[#33D6A6] font-mono">
-                  ✓ Verified: Machine is consuming active electrical power with negligible
-                  mechanical vibration/sound, ruling out bearing fault or production load.
-                </div>
-                <p className="text-xs text-center text-[#8D97A3] italic font-sans">
-                  Caption: Multi-Signal Verification matrix cross-validating telemetry streams to
-                  confirm true un-productive waste.
-                </p>
-              </div>
-            )}
-          </div>
+          {/* Embedded Full Dashboard Component */}
+          <AntiGravityEnergyDashboard />
         </section>
 
-        {/* PART 1.4 — END-TO-END FLOW STRIP */}
-        <section className="space-y-6 pt-4">
-          <div className="text-center space-y-1">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#33D6A6]">
-              WORKFLOW OPERATIONAL PIPELINE
+        {/* 5-Step Elimination Pipeline */}
+        <section className="space-y-6">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50/80 px-3 py-1 rounded-full border border-indigo-200/50">
+              System Architecture
             </span>
-            <h2 className="text-2xl md:text-3xl font-bold font-display text-white tracking-tight">
-              End-to-End Waste Elimination Flow
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+              Five-Stage Standby Elimination
             </h2>
-            <p className="text-sm text-[#8D97A3]">
-              From raw telemetry ingestion to verified monetary savings tracking.
+            <p className="text-sm text-slate-600">
+              From raw sensor ingestion to guaranteed financial payback on your industrial tariff ledger.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 relative">
-            <div className="glass-panel p-4 border border-white/5 hover:border-[#33D6A6]/30 transition-all text-center space-y-2 relative">
-              <span className="text-xs font-mono font-bold text-[#33D6A6] bg-[#33D6A6]/10 h-6 w-6 rounded-full inline-flex items-center justify-center border border-[#33D6A6]/20">
-                1
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div className="glass-neumorph p-5 space-y-2.5 hover:-translate-y-1 transition-transform">
+              <span className="w-7 h-7 rounded-xl bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center shadow-xs">
+                01
               </span>
-              <h4 className="text-sm font-bold text-white font-display">Ingest</h4>
-              <p className="text-[11px] text-[#8D97A3] font-body leading-tight">
-                Meter CSVs, shift schedules, & sensor data.
+              <h4 className="font-bold text-slate-900 text-base">Ingest</h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Sub-minute smart meter CSVs, Modbus TCP feeds, and SCADA production logs.
               </p>
             </div>
 
-            <div className="glass-panel p-4 border border-white/5 hover:border-[#33D6A6]/30 transition-all text-center space-y-2 relative">
-              <span className="text-xs font-mono font-bold text-[#F5A623] bg-[#F5A623]/10 h-6 w-6 rounded-full inline-flex items-center justify-center border border-[#F5A623]/20">
-                2
+            <div className="glass-neumorph p-5 space-y-2.5 hover:-translate-y-1 transition-transform">
+              <span className="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shadow-xs">
+                02
               </span>
-              <h4 className="text-sm font-bold text-white font-display">Detect</h4>
-              <p className="text-[11px] text-[#8D97A3] font-body leading-tight">
-                ML identifies per-machine standby draw.
+              <h4 className="font-bold text-slate-900 text-base">Detect</h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Algorithmic baseline profiling isolates idle standby watts from real workloads.
               </p>
             </div>
 
-            <div className="glass-panel p-4 border border-white/5 hover:border-[#38BDF8]/30 transition-all text-center space-y-2 relative">
-              <span className="text-xs font-mono font-bold text-[#38BDF8] bg-[#38BDF8]/10 h-6 w-6 rounded-full inline-flex items-center justify-center border border-[#38BDF8]/20">
-                3
+            <div className="glass-neumorph p-5 space-y-2.5 hover:-translate-y-1 transition-transform">
+              <span className="w-7 h-7 rounded-xl bg-purple-100 text-purple-700 font-bold text-xs flex items-center justify-center shadow-xs">
+                03
               </span>
-              <h4 className="text-sm font-bold text-white font-display">Recommend</h4>
-              <p className="text-[11px] text-[#8D97A3] font-body leading-tight">
-                Groq Llama 3.3 synthesizes evidence plans.
+              <h4 className="font-bold text-slate-900 text-base">Synthesize</h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Groq AI compiles role-tailored optimization work orders for electrical teams.
               </p>
             </div>
 
-            <div className="glass-panel p-4 border border-white/5 hover:border-[#8C7EFF]/30 transition-all text-center space-y-2 relative">
-              <span className="text-xs font-mono font-bold text-[#8C7EFF] bg-[#8C7EFF]/10 h-6 w-6 rounded-full inline-flex items-center justify-center border border-[#8C7EFF]/20">
-                4
+            <div className="glass-neumorph p-5 space-y-2.5 hover:-translate-y-1 transition-transform">
+              <span className="w-7 h-7 rounded-xl bg-teal-100 text-teal-700 font-bold text-xs flex items-center justify-center shadow-xs">
+                04
               </span>
-              <h4 className="text-sm font-bold text-white font-display">Approve</h4>
-              <p className="text-[11px] text-[#8D97A3] font-body leading-tight">
-                Action Queue gates high-impact fixes.
+              <h4 className="font-bold text-slate-900 text-base">Govern</h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Plant managers verify and sanction shutdown triggers before execution.
               </p>
             </div>
 
-            <div className="glass-panel p-4 border border-white/5 hover:border-[#33D6A6]/30 transition-all text-center space-y-2 relative">
-              <span className="text-xs font-mono font-bold text-[#33D6A6] bg-[#33D6A6]/10 h-6 w-6 rounded-full inline-flex items-center justify-center border border-[#33D6A6]/20">
-                5
+            <div className="glass-neumorph p-5 space-y-2.5 hover:-translate-y-1 transition-transform bg-blue-50/40 border-blue-200/60">
+              <span className="w-7 h-7 rounded-xl bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                05
               </span>
-              <h4 className="text-sm font-bold text-white font-display">Track</h4>
-              <p className="text-[11px] text-[#8D97A3] font-body leading-tight">
-                Carbon kg & tariff savings logged in real time.
+              <h4 className="font-bold text-slate-900 text-base">Recover</h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Tariff currency savings and CO2e mass reduction logged in immutable ledger.
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* Final CTA Banner */}
+        <section className="glass-neumorph p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 border-white/90">
+          <div className="space-y-3 max-w-2xl">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-100/70 px-3 py-1 rounded-full">
+              Zero Hardware Deployment
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+              Ready to recover wasted industrial electrical capacity?
+            </h2>
+            <p className="text-sm sm:text-base text-slate-600">
+              Start auditing standby draw within 5 minutes. Upload your meter telemetry or connect live sensors.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <Link
+              to="/auth"
+              className="glass-neumorph-btn-primary px-8 py-3.5 text-sm font-bold text-center flex items-center justify-center gap-2 shadow-lg"
+            >
+              Get Started Free <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              to="/upload"
+              className="glass-neumorph-btn px-6 py-3.5 text-sm font-semibold text-slate-700 text-center hover:text-blue-600"
+            >
+              Upload Sample CSV
+            </Link>
           </div>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 py-8 text-center text-xs text-[#8D97A3] bg-[#0A0D12] relative z-10">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <span>© GenAI Energy Advisor. All rights reserved.</span>
-          <div className="flex gap-4 text-[10px] uppercase tracking-wider font-mono">
-            <a href="#" className="hover:text-white transition-colors">
-              Documentation
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              API
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Privacy
-            </a>
+      <footer className="max-w-7xl mx-auto px-4 sm:px-6 pt-16 text-xs text-slate-500 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="h-6 w-6 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-[11px]">
+            EA
           </div>
+          <span className="font-semibold text-slate-700">
+            GenAI Energy Advisor // Anti-Gravity Architecture
+          </span>
+        </div>
+        <div className="flex items-center gap-6 font-medium">
+          <Link to="/" className="hover:text-blue-600">
+            Home
+          </Link>
+          <Link to="/antigravity" className="hover:text-blue-600">
+            Anti-Gravity Matrix
+          </Link>
+          <Link to="/dashboard" className="hover:text-blue-600">
+            Dashboard
+          </Link>
+          <Link to="/upload" className="hover:text-blue-600">
+            Upload
+          </Link>
+          <Link to="/auth" className="hover:text-blue-600">
+            Sign In
+          </Link>
+          <span>© 2026 Energy Advisor</span>
         </div>
       </footer>
     </div>

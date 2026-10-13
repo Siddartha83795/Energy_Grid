@@ -208,7 +208,7 @@ export function AskEnergyDataPanel({ trigger }: { trigger?: React.ReactNode }) {
           {loading && (
             <div className="flex items-center gap-2 text-xs text-[#8D97A3] font-mono p-3 glass-panel border border-white/5 rounded-xl">
               <Loader2 className="h-4 w-4 animate-spin text-[#38BDF8]" />
-              <span>Querying Groq Llama 3.3 over MongoDB telemetry...</span>
+              <span>Querying Groq AI over MongoDB telemetry...</span>
             </div>
           )}
         </div>

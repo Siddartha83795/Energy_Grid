@@ -39,12 +39,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { ConnectedSystemsSection } from "@/components/ConnectedSystemsSection";
+
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [{ title: "Dashboard — Energy Advisor" }],
   }),
   component: DashboardPage,
 });
+
 
 const fmt = (n: number) => n.toLocaleString("en-IN", { maximumFractionDigits: 1 });
 const inr = (n: number) => "₹" + n.toLocaleString("en-IN", { maximumFractionDigits: 0 });
@@ -188,6 +191,9 @@ function DashboardPage() {
           accent="bg-green-500/15 text-green-600"
         />
       </section>
+
+      {/* Connected Systems Network Topology Section */}
+      <ConnectedSystemsSection />
 
       <section className="grid lg:grid-cols-2 gap-4">
         <div className="rounded-2xl border bg-card p-5 shadow-sm">

@@ -255,13 +255,14 @@ export const processAnalysisRun = createServerFn({ method: "POST" })
       if (!machineId) return;
       uniqueMachines.add(machineId);
 
-      const kwh = Number(row.kwh ?? 0);
+      const kwh = Number(row.energy_kwh ?? (row.kwh ?? (row.power_kw ? Number(row.power_kw) * (5 / 60) : 0)));
       const timestampStr = row.timestamp;
       const ts = parseDate(timestampStr);
 
       // Check if this reading matches any schedule
       const machineSchedules = schedulesByMachine.get(machineId) ?? [];
-      const isActive = machineSchedules.some((s) => ts >= s.start && ts <= s.end);
+      const matchedSchedule = machineSchedules.find((s) => ts >= s.start && ts <= s.end);
+      const isActive = !!matchedSchedule;
       const isIdle = !isActive;
 
       totalKwh += kwh;
@@ -326,7 +327,8 @@ export const processAnalysisRun = createServerFn({ method: "POST" })
       quick_wins: [] as string[],
     };
 
-    const groqKey = process.env.GROQ_API_KEY;
+    const groqKey = (process.env.GROQ_API_KEY || "").replace(/^["']|["']$/g, "").trim();
+    const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b").replace(/^["']|["']$/g, "").trim();
     if (groqKey && machines.length > 0) {
       try {
         const sys = `You are an industrial energy efficiency expert. Reply ONLY with strict JSON (no markdown, no code fences) matching exactly this shape:
@@ -342,7 +344,7 @@ Tariff for INR conversion: ${tariff} INR/kWh. Top 5 recommendations max. Predict
             Authorization: `Bearer ${groqKey}`,
           },
           body: JSON.stringify({
-            model: "llama-3.3-70b-versatile",
+            model: model,
             temperature: 0.3,
             response_format: { type: "json_object" },
             messages: [

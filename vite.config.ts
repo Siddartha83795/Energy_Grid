@@ -9,7 +9,7 @@ const isTest = typeof process !== "undefined" && !!process.env.VITEST;
 
 export default defineConfig({
   server: {
-    port: 8081,
+    port: 3000,
     strictPort: true,
   },
   plugins: [

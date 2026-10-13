@@ -121,7 +121,7 @@ function AiInsightsPage() {
             <Sparkles className="h-7 w-7 text-primary" /> AI insights
           </h1>
           <p className="text-muted-foreground mt-1">
-            Predictive analysis & prioritized actions, powered by Groq Llama 3.3.
+            Predictive analysis & prioritized actions, powered by Groq AI.
           </p>
         </div>
         <Button onClick={analyze} disabled={busy} size="lg">
