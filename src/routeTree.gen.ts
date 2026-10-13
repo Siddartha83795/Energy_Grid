@@ -9,217 +9,110 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as UploadRouteImport } from './routes/upload'
-import { Route as StatisticalAnalysisRouteImport } from './routes/statistical-analysis'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as ResearchResultsRouteImport } from './routes/research-results'
-import { Route as ResearchEvaluationRouteImport } from './routes/research-evaluation'
-import { Route as ResearchDashboardRouteImport } from './routes/research-dashboard'
-import { Route as ReportsRouteImport } from './routes/reports'
-import { Route as ReportRouteImport } from './routes/report'
-import { Route as RecommendationsRouteImport } from './routes/recommendations'
-import { Route as RecommendationEffectivenessRouteImport } from './routes/recommendation-effectiveness'
-import { Route as PendingApprovalRouteImport } from './routes/pending-approval'
-import { Route as NeumorphicRouteImport } from './routes/neumorphic'
-import { Route as MultiSignalRouteImport } from './routes/multi-signal'
-import { Route as ModelsRouteImport } from './routes/models'
-import { Route as ManualEntryRouteImport } from './routes/manual-entry'
-import { Route as LedgerValidationRouteImport } from './routes/ledger-validation'
-import { Route as LeaderboardRouteImport } from './routes/leaderboard'
-import { Route as LatexExportRouteImport } from './routes/latex-export'
-import { Route as InterventionsRouteImport } from './routes/interventions'
-import { Route as ForecastRouteImport } from './routes/forecast'
-import { Route as ExperimentsRouteImport } from './routes/experiments'
-import { Route as ExperimentRunnerRouteImport } from './routes/experiment-runner'
-import { Route as ExpectedEnergyComparisonRouteImport } from './routes/expected-energy-comparison'
-import { Route as ExcessLedgerRouteImport } from './routes/excess-ledger'
-import { Route as EnergySavingRouteImport } from './routes/energy-saving'
-import { Route as EnergyAnalysisRouteImport } from './routes/energy-analysis'
-import { Route as DigitalTwinRouteImport } from './routes/digital-twin'
-import { Route as DevicesRouteImport } from './routes/devices'
-import { Route as DeviceDetailsRouteImport } from './routes/device-details'
-import { Route as DatasetsRouteImport } from './routes/datasets'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as CounterfactualValidationRouteImport } from './routes/counterfactual-validation'
-import { Route as CounterfactualAnalysisRouteImport } from './routes/counterfactual-analysis'
-import { Route as ClusterDevicesRouteImport } from './routes/cluster-devices'
-import { Route as CauseAnalysisRouteImport } from './routes/cause-analysis'
-import { Route as CarbonCostRouteImport } from './routes/carbon-cost'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as ApprovalQueueRouteImport } from './routes/approval-queue'
-import { Route as AntigravityRouteImport } from './routes/antigravity'
-import { Route as AiInsightsRouteImport } from './routes/ai-insights'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthGoogleRouteImport } from './routes/auth.google'
-import { Route as ApiRecommendationsRouteImport } from './routes/api.recommendations'
-import { Route as ApiReadingsRouteImport } from './routes/api.readings'
-import { Route as ApiModelsRouteImport } from './routes/api.models'
-import { Route as ApiLedgerRouteImport } from './routes/api.ledger'
-import { Route as ApiIotRouteImport } from './routes/api.iot'
-import { Route as ApiExperimentsRouteImport } from './routes/api.experiments'
-import { Route as ApiDigitalTwinRouteImport } from './routes/api.digital-twin'
-import { Route as ApiDevicesRouteImport } from './routes/api.devices'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AiInsightsRouteImport } from './routes/ai-insights'
+import { Route as AntigravityRouteImport } from './routes/antigravity'
+import { Route as ApprovalQueueRouteImport } from './routes/approval-queue'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CarbonCostRouteImport } from './routes/carbon-cost'
+import { Route as CauseAnalysisRouteImport } from './routes/cause-analysis'
+import { Route as ClusterDevicesRouteImport } from './routes/cluster-devices'
+import { Route as CounterfactualAnalysisRouteImport } from './routes/counterfactual-analysis'
+import { Route as CounterfactualValidationRouteImport } from './routes/counterfactual-validation'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DatasetsRouteImport } from './routes/datasets'
+import { Route as DeviceDetailsRouteImport } from './routes/device-details'
+import { Route as DevicesRouteImport } from './routes/devices'
+import { Route as DigitalTwinRouteImport } from './routes/digital-twin'
+import { Route as EnergyAnalysisRouteImport } from './routes/energy-analysis'
+import { Route as EnergySavingRouteImport } from './routes/energy-saving'
+import { Route as ExcessLedgerRouteImport } from './routes/excess-ledger'
+import { Route as ExpectedEnergyComparisonRouteImport } from './routes/expected-energy-comparison'
+import { Route as ExperimentRunnerRouteImport } from './routes/experiment-runner'
+import { Route as ExperimentsRouteImport } from './routes/experiments'
+import { Route as ForecastRouteImport } from './routes/forecast'
+import { Route as InterventionsRouteImport } from './routes/interventions'
+import { Route as LatexExportRouteImport } from './routes/latex-export'
+import { Route as LeaderboardRouteImport } from './routes/leaderboard'
+import { Route as LedgerValidationRouteImport } from './routes/ledger-validation'
+import { Route as ManualEntryRouteImport } from './routes/manual-entry'
+import { Route as ModelsRouteImport } from './routes/models'
+import { Route as MultiSignalRouteImport } from './routes/multi-signal'
+import { Route as NeumorphicRouteImport } from './routes/neumorphic'
+import { Route as PendingApprovalRouteImport } from './routes/pending-approval'
+import { Route as RecommendationEffectivenessRouteImport } from './routes/recommendation-effectiveness'
+import { Route as RecommendationsRouteImport } from './routes/recommendations'
+import { Route as ReportRouteImport } from './routes/report'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as ResearchDashboardRouteImport } from './routes/research-dashboard'
+import { Route as ResearchEvaluationRouteImport } from './routes/research-evaluation'
+import { Route as ResearchResultsRouteImport } from './routes/research-results'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as StatisticalAnalysisRouteImport } from './routes/statistical-analysis'
+import { Route as UploadRouteImport } from './routes/upload'
 import { Route as ApiCounterfactualRouteImport } from './routes/api.counterfactual'
+import { Route as ApiDevicesRouteImport } from './routes/api.devices'
+import { Route as ApiDigitalTwinRouteImport } from './routes/api.digital-twin'
+import { Route as ApiExperimentsRouteImport } from './routes/api.experiments'
+import { Route as ApiIotRouteImport } from './routes/api.iot'
+import { Route as ApiLedgerRouteImport } from './routes/api.ledger'
+import { Route as ApiModelsRouteImport } from './routes/api.models'
+import { Route as ApiReadingsRouteImport } from './routes/api.readings'
+import { Route as ApiRecommendationsRouteImport } from './routes/api.recommendations'
+import { Route as AuthGoogleRouteImport } from './routes/auth.google'
 import { Route as ApiAgentReportRouteImport } from './routes/api.agent.report'
-import { Route as ApiAuthGoogleLoginRouteImport } from './routes/api.auth.google.login'
 import { Route as ApiAuthGoogleCallbackRouteImport } from './routes/api.auth.google.callback'
+import { Route as ApiAuthGoogleLoginRouteImport } from './routes/api.auth.google.login'
 
-const UploadRoute = UploadRouteImport.update({
-  id: '/upload',
-  path: '/upload',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const StatisticalAnalysisRoute = StatisticalAnalysisRouteImport.update({
-  id: '/statistical-analysis',
-  path: '/statistical-analysis',
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
+const AiInsightsRoute = AiInsightsRouteImport.update({
+  id: '/ai-insights',
+  path: '/ai-insights',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResearchResultsRoute = ResearchResultsRouteImport.update({
-  id: '/research-results',
-  path: '/research-results',
+const AntigravityRoute = AntigravityRouteImport.update({
+  id: '/antigravity',
+  path: '/antigravity',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResearchEvaluationRoute = ResearchEvaluationRouteImport.update({
-  id: '/research-evaluation',
-  path: '/research-evaluation',
+const ApprovalQueueRoute = ApprovalQueueRouteImport.update({
+  id: '/approval-queue',
+  path: '/approval-queue',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResearchDashboardRoute = ResearchDashboardRouteImport.update({
-  id: '/research-dashboard',
-  path: '/research-dashboard',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReportsRoute = ReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
+const CarbonCostRoute = CarbonCostRouteImport.update({
+  id: '/carbon-cost',
+  path: '/carbon-cost',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReportRoute = ReportRouteImport.update({
-  id: '/report',
-  path: '/report',
+const CauseAnalysisRoute = CauseAnalysisRouteImport.update({
+  id: '/cause-analysis',
+  path: '/cause-analysis',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RecommendationsRoute = RecommendationsRouteImport.update({
-  id: '/recommendations',
-  path: '/recommendations',
+const ClusterDevicesRoute = ClusterDevicesRouteImport.update({
+  id: '/cluster-devices',
+  path: '/cluster-devices',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RecommendationEffectivenessRoute =
-  RecommendationEffectivenessRouteImport.update({
-    id: '/recommendation-effectiveness',
-    path: '/recommendation-effectiveness',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const PendingApprovalRoute = PendingApprovalRouteImport.update({
-  id: '/pending-approval',
-  path: '/pending-approval',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NeumorphicRoute = NeumorphicRouteImport.update({
-  id: '/neumorphic',
-  path: '/neumorphic',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MultiSignalRoute = MultiSignalRouteImport.update({
-  id: '/multi-signal',
-  path: '/multi-signal',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ModelsRoute = ModelsRouteImport.update({
-  id: '/models',
-  path: '/models',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ManualEntryRoute = ManualEntryRouteImport.update({
-  id: '/manual-entry',
-  path: '/manual-entry',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LedgerValidationRoute = LedgerValidationRouteImport.update({
-  id: '/ledger-validation',
-  path: '/ledger-validation',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LeaderboardRoute = LeaderboardRouteImport.update({
-  id: '/leaderboard',
-  path: '/leaderboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LatexExportRoute = LatexExportRouteImport.update({
-  id: '/latex-export',
-  path: '/latex-export',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InterventionsRoute = InterventionsRouteImport.update({
-  id: '/interventions',
-  path: '/interventions',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ForecastRoute = ForecastRouteImport.update({
-  id: '/forecast',
-  path: '/forecast',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExperimentsRoute = ExperimentsRouteImport.update({
-  id: '/experiments',
-  path: '/experiments',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExperimentRunnerRoute = ExperimentRunnerRouteImport.update({
-  id: '/experiment-runner',
-  path: '/experiment-runner',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExpectedEnergyComparisonRoute =
-  ExpectedEnergyComparisonRouteImport.update({
-    id: '/expected-energy-comparison',
-    path: '/expected-energy-comparison',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ExcessLedgerRoute = ExcessLedgerRouteImport.update({
-  id: '/excess-ledger',
-  path: '/excess-ledger',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EnergySavingRoute = EnergySavingRouteImport.update({
-  id: '/energy-saving',
-  path: '/energy-saving',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EnergyAnalysisRoute = EnergyAnalysisRouteImport.update({
-  id: '/energy-analysis',
-  path: '/energy-analysis',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DigitalTwinRoute = DigitalTwinRouteImport.update({
-  id: '/digital-twin',
-  path: '/digital-twin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DevicesRoute = DevicesRouteImport.update({
-  id: '/devices',
-  path: '/devices',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DeviceDetailsRoute = DeviceDetailsRouteImport.update({
-  id: '/device-details',
-  path: '/device-details',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DatasetsRoute = DatasetsRouteImport.update({
-  id: '/datasets',
-  path: '/datasets',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const CounterfactualAnalysisRoute = CounterfactualAnalysisRouteImport.update({
+  id: '/counterfactual-analysis',
+  path: '/counterfactual-analysis',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CounterfactualValidationRoute =
@@ -228,99 +121,161 @@ const CounterfactualValidationRoute =
     path: '/counterfactual-validation',
     getParentRoute: () => rootRouteImport,
   } as any)
-const CounterfactualAnalysisRoute = CounterfactualAnalysisRouteImport.update({
-  id: '/counterfactual-analysis',
-  path: '/counterfactual-analysis',
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ClusterDevicesRoute = ClusterDevicesRouteImport.update({
-  id: '/cluster-devices',
-  path: '/cluster-devices',
+const DatasetsRoute = DatasetsRouteImport.update({
+  id: '/datasets',
+  path: '/datasets',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CauseAnalysisRoute = CauseAnalysisRouteImport.update({
-  id: '/cause-analysis',
-  path: '/cause-analysis',
+const DeviceDetailsRoute = DeviceDetailsRouteImport.update({
+  id: '/device-details',
+  path: '/device-details',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CarbonCostRoute = CarbonCostRouteImport.update({
-  id: '/carbon-cost',
-  path: '/carbon-cost',
+const DevicesRoute = DevicesRouteImport.update({
+  id: '/devices',
+  path: '/devices',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
+const DigitalTwinRoute = DigitalTwinRouteImport.update({
+  id: '/digital-twin',
+  path: '/digital-twin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApprovalQueueRoute = ApprovalQueueRouteImport.update({
-  id: '/approval-queue',
-  path: '/approval-queue',
+const EnergyAnalysisRoute = EnergyAnalysisRouteImport.update({
+  id: '/energy-analysis',
+  path: '/energy-analysis',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AntigravityRoute = AntigravityRouteImport.update({
-  id: '/antigravity',
-  path: '/antigravity',
+const EnergySavingRoute = EnergySavingRouteImport.update({
+  id: '/energy-saving',
+  path: '/energy-saving',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AiInsightsRoute = AiInsightsRouteImport.update({
-  id: '/ai-insights',
-  path: '/ai-insights',
+const ExcessLedgerRoute = ExcessLedgerRouteImport.update({
+  id: '/excess-ledger',
+  path: '/excess-ledger',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const ExpectedEnergyComparisonRoute =
+  ExpectedEnergyComparisonRouteImport.update({
+    id: '/expected-energy-comparison',
+    path: '/expected-energy-comparison',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ExperimentRunnerRoute = ExperimentRunnerRouteImport.update({
+  id: '/experiment-runner',
+  path: '/experiment-runner',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ExperimentsRoute = ExperimentsRouteImport.update({
+  id: '/experiments',
+  path: '/experiments',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthGoogleRoute = AuthGoogleRouteImport.update({
-  id: '/google',
-  path: '/google',
-  getParentRoute: () => AuthRoute,
-} as any)
-const ApiRecommendationsRoute = ApiRecommendationsRouteImport.update({
-  id: '/api/recommendations',
-  path: '/api/recommendations',
+const ForecastRoute = ForecastRouteImport.update({
+  id: '/forecast',
+  path: '/forecast',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiReadingsRoute = ApiReadingsRouteImport.update({
-  id: '/api/readings',
-  path: '/api/readings',
+const InterventionsRoute = InterventionsRouteImport.update({
+  id: '/interventions',
+  path: '/interventions',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiModelsRoute = ApiModelsRouteImport.update({
-  id: '/api/models',
-  path: '/api/models',
+const LatexExportRoute = LatexExportRouteImport.update({
+  id: '/latex-export',
+  path: '/latex-export',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiLedgerRoute = ApiLedgerRouteImport.update({
-  id: '/api/ledger',
-  path: '/api/ledger',
+const LeaderboardRoute = LeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiIotRoute = ApiIotRouteImport.update({
-  id: '/api/iot',
-  path: '/api/iot',
+const LedgerValidationRoute = LedgerValidationRouteImport.update({
+  id: '/ledger-validation',
+  path: '/ledger-validation',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiExperimentsRoute = ApiExperimentsRouteImport.update({
-  id: '/api/experiments',
-  path: '/api/experiments',
+const ManualEntryRoute = ManualEntryRouteImport.update({
+  id: '/manual-entry',
+  path: '/manual-entry',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiDigitalTwinRoute = ApiDigitalTwinRouteImport.update({
-  id: '/api/digital-twin',
-  path: '/api/digital-twin',
+const ModelsRoute = ModelsRouteImport.update({
+  id: '/models',
+  path: '/models',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiDevicesRoute = ApiDevicesRouteImport.update({
-  id: '/api/devices',
-  path: '/api/devices',
+const MultiSignalRoute = MultiSignalRouteImport.update({
+  id: '/multi-signal',
+  path: '/multi-signal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NeumorphicRoute = NeumorphicRouteImport.update({
+  id: '/neumorphic',
+  path: '/neumorphic',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PendingApprovalRoute = PendingApprovalRouteImport.update({
+  id: '/pending-approval',
+  path: '/pending-approval',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecommendationEffectivenessRoute =
+  RecommendationEffectivenessRouteImport.update({
+    id: '/recommendation-effectiveness',
+    path: '/recommendation-effectiveness',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const RecommendationsRoute = RecommendationsRouteImport.update({
+  id: '/recommendations',
+  path: '/recommendations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportRoute = ReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResearchDashboardRoute = ResearchDashboardRouteImport.update({
+  id: '/research-dashboard',
+  path: '/research-dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResearchEvaluationRoute = ResearchEvaluationRouteImport.update({
+  id: '/research-evaluation',
+  path: '/research-evaluation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResearchResultsRoute = ResearchResultsRouteImport.update({
+  id: '/research-results',
+  path: '/research-results',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatisticalAnalysisRoute = StatisticalAnalysisRouteImport.update({
+  id: '/statistical-analysis',
+  path: '/statistical-analysis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UploadRoute = UploadRouteImport.update({
+  id: '/upload',
+  path: '/upload',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiCounterfactualRoute = ApiCounterfactualRouteImport.update({
@@ -328,19 +283,64 @@ const ApiCounterfactualRoute = ApiCounterfactualRouteImport.update({
   path: '/api/counterfactual',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiDevicesRoute = ApiDevicesRouteImport.update({
+  id: '/api/devices',
+  path: '/api/devices',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDigitalTwinRoute = ApiDigitalTwinRouteImport.update({
+  id: '/api/digital-twin',
+  path: '/api/digital-twin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiExperimentsRoute = ApiExperimentsRouteImport.update({
+  id: '/api/experiments',
+  path: '/api/experiments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiIotRoute = ApiIotRouteImport.update({
+  id: '/api/iot',
+  path: '/api/iot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLedgerRoute = ApiLedgerRouteImport.update({
+  id: '/api/ledger',
+  path: '/api/ledger',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiModelsRoute = ApiModelsRouteImport.update({
+  id: '/api/models',
+  path: '/api/models',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiReadingsRoute = ApiReadingsRouteImport.update({
+  id: '/api/readings',
+  path: '/api/readings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRecommendationsRoute = ApiRecommendationsRouteImport.update({
+  id: '/api/recommendations',
+  path: '/api/recommendations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthGoogleRoute = AuthGoogleRouteImport.update({
+  id: '/google',
+  path: '/google',
+  getParentRoute: () => AuthRoute,
+} as any)
 const ApiAgentReportRoute = ApiAgentReportRouteImport.update({
   id: '/api/agent/report',
   path: '/api/agent/report',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiAuthGoogleLoginRoute = ApiAuthGoogleLoginRouteImport.update({
-  id: '/api/auth/google/login',
-  path: '/api/auth/google/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiAuthGoogleCallbackRoute = ApiAuthGoogleCallbackRouteImport.update({
   id: '/api/auth/google/callback',
   path: '/api/auth/google/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthGoogleLoginRoute = ApiAuthGoogleLoginRouteImport.update({
+  id: '/api/auth/google/login',
+  path: '/api/auth/google/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -749,284 +749,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/upload': {
-      id: '/upload'
-      path: '/upload'
-      fullPath: '/upload'
-      preLoaderRoute: typeof UploadRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/statistical-analysis': {
-      id: '/statistical-analysis'
-      path: '/statistical-analysis'
-      fullPath: '/statistical-analysis'
-      preLoaderRoute: typeof StatisticalAnalysisRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/research-results': {
-      id: '/research-results'
-      path: '/research-results'
-      fullPath: '/research-results'
-      preLoaderRoute: typeof ResearchResultsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/research-evaluation': {
-      id: '/research-evaluation'
-      path: '/research-evaluation'
-      fullPath: '/research-evaluation'
-      preLoaderRoute: typeof ResearchEvaluationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/research-dashboard': {
-      id: '/research-dashboard'
-      path: '/research-dashboard'
-      fullPath: '/research-dashboard'
-      preLoaderRoute: typeof ResearchDashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reports': {
-      id: '/reports'
-      path: '/reports'
-      fullPath: '/reports'
-      preLoaderRoute: typeof ReportsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/report': {
-      id: '/report'
-      path: '/report'
-      fullPath: '/report'
-      preLoaderRoute: typeof ReportRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/recommendations': {
-      id: '/recommendations'
-      path: '/recommendations'
-      fullPath: '/recommendations'
-      preLoaderRoute: typeof RecommendationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/recommendation-effectiveness': {
-      id: '/recommendation-effectiveness'
-      path: '/recommendation-effectiveness'
-      fullPath: '/recommendation-effectiveness'
-      preLoaderRoute: typeof RecommendationEffectivenessRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pending-approval': {
-      id: '/pending-approval'
-      path: '/pending-approval'
-      fullPath: '/pending-approval'
-      preLoaderRoute: typeof PendingApprovalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/neumorphic': {
-      id: '/neumorphic'
-      path: '/neumorphic'
-      fullPath: '/neumorphic'
-      preLoaderRoute: typeof NeumorphicRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/multi-signal': {
-      id: '/multi-signal'
-      path: '/multi-signal'
-      fullPath: '/multi-signal'
-      preLoaderRoute: typeof MultiSignalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/models': {
-      id: '/models'
-      path: '/models'
-      fullPath: '/models'
-      preLoaderRoute: typeof ModelsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/manual-entry': {
-      id: '/manual-entry'
-      path: '/manual-entry'
-      fullPath: '/manual-entry'
-      preLoaderRoute: typeof ManualEntryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ledger-validation': {
-      id: '/ledger-validation'
-      path: '/ledger-validation'
-      fullPath: '/ledger-validation'
-      preLoaderRoute: typeof LedgerValidationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/leaderboard': {
-      id: '/leaderboard'
-      path: '/leaderboard'
-      fullPath: '/leaderboard'
-      preLoaderRoute: typeof LeaderboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/latex-export': {
-      id: '/latex-export'
-      path: '/latex-export'
-      fullPath: '/latex-export'
-      preLoaderRoute: typeof LatexExportRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/interventions': {
-      id: '/interventions'
-      path: '/interventions'
-      fullPath: '/interventions'
-      preLoaderRoute: typeof InterventionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/forecast': {
-      id: '/forecast'
-      path: '/forecast'
-      fullPath: '/forecast'
-      preLoaderRoute: typeof ForecastRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/experiments': {
-      id: '/experiments'
-      path: '/experiments'
-      fullPath: '/experiments'
-      preLoaderRoute: typeof ExperimentsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/experiment-runner': {
-      id: '/experiment-runner'
-      path: '/experiment-runner'
-      fullPath: '/experiment-runner'
-      preLoaderRoute: typeof ExperimentRunnerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/expected-energy-comparison': {
-      id: '/expected-energy-comparison'
-      path: '/expected-energy-comparison'
-      fullPath: '/expected-energy-comparison'
-      preLoaderRoute: typeof ExpectedEnergyComparisonRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/excess-ledger': {
-      id: '/excess-ledger'
-      path: '/excess-ledger'
-      fullPath: '/excess-ledger'
-      preLoaderRoute: typeof ExcessLedgerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/energy-saving': {
-      id: '/energy-saving'
-      path: '/energy-saving'
-      fullPath: '/energy-saving'
-      preLoaderRoute: typeof EnergySavingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/energy-analysis': {
-      id: '/energy-analysis'
-      path: '/energy-analysis'
-      fullPath: '/energy-analysis'
-      preLoaderRoute: typeof EnergyAnalysisRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/digital-twin': {
-      id: '/digital-twin'
-      path: '/digital-twin'
-      fullPath: '/digital-twin'
-      preLoaderRoute: typeof DigitalTwinRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/devices': {
-      id: '/devices'
-      path: '/devices'
-      fullPath: '/devices'
-      preLoaderRoute: typeof DevicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/device-details': {
-      id: '/device-details'
-      path: '/device-details'
-      fullPath: '/device-details'
-      preLoaderRoute: typeof DeviceDetailsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/datasets': {
-      id: '/datasets'
-      path: '/datasets'
-      fullPath: '/datasets'
-      preLoaderRoute: typeof DatasetsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/counterfactual-validation': {
-      id: '/counterfactual-validation'
-      path: '/counterfactual-validation'
-      fullPath: '/counterfactual-validation'
-      preLoaderRoute: typeof CounterfactualValidationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/counterfactual-analysis': {
-      id: '/counterfactual-analysis'
-      path: '/counterfactual-analysis'
-      fullPath: '/counterfactual-analysis'
-      preLoaderRoute: typeof CounterfactualAnalysisRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cluster-devices': {
-      id: '/cluster-devices'
-      path: '/cluster-devices'
-      fullPath: '/cluster-devices'
-      preLoaderRoute: typeof ClusterDevicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cause-analysis': {
-      id: '/cause-analysis'
-      path: '/cause-analysis'
-      fullPath: '/cause-analysis'
-      preLoaderRoute: typeof CauseAnalysisRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/carbon-cost': {
-      id: '/carbon-cost'
-      path: '/carbon-cost'
-      fullPath: '/carbon-cost'
-      preLoaderRoute: typeof CarbonCostRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/approval-queue': {
-      id: '/approval-queue'
-      path: '/approval-queue'
-      fullPath: '/approval-queue'
-      preLoaderRoute: typeof ApprovalQueueRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/antigravity': {
-      id: '/antigravity'
-      path: '/antigravity'
-      fullPath: '/antigravity'
-      preLoaderRoute: typeof AntigravityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ai-insights': {
-      id: '/ai-insights'
-      path: '/ai-insights'
-      fullPath: '/ai-insights'
-      preLoaderRoute: typeof AiInsightsRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -1036,74 +763,284 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/ai-insights': {
+      id: '/ai-insights'
+      path: '/ai-insights'
+      fullPath: '/ai-insights'
+      preLoaderRoute: typeof AiInsightsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/google': {
-      id: '/auth/google'
-      path: '/google'
-      fullPath: '/auth/google'
-      preLoaderRoute: typeof AuthGoogleRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/api/recommendations': {
-      id: '/api/recommendations'
-      path: '/api/recommendations'
-      fullPath: '/api/recommendations'
-      preLoaderRoute: typeof ApiRecommendationsRouteImport
+    '/antigravity': {
+      id: '/antigravity'
+      path: '/antigravity'
+      fullPath: '/antigravity'
+      preLoaderRoute: typeof AntigravityRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/readings': {
-      id: '/api/readings'
-      path: '/api/readings'
-      fullPath: '/api/readings'
-      preLoaderRoute: typeof ApiReadingsRouteImport
+    '/approval-queue': {
+      id: '/approval-queue'
+      path: '/approval-queue'
+      fullPath: '/approval-queue'
+      preLoaderRoute: typeof ApprovalQueueRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/models': {
-      id: '/api/models'
-      path: '/api/models'
-      fullPath: '/api/models'
-      preLoaderRoute: typeof ApiModelsRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/ledger': {
-      id: '/api/ledger'
-      path: '/api/ledger'
-      fullPath: '/api/ledger'
-      preLoaderRoute: typeof ApiLedgerRouteImport
+    '/carbon-cost': {
+      id: '/carbon-cost'
+      path: '/carbon-cost'
+      fullPath: '/carbon-cost'
+      preLoaderRoute: typeof CarbonCostRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/iot': {
-      id: '/api/iot'
-      path: '/api/iot'
-      fullPath: '/api/iot'
-      preLoaderRoute: typeof ApiIotRouteImport
+    '/cause-analysis': {
+      id: '/cause-analysis'
+      path: '/cause-analysis'
+      fullPath: '/cause-analysis'
+      preLoaderRoute: typeof CauseAnalysisRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/experiments': {
-      id: '/api/experiments'
-      path: '/api/experiments'
-      fullPath: '/api/experiments'
-      preLoaderRoute: typeof ApiExperimentsRouteImport
+    '/cluster-devices': {
+      id: '/cluster-devices'
+      path: '/cluster-devices'
+      fullPath: '/cluster-devices'
+      preLoaderRoute: typeof ClusterDevicesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/digital-twin': {
-      id: '/api/digital-twin'
-      path: '/api/digital-twin'
-      fullPath: '/api/digital-twin'
-      preLoaderRoute: typeof ApiDigitalTwinRouteImport
+    '/counterfactual-analysis': {
+      id: '/counterfactual-analysis'
+      path: '/counterfactual-analysis'
+      fullPath: '/counterfactual-analysis'
+      preLoaderRoute: typeof CounterfactualAnalysisRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/devices': {
-      id: '/api/devices'
-      path: '/api/devices'
-      fullPath: '/api/devices'
-      preLoaderRoute: typeof ApiDevicesRouteImport
+    '/counterfactual-validation': {
+      id: '/counterfactual-validation'
+      path: '/counterfactual-validation'
+      fullPath: '/counterfactual-validation'
+      preLoaderRoute: typeof CounterfactualValidationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/datasets': {
+      id: '/datasets'
+      path: '/datasets'
+      fullPath: '/datasets'
+      preLoaderRoute: typeof DatasetsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/device-details': {
+      id: '/device-details'
+      path: '/device-details'
+      fullPath: '/device-details'
+      preLoaderRoute: typeof DeviceDetailsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/devices': {
+      id: '/devices'
+      path: '/devices'
+      fullPath: '/devices'
+      preLoaderRoute: typeof DevicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/digital-twin': {
+      id: '/digital-twin'
+      path: '/digital-twin'
+      fullPath: '/digital-twin'
+      preLoaderRoute: typeof DigitalTwinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/energy-analysis': {
+      id: '/energy-analysis'
+      path: '/energy-analysis'
+      fullPath: '/energy-analysis'
+      preLoaderRoute: typeof EnergyAnalysisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/energy-saving': {
+      id: '/energy-saving'
+      path: '/energy-saving'
+      fullPath: '/energy-saving'
+      preLoaderRoute: typeof EnergySavingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/excess-ledger': {
+      id: '/excess-ledger'
+      path: '/excess-ledger'
+      fullPath: '/excess-ledger'
+      preLoaderRoute: typeof ExcessLedgerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/expected-energy-comparison': {
+      id: '/expected-energy-comparison'
+      path: '/expected-energy-comparison'
+      fullPath: '/expected-energy-comparison'
+      preLoaderRoute: typeof ExpectedEnergyComparisonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/experiment-runner': {
+      id: '/experiment-runner'
+      path: '/experiment-runner'
+      fullPath: '/experiment-runner'
+      preLoaderRoute: typeof ExperimentRunnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/experiments': {
+      id: '/experiments'
+      path: '/experiments'
+      fullPath: '/experiments'
+      preLoaderRoute: typeof ExperimentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forecast': {
+      id: '/forecast'
+      path: '/forecast'
+      fullPath: '/forecast'
+      preLoaderRoute: typeof ForecastRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/interventions': {
+      id: '/interventions'
+      path: '/interventions'
+      fullPath: '/interventions'
+      preLoaderRoute: typeof InterventionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/latex-export': {
+      id: '/latex-export'
+      path: '/latex-export'
+      fullPath: '/latex-export'
+      preLoaderRoute: typeof LatexExportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leaderboard': {
+      id: '/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof LeaderboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ledger-validation': {
+      id: '/ledger-validation'
+      path: '/ledger-validation'
+      fullPath: '/ledger-validation'
+      preLoaderRoute: typeof LedgerValidationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manual-entry': {
+      id: '/manual-entry'
+      path: '/manual-entry'
+      fullPath: '/manual-entry'
+      preLoaderRoute: typeof ManualEntryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/models': {
+      id: '/models'
+      path: '/models'
+      fullPath: '/models'
+      preLoaderRoute: typeof ModelsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/multi-signal': {
+      id: '/multi-signal'
+      path: '/multi-signal'
+      fullPath: '/multi-signal'
+      preLoaderRoute: typeof MultiSignalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/neumorphic': {
+      id: '/neumorphic'
+      path: '/neumorphic'
+      fullPath: '/neumorphic'
+      preLoaderRoute: typeof NeumorphicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pending-approval': {
+      id: '/pending-approval'
+      path: '/pending-approval'
+      fullPath: '/pending-approval'
+      preLoaderRoute: typeof PendingApprovalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recommendation-effectiveness': {
+      id: '/recommendation-effectiveness'
+      path: '/recommendation-effectiveness'
+      fullPath: '/recommendation-effectiveness'
+      preLoaderRoute: typeof RecommendationEffectivenessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recommendations': {
+      id: '/recommendations'
+      path: '/recommendations'
+      fullPath: '/recommendations'
+      preLoaderRoute: typeof RecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/report': {
+      id: '/report'
+      path: '/report'
+      fullPath: '/report'
+      preLoaderRoute: typeof ReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research-dashboard': {
+      id: '/research-dashboard'
+      path: '/research-dashboard'
+      fullPath: '/research-dashboard'
+      preLoaderRoute: typeof ResearchDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research-evaluation': {
+      id: '/research-evaluation'
+      path: '/research-evaluation'
+      fullPath: '/research-evaluation'
+      preLoaderRoute: typeof ResearchEvaluationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research-results': {
+      id: '/research-results'
+      path: '/research-results'
+      fullPath: '/research-results'
+      preLoaderRoute: typeof ResearchResultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/statistical-analysis': {
+      id: '/statistical-analysis'
+      path: '/statistical-analysis'
+      fullPath: '/statistical-analysis'
+      preLoaderRoute: typeof StatisticalAnalysisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/upload': {
+      id: '/upload'
+      path: '/upload'
+      fullPath: '/upload'
+      preLoaderRoute: typeof UploadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/counterfactual': {
@@ -1113,6 +1050,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCounterfactualRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/devices': {
+      id: '/api/devices'
+      path: '/api/devices'
+      fullPath: '/api/devices'
+      preLoaderRoute: typeof ApiDevicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/digital-twin': {
+      id: '/api/digital-twin'
+      path: '/api/digital-twin'
+      fullPath: '/api/digital-twin'
+      preLoaderRoute: typeof ApiDigitalTwinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/experiments': {
+      id: '/api/experiments'
+      path: '/api/experiments'
+      fullPath: '/api/experiments'
+      preLoaderRoute: typeof ApiExperimentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/iot': {
+      id: '/api/iot'
+      path: '/api/iot'
+      fullPath: '/api/iot'
+      preLoaderRoute: typeof ApiIotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/ledger': {
+      id: '/api/ledger'
+      path: '/api/ledger'
+      fullPath: '/api/ledger'
+      preLoaderRoute: typeof ApiLedgerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/models': {
+      id: '/api/models'
+      path: '/api/models'
+      fullPath: '/api/models'
+      preLoaderRoute: typeof ApiModelsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/readings': {
+      id: '/api/readings'
+      path: '/api/readings'
+      fullPath: '/api/readings'
+      preLoaderRoute: typeof ApiReadingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/recommendations': {
+      id: '/api/recommendations'
+      path: '/api/recommendations'
+      fullPath: '/api/recommendations'
+      preLoaderRoute: typeof ApiRecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/google': {
+      id: '/auth/google'
+      path: '/google'
+      fullPath: '/auth/google'
+      preLoaderRoute: typeof AuthGoogleRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/api/agent/report': {
       id: '/api/agent/report'
       path: '/api/agent/report'
@@ -1120,18 +1120,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAgentReportRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/auth/google/login': {
-      id: '/api/auth/google/login'
-      path: '/api/auth/google/login'
-      fullPath: '/api/auth/google/login'
-      preLoaderRoute: typeof ApiAuthGoogleLoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/auth/google/callback': {
       id: '/api/auth/google/callback'
       path: '/api/auth/google/callback'
       fullPath: '/api/auth/google/callback'
       preLoaderRoute: typeof ApiAuthGoogleCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/google/login': {
+      id: '/api/auth/google/login'
+      path: '/api/auth/google/login'
+      fullPath: '/api/auth/google/login'
+      preLoaderRoute: typeof ApiAuthGoogleLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

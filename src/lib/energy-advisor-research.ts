@@ -10,10 +10,7 @@ export type CauseType =
   | "OTHER_DEFINED_CAUSE";
 
 export type ValidationStatus =
-  | "POTENTIAL_EXCESS"
-  | "VERIFIED_EXCESS"
-  | "PROBABLE_CAUSE"
-  | "CONTRIBUTING_FACTOR";
+  "POTENTIAL_EXCESS" | "VERIFIED_EXCESS" | "PROBABLE_CAUSE" | "CONTRIBUTING_FACTOR";
 
 export type OperatingState =
   | "OFF"
@@ -443,11 +440,7 @@ export interface SimulatorConfig {
   temperature_c: number;
   sampling_interval_s: number;
   injected_cause:
-    | "NONE"
-    | "PROLONGED_IDLE"
-    | "BACKGROUND_LOAD"
-    | "STANDBY_LEAKAGE"
-    | "SCHEDULE_MISUSE";
+    "NONE" | "PROLONGED_IDLE" | "BACKGROUND_LOAD" | "STANDBY_LEAKAGE" | "SCHEDULE_MISUSE";
   injected_duration_hours: number;
   injected_additional_power_w: number;
   ground_truth_excess_wh: number;
