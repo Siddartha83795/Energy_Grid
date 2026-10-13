@@ -11,9 +11,15 @@ export const Route = createFileRoute("/api/auth/google/login")({
         await setOAuthStateCookie(state);
 
         const clientId = (process.env.GOOGLE_CLIENT_ID || "").trim();
+        const url = new URL(request.url);
+        const proto = request.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
+        const host =
+          request.headers.get("x-forwarded-host") || request.headers.get("host") || url.host;
+        const origin = `${proto}://${host}`;
+
         let redirectUri = (process.env.GOOGLE_REDIRECT_URI || "").trim();
-        if (!redirectUri) {
-          const origin = new URL(request.url).origin;
+        // Fallback to request origin if not configured or if running on deployed remote domain while configured as localhost
+        if (!redirectUri || (!origin.includes("localhost") && redirectUri.includes("localhost"))) {
           redirectUri = `${origin}/api/auth/google/callback`;
         }
 
