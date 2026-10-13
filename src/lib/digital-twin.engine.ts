@@ -133,8 +133,18 @@ export interface WhatIfScenarioResult {
 
 export interface ResearchMetrics {
   anomaly_detection_comparison: {
-    static_threshold: { precision: number; recall: number; false_positive_rate_pct: number; f1_score: number };
-    ai_multimodal_fusion: { precision: number; recall: number; false_positive_rate_pct: number; f1_score: number };
+    static_threshold: {
+      precision: number;
+      recall: number;
+      false_positive_rate_pct: number;
+      f1_score: number;
+    };
+    ai_multimodal_fusion: {
+      precision: number;
+      recall: number;
+      false_positive_rate_pct: number;
+      f1_score: number;
+    };
   };
   energy_baseline_comparison: {
     raw_baseline_kwh: number;
@@ -207,16 +217,27 @@ export const MACHINES: Record<string, MachineConfig> = {
 };
 
 // Global memory state buffer for real-time telemetry continuity
-let telemetryHistoryStore: Record<string, MachineTelemetry[]> = {};
+const telemetryHistoryStore: Record<string, MachineTelemetry[]> = {};
 let activeAnomaliesStore: AnomalyRecord[] = [];
-let forcedAnomalyModes: Record<string, "voltage_surge" | "thermal_overheat" | "vibration_spike" | null> = {
+const forcedAnomalyModes: Record<
+  string,
+  "voltage_surge" | "thermal_overheat" | "vibration_spike" | null
+> = {
   "Machine A": null,
   "Machine B": null,
   "Machine C": null,
 };
 let activeProtocol: "MQTT" | "OPC-UA" | "Modbus TCP" = "MQTT";
-let cumulativeKwhState: Record<string, number> = { "Machine A": 340.5, "Machine B": 680.2, "Machine C": 215.8 };
-let cumulativeProdState: Record<string, number> = { "Machine A": 1420, "Machine B": 640, "Machine C": 3850 };
+const cumulativeKwhState: Record<string, number> = {
+  "Machine A": 340.5,
+  "Machine B": 680.2,
+  "Machine C": 215.8,
+};
+const cumulativeProdState: Record<string, number> = {
+  "Machine A": 1420,
+  "Machine B": 640,
+  "Machine C": 3850,
+};
 let runStepCounter = 0;
 
 // -------------------------------------------------------------
@@ -232,8 +253,8 @@ export function generateMachineTelemetry(
   runStepCounter++;
 
   // 1. Base voltage & power calculations
-  let nominalVoltage = 400; // 3-phase 400V
-  let voltageDev = (Math.sin(runStepCounter * 0.1) * 3 + (Math.random() - 0.5) * 2);
+  const nominalVoltage = 400; // 3-phase 400V
+  let voltageDev = Math.sin(runStepCounter * 0.1) * 3 + (Math.random() - 0.5) * 2;
   if (forcedAnomaly === "voltage_surge") voltageDev += 48; // Spike voltage
   const voltage = Math.round((nominalVoltage + voltageDev) * 10) / 10;
 
@@ -245,11 +266,14 @@ export function generateMachineTelemetry(
   if (state === "Fault") loadMult = 0.85; // High draw during locked fault
 
   const targetPowerKw = cfg.ratedPowerKw * loadMult;
-  const powerFactor = Math.min(0.98, Math.max(0.72, 0.92 - (1 - loadMult) * 0.15 + (Math.random() - 0.5) * 0.02));
-  
+  const powerFactor = Math.min(
+    0.98,
+    Math.max(0.72, 0.92 - (1 - loadMult) * 0.15 + (Math.random() - 0.5) * 0.02),
+  );
+
   // Current I = P / (sqrt(3) * V * PF)
   const currentAmp = (targetPowerKw * 1000) / (Math.sqrt(3) * voltage * powerFactor);
-  
+
   // Power kW
   const actualPowerKw = Math.round(targetPowerKw * 100) / 100;
 
@@ -258,7 +282,8 @@ export function generateMachineTelemetry(
   cumulativeKwhState[machineId] = (cumulativeKwhState[machineId] || 100) + deltaKwh;
 
   // Harmonics THD %
-  const harmonicsThd = Math.round((4.2 + (1 - powerFactor) * 15 + (Math.random() - 0.5) * 0.5) * 10) / 10;
+  const harmonicsThd =
+    Math.round((4.2 + (1 - powerFactor) * 15 + (Math.random() - 0.5) * 0.5) * 10) / 10;
 
   // Temperature (°C): rises with power & duration
   let tempBase = cfg.baselineTempC + loadMult * 14;
@@ -315,13 +340,13 @@ export function getOrCreateTelemetryHistory(machineId: string): MachineTelemetry
     const history: MachineTelemetry[] = [];
     const cfg = MACHINES[machineId] || MACHINES["Machine A"];
     const now = Date.now();
-    
+
     // Generate 30 points (representing past 2.5 hours)
     for (let i = 29; i >= 0; i--) {
       const pointTime = new Date(now - i * 5 * 60 * 1000).toISOString();
       const state: "Running" | "Idle" = i % 7 === 0 ? "Idle" : "Running";
       const load = state === "Idle" ? 20 : 80 + Math.sin(i) * 10;
-      
+
       const t = generateMachineTelemetry(machineId, state, load, null);
       t.timestamp = pointTime;
       history.push(t);
@@ -341,7 +366,10 @@ export function pushTelemetryReading(reading: MachineTelemetry) {
   }
 }
 
-export function setForcedAnomaly(machineId: string, anomaly: "voltage_surge" | "thermal_overheat" | "vibration_spike" | null) {
+export function setForcedAnomaly(
+  machineId: string,
+  anomaly: "voltage_surge" | "thermal_overheat" | "vibration_spike" | null,
+) {
   forcedAnomalyModes[machineId] = anomaly;
 }
 
@@ -388,10 +416,15 @@ export function computeDigitalTwinState(machineId: string): DigitalTwinState {
 
   // Efficiency % (Production vs Expected Kw)
   const expectedKwPerUnit = cfg.ratedPowerKw / (cfg.normalUnitsPerMin * 60);
-  const actualKwPerUnit = latest.production_units_per_min > 0 ? (latest.power_kw / (latest.production_units_per_min * 60)) : 0;
+  const actualKwPerUnit =
+    latest.production_units_per_min > 0
+      ? latest.power_kw / (latest.production_units_per_min * 60)
+      : 0;
   let efficiencyPct = 85;
   if (actualKwPerUnit > 0) {
-    efficiencyPct = Math.round(Math.max(30, Math.min(99, (expectedKwPerUnit / actualKwPerUnit) * 100)));
+    efficiencyPct = Math.round(
+      Math.max(30, Math.min(99, (expectedKwPerUnit / actualKwPerUnit) * 100)),
+    );
   }
 
   // Hourly Trends
@@ -491,7 +524,9 @@ export function detectAnomaliesAcrossFleet(): AnomalyRecord[] {
         detected_at: latest.timestamp,
         observed_value: `${latest.power_kw} kW`,
         baseline_value: `< ${(cfg.ratedPowerKw * 0.08).toFixed(1)} kW (Idle)`,
-        deviation_pct: Math.round(((latest.power_kw - cfg.ratedPowerKw * 0.08) / (cfg.ratedPowerKw * 0.08)) * 100),
+        deviation_pct: Math.round(
+          ((latest.power_kw - cfg.ratedPowerKw * 0.08) / (cfg.ratedPowerKw * 0.08)) * 100,
+        ),
         explanation: `${cfg.name} is drawing ${latest.power_kw} kW while zero production output is being recorded. Likely unpowered standby or left ON over shift break.`,
         is_active: true,
       });
@@ -509,7 +544,9 @@ export function detectAnomaliesAcrossFleet(): AnomalyRecord[] {
         detected_at: latest.timestamp,
         observed_value: `${latest.temperature_c} °C`,
         baseline_value: `${cfg.baselineTempC} °C baseline`,
-        deviation_pct: Math.round(((latest.temperature_c - cfg.baselineTempC) / cfg.baselineTempC) * 100),
+        deviation_pct: Math.round(
+          ((latest.temperature_c - cfg.baselineTempC) / cfg.baselineTempC) * 100,
+        ),
         explanation: `${cfg.name} motor casing temperature elevated to ${latest.temperature_c} °C. High risk of thermal breakdown or inadequate coolant flow.`,
         is_active: true,
       });
@@ -527,7 +564,9 @@ export function detectAnomaliesAcrossFleet(): AnomalyRecord[] {
         detected_at: latest.timestamp,
         observed_value: `${latest.vibration_db} dB`,
         baseline_value: `${cfg.baselineVibrationDb} dB baseline`,
-        deviation_pct: Math.round(((latest.vibration_db - cfg.baselineVibrationDb) / cfg.baselineVibrationDb) * 100),
+        deviation_pct: Math.round(
+          ((latest.vibration_db - cfg.baselineVibrationDb) / cfg.baselineVibrationDb) * 100,
+        ),
         explanation: `Acoustic/vibration amplitude spiked to ${latest.vibration_db} dB. Indicates potential shaft misalignment, bearing degradation, or stuck contactor relay.`,
         is_active: true,
       });
@@ -544,7 +583,7 @@ export function detectAnomaliesAcrossFleet(): AnomalyRecord[] {
         detected_at: latest.timestamp,
         observed_value: `${latest.power_factor} PF`,
         baseline_value: `> 0.90 PF standard`,
-        deviation_pct: Math.round(((0.90 - latest.power_factor) / 0.90) * 100),
+        deviation_pct: Math.round(((0.9 - latest.power_factor) / 0.9) * 100),
         explanation: `Power factor dropped to ${latest.power_factor}. Inductive reactive power draw incurring utility tariff penalties.`,
         is_active: true,
       });
@@ -603,7 +642,8 @@ export function generateOptimizationRecommendations(): OptimizationRecommendatio
     machine_id: "Machine C",
     machine_name: MACHINES["Machine C"].name,
     category: "Machine Schedule",
-    recommendation: "Shift non-critical Machine C compressor storage pressurization to Night Tariff band (22:00 - 06:00).",
+    recommendation:
+      "Shift non-critical Machine C compressor storage pressurization to Night Tariff band (22:00 - 06:00).",
     estimated_weekly_savings_inr: 5400,
     estimated_co2_reduction_kg: 110,
     risk_level: "Low",
@@ -624,7 +664,7 @@ export function runWhatIfDigitalTwinSimulation(input: WhatIfScenarioInput): What
 
   const basePower = twin.current_power_kw || cfg.ratedPowerKw * 0.75;
   const baseDailyKwh = basePower * 16; // 16 operating hours/day
-  const baseDailyProd = (cfg.normalUnitsPerMin * 60) * 14; // 14 active production hours
+  const baseDailyProd = cfg.normalUnitsPerMin * 60 * 14; // 14 active production hours
   const baseDailyCostInr = baseDailyKwh * 8.5; // ₹8.5 per kWh
 
   // Simulated metrics
@@ -641,7 +681,10 @@ export function runWhatIfDigitalTwinSimulation(input: WhatIfScenarioInput): What
   const costSavedDailyInr = Math.round(baseDailyCostInr - simDailyCostInr);
   const pctEnergySaved = Math.round(((baseDailyKwh - simDailyKwh) / baseDailyKwh) * 100 * 10) / 10;
 
-  const simEffPct = Math.min(98, Math.round(twin.efficiency_pct * (1 + (pctEnergySaved / 100) * 0.4)));
+  const simEffPct = Math.min(
+    98,
+    Math.round(twin.efficiency_pct * (1 + (pctEnergySaved / 100) * 0.4)),
+  );
 
   return {
     machine_id: mKey,
@@ -681,7 +724,7 @@ export function getResearchMetrics(): ResearchMetrics {
         precision: 0.68,
         recall: 0.72,
         false_positive_rate_pct: 24.5,
-        f1_score: 0.70,
+        f1_score: 0.7,
       },
       ai_multimodal_fusion: {
         precision: 0.94,
@@ -733,7 +776,11 @@ export function getFactoryCommandOverview(): FactoryCommandOverview {
     sumHealth += twin.health_score;
 
     if (twin.operating_state === "Running") runningCount++;
-    if (twin.temperature_status !== "Normal" || twin.vibration_status !== "Normal" || twin.health_score < 75) {
+    if (
+      twin.temperature_status !== "Normal" ||
+      twin.vibration_status !== "Normal" ||
+      twin.health_score < 75
+    ) {
       warningCount++;
     }
   }

@@ -61,14 +61,20 @@ export function NeumorphicDashboard() {
                   Neumorphic Power Console
                 </h1>
               </div>
-              <p className="text-xs sm:text-sm font-medium" style={{ color: "var(--neu-text-muted)" }}>
+              <p
+                className="text-xs sm:text-sm font-medium"
+                style={{ color: "var(--neu-text-muted)" }}
+              >
                 Continuous-Process Substrate Telemetry // Substation 04
               </p>
             </div>
 
             {/* DYNAMIC THEME SWITCH (LIGHT <-> DARK) */}
             <div className="flex items-center gap-3">
-              <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--neu-text-muted)" }}>
+              <span
+                className="text-xs font-semibold uppercase tracking-wider"
+                style={{ color: "var(--neu-text-muted)" }}
+              >
                 {isLight ? "Light Soft UI" : "Dark Soft UI"}
               </span>
               <button
@@ -92,7 +98,10 @@ export function NeumorphicDashboard() {
             {/* Metric 1 */}
             <div className="neu-extruded-sm p-5 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--neu-text-muted)" }}>
+                <span
+                  className="text-xs font-bold uppercase tracking-wider"
+                  style={{ color: "var(--neu-text-muted)" }}
+                >
                   Active Line Draw
                 </span>
                 <div
@@ -138,7 +147,10 @@ export function NeumorphicDashboard() {
             {/* Metric 2 */}
             <div className="neu-extruded-sm p-5 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--neu-text-muted)" }}>
+                <span
+                  className="text-xs font-bold uppercase tracking-wider"
+                  style={{ color: "var(--neu-text-muted)" }}
+                >
                   Standby Waste
                 </span>
                 <div
@@ -148,7 +160,10 @@ export function NeumorphicDashboard() {
                       "inset 2px 2px 4px var(--neu-shadow-dark), inset -2px -2px 4px var(--neu-shadow-light)",
                   }}
                 >
-                  <TrendingDown className="h-4 w-4" style={{ color: "var(--neu-accent-success)" }} />
+                  <TrendingDown
+                    className="h-4 w-4"
+                    style={{ color: "var(--neu-accent-success)" }}
+                  />
                 </div>
               </div>
               <div className="flex items-baseline gap-1">
@@ -184,7 +199,10 @@ export function NeumorphicDashboard() {
             {/* Metric 3 */}
             <div className="neu-extruded-sm p-5 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--neu-text-muted)" }}>
+                <span
+                  className="text-xs font-bold uppercase tracking-wider"
+                  style={{ color: "var(--neu-text-muted)" }}
+                >
                   Recoverable Spend
                 </span>
                 <div
@@ -259,7 +277,10 @@ export function NeumorphicDashboard() {
 
           {/* INTERACTIVE NEUMORPHIC TOGGLE SWITCHES */}
           <section className="neu-extruded-sm p-6 space-y-6" aria-label="System Hardware Switches">
-            <h2 className="text-sm font-bold uppercase tracking-wider" style={{ color: "var(--neu-text-headline)" }}>
+            <h2
+              className="text-sm font-bold uppercase tracking-wider"
+              style={{ color: "var(--neu-text-headline)" }}
+            >
               Standby Intervention Automation
             </h2>
 
@@ -293,13 +314,16 @@ export function NeumorphicDashboard() {
                   style={{
                     backgroundColor: "var(--neu-bg-base)",
                     transform: autoDecouple ? "translateX(32px)" : "translateX(0px)",
-                    boxShadow: "2px 2px 4px var(--neu-shadow-dark), -2px -2px 4px var(--neu-shadow-light)",
+                    boxShadow:
+                      "2px 2px 4px var(--neu-shadow-dark), -2px -2px 4px var(--neu-shadow-light)",
                   }}
                 >
                   <span
                     className="h-2 w-2 rounded-full transition-colors"
                     style={{
-                      backgroundColor: autoDecouple ? "var(--neu-accent-success)" : "var(--neu-text-muted)",
+                      backgroundColor: autoDecouple
+                        ? "var(--neu-accent-success)"
+                        : "var(--neu-text-muted)",
                       boxShadow: autoDecouple ? "0 0 6px var(--neu-accent-success-glow)" : "none",
                     }}
                   />
@@ -336,13 +360,16 @@ export function NeumorphicDashboard() {
                   style={{
                     backgroundColor: "var(--neu-bg-base)",
                     transform: highFreqIngest ? "translateX(32px)" : "translateX(0px)",
-                    boxShadow: "2px 2px 4px var(--neu-shadow-dark), -2px -2px 4px var(--neu-shadow-light)",
+                    boxShadow:
+                      "2px 2px 4px var(--neu-shadow-dark), -2px -2px 4px var(--neu-shadow-light)",
                   }}
                 >
                   <span
                     className="h-2 w-2 rounded-full transition-colors"
                     style={{
-                      backgroundColor: highFreqIngest ? "var(--neu-accent-primary)" : "var(--neu-text-muted)",
+                      backgroundColor: highFreqIngest
+                        ? "var(--neu-accent-primary)"
+                        : "var(--neu-text-muted)",
                       boxShadow: highFreqIngest ? "0 0 6px var(--neu-accent-glow)" : "none",
                     }}
                   />
@@ -379,13 +406,16 @@ export function NeumorphicDashboard() {
                   style={{
                     backgroundColor: "var(--neu-bg-base)",
                     transform: aiSupervision ? "translateX(32px)" : "translateX(0px)",
-                    boxShadow: "2px 2px 4px var(--neu-shadow-dark), -2px -2px 4px var(--neu-shadow-light)",
+                    boxShadow:
+                      "2px 2px 4px var(--neu-shadow-dark), -2px -2px 4px var(--neu-shadow-light)",
                   }}
                 >
                   <span
                     className="h-2 w-2 rounded-full transition-colors"
                     style={{
-                      backgroundColor: aiSupervision ? "var(--neu-accent-success)" : "var(--neu-text-muted)",
+                      backgroundColor: aiSupervision
+                        ? "var(--neu-accent-success)"
+                        : "var(--neu-text-muted)",
                       boxShadow: aiSupervision ? "0 0 6px var(--neu-accent-success-glow)" : "none",
                     }}
                   />
@@ -396,7 +426,10 @@ export function NeumorphicDashboard() {
 
           {/* ACTION BUTTON SUITE (TACTILE DEBOSS ON PRESS) */}
           <footer className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-black/5 dark:border-white/5">
-            <div className="text-xs font-mono font-medium" style={{ color: "var(--neu-text-muted)" }}>
+            <div
+              className="text-xs font-mono font-medium"
+              style={{ color: "var(--neu-text-muted)" }}
+            >
               STATUS: {lastAction}
             </div>
 

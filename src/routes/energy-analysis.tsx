@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-import { useEnergyAdvisor } from '@/lib/energy-advisor-context';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
-import { ActualVsExpectedChart } from '@/components/energy-advisor/ActualVsExpectedChart';
-import { ExcessEnergyAnalysisCard } from '@/components/energy-advisor/ExcessEnergyAnalysisCard';
+import React, { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEnergyAdvisor } from "@/lib/energy-advisor-context";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
+import { ActualVsExpectedChart } from "@/components/energy-advisor/ActualVsExpectedChart";
+import { ExcessEnergyAnalysisCard } from "@/components/energy-advisor/ExcessEnergyAnalysisCard";
 import {
   Area,
   AreaChart,
@@ -17,7 +17,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from 'recharts';
+} from "recharts";
 import {
   Activity,
   ArrowUpRight,
@@ -29,24 +29,24 @@ import {
   Sparkles,
   TrendingUp,
   Zap,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute('/energy-analysis')({
+export const Route = createFileRoute("/energy-analysis")({
   head: () => ({
-    meta: [{ title: 'Energy Analysis & Excess Quantification — Energy Advisor' }],
+    meta: [{ title: "Energy Analysis & Excess Quantification — Energy Advisor" }],
   }),
   component: EnergyAnalysisPage,
 });
 
 export function EnergyAnalysisPage() {
   const { devices, selectedDevice, setSelectedDeviceId, timeSeriesData } = useEnergyAdvisor();
-  const [selectedGranularity, setSelectedGranularity] = useState<'hourly' | 'daily'>('hourly');
+  const [selectedGranularity, setSelectedGranularity] = useState<"hourly" | "daily">("hourly");
 
   // Breakdown of cumulative excess power across devices
   const excessBreakdownData = devices.map((d) => ({
-    name: d.name.split('(')[0].trim(),
+    name: d.name.split("(")[0].trim(),
     actualPowerW: d.currentPowerW,
     expectedPowerW: d.expectedPowerW,
     excessPowerW: d.excessPowerW,
@@ -54,14 +54,14 @@ export function EnergyAnalysisPage() {
   }));
 
   const hourlyProfile = [
-    { hour: '08:00', actualKWh: 0.42, expectedKWh: 0.40, excessKWh: 0.02 },
-    { hour: '09:00', actualKWh: 0.88, expectedKWh: 0.43, excessKWh: 0.45 },
-    { hour: '10:00', actualKWh: 0.92, expectedKWh: 0.43, excessKWh: 0.49 },
-    { hour: '11:00', actualKWh: 0.89, expectedKWh: 0.42, excessKWh: 0.47 },
-    { hour: '12:00', actualKWh: 0.55, expectedKWh: 0.43, excessKWh: 0.12 },
-    { hour: '13:00', actualKWh: 0.44, expectedKWh: 0.41, excessKWh: 0.03 },
-    { hour: '14:00', actualKWh: 0.78, expectedKWh: 0.72, excessKWh: 0.06 },
-    { hour: '15:00', actualKWh: 0.85, expectedKWh: 0.81, excessKWh: 0.04 },
+    { hour: "08:00", actualKWh: 0.42, expectedKWh: 0.4, excessKWh: 0.02 },
+    { hour: "09:00", actualKWh: 0.88, expectedKWh: 0.43, excessKWh: 0.45 },
+    { hour: "10:00", actualKWh: 0.92, expectedKWh: 0.43, excessKWh: 0.49 },
+    { hour: "11:00", actualKWh: 0.89, expectedKWh: 0.42, excessKWh: 0.47 },
+    { hour: "12:00", actualKWh: 0.55, expectedKWh: 0.43, excessKWh: 0.12 },
+    { hour: "13:00", actualKWh: 0.44, expectedKWh: 0.41, excessKWh: 0.03 },
+    { hour: "14:00", actualKWh: 0.78, expectedKWh: 0.72, excessKWh: 0.06 },
+    { hour: "15:00", actualKWh: 0.85, expectedKWh: 0.81, excessKWh: 0.04 },
   ];
 
   return (
@@ -82,7 +82,8 @@ export function EnergyAnalysisPage() {
                 </h1>
               </div>
               <p className="text-xs text-slate-400 mt-1 font-mono">
-                Comparative analysis of actual measured power vs state-conditioned expected baselines.
+                Comparative analysis of actual measured power vs state-conditioned expected
+                baselines.
               </p>
             </div>
 
@@ -118,14 +119,20 @@ export function EnergyAnalysisPage() {
                     Instantaneous baseline vs actual power comparison
                   </p>
                 </div>
-                <Badge variant="outline" className="text-[10px] font-mono border-cyan-500/30 text-cyan-300">
+                <Badge
+                  variant="outline"
+                  className="text-[10px] font-mono border-cyan-500/30 text-cyan-300"
+                >
                   WATT (W)
                 </Badge>
               </div>
 
               <div className="h-[280px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={excessBreakdownData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
+                  <BarChart
+                    data={excessBreakdownData}
+                    margin={{ top: 20, right: 20, left: -10, bottom: 0 }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
                     <XAxis dataKey="name" stroke="#64748b" fontSize={11} fontFamily="monospace" />
                     <YAxis stroke="#64748b" fontSize={11} fontFamily="monospace" unit=" W" />
@@ -136,18 +143,41 @@ export function EnergyAnalysisPage() {
                         return (
                           <div className="p-3 rounded-xl bg-slate-900 border border-white/10 text-xs font-mono text-white shadow-xl">
                             <div className="font-bold text-cyan-300 mb-1">{label}</div>
-                            <div>Actual Power: <span className="font-bold text-red-400">{d.actualPowerW} W</span></div>
-                            <div>Expected Power: <span className="font-bold text-cyan-400">{d.expectedPowerW} W</span></div>
-                            <div>Excess Power: <span className="font-bold text-amber-400">+{d.excessPowerW} W</span></div>
+                            <div>
+                              Actual Power:{" "}
+                              <span className="font-bold text-red-400">{d.actualPowerW} W</span>
+                            </div>
+                            <div>
+                              Expected Power:{" "}
+                              <span className="font-bold text-cyan-400">{d.expectedPowerW} W</span>
+                            </div>
+                            <div>
+                              Excess Power:{" "}
+                              <span className="font-bold text-amber-400">+{d.excessPowerW} W</span>
+                            </div>
                           </div>
                         );
                       }}
                     />
                     <Legend
-                      wrapperStyle={{ fontSize: '11px', fontFamily: 'monospace', paddingTop: '10px' }}
+                      wrapperStyle={{
+                        fontSize: "11px",
+                        fontFamily: "monospace",
+                        paddingTop: "10px",
+                      }}
                     />
-                    <Bar dataKey="expectedPowerW" fill="#06b6d4" name="Expected Baseline (W)" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="excessPowerW" fill="#f59e0b" name="Excess Power (W)" radius={[4, 4, 0, 0]} />
+                    <Bar
+                      dataKey="expectedPowerW"
+                      fill="#06b6d4"
+                      name="Expected Baseline (W)"
+                      radius={[4, 4, 0, 0]}
+                    />
+                    <Bar
+                      dataKey="excessPowerW"
+                      fill="#f59e0b"
+                      name="Excess Power (W)"
+                      radius={[4, 4, 0, 0]}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -178,14 +208,20 @@ export function EnergyAnalysisPage() {
                   Quantified excess energy across 8-hour laboratory telemetry window
                 </p>
               </div>
-              <Badge variant="outline" className="text-[10px] font-mono border-amber-500/30 text-amber-300">
+              <Badge
+                variant="outline"
+                className="text-[10px] font-mono border-amber-500/30 text-amber-300"
+              >
                 PEAK LOSS AT 09:00 – 11:00 AM
               </Badge>
             </div>
 
             <div className="h-[240px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={hourlyProfile} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
+                <AreaChart
+                  data={hourlyProfile}
+                  margin={{ top: 10, right: 20, left: -10, bottom: 0 }}
+                >
                   <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
                   <XAxis dataKey="hour" stroke="#64748b" fontSize={11} fontFamily="monospace" />
                   <YAxis stroke="#64748b" fontSize={11} fontFamily="monospace" unit=" kWh" />
@@ -203,9 +239,30 @@ export function EnergyAnalysisPage() {
                       );
                     }}
                   />
-                  <Area type="monotone" dataKey="actualKWh" stroke="#ef4444" fill="#ef4444" fillOpacity={0.15} name="Actual kWh" />
-                  <Area type="monotone" dataKey="expectedKWh" stroke="#06b6d4" fill="#06b6d4" fillOpacity={0.1} name="Expected kWh" />
-                  <Area type="monotone" dataKey="excessKWh" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.4} name="Excess kWh" />
+                  <Area
+                    type="monotone"
+                    dataKey="actualKWh"
+                    stroke="#ef4444"
+                    fill="#ef4444"
+                    fillOpacity={0.15}
+                    name="Actual kWh"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="expectedKWh"
+                    stroke="#06b6d4"
+                    fill="#06b6d4"
+                    fillOpacity={0.1}
+                    name="Expected kWh"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="excessKWh"
+                    stroke="#f59e0b"
+                    fill="#f59e0b"
+                    fillOpacity={0.4}
+                    name="Excess kWh"
+                  />
                 </AreaChart>
               </ResponsiveContainer>
             </div>

@@ -1,10 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router';
-import {
-  INITIAL_MODEL_COMPARISONS,
-  INITIAL_ABLATION_STUDY,
-} from '@/lib/energy-advisor-research';
+import { createFileRoute } from "@tanstack/react-router";
+import { INITIAL_MODEL_COMPARISONS, INITIAL_ABLATION_STUDY } from "@/lib/energy-advisor-research";
 
-export const Route = createFileRoute('/api/models')({
+export const Route = createFileRoute("/api/models")({
   server: {
     handlers: {
       GET: async ({ request }: { request: Request }) => {
@@ -16,14 +13,14 @@ export const Route = createFileRoute('/api/models')({
           }),
           {
             status: 200,
-            headers: { 'Content-Type': 'application/json' },
-          }
+            headers: { "Content-Type": "application/json" },
+          },
         );
       },
       POST: async ({ request }: { request: Request }) => {
         try {
           const body = await request.json();
-          const modelType = body.model_type || 'Random Forest';
+          const modelType = body.model_type || "Random Forest";
 
           return new Response(
             JSON.stringify({
@@ -42,14 +39,17 @@ export const Route = createFileRoute('/api/models')({
             }),
             {
               status: 200,
-              headers: { 'Content-Type': 'application/json' },
-            }
+              headers: { "Content-Type": "application/json" },
+            },
           );
         } catch (err: any) {
-          return new Response(JSON.stringify({ error: err.message || 'Invalid training request' }), {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' },
-          });
+          return new Response(
+            JSON.stringify({ error: err.message || "Invalid training request" }),
+            {
+              status: 400,
+              headers: { "Content-Type": "application/json" },
+            },
+          );
         }
       },
     },

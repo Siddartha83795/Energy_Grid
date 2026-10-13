@@ -1,6 +1,17 @@
-import React from 'react';
-import { Activity, CheckCircle2, Cpu, Flame, Gauge, Layers, ShieldCheck, Thermometer, Vibrate, Zap } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import React from "react";
+import {
+  Activity,
+  CheckCircle2,
+  Cpu,
+  Flame,
+  Gauge,
+  Layers,
+  ShieldCheck,
+  Thermometer,
+  Vibrate,
+  Zap,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface Props {
   powerW?: number;
@@ -8,7 +19,7 @@ interface Props {
   vibrationG?: number;
   activityLevel?: string;
   operatingState?: string;
-  verificationStatus?: 'NORMAL' | 'DETECTED' | 'VERIFIED' | 'UNDER_REVIEW';
+  verificationStatus?: "NORMAL" | "DETECTED" | "VERIFIED" | "UNDER_REVIEW";
   confidencePercent?: number;
   explanation?: string;
 }
@@ -17,22 +28,38 @@ export function MultiSignalVerificationCard({
   powerW = 92,
   temperatureC = 31.4,
   vibrationG = 0.08,
-  activityLevel = 'Low',
-  operatingState = 'Idle',
-  verificationStatus = 'VERIFIED',
+  activityLevel = "Low",
+  operatingState = "Idle",
+  verificationStatus = "VERIFIED",
   confidencePercent = 91,
-  explanation = 'Power consumption is significantly above the expected idle baseline while activity and vibration remain low.',
+  explanation = "Power consumption is significantly above the expected idle baseline while activity and vibration remain low.",
 }: Props) {
   const getStatusBadge = (status: typeof verificationStatus) => {
     switch (status) {
-      case 'NORMAL':
-        return <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-mono text-xs">NORMAL</Badge>;
-      case 'DETECTED':
-        return <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/40 font-mono text-xs">DETECTED</Badge>;
-      case 'VERIFIED':
-        return <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/40 font-mono text-xs">VERIFIED</Badge>;
-      case 'UNDER_REVIEW':
-        return <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/40 font-mono text-xs">UNDER REVIEW</Badge>;
+      case "NORMAL":
+        return (
+          <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-mono text-xs">
+            NORMAL
+          </Badge>
+        );
+      case "DETECTED":
+        return (
+          <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/40 font-mono text-xs">
+            DETECTED
+          </Badge>
+        );
+      case "VERIFIED":
+        return (
+          <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/40 font-mono text-xs">
+            VERIFIED
+          </Badge>
+        );
+      case "UNDER_REVIEW":
+        return (
+          <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/40 font-mono text-xs">
+            UNDER REVIEW
+          </Badge>
+        );
     }
   };
 
@@ -75,9 +102,7 @@ export function MultiSignalVerificationCard({
               <span className="text-[10px] uppercase font-bold text-cyan-400">Temperature</span>
               <Thermometer className="h-3.5 w-3.5 text-cyan-400" />
             </div>
-            <div className="text-base font-bold text-white">
-              {temperatureC} °C
-            </div>
+            <div className="text-base font-bold text-white">{temperatureC} °C</div>
             <span className="text-[9px] text-emerald-400 block mt-0.5">Normal (Cool)</span>
           </div>
 
@@ -87,9 +112,7 @@ export function MultiSignalVerificationCard({
               <span className="text-[10px] uppercase font-bold text-slate-300">Vibration</span>
               <Vibrate className="h-3.5 w-3.5 text-slate-400" />
             </div>
-            <div className="text-base font-bold text-white">
-              {vibrationG} g
-            </div>
+            <div className="text-base font-bold text-white">{vibrationG} g</div>
             <span className="text-[9px] text-slate-400 block mt-0.5">Low (No motor)</span>
           </div>
 
@@ -99,9 +122,7 @@ export function MultiSignalVerificationCard({
               <span className="text-[10px] uppercase font-bold text-slate-300">Activity</span>
               <Activity className="h-3.5 w-3.5 text-slate-400" />
             </div>
-            <div className="text-base font-bold text-white">
-              {activityLevel}
-            </div>
+            <div className="text-base font-bold text-white">{activityLevel}</div>
             <span className="text-[9px] text-slate-400 block mt-0.5">User Inactive</span>
           </div>
 
@@ -111,9 +132,7 @@ export function MultiSignalVerificationCard({
               <span className="text-[10px] uppercase font-bold text-cyan-400">State</span>
               <Cpu className="h-3.5 w-3.5 text-cyan-400" />
             </div>
-            <div className="text-base font-bold text-cyan-300">
-              {operatingState}
-            </div>
+            <div className="text-base font-bold text-cyan-300">{operatingState}</div>
             <span className="text-[9px] text-cyan-400/80 block mt-0.5">ACPI Baseline</span>
           </div>
         </div>

@@ -130,9 +130,7 @@ function RootShell({ children }: { children: ReactNode }) {
         </div>
 
         {/* Global Content Layer */}
-        <div className="relative z-10 min-h-screen">
-          {children}
-        </div>
+        <div className="relative z-10 min-h-screen">{children}</div>
         <Scripts />
       </body>
     </html>
@@ -159,7 +157,10 @@ function Shell() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user, loading } = useAuth();
   const publicRoute =
-    pathname === "/" || pathname === "/auth" || pathname === "/neumorphic" || pathname === "/antigravity";
+    pathname === "/" ||
+    pathname === "/auth" ||
+    pathname === "/neumorphic" ||
+    pathname === "/antigravity";
 
   if (publicRoute) return <Outlet />;
 

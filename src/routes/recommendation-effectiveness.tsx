@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
+import React, { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
 import {
   Lightbulb,
   Play,
@@ -15,16 +15,10 @@ import {
   AlertTriangle,
   Award,
   Users,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -32,7 +26,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
   ResponsiveContainer,
   BarChart,
@@ -42,13 +36,13 @@ import {
   Tooltip,
   Legend,
   CartesianGrid,
-} from 'recharts';
+} from "recharts";
 
-export const Route = createFileRoute('/recommendation-effectiveness')({
+export const Route = createFileRoute("/recommendation-effectiveness")({
   head: () => ({
     meta: [
       {
-        title: 'Experiment 4: Intervention Recommendation Effectiveness — Energy Advisor Research',
+        title: "Experiment 4: Intervention Recommendation Effectiveness — Energy Advisor Research",
       },
     ],
   }),
@@ -67,7 +61,7 @@ interface StrategyRow {
 
 const DEFAULT_STRATEGIES: StrategyRow[] = [
   {
-    strategy: 'Static Rule-Only Heuristic',
+    strategy: "Static Rule-Only Heuristic",
     promised_kwh: 124.0,
     verified_kwh: 68.2,
     error_pct: 45.0,
@@ -75,7 +69,7 @@ const DEFAULT_STRATEGIES: StrategyRow[] = [
     mttr_reduction_pct: 12.0,
   },
   {
-    strategy: 'Anomaly-Triggered Recommendations',
+    strategy: "Anomaly-Triggered Recommendations",
     promised_kwh: 188.5,
     verified_kwh: 122.0,
     error_pct: 35.3,
@@ -83,7 +77,7 @@ const DEFAULT_STRATEGIES: StrategyRow[] = [
     mttr_reduction_pct: 38.5,
   },
   {
-    strategy: 'Energy Advisor (Measurement-Driven)',
+    strategy: "Energy Advisor (Measurement-Driven)",
     promised_kwh: 215.4,
     verified_kwh: 208.6,
     error_pct: 3.16,
@@ -100,14 +94,14 @@ export function RecommendationEffectivenessPage() {
 
   // Chart data for Savings vs Verified
   const savingsChartData = strategies.map((s) => ({
-    name: s.strategy.includes('Energy Advisor') ? 'Energy Advisor' : s.strategy.split(' ')[0],
+    name: s.strategy.includes("Energy Advisor") ? "Energy Advisor" : s.strategy.split(" ")[0],
     promised: s.promised_kwh,
     verified: s.verified_kwh,
   }));
 
   // Chart data for Adoption and Accuracy
   const adoptionChartData = strategies.map((s) => ({
-    name: s.strategy.includes('Energy Advisor') ? 'Energy Advisor' : s.strategy.split(' ')[0],
+    name: s.strategy.includes("Energy Advisor") ? "Energy Advisor" : s.strategy.split(" ")[0],
     adoption: s.adoption_rate_pct,
     accuracy: Math.round((100 - s.error_pct) * 10) / 10,
   }));
@@ -123,9 +117,9 @@ export function RecommendationEffectivenessPage() {
 ${strategies
   .map(
     (s) =>
-      `${s.highlight ? '\\textbf{' + s.strategy + '}' : s.strategy} & ${s.promised_kwh} kWh & ${s.verified_kwh} kWh & ${s.error_pct}\\% & ${s.adoption_rate_pct}\\% \\\\`
+      `${s.highlight ? "\\textbf{" + s.strategy + "}" : s.strategy} & ${s.promised_kwh} kWh & ${s.verified_kwh} kWh & ${s.error_pct}\\% & ${s.adoption_rate_pct}\\% \\\\`,
   )
-  .join('\n')}
+  .join("\n")}
 \\hline
 \\end{tabular}
 \\end{table}`;
@@ -155,10 +149,16 @@ ${strategies
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-5">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <Badge variant="outline" className="border-cyan-500/40 text-cyan-300 bg-cyan-950/30 text-xs font-mono">
+                <Badge
+                  variant="outline"
+                  className="border-cyan-500/40 text-cyan-300 bg-cyan-950/30 text-xs font-mono"
+                >
                   EXPERIMENT 4 (IEEE PAPER)
                 </Badge>
-                <Badge variant="outline" className="border-emerald-500/40 text-emerald-300 bg-emerald-950/30 text-xs font-mono">
+                <Badge
+                  variant="outline"
+                  className="border-emerald-500/40 text-emerald-300 bg-emerald-950/30 text-xs font-mono"
+                >
                   ADOPTION RATE: 91.3% (p &lt; 0.001***)
                 </Badge>
               </div>
@@ -166,7 +166,8 @@ ${strategies
                 Intervention Recommendation Effectiveness
               </h1>
               <p className="text-sm text-slate-400 mt-1">
-                Validates whether measurement-driven recommendations improve operator compliance and preserve promised energy savings compared to static heuristics.
+                Validates whether measurement-driven recommendations improve operator compliance and
+                preserve promised energy savings compared to static heuristics.
               </p>
             </div>
 
@@ -177,8 +178,12 @@ ${strategies
                 onClick={handleCopyLatex}
                 className="border-white/10 bg-slate-900/60 hover:bg-slate-800 text-xs gap-1.5"
               >
-                {copiedLatex ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5 text-cyan-400" />}
-                {copiedLatex ? 'Copied' : 'Export LaTeX'}
+                {copiedLatex ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-400" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5 text-cyan-400" />
+                )}
+                {copiedLatex ? "Copied" : "Export LaTeX"}
               </Button>
 
               <Button
@@ -188,7 +193,7 @@ ${strategies
                 className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs gap-1.5"
               >
                 <Play className="h-3.5 w-3.5 fill-current" />
-                {isRunning ? 'Evaluating...' : 'Run Field Study Benchmark'}
+                {isRunning ? "Evaluating..." : "Run Field Study Benchmark"}
               </Button>
             </div>
           </div>
@@ -197,7 +202,9 @@ ${strategies
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <Card className="bg-[#0b1324] border-white/10">
               <CardContent className="p-4">
-                <div className="text-xs font-mono text-slate-400 uppercase">Verified Saving Fidelity</div>
+                <div className="text-xs font-mono text-slate-400 uppercase">
+                  Verified Saving Fidelity
+                </div>
                 <div className="text-2xl font-bold font-mono text-cyan-400 mt-1">96.8%</div>
                 <div className="text-[11px] text-slate-400 mt-1">Only 3.16% estimation error</div>
               </CardContent>
@@ -205,7 +212,9 @@ ${strategies
 
             <Card className="bg-[#0b1324] border-white/10">
               <CardContent className="p-4">
-                <div className="text-xs font-mono text-slate-400 uppercase">Operator Adoption Rate</div>
+                <div className="text-xs font-mono text-slate-400 uppercase">
+                  Operator Adoption Rate
+                </div>
                 <div className="text-2xl font-bold font-mono text-emerald-400 mt-1">91.3%</div>
                 <div className="text-[11px] text-slate-400 mt-1">vs 41.5% for static rules</div>
               </CardContent>
@@ -213,15 +222,21 @@ ${strategies
 
             <Card className="bg-[#0b1324] border-white/10">
               <CardContent className="p-4">
-                <div className="text-xs font-mono text-slate-400 uppercase">MTTR Waste Reduction</div>
+                <div className="text-xs font-mono text-slate-400 uppercase">
+                  MTTR Waste Reduction
+                </div>
                 <div className="text-2xl font-bold font-mono text-purple-400 mt-1">78.4%</div>
-                <div className="text-[11px] text-slate-400 mt-1">Resolution time drops to minutes</div>
+                <div className="text-[11px] text-slate-400 mt-1">
+                  Resolution time drops to minutes
+                </div>
               </CardContent>
             </Card>
 
             <Card className="bg-[#0b1324] border-white/10">
               <CardContent className="p-4">
-                <div className="text-xs font-mono text-slate-400 uppercase">Verified Total Saved</div>
+                <div className="text-xs font-mono text-slate-400 uppercase">
+                  Verified Total Saved
+                </div>
                 <div className="text-2xl font-bold font-mono text-amber-400 mt-1">208.6 kWh</div>
                 <div className="text-[11px] text-slate-400 mt-1">Measured via factory meters</div>
               </CardContent>
@@ -233,7 +248,9 @@ ${strategies
             {/* Promised vs Verified Savings */}
             <Card className="bg-[#0b1324] border-white/10">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold text-white">Promised vs. Verified Energy Savings (kWh)</CardTitle>
+                <CardTitle className="text-base font-semibold text-white">
+                  Promised vs. Verified Energy Savings (kWh)
+                </CardTitle>
                 <CardDescription className="text-xs text-slate-400">
                   Energy Advisor achieves 96.8% agreement between estimated and verified savings.
                 </CardDescription>
@@ -241,14 +258,33 @@ ${strategies
               <CardContent className="pt-2">
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={savingsChartData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+                    <BarChart
+                      data={savingsChartData}
+                      margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                       <XAxis dataKey="name" stroke="#64748b" tick={{ fontSize: 11 }} />
                       <YAxis stroke="#64748b" tick={{ fontSize: 11 }} unit=" kWh" />
-                      <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px' }} />
-                      <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
-                      <Bar dataKey="promised" name="Promised / Estimated Saving" fill="#06b6d4" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="verified" name="Verified Delivered Saving" fill="#10b981" radius={[4, 4, 0, 0]} />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "#0f172a",
+                          borderColor: "#334155",
+                          borderRadius: "8px",
+                        }}
+                      />
+                      <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
+                      <Bar
+                        dataKey="promised"
+                        name="Promised / Estimated Saving"
+                        fill="#06b6d4"
+                        radius={[4, 4, 0, 0]}
+                      />
+                      <Bar
+                        dataKey="verified"
+                        name="Verified Delivered Saving"
+                        fill="#10b981"
+                        radius={[4, 4, 0, 0]}
+                      />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -258,7 +294,9 @@ ${strategies
             {/* Operator Adoption Rate */}
             <Card className="bg-[#0b1324] border-white/10">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold text-white">Operator Adoption & Estimation Accuracy (%)</CardTitle>
+                <CardTitle className="text-base font-semibold text-white">
+                  Operator Adoption & Estimation Accuracy (%)
+                </CardTitle>
                 <CardDescription className="text-xs text-slate-400">
                   Causal explainability and sensor evidence directly increase operator trust.
                 </CardDescription>
@@ -266,14 +304,33 @@ ${strategies
               <CardContent className="pt-2">
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={adoptionChartData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+                    <BarChart
+                      data={adoptionChartData}
+                      margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                       <XAxis dataKey="name" stroke="#64748b" tick={{ fontSize: 11 }} />
                       <YAxis stroke="#64748b" tick={{ fontSize: 11 }} unit="%" />
-                      <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px' }} />
-                      <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
-                      <Bar dataKey="adoption" name="Operator Adoption Rate (%)" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="accuracy" name="Saving Estimation Accuracy (%)" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "#0f172a",
+                          borderColor: "#334155",
+                          borderRadius: "8px",
+                        }}
+                      />
+                      <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
+                      <Bar
+                        dataKey="adoption"
+                        name="Operator Adoption Rate (%)"
+                        fill="#8b5cf6"
+                        radius={[4, 4, 0, 0]}
+                      />
+                      <Bar
+                        dataKey="accuracy"
+                        name="Saving Estimation Accuracy (%)"
+                        fill="#f59e0b"
+                        radius={[4, 4, 0, 0]}
+                      />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -297,11 +354,21 @@ ${strategies
                   <TableHeader className="bg-slate-900/80">
                     <TableRow className="border-white/10">
                       <TableHead className="text-slate-300 font-mono text-xs">Strategy</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right">Promised Saving</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right">Verified Saving</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right">Saving Error (%)</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right">Adoption Rate</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right">MTTR Reduction</TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right">
+                        Promised Saving
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right">
+                        Verified Saving
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right">
+                        Saving Error (%)
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right">
+                        Adoption Rate
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right">
+                        MTTR Reduction
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -309,21 +376,33 @@ ${strategies
                       <TableRow
                         key={row.strategy}
                         className={`border-white/10 hover:bg-slate-800/40 ${
-                          row.highlight ? 'bg-cyan-950/30 border-l-2 border-l-cyan-400' : ''
+                          row.highlight ? "bg-cyan-950/30 border-l-2 border-l-cyan-400" : ""
                         }`}
                       >
-                        <TableCell className={`text-xs ${row.highlight ? 'font-bold text-cyan-300' : 'text-slate-200'}`}>
+                        <TableCell
+                          className={`text-xs ${row.highlight ? "font-bold text-cyan-300" : "text-slate-200"}`}
+                        >
                           {row.strategy}
                         </TableCell>
-                        <TableCell className="text-xs font-mono text-right text-slate-200">{row.promised_kwh} kWh</TableCell>
-                        <TableCell className="text-xs font-mono text-right text-slate-200">{row.verified_kwh} kWh</TableCell>
-                        <TableCell className={`text-xs font-mono text-right ${row.highlight ? 'text-emerald-400 font-bold' : 'text-rose-400'}`}>
+                        <TableCell className="text-xs font-mono text-right text-slate-200">
+                          {row.promised_kwh} kWh
+                        </TableCell>
+                        <TableCell className="text-xs font-mono text-right text-slate-200">
+                          {row.verified_kwh} kWh
+                        </TableCell>
+                        <TableCell
+                          className={`text-xs font-mono text-right ${row.highlight ? "text-emerald-400 font-bold" : "text-rose-400"}`}
+                        >
                           {row.error_pct}%
                         </TableCell>
-                        <TableCell className={`text-xs font-mono text-right font-semibold ${row.highlight ? 'text-cyan-300' : 'text-slate-300'}`}>
+                        <TableCell
+                          className={`text-xs font-mono text-right font-semibold ${row.highlight ? "text-cyan-300" : "text-slate-300"}`}
+                        >
                           {row.adoption_rate_pct}%
                         </TableCell>
-                        <TableCell className="text-xs font-mono text-right text-purple-300">{row.mttr_reduction_pct}%</TableCell>
+                        <TableCell className="text-xs font-mono text-right text-purple-300">
+                          {row.mttr_reduction_pct}%
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -344,8 +423,13 @@ ${strategies
                   Ready to copy and paste directly into your IEEE manuscript
                 </CardDescription>
               </div>
-              <Button size="sm" variant="outline" onClick={handleCopyLatex} className="border-white/10 text-xs">
-                {copiedLatex ? 'Copied' : 'Copy Code'}
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleCopyLatex}
+                className="border-white/10 text-xs"
+              >
+                {copiedLatex ? "Copied" : "Copy Code"}
               </Button>
             </CardHeader>
             <CardContent>

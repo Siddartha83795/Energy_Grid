@@ -138,10 +138,10 @@ function AuthPage() {
                   <CheckCircle2 className="h-3 w-3" /> Active
                 </span>
               </div>
-              <div className="font-semibold text-white font-mono text-sm break-all">{user.email}</div>
-              {user.fullName && (
-                <div className="text-xs text-[#8D97A3]">{user.fullName}</div>
-              )}
+              <div className="font-semibold text-white font-mono text-sm break-all">
+                {user.email}
+              </div>
+              {user.fullName && <div className="text-xs text-[#8D97A3]">{user.fullName}</div>}
               <div className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase bg-[#33D6A6]/10 text-[#33D6A6] border border-[#33D6A6]/20">
                 {user.role || "Staff"}
               </div>
@@ -160,7 +160,9 @@ function AuthPage() {
                 className="w-full text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 cursor-pointer border-red-500/20"
                 onClick={async () => {
                   await signOut();
-                  toast.success("Signed out successfully. You can now log in or create a new account.");
+                  toast.success(
+                    "Signed out successfully. You can now log in or create a new account.",
+                  );
                 }}
               >
                 <LogOut className="h-3.5 w-3.5 mr-1.5" /> Sign Out & Switch Account
@@ -184,213 +186,213 @@ function AuthPage() {
               </TabsTrigger>
             </TabsList>
 
-          <TabsContent value="login">
-            <div className="space-y-4 mt-6">
-              <GoogleSignInButton />
-              <div className="relative flex items-center justify-center my-4">
-                <div className="border-t border-white/10 w-full" />
-                <span className="bg-[#0D121B] px-3 text-[10px] font-mono uppercase tracking-wider text-[#8D97A3] relative z-10 shrink-0">
-                  Or continue with email
-                </span>
-                <div className="border-t border-white/10 w-full" />
-              </div>
-              <form onSubmit={onLogin} className="space-y-4">
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="le"
-                    className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
-                  >
-                    Email Address
-                  </Label>
-                  <Input
-                    id="le"
-                    type="email"
-                    required
-                    placeholder="e.g. supervisor@factory.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
-                  />
+            <TabsContent value="login">
+              <div className="space-y-4 mt-6">
+                <GoogleSignInButton />
+                <div className="relative flex items-center justify-center my-4">
+                  <div className="border-t border-white/10 w-full" />
+                  <span className="bg-[#0D121B] px-3 text-[10px] font-mono uppercase tracking-wider text-[#8D97A3] relative z-10 shrink-0">
+                    Or continue with email
+                  </span>
+                  <div className="border-t border-white/10 w-full" />
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
+                <form onSubmit={onLogin} className="space-y-4">
+                  <div className="space-y-2">
                     <Label
-                      htmlFor="lp"
+                      htmlFor="le"
+                      className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
+                    >
+                      Email Address
+                    </Label>
+                    <Input
+                      id="le"
+                      type="email"
+                      required
+                      placeholder="e.g. supervisor@factory.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label
+                        htmlFor="lp"
+                        className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
+                      >
+                        Password
+                      </Label>
+                    </div>
+                    <Input
+                      id="lp"
+                      type="password"
+                      required
+                      placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    variant="glass"
+                    className="w-full font-bold font-display cursor-pointer mt-6 py-5"
+                    disabled={busy}
+                  >
+                    {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : "Sign in to Dashboard"}
+                  </Button>
+                </form>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="signup">
+              <div className="space-y-4 mt-6">
+                <GoogleSignInButton />
+                <div className="relative flex items-center justify-center my-4">
+                  <div className="border-t border-white/10 w-full" />
+                  <span className="bg-[#0D121B] px-3 text-[10px] font-mono uppercase tracking-wider text-[#8D97A3] relative z-10 shrink-0">
+                    Or sign up with email
+                  </span>
+                  <div className="border-t border-white/10 w-full" />
+                </div>
+                <form onSubmit={onSignup} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="sn"
+                      className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
+                    >
+                      Full Name
+                    </Label>
+                    <Input
+                      id="sn"
+                      required
+                      placeholder="e.g. Ramesh Kumar"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="se"
+                      className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
+                    >
+                      Email Address
+                    </Label>
+                    <Input
+                      id="se"
+                      type="email"
+                      required
+                      placeholder="e.g. supervisor@factory.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="sp"
                       className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
                     >
                       Password
                     </Label>
-                  </div>
-                  <Input
-                    id="lp"
-                    type="password"
-                    required
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  variant="glass"
-                  className="w-full font-bold font-display cursor-pointer mt-6 py-5"
-                  disabled={busy}
-                >
-                  {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : "Sign in to Dashboard"}
-                </Button>
-              </form>
-            </div>
-          </TabsContent>
+                    <Input
+                      id="sp"
+                      type="password"
+                      required
+                      placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
+                    />
 
-          <TabsContent value="signup">
-            <div className="space-y-4 mt-6">
-              <GoogleSignInButton />
-              <div className="relative flex items-center justify-center my-4">
-                <div className="border-t border-white/10 w-full" />
-                <span className="bg-[#0D121B] px-3 text-[10px] font-mono uppercase tracking-wider text-[#8D97A3] relative z-10 shrink-0">
-                  Or sign up with email
-                </span>
-                <div className="border-t border-white/10 w-full" />
-              </div>
-              <form onSubmit={onSignup} className="space-y-4">
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="sn"
-                    className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
-                  >
-                    Full Name
-                  </Label>
-                  <Input
-                    id="sn"
-                    required
-                    placeholder="e.g. Ramesh Kumar"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="se"
-                    className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
-                  >
-                    Email Address
-                  </Label>
-                  <Input
-                    id="se"
-                    type="email"
-                    required
-                    placeholder="e.g. supervisor@factory.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="sp"
-                    className="text-xs font-semibold text-[#8D97A3] uppercase tracking-wider"
-                  >
-                    Password
-                  </Label>
-                  <Input
-                    id="sp"
-                    type="password"
-                    required
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#33D6A6] focus:ring-1 focus:ring-[#33D6A6]/20 transition-all font-mono"
-                  />
-
-                  {password.length > 0 && (
-                    <div className="mt-2 p-3 bg-white/5 border border-white/10 rounded-lg text-xs space-y-1.5 text-white/70">
-                      <p className="font-semibold text-white/90">Password must contain:</p>
-                      <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                        <div className="flex items-center gap-1.5">
-                          <span
-                            className={
-                              rules.length
-                                ? "text-emerald-400 font-bold"
-                                : "text-rose-400 font-bold"
-                            }
-                          >
-                            {rules.length ? "✓" : "✗"}
-                          </span>
-                          <span>8+ characters</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <span
-                            className={
-                              rules.uppercase
-                                ? "text-emerald-400 font-bold"
-                                : "text-rose-400 font-bold"
-                            }
-                          >
-                            {rules.uppercase ? "✓" : "✗"}
-                          </span>
-                          <span>Uppercase (A-Z)</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <span
-                            className={
-                              rules.lowercase
-                                ? "text-emerald-400 font-bold"
-                                : "text-rose-400 font-bold"
-                            }
-                          >
-                            {rules.lowercase ? "✓" : "✗"}
-                          </span>
-                          <span>Lowercase (a-z)</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <span
-                            className={
-                              rules.number
-                                ? "text-emerald-400 font-bold"
-                                : "text-rose-400 font-bold"
-                            }
-                          >
-                            {rules.number ? "✓" : "✗"}
-                          </span>
-                          <span>Number (0-9)</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 col-span-2">
-                          <span
-                            className={
-                              rules.special
-                                ? "text-emerald-400 font-bold"
-                                : "text-rose-400 font-bold"
-                            }
-                          >
-                            {rules.special ? "✓" : "✗"}
-                          </span>
-                          <span>Special character (e.g. !@#$%)</span>
+                    {password.length > 0 && (
+                      <div className="mt-2 p-3 bg-white/5 border border-white/10 rounded-lg text-xs space-y-1.5 text-white/70">
+                        <p className="font-semibold text-white/90">Password must contain:</p>
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                          <div className="flex items-center gap-1.5">
+                            <span
+                              className={
+                                rules.length
+                                  ? "text-emerald-400 font-bold"
+                                  : "text-rose-400 font-bold"
+                              }
+                            >
+                              {rules.length ? "✓" : "✗"}
+                            </span>
+                            <span>8+ characters</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <span
+                              className={
+                                rules.uppercase
+                                  ? "text-emerald-400 font-bold"
+                                  : "text-rose-400 font-bold"
+                              }
+                            >
+                              {rules.uppercase ? "✓" : "✗"}
+                            </span>
+                            <span>Uppercase (A-Z)</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <span
+                              className={
+                                rules.lowercase
+                                  ? "text-emerald-400 font-bold"
+                                  : "text-rose-400 font-bold"
+                              }
+                            >
+                              {rules.lowercase ? "✓" : "✗"}
+                            </span>
+                            <span>Lowercase (a-z)</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <span
+                              className={
+                                rules.number
+                                  ? "text-emerald-400 font-bold"
+                                  : "text-rose-400 font-bold"
+                              }
+                            >
+                              {rules.number ? "✓" : "✗"}
+                            </span>
+                            <span>Number (0-9)</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 col-span-2">
+                            <span
+                              className={
+                                rules.special
+                                  ? "text-emerald-400 font-bold"
+                                  : "text-rose-400 font-bold"
+                              }
+                            >
+                              {rules.special ? "✓" : "✗"}
+                            </span>
+                            <span>Special character (e.g. !@#$%)</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-                <Button
-                  type="submit"
-                  variant="glass"
-                  className="w-full font-bold font-display cursor-pointer mt-6 py-5"
-                  disabled={!isPasswordValid || busy}
-                >
-                  {busy ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    "Create Control Panel Account"
-                  )}
-                </Button>
-                <p className="text-[10px] text-[#8D97A3] text-center mt-3">
-                  Note: First account created automatically registers as administrator.
-                </p>
-              </form>
-            </div>
-          </TabsContent>
-        </Tabs>
+                    )}
+                  </div>
+                  <Button
+                    type="submit"
+                    variant="glass"
+                    className="w-full font-bold font-display cursor-pointer mt-6 py-5"
+                    disabled={!isPasswordValid || busy}
+                  >
+                    {busy ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      "Create Control Panel Account"
+                    )}
+                  </Button>
+                  <p className="text-[10px] text-[#8D97A3] text-center mt-3">
+                    Note: First account created automatically registers as administrator.
+                  </p>
+                </form>
+              </div>
+            </TabsContent>
+          </Tabs>
         )}
       </div>
     </div>

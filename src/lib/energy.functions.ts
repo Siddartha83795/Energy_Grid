@@ -255,7 +255,9 @@ export const processAnalysisRun = createServerFn({ method: "POST" })
       if (!machineId) return;
       uniqueMachines.add(machineId);
 
-      const kwh = Number(row.energy_kwh ?? (row.kwh ?? (row.power_kw ? Number(row.power_kw) * (5 / 60) : 0)));
+      const kwh = Number(
+        row.energy_kwh ?? row.kwh ?? (row.power_kw ? Number(row.power_kw) * (5 / 60) : 0),
+      );
       const timestampStr = row.timestamp;
       const ts = parseDate(timestampStr);
 
@@ -328,7 +330,9 @@ export const processAnalysisRun = createServerFn({ method: "POST" })
     };
 
     const groqKey = (process.env.GROQ_API_KEY || "").replace(/^["']|["']$/g, "").trim();
-    const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b").replace(/^["']|["']$/g, "").trim();
+    const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b")
+      .replace(/^["']|["']$/g, "")
+      .trim();
     if (groqKey && machines.length > 0) {
       try {
         const sys = `You are an industrial energy efficiency expert. Reply ONLY with strict JSON (no markdown, no code fences) matching exactly this shape:

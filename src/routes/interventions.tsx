@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-import { useEnergyAdvisor } from '@/lib/energy-advisor-context';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
+import React, { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEnergyAdvisor } from "@/lib/energy-advisor-context";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
 import {
   History,
   CheckCircle2,
@@ -16,16 +16,10 @@ import {
   Clock,
   Sparkles,
   Info,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -33,13 +27,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-export const Route = createFileRoute('/interventions')({
+export const Route = createFileRoute("/interventions")({
   head: () => ({
     meta: [
       {
-        title: 'Intervention Management & Recommendation Effectiveness — Energy Advisor',
+        title: "Intervention Management & Recommendation Effectiveness — Energy Advisor",
       },
     ],
   }),
@@ -57,10 +51,10 @@ export function InterventionsPage() {
     recommendations,
   } = useEnergyAdvisor();
 
-  const [filterType, setFilterType] = useState<string>('ALL');
+  const [filterType, setFilterType] = useState<string>("ALL");
 
   const filteredInterventions = interventions.filter((item) => {
-    if (filterType !== 'ALL' && item.type !== filterType) return false;
+    if (filterType !== "ALL" && item.type !== filterType) return false;
     return true;
   });
 
@@ -88,7 +82,12 @@ export function InterventionsPage() {
                   INTERVENTION MANAGEMENT & EFFECTIVENESS
                 </h1>
                 <p className="text-xs text-slate-400 font-mono max-w-3xl leading-relaxed">
-                  Managing active energy interventions across <span className="text-cyan-300 font-bold">MANUAL</span>, <span className="text-emerald-300 font-bold">AUTOMATIC</span>, and <span className="text-purple-300 font-bold">SIMULATED</span> execution modes. Intervention effectiveness is determined strictly by measured counterfactual energy savings—never subjective user feedback alone.
+                  Managing active energy interventions across{" "}
+                  <span className="text-cyan-300 font-bold">MANUAL</span>,{" "}
+                  <span className="text-emerald-300 font-bold">AUTOMATIC</span>, and{" "}
+                  <span className="text-purple-300 font-bold">SIMULATED</span> execution modes.
+                  Intervention effectiveness is determined strictly by measured counterfactual
+                  energy savings—never subjective user feedback alone.
                 </p>
               </div>
 
@@ -96,7 +95,7 @@ export function InterventionsPage() {
                 <div className="p-3 rounded-xl bg-slate-950/80 border border-white/10 text-center">
                   <div className="text-[10px] text-slate-400">Active Policies</div>
                   <div className="text-base font-bold text-emerald-400">
-                    {interventions.filter((i) => i.status === 'ACTIVE').length}
+                    {interventions.filter((i) => i.status === "ACTIVE").length}
                   </div>
                 </div>
               </div>
@@ -109,14 +108,14 @@ export function InterventionsPage() {
               <span>Filter by Intervention Mode:</span>
             </div>
             <div className="flex items-center gap-2">
-              {['ALL', 'AUTOMATIC', 'MANUAL', 'SIMULATED'].map((t) => (
+              {["ALL", "AUTOMATIC", "MANUAL", "SIMULATED"].map((t) => (
                 <button
                   key={t}
                   onClick={() => setFilterType(t)}
                   className={`px-3 py-1.5 rounded-lg border text-xs transition-colors ${
                     filterType === t
-                      ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-300 font-bold'
-                      : 'border-white/10 text-slate-400 hover:text-white'
+                      ? "bg-cyan-500/20 border-cyan-500/50 text-cyan-300 font-bold"
+                      : "border-white/10 text-slate-400 hover:text-white"
                   }`}
                 >
                   {t}
@@ -132,7 +131,8 @@ export function InterventionsPage() {
                 Active & Evaluated Intervention Policies
               </CardTitle>
               <CardDescription className="text-xs text-slate-400 font-mono">
-                Real-time tracking of operational policy shifts (π0 → π1) with post-window measured saving verification
+                Real-time tracking of operational policy shifts (π0 → π1) with post-window measured
+                saving verification
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -154,47 +154,55 @@ export function InterventionsPage() {
                   <TableBody className="font-mono text-xs divide-y divide-white/5">
                     {filteredInterventions.map((row) => (
                       <TableRow key={row.intervention_id} className="hover:bg-slate-800/40">
-                        <TableCell className="font-bold text-cyan-400">{row.intervention_id}</TableCell>
+                        <TableCell className="font-bold text-cyan-400">
+                          {row.intervention_id}
+                        </TableCell>
                         <TableCell>
                           <Badge
                             variant="outline"
                             className={`text-[10px] ${
-                              row.type === 'AUTOMATIC'
-                                ? 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30'
-                                : row.type === 'MANUAL'
-                                ? 'border-amber-500/40 text-amber-300 bg-amber-950/30'
-                                : 'border-purple-500/40 text-purple-300 bg-purple-950/30'
+                              row.type === "AUTOMATIC"
+                                ? "border-emerald-500/40 text-emerald-300 bg-emerald-950/30"
+                                : row.type === "MANUAL"
+                                  ? "border-amber-500/40 text-amber-300 bg-amber-950/30"
+                                  : "border-purple-500/40 text-purple-300 bg-purple-950/30"
                             }`}
                           >
                             {row.type}
                           </Badge>
                         </TableCell>
-                        <TableCell className="font-semibold text-white">{row.device_name}</TableCell>
+                        <TableCell className="font-semibold text-white">
+                          {row.device_name}
+                        </TableCell>
                         <TableCell className="text-slate-300">
                           <span className="text-slate-400">{row.old_policy}</span>
                           <span className="text-cyan-400 mx-1.5 font-bold">→</span>
                           <span className="text-emerald-300 font-bold">{row.new_policy}</span>
                         </TableCell>
-                        <TableCell className="text-cyan-300 font-bold">{row.counterfactual_energy_wh} Wh</TableCell>
-                        <TableCell className="text-emerald-300 font-bold">{row.measured_post_energy_wh} Wh</TableCell>
+                        <TableCell className="text-cyan-300 font-bold">
+                          {row.counterfactual_energy_wh} Wh
+                        </TableCell>
+                        <TableCell className="text-emerald-300 font-bold">
+                          {row.measured_post_energy_wh} Wh
+                        </TableCell>
                         <TableCell className="text-emerald-400 font-extrabold text-sm">
                           +{row.verified_saving_wh} Wh
                         </TableCell>
                         <TableCell>
                           <span
                             className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                              row.status === 'ACTIVE'
-                                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                                : row.status === 'EVALUATED'
-                                ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                                : 'bg-slate-800 text-slate-400 border border-white/10'
+                              row.status === "ACTIVE"
+                                ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                                : row.status === "EVALUATED"
+                                  ? "bg-blue-500/20 text-blue-400 border border-blue-500/30"
+                                  : "bg-slate-800 text-slate-400 border border-white/10"
                             }`}
                           >
                             {row.status}
                           </span>
                         </TableCell>
                         <TableCell className="text-right">
-                          {row.status === 'ACTIVE' ? (
+                          {row.status === "ACTIVE" ? (
                             <Button
                               size="sm"
                               variant="ghost"
@@ -223,7 +231,8 @@ export function InterventionsPage() {
                 TABLE 5: Recommendation Effectiveness Verification Matrix
               </CardTitle>
               <CardDescription className="text-xs text-slate-400 font-mono">
-                Systematic verification comparing Estimated Impact against Measured Post-Intervention Ground Truth
+                Systematic verification comparing Estimated Impact against Measured
+                Post-Intervention Ground Truth
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -237,7 +246,9 @@ export function InterventionsPage() {
                       <TableHead className="text-slate-300">Estimated Saving</TableHead>
                       <TableHead className="text-emerald-400 font-bold">Verified Saving</TableHead>
                       <TableHead className="text-slate-300">Estimation Error</TableHead>
-                      <TableHead className="text-right text-slate-300">Effectiveness Status</TableHead>
+                      <TableHead className="text-right text-slate-300">
+                        Effectiveness Status
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody className="font-mono text-xs divide-y divide-white/5">
@@ -248,14 +259,20 @@ export function InterventionsPage() {
                       return (
                         <TableRow key={rec.id} className="hover:bg-slate-800/40">
                           <TableCell className="font-bold text-cyan-400">{rec.id}</TableCell>
-                          <TableCell className="font-semibold text-purple-300">{rec.cause}</TableCell>
-                          <TableCell className="text-white max-w-xs truncate">{rec.title}</TableCell>
+                          <TableCell className="font-semibold text-purple-300">
+                            {rec.cause}
+                          </TableCell>
+                          <TableCell className="text-white max-w-xs truncate">
+                            {rec.title}
+                          </TableCell>
                           <TableCell className="text-slate-300">{estWh} Wh</TableCell>
                           <TableCell className="text-emerald-400 font-bold">{verWh} Wh</TableCell>
-                          <TableCell className="text-slate-400">{errWh} Wh ({Math.round((errWh / estWh) * 100)}%)</TableCell>
+                          <TableCell className="text-slate-400">
+                            {errWh} Wh ({Math.round((errWh / estWh) * 100)}%)
+                          </TableCell>
                           <TableCell className="text-right">
                             <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                              {rec.effectivenessStatus || 'VERIFIED EFFECTIVE'}
+                              {rec.effectivenessStatus || "VERIFIED EFFECTIVE"}
                             </span>
                           </TableCell>
                         </TableRow>

@@ -1,17 +1,17 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { useEnergyAdvisor } from '@/lib/energy-advisor-context';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
-import { ResearchPipelineBanner } from '@/components/energy-advisor/ResearchPipelineBanner';
-import { ActualVsExpectedChart } from '@/components/energy-advisor/ActualVsExpectedChart';
-import { OperatingStateCards } from '@/components/energy-advisor/OperatingStateCards';
-import { ExcessEnergyAnalysisCard } from '@/components/energy-advisor/ExcessEnergyAnalysisCard';
-import { MultiSignalVerificationCard } from '@/components/energy-advisor/MultiSignalVerificationCard';
-import { TemporalPatternCard } from '@/components/energy-advisor/TemporalPatternCard';
-import { CauseAttributionCard } from '@/components/energy-advisor/CauseAttributionCard';
-import { LiveTelemetryPanel } from '@/components/energy-advisor/LiveTelemetryPanel';
-import { AlertsDrawer } from '@/components/energy-advisor/AlertsDrawer';
-import { BeforeAfterSavingCard } from '@/components/energy-advisor/BeforeAfterSavingCard';
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEnergyAdvisor } from "@/lib/energy-advisor-context";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
+import { ResearchPipelineBanner } from "@/components/energy-advisor/ResearchPipelineBanner";
+import { ActualVsExpectedChart } from "@/components/energy-advisor/ActualVsExpectedChart";
+import { OperatingStateCards } from "@/components/energy-advisor/OperatingStateCards";
+import { ExcessEnergyAnalysisCard } from "@/components/energy-advisor/ExcessEnergyAnalysisCard";
+import { MultiSignalVerificationCard } from "@/components/energy-advisor/MultiSignalVerificationCard";
+import { TemporalPatternCard } from "@/components/energy-advisor/TemporalPatternCard";
+import { CauseAttributionCard } from "@/components/energy-advisor/CauseAttributionCard";
+import { LiveTelemetryPanel } from "@/components/energy-advisor/LiveTelemetryPanel";
+import { AlertsDrawer } from "@/components/energy-advisor/AlertsDrawer";
+import { BeforeAfterSavingCard } from "@/components/energy-advisor/BeforeAfterSavingCard";
 import {
   Activity,
   AlertTriangle,
@@ -29,16 +29,16 @@ import {
   TrendingDown,
   TrendingUp,
   Zap,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute('/research-dashboard')({
+export const Route = createFileRoute("/research-dashboard")({
   head: () => ({
     meta: [
       {
         title:
-          'ENERGY ADVISOR — Context-Aware Energy Monitoring, Excess Energy Detection & Energy-Saving Analysis',
+          "ENERGY ADVISOR — Context-Aware Energy Monitoring, Excess Energy Detection & Energy-Saving Analysis",
       },
     ],
   }),
@@ -65,7 +65,7 @@ export function ResearchDashboardPage() {
   const totalExcessPower = Math.max(0, totalActualPower - totalExpectedPower);
   const excessPercentage = Math.round((totalExcessPower / totalExpectedPower) * 100 * 10) / 10;
   const devicesRequiringAttention = devices.filter(
-    (d) => d.status === 'VERIFIED' || d.status === 'DETECTED' || d.status === 'UNDER_REVIEW'
+    (d) => d.status === "VERIFIED" || d.status === "DETECTED" || d.status === "UNDER_REVIEW",
   ).length;
 
   return (
@@ -107,22 +107,32 @@ export function ResearchDashboardPage() {
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 flex-1">
                 <div className="border-r border-white/10 pr-3">
-                  <span className="text-[10px] text-cyan-400 uppercase tracking-wider block font-semibold">Total Excess Energy</span>
+                  <span className="text-[10px] text-cyan-400 uppercase tracking-wider block font-semibold">
+                    Total Excess Energy
+                  </span>
                   <span className="text-xl font-bold text-white mt-0.5 block">2,840 Wh</span>
                   <span className="text-[10px] text-slate-400">Cumulative today</span>
                 </div>
                 <div className="border-r border-white/10 pr-3">
-                  <span className="text-[10px] text-amber-400 uppercase tracking-wider block font-semibold">Top Waste Cause</span>
-                  <span className="text-xl font-bold text-amber-300 mt-0.5 block truncate">PROLONGED IDLE</span>
+                  <span className="text-[10px] text-amber-400 uppercase tracking-wider block font-semibold">
+                    Top Waste Cause
+                  </span>
+                  <span className="text-xl font-bold text-amber-300 mt-0.5 block truncate">
+                    PROLONGED IDLE
+                  </span>
                   <span className="text-[10px] text-slate-400">48.2% of total excess</span>
                 </div>
                 <div className="border-r border-white/10 pr-3">
-                  <span className="text-[10px] text-emerald-400 uppercase tracking-wider block font-semibold">Estimated Saving</span>
+                  <span className="text-[10px] text-emerald-400 uppercase tracking-wider block font-semibold">
+                    Estimated Saving
+                  </span>
                   <span className="text-xl font-bold text-emerald-300 mt-0.5 block">1,420 Wh</span>
                   <span className="text-[10px] text-slate-400">Under approved actions</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-purple-400 uppercase tracking-wider block font-semibold">Rec. Effectiveness</span>
+                  <span className="text-[10px] text-purple-400 uppercase tracking-wider block font-semibold">
+                    Rec. Effectiveness
+                  </span>
                   <span className="text-xl font-bold text-purple-300 mt-0.5 block">91.3%</span>
                   <span className="text-[10px] text-slate-400">Compliance & fidelity</span>
                 </div>
@@ -130,12 +140,21 @@ export function ResearchDashboardPage() {
 
               {/* Quick Actions to Paper Experiments */}
               <div className="flex flex-wrap items-center gap-2 border-t lg:border-t-0 lg:border-l border-white/10 pt-3 lg:pt-0 lg:pl-4">
-                <Button asChild size="sm" className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs gap-1">
+                <Button
+                  asChild
+                  size="sm"
+                  className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs gap-1"
+                >
                   <Link to="/experiment-runner">
                     <Play className="h-3 w-3 fill-current" /> Run Experiments
                   </Link>
                 </Button>
-                <Button asChild variant="outline" size="sm" className="border-white/10 text-xs bg-slate-900/60 hover:bg-slate-800 text-slate-200">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="border-white/10 text-xs bg-slate-900/60 hover:bg-slate-800 text-slate-200"
+                >
                   <Link to="/latex-export">
                     <FileText className="h-3 w-3 text-cyan-400" /> Export LaTeX
                   </Link>
@@ -164,21 +183,31 @@ export function ResearchDashboardPage() {
                     onClick={() => setSelectedDeviceId(d.id)}
                     className={`p-3 rounded-xl border transition-all cursor-pointer ${
                       d.id === selectedDevice.id
-                        ? 'bg-cyan-950/40 border-cyan-500/50 shadow-md'
-                        : 'bg-slate-900/60 border-white/5 hover:border-white/20'
+                        ? "bg-cyan-950/40 border-cyan-500/50 shadow-md"
+                        : "bg-slate-900/60 border-white/5 hover:border-white/20"
                     }`}
                   >
                     <div className="flex items-center justify-between text-[11px]">
-                      <span className="text-slate-400 font-bold">#{idx + 1} {d.name}</span>
-                      <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${
-                        d.excessPowerW > 20 ? 'bg-red-500/20 text-red-300' : 'bg-slate-800 text-slate-300'
-                      }`}>
+                      <span className="text-slate-400 font-bold">
+                        #{idx + 1} {d.name}
+                      </span>
+                      <span
+                        className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${
+                          d.excessPowerW > 20
+                            ? "bg-red-500/20 text-red-300"
+                            : "bg-slate-800 text-slate-300"
+                        }`}
+                      >
                         +{d.excessPowerW} W
                       </span>
                     </div>
                     <div className="flex items-center justify-between text-[10px] text-slate-400 mt-2">
-                      <span>State: <strong className="text-cyan-300">{d.currentState}</strong></span>
-                      <span>Act: {d.currentPowerW}W / Exp: {d.expectedPowerW}W</span>
+                      <span>
+                        State: <strong className="text-cyan-300">{d.currentState}</strong>
+                      </span>
+                      <span>
+                        Act: {d.currentPowerW}W / Exp: {d.expectedPowerW}W
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -196,7 +225,9 @@ export function ResearchDashboardPage() {
                 </span>
               </div>
               <div className="mt-2">
-                <div className="text-2xl font-black text-white font-mono">{Math.round(totalActualPower)} W</div>
+                <div className="text-2xl font-black text-white font-mono">
+                  {Math.round(totalActualPower)} W
+                </div>
                 <div className="text-[10px] text-slate-400 font-mono mt-1 flex items-center gap-1">
                   <TrendingUp className="h-3 w-3 text-cyan-400" /> Across 4 lab machines
                 </div>
@@ -210,7 +241,9 @@ export function ResearchDashboardPage() {
                 <Cpu className="h-3.5 w-3.5 text-cyan-400" />
               </div>
               <div className="mt-2">
-                <div className="text-2xl font-black text-cyan-300 font-mono">{totalExpectedPower} W</div>
+                <div className="text-2xl font-black text-cyan-300 font-mono">
+                  {totalExpectedPower} W
+                </div>
                 <div className="text-[10px] text-slate-400 font-mono mt-1">
                   Based on operating states
                 </div>
@@ -221,11 +254,15 @@ export function ResearchDashboardPage() {
             <div className="rounded-2xl border-2 border-amber-500/50 bg-gradient-to-br from-[#1a1309] to-[#0d131f] p-4 shadow-xl shadow-amber-950/30 flex flex-col justify-between relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 blur-xl pointer-events-none" />
               <div className="flex items-center justify-between text-amber-400">
-                <span className="text-xs font-mono font-bold tracking-wider uppercase">Excess Power</span>
+                <span className="text-xs font-mono font-bold tracking-wider uppercase">
+                  Excess Power
+                </span>
                 <ShieldAlert className="h-4 w-4 text-amber-400 animate-pulse" />
               </div>
               <div className="mt-2">
-                <div className="text-2xl font-black text-amber-400 font-mono">+{totalExcessPower} W</div>
+                <div className="text-2xl font-black text-amber-400 font-mono">
+                  +{totalExcessPower} W
+                </div>
                 <div className="text-[11px] text-amber-300 font-mono mt-1 font-semibold">
                   {excessPercentage}% above expected
                 </div>
@@ -267,7 +304,9 @@ export function ResearchDashboardPage() {
                 <AlertTriangle className="h-3.5 w-3.5 text-red-400" />
               </div>
               <div className="mt-2">
-                <div className="text-2xl font-black text-red-400 font-mono">{devicesRequiringAttention}</div>
+                <div className="text-2xl font-black text-red-400 font-mono">
+                  {devicesRequiringAttention}
+                </div>
                 <div className="text-[10px] text-slate-400 font-mono mt-1">
                   Verified / Review anomalies
                 </div>
@@ -317,10 +356,7 @@ export function ResearchDashboardPage() {
           {/* Section 9 & 10: TEMPORAL PATTERN ANALYSIS & CAUSE ATTRIBUTION */}
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <TemporalPatternCard />
-            <CauseAttributionCard
-              attribution={causeAttribution}
-              deviceName={selectedDevice.name}
-            />
+            <CauseAttributionCard attribution={causeAttribution} deviceName={selectedDevice.name} />
           </section>
 
           {/* Section 15: MEASURED ENERGY-SAVING IMPACT (BEFORE VS AFTER) */}
@@ -343,12 +379,20 @@ export function ResearchDashboardPage() {
                   Cause-Level Excess-Energy Accounting
                 </h3>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Moving from dimensionless anomaly scores to physical Watt-hour quantities: <span className="text-cyan-300">E_excess = E_actual - E_expected(state, workload, context)</span>. Filterable cause ledger validated via controlled hardware trials.
+                  Moving from dimensionless anomaly scores to physical Watt-hour quantities:{" "}
+                  <span className="text-cyan-300">
+                    E_excess = E_actual - E_expected(state, workload, context)
+                  </span>
+                  . Filterable cause ledger validated via controlled hardware trials.
                 </p>
               </div>
               <div className="pt-2 border-t border-white/5 flex items-center justify-between">
                 <span className="text-xs text-cyan-400 font-bold">Total Excess: 61.25 Wh</span>
-                <Button asChild size="sm" className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold text-xs gap-1.5">
+                <Button
+                  asChild
+                  size="sm"
+                  className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold text-xs gap-1.5"
+                >
                   <Link to="/excess-ledger">
                     Open Excess Ledger <ArrowRight className="h-3 w-3" />
                   </Link>
@@ -369,12 +413,19 @@ export function ResearchDashboardPage() {
                   Workload-Conditioned Counterfactual Evaluation
                 </h3>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Simulating what the device would have consumed under the OLD policy (π0) during the exact observed post-intervention workload (W_post): <span className="text-emerald-300">E_saved = E_cf - E_post</span>. Eliminates workload-shift bias.
+                  Simulating what the device would have consumed under the OLD policy (π0) during
+                  the exact observed post-intervention workload (W_post):{" "}
+                  <span className="text-emerald-300">E_saved = E_cf - E_post</span>. Eliminates
+                  workload-shift bias.
                 </p>
               </div>
               <div className="pt-2 border-t border-white/5 flex items-center justify-between">
                 <span className="text-xs text-emerald-400 font-bold">Verified Saved: +63 Wh</span>
-                <Button asChild size="sm" className="bg-emerald-500 hover:bg-emerald-600 text-black font-bold text-xs gap-1.5">
+                <Button
+                  asChild
+                  size="sm"
+                  className="bg-emerald-500 hover:bg-emerald-600 text-black font-bold text-xs gap-1.5"
+                >
                   <Link to="/counterfactual-analysis">
                     Open Counterfactual <ArrowRight className="h-3 w-3" />
                   </Link>

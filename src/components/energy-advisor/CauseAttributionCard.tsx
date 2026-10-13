@@ -1,15 +1,25 @@
-import React from 'react';
-import { CauseAttribution } from '@/lib/energy-advisor-research';
-import { AlertCircle, CheckCircle2, HelpCircle, Lightbulb, Sparkles, TrendingUp } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
+import React from "react";
+import { CauseAttribution } from "@/lib/energy-advisor-research";
+import {
+  AlertCircle,
+  CheckCircle2,
+  HelpCircle,
+  Lightbulb,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 interface Props {
   attribution: CauseAttribution;
   deviceName?: string;
 }
 
-export function CauseAttributionCard({ attribution, deviceName = 'Desktop PC (Workstation)' }: Props) {
+export function CauseAttributionCard({
+  attribution,
+  deviceName = "Desktop PC (Workstation)",
+}: Props) {
   return (
     <div className="rounded-2xl border border-white/10 bg-[#0d131f] p-6 shadow-xl backdrop-blur-md">
       {/* Header */}
@@ -26,7 +36,10 @@ export function CauseAttributionCard({ attribution, deviceName = 'Desktop PC (Wo
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="bg-cyan-500/10 text-cyan-300 border-cyan-500/30 text-xs font-mono">
+          <Badge
+            variant="outline"
+            className="bg-cyan-500/10 text-cyan-300 border-cyan-500/30 text-xs font-mono"
+          >
             {attribution.confidencePercent}% Model Confidence
           </Badge>
         </div>
@@ -43,7 +56,9 @@ export function CauseAttributionCard({ attribution, deviceName = 'Desktop PC (Wo
               {attribution.probableCause}
             </div>
             <div className="flex items-center gap-3 mt-3 pt-3 border-t border-white/10 font-mono text-xs text-slate-300">
-              <span className="text-cyan-400 font-bold">Confidence: {attribution.confidencePercent}%</span>
+              <span className="text-cyan-400 font-bold">
+                Confidence: {attribution.confidencePercent}%
+              </span>
               <span className="text-slate-500">•</span>
               <span className="text-slate-400">Classification: Context-Aware Idle Anomaly</span>
             </div>
@@ -83,7 +98,9 @@ export function CauseAttributionCard({ attribution, deviceName = 'Desktop PC (Wo
                 {attribution.alternativeCauses.map((alt, idx) => (
                   <div key={idx} className="space-y-1 font-mono text-xs">
                     <div className="flex items-center justify-between text-slate-300">
-                      <span className="font-medium text-slate-200">{idx + 1}. {alt.cause}</span>
+                      <span className="font-medium text-slate-200">
+                        {idx + 1}. {alt.cause}
+                      </span>
                       <span className="font-bold text-cyan-400">{alt.probabilityPercent}%</span>
                     </div>
                     <Progress value={alt.probabilityPercent} className="h-1.5 bg-slate-800" />
@@ -96,7 +113,9 @@ export function CauseAttributionCard({ attribution, deviceName = 'Desktop PC (Wo
             </div>
 
             <div className="mt-4 p-2.5 rounded-lg bg-slate-950/60 border border-white/5 text-[11px] text-slate-400 font-mono">
-              <span className="text-cyan-400 font-bold">Research Note:</span> Terminology reflects probabilistic estimation rather than confirmed physical failure until telemetry feedback verifies the corrective action.
+              <span className="text-cyan-400 font-bold">Research Note:</span> Terminology reflects
+              probabilistic estimation rather than confirmed physical failure until telemetry
+              feedback verifies the corrective action.
             </div>
           </div>
         </div>

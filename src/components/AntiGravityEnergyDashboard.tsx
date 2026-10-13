@@ -51,7 +51,7 @@ export function AntiGravityEnergyDashboard() {
         i2: +(46.7 + (Math.random() * 0.5 - 0.25)).toFixed(1),
         i3: +(47.8 + (Math.random() * 0.5 - 0.25)).toFixed(1),
         freq: +(50.0 + (Math.random() * 0.04 - 0.02)).toFixed(2),
-        powerFactor: +(0.982 + (Math.random() * 0.005)).toFixed(3),
+        powerFactor: +(0.982 + Math.random() * 0.005).toFixed(3),
         activePower: +(98.2 + (Math.random() * 0.6 - 0.3)).toFixed(1),
         standbyLoss: +(1.2 + (Math.random() * 0.1 - 0.05)).toFixed(2),
       }));

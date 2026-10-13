@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { useEnergyAdvisor } from '@/lib/energy-advisor-context';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
+import React, { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEnergyAdvisor } from "@/lib/energy-advisor-context";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
 import {
   Cpu,
   Plus,
@@ -18,10 +18,10 @@ import {
   Fan,
   Laptop,
   Printer,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -29,7 +29,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -37,11 +37,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-export const Route = createFileRoute('/devices')({
+export const Route = createFileRoute("/devices")({
   head: () => ({
-    meta: [{ title: 'Device Management — Energy Advisor' }],
+    meta: [{ title: "Device Management — Energy Advisor" }],
   }),
   component: DevicesPage,
 });
@@ -49,14 +49,14 @@ export const Route = createFileRoute('/devices')({
 export function DevicesPage() {
   const { devices, addNewDevice, searchQuery } = useEnergyAdvisor();
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const [filterState, setFilterState] = useState<string>('ALL');
+  const [filterState, setFilterState] = useState<string>("ALL");
 
   // Form State for new device
-  const [newName, setNewName] = useState('');
-  const [newType, setNewType] = useState('Computer / Workstation');
-  const [newNode, setNewNode] = useState('Node 01');
-  const [newPower, setNewPower] = useState('50');
-  const [newExpected, setNewExpected] = useState('45');
+  const [newName, setNewName] = useState("");
+  const [newType, setNewType] = useState("Computer / Workstation");
+  const [newNode, setNewNode] = useState("Node 01");
+  const [newPower, setNewPower] = useState("50");
+  const [newExpected, setNewExpected] = useState("45");
 
   const filteredDevices = devices.filter((d) => {
     const matchesSearch =
@@ -64,9 +64,10 @@ export function DevicesPage() {
       d.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
       d.esp32NodeId.toLowerCase().includes(searchQuery.toLowerCase());
 
-    if (filterState === 'ALL') return matchesSearch;
-    if (filterState === 'EXCESS') return matchesSearch && (d.status === 'VERIFIED' || d.status === 'DETECTED');
-    if (filterState === 'NORMAL') return matchesSearch && d.status === 'NORMAL';
+    if (filterState === "ALL") return matchesSearch;
+    if (filterState === "EXCESS")
+      return matchesSearch && (d.status === "VERIFIED" || d.status === "DETECTED");
+    if (filterState === "NORMAL") return matchesSearch && d.status === "NORMAL";
     return matchesSearch;
   });
 
@@ -80,24 +81,40 @@ export function DevicesPage() {
       esp32NodeId: newNode,
       currentPowerW: Number(newPower) || 50,
       expectedPowerW: Number(newExpected) || 45,
-      currentState: 'IDLE',
+      currentState: "IDLE",
     });
 
-    setNewName('');
+    setNewName("");
     setIsAddOpen(false);
   };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'VERIFIED':
-        return <Badge className="bg-red-500/20 text-red-300 border-red-500/40 text-[10px] font-mono">VERIFIED EXCESS</Badge>;
-      case 'DETECTED':
-        return <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/40 text-[10px] font-mono">DETECTED</Badge>;
-      case 'UNDER_REVIEW':
-        return <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/40 text-[10px] font-mono">UNDER REVIEW</Badge>;
-      case 'NORMAL':
+      case "VERIFIED":
+        return (
+          <Badge className="bg-red-500/20 text-red-300 border-red-500/40 text-[10px] font-mono">
+            VERIFIED EXCESS
+          </Badge>
+        );
+      case "DETECTED":
+        return (
+          <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/40 text-[10px] font-mono">
+            DETECTED
+          </Badge>
+        );
+      case "UNDER_REVIEW":
+        return (
+          <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/40 text-[10px] font-mono">
+            UNDER REVIEW
+          </Badge>
+        );
+      case "NORMAL":
       default:
-        return <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/40 text-[10px] font-mono">NORMAL</Badge>;
+        return (
+          <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/40 text-[10px] font-mono">
+            NORMAL
+          </Badge>
+        );
     }
   };
 
@@ -119,7 +136,8 @@ export function DevicesPage() {
                 </h1>
               </div>
               <p className="text-xs text-slate-400 mt-1 font-mono">
-                Manage IoT connected hardware endpoints and their state-specific expected energy baselines.
+                Manage IoT connected hardware endpoints and their state-specific expected energy
+                baselines.
               </p>
             </div>
 
@@ -137,14 +155,14 @@ export function DevicesPage() {
           <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-[#0d131f] border border-white/10 font-mono text-xs">
             <div className="flex items-center gap-2">
               <span className="text-slate-400 text-[11px]">Filter Status:</span>
-              {(['ALL', 'EXCESS', 'NORMAL'] as const).map((s) => (
+              {(["ALL", "EXCESS", "NORMAL"] as const).map((s) => (
                 <button
                   key={s}
                   onClick={() => setFilterState(s)}
                   className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
                     filterState === s
-                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/40 font-bold'
-                      : 'text-slate-400 hover:text-white'
+                      ? "bg-cyan-950 text-cyan-300 border border-cyan-500/40 font-bold"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
                   {s}
@@ -153,7 +171,8 @@ export function DevicesPage() {
             </div>
 
             <div className="text-slate-400 text-[11px]">
-              Showing <span className="text-white font-bold">{filteredDevices.length}</span> endpoints
+              Showing <span className="text-white font-bold">{filteredDevices.length}</span>{" "}
+              endpoints
             </div>
           </div>
 
@@ -186,10 +205,16 @@ export function DevicesPage() {
                         {dev.currentState}
                       </span>
                     </TableCell>
-                    <TableCell className="text-right font-bold text-white">{dev.currentPowerW} W</TableCell>
-                    <TableCell className="text-right text-slate-300">{dev.expectedPowerW} W</TableCell>
+                    <TableCell className="text-right font-bold text-white">
+                      {dev.currentPowerW} W
+                    </TableCell>
+                    <TableCell className="text-right text-slate-300">
+                      {dev.expectedPowerW} W
+                    </TableCell>
                     <TableCell className="text-right font-bold">
-                      <span className={dev.excessPowerW > 5 ? 'text-amber-400' : 'text-emerald-400'}>
+                      <span
+                        className={dev.excessPowerW > 5 ? "text-amber-400" : "text-emerald-400"}
+                      >
                         +{dev.excessPowerW} W
                       </span>
                     </TableCell>

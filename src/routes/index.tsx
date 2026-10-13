@@ -37,7 +37,9 @@ type CopyVariation = "roi" | "telemetry" | "autonomous";
 
 export function Landing() {
   const [copyVar, setCopyVar] = useState<CopyVariation>("roi");
-  const [activeTab, setActiveTab] = useState<"live-matrix" | "ai-synthesis" | "verification">("live-matrix");
+  const [activeTab, setActiveTab] = useState<"live-matrix" | "ai-synthesis" | "verification">(
+    "live-matrix",
+  );
 
   const copyData: Record<
     CopyVariation,
@@ -69,7 +71,8 @@ export function Landing() {
       cta: "Ingest Sensor Streams",
       secondaryCta: "Inspect Sensor Matrix",
       targetAudience: "Lead Electrical Engineers, Plant Reliability Teams & SCADA Architects",
-      coreBenefit: "Definitive multi-modal proof eliminating false alarms and motor diagnostics errors",
+      coreBenefit:
+        "Definitive multi-modal proof eliminating false alarms and motor diagnostics errors",
     },
     autonomous: {
       label: "VARIATION 03 // AUTONOMOUS AGENT ORCHESTRATION",
@@ -79,7 +82,8 @@ export function Landing() {
       cta: "Deploy Operational Agent",
       secondaryCta: "View Agent Pipeline",
       targetAudience: "Manufacturing Executives & Sustainability Operations Directors",
-      coreBenefit: "Self-governing, auditable operational action queues executing shutdown routines",
+      coreBenefit:
+        "Self-governing, auditable operational action queues executing shutdown routines",
     },
   };
 
@@ -267,17 +271,23 @@ export function Landing() {
               {/* 3-Phase Meter Summary */}
               <div className="grid grid-cols-3 gap-3">
                 <div className="glass-neumorph-sunken p-3 text-center">
-                  <span className="text-[10px] font-semibold text-slate-500 uppercase">Phase L1</span>
+                  <span className="text-[10px] font-semibold text-slate-500 uppercase">
+                    Phase L1
+                  </span>
                   <div className="text-lg font-extrabold text-slate-800 mt-1">230.4 V</div>
                   <div className="text-xs text-blue-600 font-medium">48.2 A</div>
                 </div>
                 <div className="glass-neumorph-sunken p-3 text-center">
-                  <span className="text-[10px] font-semibold text-slate-500 uppercase">Phase L2</span>
+                  <span className="text-[10px] font-semibold text-slate-500 uppercase">
+                    Phase L2
+                  </span>
                   <div className="text-lg font-extrabold text-slate-800 mt-1">229.8 V</div>
                   <div className="text-xs text-indigo-600 font-medium">46.8 A</div>
                 </div>
                 <div className="glass-neumorph-sunken p-3 text-center">
-                  <span className="text-[10px] font-semibold text-slate-500 uppercase">Phase L3</span>
+                  <span className="text-[10px] font-semibold text-slate-500 uppercase">
+                    Phase L3
+                  </span>
                   <div className="text-lg font-extrabold text-slate-800 mt-1">231.1 V</div>
                   <div className="text-xs text-purple-600 font-medium">47.9 A</div>
                 </div>
@@ -336,8 +346,8 @@ export function Landing() {
                 Live Anti-Gravity Energy & Voltage Console
               </h2>
               <p className="text-slate-600 text-sm sm:text-base mt-1 max-w-2xl">
-                Experience the weightless GlassoNeumorphic interface in action with real-time 3-phase
-                telemetry, interactive frequency waveforms, and tactile soft UI toggles.
+                Experience the weightless GlassoNeumorphic interface in action with real-time
+                3-phase telemetry, interactive frequency waveforms, and tactile soft UI toggles.
               </p>
             </div>
 
@@ -363,7 +373,8 @@ export function Landing() {
               Five-Stage Standby Elimination
             </h2>
             <p className="text-sm text-slate-600">
-              From raw sensor ingestion to guaranteed financial payback on your industrial tariff ledger.
+              From raw sensor ingestion to guaranteed financial payback on your industrial tariff
+              ledger.
             </p>
           </div>
 
@@ -430,7 +441,8 @@ export function Landing() {
               Ready to recover wasted industrial electrical capacity?
             </h2>
             <p className="text-sm sm:text-base text-slate-600">
-              Start auditing standby draw within 5 minutes. Upload your meter telemetry or connect live sensors.
+              Start auditing standby draw within 5 minutes. Upload your meter telemetry or connect
+              live sensors.
             </p>
           </div>
 

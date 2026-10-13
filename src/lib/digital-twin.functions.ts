@@ -45,22 +45,28 @@ export const getDigitalTwinDashboard = createServerFn({ method: "GET" }).handler
       const stateA = computeDigitalTwinState("Machine A");
       const stateB = computeDigitalTwinState("Machine B");
       const stateC = computeDigitalTwinState("Machine C");
-      
-      await db.collection("digital_twin_states").updateOne(
-        { machine_id: "Machine A" },
-        { $set: { ...stateA, user_id: userId, updated_at: new Date() } },
-        { upsert: true }
-      );
-      await db.collection("digital_twin_states").updateOne(
-        { machine_id: "Machine B" },
-        { $set: { ...stateB, user_id: userId, updated_at: new Date() } },
-        { upsert: true }
-      );
-      await db.collection("digital_twin_states").updateOne(
-        { machine_id: "Machine C" },
-        { $set: { ...stateC, user_id: userId, updated_at: new Date() } },
-        { upsert: true }
-      );
+
+      await db
+        .collection("digital_twin_states")
+        .updateOne(
+          { machine_id: "Machine A" },
+          { $set: { ...stateA, user_id: userId, updated_at: new Date() } },
+          { upsert: true },
+        );
+      await db
+        .collection("digital_twin_states")
+        .updateOne(
+          { machine_id: "Machine B" },
+          { $set: { ...stateB, user_id: userId, updated_at: new Date() } },
+          { upsert: true },
+        );
+      await db
+        .collection("digital_twin_states")
+        .updateOne(
+          { machine_id: "Machine C" },
+          { $set: { ...stateC, user_id: userId, updated_at: new Date() } },
+          { upsert: true },
+        );
     }
   } catch (e) {
     // Non-blocking log
@@ -136,10 +142,18 @@ export const simulateWhatIfScenario = createServerFn({ method: "POST" })
 // 4. DISPATCH OPTIMIZATION RECOMMENDATION TO APPROVAL QUEUE
 // -------------------------------------------------------------
 export const dispatchOptimizationToQueue = createServerFn({ method: "POST" })
-  .validator((data: { recommendation_id: string; recommendation_text: string; machine_id: string; savings_inr: number; risk_level: "Low" | "High" }) => data)
+  .validator(
+    (data: {
+      recommendation_id: string;
+      recommendation_text: string;
+      machine_id: string;
+      savings_inr: number;
+      risk_level: "Low" | "High";
+    }) => data,
+  )
   .handler(async ({ data }) => {
-    const userId = await getOptionalUserId() || "demo-user";
-    
+    const userId = (await getOptionalUserId()) || "demo-user";
+
     try {
       const { getDb } = await import("./mongodb.server");
       const db = await getDb();

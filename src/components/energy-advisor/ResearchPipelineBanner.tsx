@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
-import { RESEARCH_PIPELINE_STEPS } from '@/lib/energy-advisor-research';
-import { ArrowRight, Sparkles, Info, CheckCircle2, ChevronRight, Activity, Cpu, Layers } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
+import React, { useState } from "react";
+import { RESEARCH_PIPELINE_STEPS } from "@/lib/energy-advisor-research";
+import {
+  ArrowRight,
+  Sparkles,
+  Info,
+  CheckCircle2,
+  ChevronRight,
+  Activity,
+  Cpu,
+  Layers,
+} from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 
 export function ResearchPipelineBanner() {
-  const [selectedStep, setSelectedStep] = useState<typeof RESEARCH_PIPELINE_STEPS[0] | null>(null);
+  const [selectedStep, setSelectedStep] = useState<(typeof RESEARCH_PIPELINE_STEPS)[0] | null>(
+    null,
+  );
 
   return (
     <>
@@ -20,17 +37,22 @@ export function ResearchPipelineBanner() {
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
                 <Cpu className="h-3 w-3" /> Core Research Architecture
               </span>
-              <span className="text-xs font-mono text-emerald-400/80">B.Tech Computer Science Project</span>
+              <span className="text-xs font-mono text-emerald-400/80">
+                B.Tech Computer Science Project
+              </span>
             </div>
             <h2 className="text-base font-bold text-white tracking-tight mt-1 flex items-center gap-2">
               Context-Aware Excess Energy Detection & Cause Attribution Workflow
             </h2>
             <p className="text-xs text-slate-400 max-w-3xl mt-0.5">
-              Distinguishing legitimate compute load from genuine idle waste through multi-signal correlation and state-specific regression baselines.
+              Distinguishing legitimate compute load from genuine idle waste through multi-signal
+              correlation and state-specific regression baselines.
             </p>
           </div>
           <div className="flex items-center gap-2 shrink-0">
-            <span className="text-[11px] font-mono text-slate-400 hidden sm:inline">Click any stage to inspect logic:</span>
+            <span className="text-[11px] font-mono text-slate-400 hidden sm:inline">
+              Click any stage to inspect logic:
+            </span>
           </div>
         </div>
 
@@ -48,19 +70,19 @@ export function ResearchPipelineBanner() {
                     onClick={() => setSelectedStep(step)}
                     className={`flex-1 min-w-[120px] rounded-xl p-2.5 text-left transition-all duration-200 border relative group cursor-pointer ${
                       isHighlight
-                        ? 'bg-cyan-950/40 border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-900/40 shadow-sm shadow-cyan-950'
-                        : 'bg-slate-900/60 border-white/5 hover:border-white/20 hover:bg-slate-800/60'
+                        ? "bg-cyan-950/40 border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-900/40 shadow-sm shadow-cyan-950"
+                        : "bg-slate-900/60 border-white/5 hover:border-white/20 hover:bg-slate-800/60"
                     }`}
                   >
                     <div className="flex items-center justify-between gap-1 mb-1">
                       <span className="text-[10px] font-mono font-bold text-slate-400 group-hover:text-cyan-400">
-                        {String(step.step).padStart(2, '0')}
+                        {String(step.step).padStart(2, "0")}
                       </span>
                       <span
                         className={`text-[9px] px-1.5 py-0.2 rounded font-mono ${
                           isHighlight
-                            ? 'bg-cyan-400/20 text-cyan-300 font-semibold'
-                            : 'bg-white/5 text-slate-400'
+                            ? "bg-cyan-400/20 text-cyan-300 font-semibold"
+                            : "bg-white/5 text-slate-400"
                         }`}
                       >
                         {step.badge}
@@ -90,7 +112,10 @@ export function ResearchPipelineBanner() {
         <DialogContent className="max-w-md bg-[#0f172a] border-cyan-500/30 text-white">
           <DialogHeader>
             <div className="flex items-center gap-2 mb-1">
-              <Badge variant="outline" className="bg-cyan-500/10 text-cyan-400 border-cyan-500/30 font-mono">
+              <Badge
+                variant="outline"
+                className="bg-cyan-500/10 text-cyan-400 border-cyan-500/30 font-mono"
+              >
                 Stage {selectedStep?.step} of 10
               </Badge>
               <span className="text-xs font-mono text-slate-400">{selectedStep?.badge}</span>
@@ -104,8 +129,14 @@ export function ResearchPipelineBanner() {
           </DialogHeader>
           <div className="mt-4 p-3 rounded-lg bg-slate-900/80 border border-white/10 text-xs text-slate-300 space-y-2 font-mono">
             <div className="text-cyan-400 font-semibold">Research Implementation:</div>
-            <div>• Formulated to eliminate false positives in dynamic multi-state industrial/laboratory computing hardware.</div>
-            <div>• Verifies hardware telemetry signals against physical baseline models instead of static load thresholds.</div>
+            <div>
+              • Formulated to eliminate false positives in dynamic multi-state industrial/laboratory
+              computing hardware.
+            </div>
+            <div>
+              • Verifies hardware telemetry signals against physical baseline models instead of
+              static load thresholds.
+            </div>
           </div>
         </DialogContent>
       </Dialog>

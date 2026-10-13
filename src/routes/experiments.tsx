@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { useEnergyAdvisor } from '@/lib/energy-advisor-context';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
+import React, { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEnergyAdvisor } from "@/lib/energy-advisor-context";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
 import {
   FlaskConical,
   Database,
@@ -20,16 +20,10 @@ import {
   AlertTriangle,
   ArrowRight,
   Sparkles,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -37,13 +31,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-export const Route = createFileRoute('/experiments')({
+export const Route = createFileRoute("/experiments")({
   head: () => ({
     meta: [
       {
-        title: 'Research Lab & Controlled Experiments — Energy Advisor',
+        title: "Research Lab & Controlled Experiments — Energy Advisor",
       },
     ],
   }),
@@ -65,22 +59,22 @@ export function ExperimentsPage() {
   } = useEnergyAdvisor();
 
   const [activeSection, setActiveSection] = useState<number>(6); // Default on Cause Validation
-  const [newExpTitle, setNewExpTitle] = useState('Controlled Trial on Workstation');
-  const [newExpCause, setNewExpCause] = useState<any>('PROLONGED_IDLE');
+  const [newExpTitle, setNewExpTitle] = useState("Controlled Trial on Workstation");
+  const [newExpCause, setNewExpCause] = useState<any>("PROLONGED_IDLE");
   const [newExpDuration, setNewExpDuration] = useState(60);
   const [newExpPowerDelta, setNewExpPowerDelta] = useState(45);
 
   const sections = [
-    { num: 1, title: 'Dataset Selection', icon: Database, link: '/datasets' },
-    { num: 2, title: 'Data Quality & Cleaning', icon: ShieldCheck, link: '/datasets' },
-    { num: 3, title: 'State Identification', icon: Cpu, link: '/devices' },
-    { num: 4, title: 'Expected Energy Model', icon: LineChart, link: '/models' },
-    { num: 5, title: 'Excess Energy Ledger', icon: Layers, link: '/excess-ledger' },
-    { num: 6, title: 'Controlled Cause Validation', icon: FlaskConical, active: true },
-    { num: 7, title: 'Counterfactual Experiment', icon: Split, link: '/counterfactual-analysis' },
-    { num: 8, title: 'Recommendation Evaluation', icon: Lightbulb, link: '/recommendations' },
-    { num: 9, title: 'Ablation Study', icon: Sliders, link: '/models' },
-    { num: 10, title: 'Export Results', icon: Download, link: '/research-results' },
+    { num: 1, title: "Dataset Selection", icon: Database, link: "/datasets" },
+    { num: 2, title: "Data Quality & Cleaning", icon: ShieldCheck, link: "/datasets" },
+    { num: 3, title: "State Identification", icon: Cpu, link: "/devices" },
+    { num: 4, title: "Expected Energy Model", icon: LineChart, link: "/models" },
+    { num: 5, title: "Excess Energy Ledger", icon: Layers, link: "/excess-ledger" },
+    { num: 6, title: "Controlled Cause Validation", icon: FlaskConical, active: true },
+    { num: 7, title: "Counterfactual Experiment", icon: Split, link: "/counterfactual-analysis" },
+    { num: 8, title: "Recommendation Evaluation", icon: Lightbulb, link: "/recommendations" },
+    { num: 9, title: "Ablation Study", icon: Sliders, link: "/models" },
+    { num: 10, title: "Export Results", icon: Download, link: "/research-results" },
   ];
 
   const handleCreateExperiment = (e: React.FormEvent) => {
@@ -98,7 +92,7 @@ export function ExperimentsPage() {
       injected_power_delta_w: newExpPowerDelta,
       ground_truth_excess_wh: groundTruthWh,
       estimated_excess_wh: estimatedWh,
-      baseline_condition: 'Standard automated ACPI sleep state active',
+      baseline_condition: "Standard automated ACPI sleep state active",
       injected_condition: `Injected ${newExpCause} via policy script for ${newExpDuration} min`,
     });
   };
@@ -127,12 +121,18 @@ export function ExperimentsPage() {
                   CONTROLLED EXPERIMENTS & RESEARCH BENCHMARK
                 </h1>
                 <p className="text-xs text-slate-400 font-mono max-w-3xl leading-relaxed">
-                  Executing scientific validation trials where known excess energy is intentionally injected into device operations to verify Cause Attribution and Counterfactual Energy Estimation against independent ground truth.
+                  Executing scientific validation trials where known excess energy is intentionally
+                  injected into device operations to verify Cause Attribution and Counterfactual
+                  Energy Estimation against independent ground truth.
                 </p>
               </div>
 
               <div className="shrink-0 flex items-center gap-2 font-mono text-xs">
-                <Button asChild size="sm" className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs gap-1">
+                <Button
+                  asChild
+                  size="sm"
+                  className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs gap-1"
+                >
                   <Link to="/experiment-runner">
                     <Play className="h-3.5 w-3.5 fill-current" />
                     Experiment Runner
@@ -149,28 +149,50 @@ export function ExperimentsPage() {
                 <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
                 IEEE Manuscript Four Core Experiments (1–4)
               </span>
-              <span className="text-[10px] text-slate-400">Direct Navigation &amp; Table Generation</span>
+              <span className="text-[10px] text-slate-400">
+                Direct Navigation &amp; Table Generation
+              </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 pt-1">
-              <Button asChild variant="outline" size="sm" className="border-white/10 bg-slate-950/60 hover:bg-slate-800 text-xs justify-start gap-2 h-9 text-slate-200">
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="border-white/10 bg-slate-950/60 hover:bg-slate-800 text-xs justify-start gap-2 h-9 text-slate-200"
+              >
                 <Link to="/expected-energy-comparison">
                   <LineChart className="h-3.5 w-3.5 text-cyan-400 shrink-0" />
                   <span className="truncate">Exp 1: Expected Energy</span>
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="sm" className="border-white/10 bg-slate-950/60 hover:bg-slate-800 text-xs justify-start gap-2 h-9 text-slate-200">
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="border-white/10 bg-slate-950/60 hover:bg-slate-800 text-xs justify-start gap-2 h-9 text-slate-200"
+              >
                 <Link to="/ledger-validation">
                   <Layers className="h-3.5 w-3.5 text-amber-400 shrink-0" />
                   <span className="truncate">Exp 2: Ledger Validation</span>
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="sm" className="border-white/10 bg-slate-950/60 hover:bg-slate-800 text-xs justify-start gap-2 h-9 text-slate-200">
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="border-white/10 bg-slate-950/60 hover:bg-slate-800 text-xs justify-start gap-2 h-9 text-slate-200"
+              >
                 <Link to="/counterfactual-validation">
                   <Split className="h-3.5 w-3.5 text-purple-400 shrink-0" />
                   <span className="truncate">Exp 3: Counterfactual</span>
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="sm" className="border-white/10 bg-slate-950/60 hover:bg-slate-800 text-xs justify-start gap-2 h-9 text-slate-200">
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="border-white/10 bg-slate-950/60 hover:bg-slate-800 text-xs justify-start gap-2 h-9 text-slate-200"
+              >
                 <Link to="/recommendation-effectiveness">
                   <Lightbulb className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
                   <span className="truncate">Exp 4: Recommendations</span>
@@ -191,8 +213,8 @@ export function ExperimentsPage() {
                   onClick={() => setActiveSection(sec.num)}
                   className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between h-20 ${
                     activeSection === sec.num
-                      ? 'bg-cyan-950/60 text-cyan-300 border-cyan-500/50 shadow-md font-bold'
-                      : 'bg-slate-900/60 text-slate-400 border-white/10 hover:border-white/20 hover:text-white'
+                      ? "bg-cyan-950/60 text-cyan-300 border-cyan-500/50 shadow-md font-bold"
+                      : "bg-slate-900/60 text-slate-400 border-white/10 hover:border-white/20 hover:text-white"
                   }`}
                 >
                   <div className="flex items-center justify-between w-full">
@@ -218,7 +240,8 @@ export function ExperimentsPage() {
                         SECTION 14: Controlled Cause Validation Trial Registry
                       </CardTitle>
                       <CardDescription className="text-xs text-slate-400 font-mono">
-                        Comparing known injected excess energy (Ground Truth) vs System Estimated Excess Wh
+                        Comparing known injected excess energy (Ground Truth) vs System Estimated
+                        Excess Wh
                       </CardDescription>
                     </div>
                   </div>
@@ -243,15 +266,33 @@ export function ExperimentsPage() {
                       <TableBody className="font-mono text-xs divide-y divide-white/5">
                         {experiments.map((exp) => (
                           <TableRow key={exp.experiment_id} className="hover:bg-slate-800/40">
-                            <TableCell className="font-bold text-cyan-400">{exp.experiment_id}</TableCell>
-                            <TableCell className="font-semibold text-white">{exp.device_name}</TableCell>
-                            <TableCell className="font-bold text-purple-300">{exp.known_cause}</TableCell>
-                            <TableCell className="text-slate-400">{exp.injected_duration_minutes} mins</TableCell>
-                            <TableCell className="text-purple-300 font-bold">{exp.ground_truth_excess_wh} Wh</TableCell>
-                            <TableCell className="text-cyan-300 font-bold">{exp.estimated_excess_wh} Wh</TableCell>
-                            <TableCell className="text-emerald-400 font-bold">{exp.absolute_error_wh} Wh</TableCell>
-                            <TableCell className="text-slate-300">{exp.percentage_error}%</TableCell>
-                            <TableCell className="text-slate-400">{exp.mae_w}W / {exp.rmse_w}W</TableCell>
+                            <TableCell className="font-bold text-cyan-400">
+                              {exp.experiment_id}
+                            </TableCell>
+                            <TableCell className="font-semibold text-white">
+                              {exp.device_name}
+                            </TableCell>
+                            <TableCell className="font-bold text-purple-300">
+                              {exp.known_cause}
+                            </TableCell>
+                            <TableCell className="text-slate-400">
+                              {exp.injected_duration_minutes} mins
+                            </TableCell>
+                            <TableCell className="text-purple-300 font-bold">
+                              {exp.ground_truth_excess_wh} Wh
+                            </TableCell>
+                            <TableCell className="text-cyan-300 font-bold">
+                              {exp.estimated_excess_wh} Wh
+                            </TableCell>
+                            <TableCell className="text-emerald-400 font-bold">
+                              {exp.absolute_error_wh} Wh
+                            </TableCell>
+                            <TableCell className="text-slate-300">
+                              {exp.percentage_error}%
+                            </TableCell>
+                            <TableCell className="text-slate-400">
+                              {exp.mae_w}W / {exp.rmse_w}W
+                            </TableCell>
                             <TableCell className="text-right">
                               <Button
                                 size="sm"
@@ -279,11 +320,15 @@ export function ExperimentsPage() {
                     Configure New Controlled Validation Trial
                   </CardTitle>
                   <CardDescription className="text-xs text-slate-400 font-mono">
-                    Define an experimental test condition with known physical excess to calibrate the cause-level ledger
+                    Define an experimental test condition with known physical excess to calibrate
+                    the cause-level ledger
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <form onSubmit={handleCreateExperiment} className="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs">
+                  <form
+                    onSubmit={handleCreateExperiment}
+                    className="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs"
+                  >
                     <div>
                       <label className="text-slate-400 block mb-1">Target Device</label>
                       <select
@@ -306,9 +351,15 @@ export function ExperimentsPage() {
                         onChange={(e) => setNewExpCause(e.target.value)}
                         className="w-full bg-slate-950 border border-white/10 rounded-lg p-2.5 text-purple-300 font-bold"
                       >
-                        <option value="PROLONGED_IDLE">PROLONGED_IDLE (Disable sleep policy)</option>
-                        <option value="BACKGROUND_LOAD">BACKGROUND_LOAD (Spin compute daemon)</option>
-                        <option value="STANDBY_LEAKAGE">STANDBY_LEAKAGE (Override heater standby)</option>
+                        <option value="PROLONGED_IDLE">
+                          PROLONGED_IDLE (Disable sleep policy)
+                        </option>
+                        <option value="BACKGROUND_LOAD">
+                          BACKGROUND_LOAD (Spin compute daemon)
+                        </option>
+                        <option value="STANDBY_LEAKAGE">
+                          STANDBY_LEAKAGE (Override heater standby)
+                        </option>
                         <option value="SCHEDULE_MISUSE">SCHEDULE_MISUSE (Run outside shift)</option>
                       </select>
                     </div>
@@ -335,9 +386,9 @@ export function ExperimentsPage() {
 
                     <div className="md:col-span-4 flex items-center justify-between pt-3 border-t border-white/5">
                       <div className="text-slate-400 text-xs">
-                        Calculated Ground Truth Excess:{' '}
+                        Calculated Ground Truth Excess:{" "}
                         <span className="text-purple-300 font-bold text-sm">
-                          {Math.round((newExpPowerDelta * (newExpDuration / 60)) * 10) / 10} Wh
+                          {Math.round(newExpPowerDelta * (newExpDuration / 60) * 10) / 10} Wh
                         </span>
                       </div>
                       <Button
@@ -358,13 +409,19 @@ export function ExperimentsPage() {
             <Card className="bg-slate-900/70 border-white/10 text-white p-6 font-mono text-xs space-y-4">
               <div className="flex items-center gap-2 text-cyan-400 font-bold">
                 <Sparkles className="h-4 w-4" />
-                <span>Section 0{activeSection}: {sections[activeSection - 1].title}</span>
+                <span>
+                  Section 0{activeSection}: {sections[activeSection - 1].title}
+                </span>
               </div>
               <p className="text-slate-400 leading-relaxed">
-                This research section is integrated into the live Energy Advisor prototype. You can navigate directly to its dedicated inspection dashboard using the button below.
+                This research section is integrated into the live Energy Advisor prototype. You can
+                navigate directly to its dedicated inspection dashboard using the button below.
               </p>
               {sections[activeSection - 1].link && (
-                <Button asChild className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold font-mono text-xs gap-2">
+                <Button
+                  asChild
+                  className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold font-mono text-xs gap-2"
+                >
                   <Link to={sections[activeSection - 1].link as any}>
                     Open {sections[activeSection - 1].title} <ArrowRight className="h-3.5 w-3.5" />
                   </Link>

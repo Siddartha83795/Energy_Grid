@@ -1,13 +1,17 @@
 // Preloaded Research Datasets for 1-Click Evaluation in Energy Advisor
 // Features realistic high-resolution records for immediate testing & demonstration
 
-import { ENERGY_METER_TEMPLATE_CSV, MACHINE_OPERATION_TEMPLATE_CSV, PRODUCTION_CONTEXT_TEMPLATE_CSV } from './templates';
+import {
+  ENERGY_METER_TEMPLATE_CSV,
+  MACHINE_OPERATION_TEMPLATE_CSV,
+  PRODUCTION_CONTEXT_TEMPLATE_CSV,
+} from "./templates";
 
 export interface PreloadedDatasetPackage {
   id: string;
   name: string;
   badge: string;
-  badgeVariant?: 'default' | 'secondary' | 'destructive' | 'outline';
+  badgeVariant?: "default" | "secondary" | "destructive" | "outline";
   description: string;
   energyCsv: string;
   operationCsv: string;
@@ -112,42 +116,45 @@ const NILM_CONTEXT = PRODUCTION_CONTEXT_TEMPLATE_CSV;
 
 export const PRELOADED_DATASETS: PreloadedDatasetPackage[] = [
   {
-    id: 'smart-pdm',
-    name: 'SMART-PDM Industrial Milling & Stamping',
-    badge: 'PUBLIC DATA (SMART-PDM)',
-    badgeVariant: 'secondary',
-    description: 'Real-world industrial machining dataset with high-rate load, extended unallocated idling, and bearing degradation patterns.',
+    id: "smart-pdm",
+    name: "SMART-PDM Industrial Milling & Stamping",
+    badge: "PUBLIC DATA (SMART-PDM)",
+    badgeVariant: "secondary",
+    description:
+      "Real-world industrial machining dataset with high-rate load, extended unallocated idling, and bearing degradation patterns.",
     energyCsv: SMART_PDM_ENERGY,
     operationCsv: SMART_PDM_OPERATION,
     contextCsv: SMART_PDM_CONTEXT,
     machineCount: 2,
-    timeRange: '2026-06-01 06:00 to 07:10 (5-min resolution)',
-    injectedCauses: ['PROLONGED_IDLE', 'UNEXPECTED_HIGH_LOAD'],
+    timeRange: "2026-06-01 06:00 to 07:10 (5-min resolution)",
+    injectedCauses: ["PROLONGED_IDLE", "UNEXPECTED_HIGH_LOAD"],
   },
   {
-    id: 'controlled-suite',
-    name: 'Controlled Cause Validation Suite (Lab Benchmark)',
-    badge: 'REAL EXPERIMENTAL DATA (CONTROLLED LAB)',
-    badgeVariant: 'default',
-    description: 'Controlled physical laboratory validation experiments with calibrated ground truth for Prolonged Idle, Ghost Standby Leakage, and Thermal Soak.',
+    id: "controlled-suite",
+    name: "Controlled Cause Validation Suite (Lab Benchmark)",
+    badge: "REAL EXPERIMENTAL DATA (CONTROLLED LAB)",
+    badgeVariant: "default",
+    description:
+      "Controlled physical laboratory validation experiments with calibrated ground truth for Prolonged Idle, Ghost Standby Leakage, and Thermal Soak.",
     energyCsv: CONTROLLED_SUITE_ENERGY,
     operationCsv: CONTROLLED_SUITE_OPERATION,
     contextCsv: CONTROLLED_SUITE_CONTEXT,
     machineCount: 2,
-    timeRange: '2026-06-01 09:00 to 10:00 (5-min resolution)',
-    injectedCauses: ['PROLONGED_IDLE', 'STANDBY_LEAKAGE'],
+    timeRange: "2026-06-01 09:00 to 10:00 (5-min resolution)",
+    injectedCauses: ["PROLONGED_IDLE", "STANDBY_LEAKAGE"],
   },
   {
-    id: 'nilm-multisensor',
-    name: 'Industrial NILM Multi-Sensor Profile',
-    badge: 'PUBLIC BENCHMARK (NILM)',
-    badgeVariant: 'outline',
-    description: '3-phase electrical telemetry combined with mechanical vibration and tool temperature context for milling, press, and industrial chillers.',
+    id: "nilm-multisensor",
+    name: "Industrial NILM Multi-Sensor Profile",
+    badge: "PUBLIC BENCHMARK (NILM)",
+    badgeVariant: "outline",
+    description:
+      "3-phase electrical telemetry combined with mechanical vibration and tool temperature context for milling, press, and industrial chillers.",
     energyCsv: NILM_ENERGY,
     operationCsv: NILM_OPERATION,
     contextCsv: NILM_CONTEXT,
     machineCount: 3,
-    timeRange: '2026-06-01 08:00 to 09:00 (5-min resolution)',
-    injectedCauses: ['PROLONGED_IDLE', 'OTHER_DEFINED_CAUSE (Mechanical Friction)'],
+    timeRange: "2026-06-01 08:00 to 09:00 (5-min resolution)",
+    injectedCauses: ["PROLONGED_IDLE", "OTHER_DEFINED_CAUSE (Mechanical Friction)"],
   },
 ];

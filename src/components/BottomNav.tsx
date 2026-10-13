@@ -41,7 +41,7 @@ export function BottomNav() {
     <nav
       className={cn(
         "fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 w-fit max-w-[95%] z-50 h-16 rounded-full nav-pop-transition pointer-events-auto overflow-hidden transition-colors",
-        "bg-white/70 dark:bg-[#0F172A]/85 backdrop-blur-2xl border border-white/80 dark:border-white/12 shadow-[-6px_-6px_20px_rgba(255,255,255,0.95),8px_10px_24px_rgba(160,175,200,0.35)] dark:shadow-[0_12px_32px_rgba(0,0,0,0.7),inset_1px_1px_1px_rgba(255,255,255,0.1)]"
+        "bg-white/70 dark:bg-[#0F172A]/85 backdrop-blur-2xl border border-white/80 dark:border-white/12 shadow-[-6px_-6px_20px_rgba(255,255,255,0.95),8px_10px_24px_rgba(160,175,200,0.35)] dark:shadow-[0_12px_32px_rgba(0,0,0,0.7),inset_1px_1px_1px_rgba(255,255,255,0.1)]",
       )}
     >
       <div

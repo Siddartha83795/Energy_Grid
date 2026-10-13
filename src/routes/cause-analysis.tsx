@@ -1,10 +1,10 @@
-import React from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-import { useEnergyAdvisor } from '@/lib/energy-advisor-context';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
-import { CauseAttributionCard } from '@/components/energy-advisor/CauseAttributionCard';
-import { TemporalPatternCard } from '@/components/energy-advisor/TemporalPatternCard';
+import React from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEnergyAdvisor } from "@/lib/energy-advisor-context";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
+import { CauseAttributionCard } from "@/components/energy-advisor/CauseAttributionCard";
+import { TemporalPatternCard } from "@/components/energy-advisor/TemporalPatternCard";
 import {
   Activity,
   AlertTriangle,
@@ -20,8 +20,8 @@ import {
   Zap,
   ArrowRight,
   GitFork,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -29,7 +29,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
   ResponsiveContainer,
   LineChart,
@@ -39,11 +39,11 @@ import {
   Tooltip,
   Legend,
   CartesianGrid,
-} from 'recharts';
+} from "recharts";
 
-export const Route = createFileRoute('/cause-analysis')({
+export const Route = createFileRoute("/cause-analysis")({
   head: () => ({
-    meta: [{ title: 'Cause Analysis & Attribution — Energy Advisor' }],
+    meta: [{ title: "Cause Analysis & Attribution — Energy Advisor" }],
   }),
   component: CauseAnalysisPage,
 });
@@ -73,7 +73,10 @@ export function CauseAnalysisPage() {
               </p>
             </div>
 
-            <Badge variant="outline" className="bg-cyan-500/10 text-cyan-300 border-cyan-500/30 text-xs font-mono">
+            <Badge
+              variant="outline"
+              className="bg-cyan-500/10 text-cyan-300 border-cyan-500/30 text-xs font-mono"
+            >
               EVENT: 09:18 AM – 09:56 AM
             </Badge>
           </div>
@@ -97,19 +100,29 @@ export function CauseAnalysisPage() {
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
               <div className="p-3 rounded-xl bg-slate-900/80 border border-white/5">
                 <span className="text-[10px] text-slate-400 uppercase block">Operating State</span>
-                <span className="text-sm font-bold text-cyan-300 mt-0.5 block">{selectedDevice.currentState}</span>
+                <span className="text-sm font-bold text-cyan-300 mt-0.5 block">
+                  {selectedDevice.currentState}
+                </span>
               </div>
               <div className="p-3 rounded-xl bg-slate-900/80 border border-white/5">
                 <span className="text-[10px] text-slate-400 uppercase block">Expected Power</span>
-                <span className="text-sm font-bold text-slate-200 mt-0.5 block">{selectedDevice.expectedPowerW} W</span>
+                <span className="text-sm font-bold text-slate-200 mt-0.5 block">
+                  {selectedDevice.expectedPowerW} W
+                </span>
               </div>
               <div className="p-3 rounded-xl bg-slate-900/80 border border-white/5">
                 <span className="text-[10px] text-slate-400 uppercase block">Actual Power</span>
-                <span className="text-sm font-bold text-red-400 mt-0.5 block">{selectedDevice.currentPowerW} W</span>
+                <span className="text-sm font-bold text-red-400 mt-0.5 block">
+                  {selectedDevice.currentPowerW} W
+                </span>
               </div>
               <div className="p-3 rounded-xl bg-amber-950/40 border border-amber-500/30">
-                <span className="text-[10px] text-amber-300 uppercase block font-bold">Excess Power</span>
-                <span className="text-sm font-bold text-amber-400 mt-0.5 block">+{selectedDevice.excessPowerW} W</span>
+                <span className="text-[10px] text-amber-300 uppercase block font-bold">
+                  Excess Power
+                </span>
+                <span className="text-sm font-bold text-amber-400 mt-0.5 block">
+                  +{selectedDevice.excessPowerW} W
+                </span>
               </div>
               <div className="p-3 rounded-xl bg-slate-900/80 border border-white/5">
                 <span className="text-[10px] text-slate-400 uppercase block">Event Duration</span>
@@ -147,11 +160,11 @@ export function CauseAnalysisPage() {
                     <TableCell>
                       <span
                         className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                          ev.status === 'High'
-                            ? 'bg-red-500/20 text-red-300 border border-red-500/30'
-                            : ev.status === 'Normal' || ev.status === 'Low'
-                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                            : 'bg-slate-800 text-slate-300'
+                          ev.status === "High"
+                            ? "bg-red-500/20 text-red-300 border border-red-500/30"
+                            : ev.status === "Normal" || ev.status === "Low"
+                              ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                              : "bg-slate-800 text-slate-300"
                         }`}
                       >
                         {ev.status}
@@ -173,7 +186,8 @@ export function CauseAnalysisPage() {
                   Multi-Modal Signal Fusion Overlay (Telemetry Stream)
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Cross-validation: High electrical draw (+48W) accompanied by cold temperature (24°C) and zero vibration (&lt;0.05g) confirms true idle waste.
+                  Cross-validation: High electrical draw (+48W) accompanied by cold temperature
+                  (24°C) and zero vibration (&lt;0.05g) confirms true idle waste.
                 </p>
               </div>
               <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30 text-xs">
@@ -185,25 +199,59 @@ export function CauseAnalysisPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                   data={[
-                    { time: '09:00', powerW: 15, tempC: 23, vibrationG: 0.02, acousticDb: 28 },
-                    { time: '09:10', powerW: 16, tempC: 23.5, vibrationG: 0.03, acousticDb: 29 },
-                    { time: '09:18', powerW: 68, tempC: 24.0, vibrationG: 0.02, acousticDb: 30 },
-                    { time: '09:25', powerW: 67, tempC: 24.2, vibrationG: 0.02, acousticDb: 29 },
-                    { time: '09:35', powerW: 69, tempC: 24.5, vibrationG: 0.03, acousticDb: 31 },
-                    { time: '09:45', powerW: 68, tempC: 24.3, vibrationG: 0.02, acousticDb: 30 },
-                    { time: '09:56', powerW: 16, tempC: 23.8, vibrationG: 0.02, acousticDb: 28 },
+                    { time: "09:00", powerW: 15, tempC: 23, vibrationG: 0.02, acousticDb: 28 },
+                    { time: "09:10", powerW: 16, tempC: 23.5, vibrationG: 0.03, acousticDb: 29 },
+                    { time: "09:18", powerW: 68, tempC: 24.0, vibrationG: 0.02, acousticDb: 30 },
+                    { time: "09:25", powerW: 67, tempC: 24.2, vibrationG: 0.02, acousticDb: 29 },
+                    { time: "09:35", powerW: 69, tempC: 24.5, vibrationG: 0.03, acousticDb: 31 },
+                    { time: "09:45", powerW: 68, tempC: 24.3, vibrationG: 0.02, acousticDb: 30 },
+                    { time: "09:56", powerW: 16, tempC: 23.8, vibrationG: 0.02, acousticDb: 28 },
                   ]}
                   margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                   <XAxis dataKey="time" stroke="#64748b" tick={{ fontSize: 11 }} />
                   <YAxis yAxisId="left" stroke="#06b6d4" tick={{ fontSize: 11 }} unit=" W" />
-                  <YAxis yAxisId="right" orientation="right" stroke="#f59e0b" tick={{ fontSize: 11 }} unit=" °C" />
-                  <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px' }} />
-                  <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
-                  <Line yAxisId="left" type="monotone" dataKey="powerW" name="Electrical Draw (W)" stroke="#06b6d4" strokeWidth={2.5} />
-                  <Line yAxisId="right" type="monotone" dataKey="tempC" name="Surface Temp (°C)" stroke="#f59e0b" strokeWidth={2} strokeDasharray="3 3" />
-                  <Line yAxisId="left" type="monotone" dataKey="acousticDb" name="Acoustic Noise (dB)" stroke="#8b5cf6" strokeWidth={1.5} />
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    stroke="#f59e0b"
+                    tick={{ fontSize: 11 }}
+                    unit=" °C"
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#0f172a",
+                      borderColor: "#334155",
+                      borderRadius: "8px",
+                    }}
+                  />
+                  <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
+                  <Line
+                    yAxisId="left"
+                    type="monotone"
+                    dataKey="powerW"
+                    name="Electrical Draw (W)"
+                    stroke="#06b6d4"
+                    strokeWidth={2.5}
+                  />
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="tempC"
+                    name="Surface Temp (°C)"
+                    stroke="#f59e0b"
+                    strokeWidth={2}
+                    strokeDasharray="3 3"
+                  />
+                  <Line
+                    yAxisId="left"
+                    type="monotone"
+                    dataKey="acousticDb"
+                    name="Acoustic Noise (dB)"
+                    stroke="#8b5cf6"
+                    strokeWidth={1.5}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -218,7 +266,8 @@ export function CauseAnalysisPage() {
                   Directed Causal Evidence Network (DAG)
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Root Cause Inference: Evidence path links shift schedule transition to verified prolonged idle excess.
+                  Root Cause Inference: Evidence path links shift schedule transition to verified
+                  prolonged idle excess.
                 </p>
               </div>
               <Badge className="bg-purple-950/60 text-purple-300 border-purple-500/40 text-xs">
@@ -228,9 +277,13 @@ export function CauseAnalysisPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
               <div className="p-4 rounded-xl bg-slate-900 border border-white/10 text-center space-y-1">
-                <span className="text-[10px] text-cyan-400 font-bold block uppercase">Root Trigger</span>
+                <span className="text-[10px] text-cyan-400 font-bold block uppercase">
+                  Root Trigger
+                </span>
                 <span className="text-xs font-bold text-white block">Shift Transition Gap</span>
-                <span className="text-[10px] text-slate-400 block">Operator logged out at 09:18 AM</span>
+                <span className="text-[10px] text-slate-400 block">
+                  Operator logged out at 09:18 AM
+                </span>
               </div>
 
               <div className="flex justify-center text-cyan-400">
@@ -238,13 +291,19 @@ export function CauseAnalysisPage() {
               </div>
 
               <div className="p-4 rounded-xl bg-slate-900 border border-white/10 text-center space-y-1">
-                <span className="text-[10px] text-amber-400 font-bold block uppercase">Physical State</span>
+                <span className="text-[10px] text-amber-400 font-bold block uppercase">
+                  Physical State
+                </span>
                 <span className="text-xs font-bold text-white block">Standby Inaction</span>
-                <span className="text-[10px] text-slate-400 block">Zero user input & CPU &lt; 2%</span>
+                <span className="text-[10px] text-slate-400 block">
+                  Zero user input & CPU &lt; 2%
+                </span>
               </div>
 
               <div className="p-4 rounded-xl bg-rose-950/40 border border-rose-500/40 text-center space-y-1">
-                <span className="text-[10px] text-rose-300 font-bold block uppercase">Attributed Cause</span>
+                <span className="text-[10px] text-rose-300 font-bold block uppercase">
+                  Attributed Cause
+                </span>
                 <span className="text-xs font-bold text-rose-200 block">PROLONGED IDLE</span>
                 <span className="text-[10px] text-rose-300/80 block">Excess: 48.2 Wh wasted</span>
               </div>

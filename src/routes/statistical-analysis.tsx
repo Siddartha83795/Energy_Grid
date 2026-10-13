@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
+import React, { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
 import {
   Scale,
   Play,
@@ -15,16 +15,10 @@ import {
   Info,
   ShieldCheck,
   Calculator,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -32,13 +26,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-export const Route = createFileRoute('/statistical-analysis')({
+export const Route = createFileRoute("/statistical-analysis")({
   head: () => ({
     meta: [
       {
-        title: 'Statistical Hypothesis Testing Suite — Energy Advisor Research',
+        title: "Statistical Hypothesis Testing Suite — Energy Advisor Research",
       },
     ],
   }),
@@ -46,7 +40,9 @@ export const Route = createFileRoute('/statistical-analysis')({
 });
 
 export function StatisticalAnalysisPage() {
-  const [selectedDataset, setSelectedDataset] = useState<'EXP3_CONFOUNDING' | 'EXP1_BASELINES' | 'EXP4_RECOMMENDATIONS'>('EXP3_CONFOUNDING');
+  const [selectedDataset, setSelectedDataset] = useState<
+    "EXP3_CONFOUNDING" | "EXP1_BASELINES" | "EXP4_RECOMMENDATIONS"
+  >("EXP3_CONFOUNDING");
   const [copiedSummary, setCopiedSummary] = useState(false);
 
   // Pre-computed statistical evaluations
@@ -56,52 +52,53 @@ export function StatisticalAnalysisPage() {
       sampleSize: 12,
       degreesOfFreedom: 11,
       tStatistic: 14.82,
-      pValue: '< 0.0001',
-      significance: '*** (p < 0.001, highly significant)',
+      pValue: "< 0.0001",
+      significance: "*** (p < 0.001, highly significant)",
       isSignificant: true,
       meanDifferenceWh: 42.34,
       ci95: [36.12, 48.56],
       cohensD: 4.28,
-      effectMagnitude: 'Extremely Large (d > 0.8)',
+      effectMagnitude: "Extremely Large (d > 0.8)",
     },
     wilcoxon: {
-      testName: 'Wilcoxon Signed-Rank Test (Non-Parametric Validation)',
+      testName: "Wilcoxon Signed-Rank Test (Non-Parametric Validation)",
       sampleSize: 12,
       wStatistic: 0.0,
       pValue: 0.00048,
-      significance: '*** (p < 0.001, highly significant)',
+      significance: "*** (p < 0.001, highly significant)",
       isSignificant: true,
-      interpretation: 'Zero trials showed direct before/after outperforming workload-conditioned counterfactuals in Scenario B.',
+      interpretation:
+        "Zero trials showed direct before/after outperforming workload-conditioned counterfactuals in Scenario B.",
     },
     oneWayAnova: {
-      testName: 'One-Way Analysis of Variance (ANOVA across 3 Baseline Methods)',
+      testName: "One-Way Analysis of Variance (ANOVA across 3 Baseline Methods)",
       numGroups: 3,
       totalSamples: 150,
       fStatistic: 84.72,
       degreesOfFreedom: [2, 147],
-      pValue: '< 0.00001',
-      significance: '*** (p < 0.001, highly significant)',
+      pValue: "< 0.00001",
+      significance: "*** (p < 0.001, highly significant)",
       etaSquared: 0.535,
       postHocTukey: [
         {
-          comparison: 'Fixed Threshold vs Energy Advisor',
+          comparison: "Fixed Threshold vs Energy Advisor",
           meanDiff: 24.6,
           qStatistic: 12.8,
-          pAdjusted: '< 0.001***',
+          pAdjusted: "< 0.001***",
           isSignificant: true,
         },
         {
-          comparison: 'Global Anomaly (IsoForest) vs Energy Advisor',
+          comparison: "Global Anomaly (IsoForest) vs Energy Advisor",
           meanDiff: 15.4,
           qStatistic: 8.9,
-          pAdjusted: '< 0.001***',
+          pAdjusted: "< 0.001***",
           isSignificant: true,
         },
         {
-          comparison: 'Fixed Threshold vs Global Anomaly',
+          comparison: "Fixed Threshold vs Global Anomaly",
           meanDiff: 9.2,
           qStatistic: 4.8,
-          pAdjusted: '< 0.01**',
+          pAdjusted: "< 0.01**",
           isSignificant: true,
         },
       ],
@@ -131,10 +128,16 @@ All pairwise Tukey HSD differences significant at p < 0.01.`;
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-5">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <Badge variant="outline" className="border-cyan-500/40 text-cyan-300 bg-cyan-950/30 text-xs font-mono">
+                <Badge
+                  variant="outline"
+                  className="border-cyan-500/40 text-cyan-300 bg-cyan-950/30 text-xs font-mono"
+                >
                   RESEARCH VALIDATION
                 </Badge>
-                <Badge variant="outline" className="border-purple-500/40 text-purple-300 bg-purple-950/30 text-xs font-mono">
+                <Badge
+                  variant="outline"
+                  className="border-purple-500/40 text-purple-300 bg-purple-950/30 text-xs font-mono"
+                >
                   PARAMETRIC & NON-PARAMETRIC TESTS
                 </Badge>
               </div>
@@ -142,7 +145,8 @@ All pairwise Tukey HSD differences significant at p < 0.01.`;
                 Statistical Significance & Hypothesis Testing
               </h1>
               <p className="text-sm text-slate-400 mt-1">
-                Formal statistical validation proving significant error reductions ($p &lt; 0.001$), confidence intervals, and effect size calculations for the IEEE manuscript.
+                Formal statistical validation proving significant error reductions ($p &lt; 0.001$),
+                confidence intervals, and effect size calculations for the IEEE manuscript.
               </p>
             </div>
 
@@ -152,8 +156,12 @@ All pairwise Tukey HSD differences significant at p < 0.01.`;
               onClick={handleCopySummary}
               className="border-white/10 bg-slate-900/60 hover:bg-slate-800 text-xs gap-1.5"
             >
-              {copiedSummary ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5 text-cyan-400" />}
-              {copiedSummary ? 'Copied Report' : 'Copy Statistical Report'}
+              {copiedSummary ? (
+                <Check className="h-3.5 w-3.5 text-emerald-400" />
+              ) : (
+                <Copy className="h-3.5 w-3.5 text-cyan-400" />
+              )}
+              {copiedSummary ? "Copied Report" : "Copy Statistical Report"}
             </Button>
           </div>
 
@@ -166,7 +174,8 @@ All pairwise Tukey HSD differences significant at p < 0.01.`;
                   {testResults.pairedTTest.testName}
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-400">
-                  H0: The mean error difference between direct before/after and workload-conditioned counterfactual is zero.
+                  H0: The mean error difference between direct before/after and workload-conditioned
+                  counterfactual is zero.
                 </CardDescription>
               </div>
               <Badge className="bg-emerald-950/60 text-emerald-300 border-emerald-500/30 font-mono text-xs">
@@ -177,30 +186,50 @@ All pairwise Tukey HSD differences significant at p < 0.01.`;
               <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                 <div className="p-3 rounded-lg bg-slate-900/60 border border-white/5">
                   <div className="text-[10px] font-mono text-slate-400 uppercase">t-Statistic</div>
-                  <div className="text-xl font-bold font-mono text-cyan-400 mt-1">{testResults.pairedTTest.tStatistic}</div>
-                  <div className="text-[10px] text-slate-500 mt-0.5">df = {testResults.pairedTTest.degreesOfFreedom}</div>
+                  <div className="text-xl font-bold font-mono text-cyan-400 mt-1">
+                    {testResults.pairedTTest.tStatistic}
+                  </div>
+                  <div className="text-[10px] text-slate-500 mt-0.5">
+                    df = {testResults.pairedTTest.degreesOfFreedom}
+                  </div>
                 </div>
 
                 <div className="p-3 rounded-lg bg-slate-900/60 border border-white/5">
                   <div className="text-[10px] font-mono text-slate-400 uppercase">p-Value</div>
-                  <div className="text-xl font-bold font-mono text-emerald-400 mt-1">{testResults.pairedTTest.pValue}</div>
-                  <div className="text-[10px] text-emerald-400/80 mt-0.5 font-semibold">Reject H0</div>
+                  <div className="text-xl font-bold font-mono text-emerald-400 mt-1">
+                    {testResults.pairedTTest.pValue}
+                  </div>
+                  <div className="text-[10px] text-emerald-400/80 mt-0.5 font-semibold">
+                    Reject H0
+                  </div>
                 </div>
 
                 <div className="p-3 rounded-lg bg-slate-900/60 border border-white/5">
-                  <div className="text-[10px] font-mono text-slate-400 uppercase">Cohen's d (Effect Size)</div>
-                  <div className="text-xl font-bold font-mono text-purple-400 mt-1">{testResults.pairedTTest.cohensD}</div>
-                  <div className="text-[10px] text-purple-300 mt-0.5">{testResults.pairedTTest.effectMagnitude}</div>
+                  <div className="text-[10px] font-mono text-slate-400 uppercase">
+                    Cohen's d (Effect Size)
+                  </div>
+                  <div className="text-xl font-bold font-mono text-purple-400 mt-1">
+                    {testResults.pairedTTest.cohensD}
+                  </div>
+                  <div className="text-[10px] text-purple-300 mt-0.5">
+                    {testResults.pairedTTest.effectMagnitude}
+                  </div>
                 </div>
 
                 <div className="p-3 rounded-lg bg-slate-900/60 border border-white/5">
-                  <div className="text-[10px] font-mono text-slate-400 uppercase">Mean Diff (Wh)</div>
-                  <div className="text-xl font-bold font-mono text-amber-400 mt-1">{testResults.pairedTTest.meanDifferenceWh} Wh</div>
+                  <div className="text-[10px] font-mono text-slate-400 uppercase">
+                    Mean Diff (Wh)
+                  </div>
+                  <div className="text-xl font-bold font-mono text-amber-400 mt-1">
+                    {testResults.pairedTTest.meanDifferenceWh} Wh
+                  </div>
                   <div className="text-[10px] text-slate-500 mt-0.5">Confounding avoided</div>
                 </div>
 
                 <div className="p-3 rounded-lg bg-slate-900/60 border border-white/5">
-                  <div className="text-[10px] font-mono text-slate-400 uppercase">95% Confidence Interval</div>
+                  <div className="text-[10px] font-mono text-slate-400 uppercase">
+                    95% Confidence Interval
+                  </div>
                   <div className="text-sm font-bold font-mono text-white mt-2">
                     [{testResults.pairedTTest.ci95[0]}, {testResults.pairedTTest.ci95[1]}]
                   </div>
@@ -229,7 +258,9 @@ All pairwise Tukey HSD differences significant at p < 0.01.`;
             <CardContent>
               <div className="p-3 rounded-lg bg-slate-900/60 border border-white/5 text-xs text-slate-300 flex items-center justify-between">
                 <span>{testResults.wilcoxon.interpretation}</span>
-                <span className="font-mono text-emerald-400 font-semibold">{testResults.wilcoxon.significance}</span>
+                <span className="font-mono text-emerald-400 font-semibold">
+                  {testResults.wilcoxon.significance}
+                </span>
               </div>
             </CardContent>
           </Card>
@@ -243,7 +274,9 @@ All pairwise Tukey HSD differences significant at p < 0.01.`;
                   {testResults.oneWayAnova.testName}
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-400">
-                  F({testResults.oneWayAnova.degreesOfFreedom.join(', ')}) = {testResults.oneWayAnova.fStatistic}, p {testResults.oneWayAnova.pValue}, η² = {testResults.oneWayAnova.etaSquared}
+                  F({testResults.oneWayAnova.degreesOfFreedom.join(", ")}) ={" "}
+                  {testResults.oneWayAnova.fStatistic}, p {testResults.oneWayAnova.pValue}, η² ={" "}
+                  {testResults.oneWayAnova.etaSquared}
                 </CardDescription>
               </div>
               <Badge className="bg-emerald-950/60 text-emerald-300 border-emerald-500/30 font-mono text-xs">
@@ -255,22 +288,43 @@ All pairwise Tukey HSD differences significant at p < 0.01.`;
                 <Table>
                   <TableHeader className="bg-slate-900/80">
                     <TableRow className="border-white/10">
-                      <TableHead className="text-slate-300 font-mono text-xs">Pairwise Comparison</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right">Mean Difference (W)</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right">q-Statistic</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right">Adjusted p-Value</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-center">Conclusion</TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs">
+                        Pairwise Comparison
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right">
+                        Mean Difference (W)
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right">
+                        q-Statistic
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right">
+                        Adjusted p-Value
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-center">
+                        Conclusion
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {testResults.oneWayAnova.postHocTukey.map((row, idx) => (
                       <TableRow key={idx} className="border-white/10 hover:bg-slate-800/40">
-                        <TableCell className="text-xs font-semibold text-white">{row.comparison}</TableCell>
-                        <TableCell className="text-xs font-mono text-right text-cyan-300">{row.meanDiff} W</TableCell>
-                        <TableCell className="text-xs font-mono text-right text-slate-300">{row.qStatistic}</TableCell>
-                        <TableCell className="text-xs font-mono text-right text-emerald-400 font-bold">{row.pAdjusted}</TableCell>
+                        <TableCell className="text-xs font-semibold text-white">
+                          {row.comparison}
+                        </TableCell>
+                        <TableCell className="text-xs font-mono text-right text-cyan-300">
+                          {row.meanDiff} W
+                        </TableCell>
+                        <TableCell className="text-xs font-mono text-right text-slate-300">
+                          {row.qStatistic}
+                        </TableCell>
+                        <TableCell className="text-xs font-mono text-right text-emerald-400 font-bold">
+                          {row.pAdjusted}
+                        </TableCell>
                         <TableCell className="text-center">
-                          <Badge variant="outline" className="border-emerald-500/30 text-emerald-300 bg-emerald-950/20 text-[10px]">
+                          <Badge
+                            variant="outline"
+                            className="border-emerald-500/30 text-emerald-300 bg-emerald-950/20 text-[10px]"
+                          >
                             Significant
                           </Badge>
                         </TableCell>

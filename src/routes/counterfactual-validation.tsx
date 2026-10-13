@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
+import React, { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
 import {
   Split,
   Play,
@@ -15,16 +15,10 @@ import {
   Info,
   CheckCircle2,
   AlertTriangle,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -32,7 +26,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
   ResponsiveContainer,
   BarChart,
@@ -46,13 +40,14 @@ import {
   Line,
   Area,
   ComposedChart,
-} from 'recharts';
+} from "recharts";
 
-export const Route = createFileRoute('/counterfactual-validation')({
+export const Route = createFileRoute("/counterfactual-validation")({
   head: () => ({
     meta: [
       {
-        title: 'Experiment 3: Workload-Conditioned Counterfactual Validation — Energy Advisor Research',
+        title:
+          "Experiment 3: Workload-Conditioned Counterfactual Validation — Energy Advisor Research",
       },
     ],
   }),
@@ -70,31 +65,127 @@ interface TrialRecord {
 }
 
 const SCENARIO_A_INITIAL: TrialRecord[] = [
-  { trial: 1, pre_workload: 45, post_workload: 45, pre_energy_wh: 142.5, post_energy_wh: 108.2, counterfactual_wh: 141.8, true_saving_wh: 34.0 },
-  { trial: 2, pre_workload: 45, post_workload: 45, pre_energy_wh: 139.8, post_energy_wh: 105.4, counterfactual_wh: 138.9, true_saving_wh: 33.8 },
-  { trial: 3, pre_workload: 45, post_workload: 45, pre_energy_wh: 144.1, post_energy_wh: 109.0, counterfactual_wh: 143.5, true_saving_wh: 34.6 },
-  { trial: 4, pre_workload: 45, post_workload: 45, pre_energy_wh: 141.0, post_energy_wh: 107.1, counterfactual_wh: 140.4, true_saving_wh: 33.5 },
-  { trial: 5, pre_workload: 45, post_workload: 45, pre_energy_wh: 143.6, post_energy_wh: 108.8, counterfactual_wh: 143.0, true_saving_wh: 34.3 },
-  { trial: 6, pre_workload: 45, post_workload: 45, pre_energy_wh: 140.2, post_energy_wh: 106.3, counterfactual_wh: 139.7, true_saving_wh: 33.6 },
+  {
+    trial: 1,
+    pre_workload: 45,
+    post_workload: 45,
+    pre_energy_wh: 142.5,
+    post_energy_wh: 108.2,
+    counterfactual_wh: 141.8,
+    true_saving_wh: 34.0,
+  },
+  {
+    trial: 2,
+    pre_workload: 45,
+    post_workload: 45,
+    pre_energy_wh: 139.8,
+    post_energy_wh: 105.4,
+    counterfactual_wh: 138.9,
+    true_saving_wh: 33.8,
+  },
+  {
+    trial: 3,
+    pre_workload: 45,
+    post_workload: 45,
+    pre_energy_wh: 144.1,
+    post_energy_wh: 109.0,
+    counterfactual_wh: 143.5,
+    true_saving_wh: 34.6,
+  },
+  {
+    trial: 4,
+    pre_workload: 45,
+    post_workload: 45,
+    pre_energy_wh: 141.0,
+    post_energy_wh: 107.1,
+    counterfactual_wh: 140.4,
+    true_saving_wh: 33.5,
+  },
+  {
+    trial: 5,
+    pre_workload: 45,
+    post_workload: 45,
+    pre_energy_wh: 143.6,
+    post_energy_wh: 108.8,
+    counterfactual_wh: 143.0,
+    true_saving_wh: 34.3,
+  },
+  {
+    trial: 6,
+    pre_workload: 45,
+    post_workload: 45,
+    pre_energy_wh: 140.2,
+    post_energy_wh: 106.3,
+    counterfactual_wh: 139.7,
+    true_saving_wh: 33.6,
+  },
 ];
 
 const SCENARIO_B_INITIAL: TrialRecord[] = [
-  { trial: 1, pre_workload: 30, post_workload: 60, pre_energy_wh: 102.4, post_energy_wh: 138.5, counterfactual_wh: 182.1, true_saving_wh: 43.6 },
-  { trial: 2, pre_workload: 30, post_workload: 60, pre_energy_wh: 99.8, post_energy_wh: 134.2, counterfactual_wh: 178.4, true_saving_wh: 44.2 },
-  { trial: 3, pre_workload: 30, post_workload: 60, pre_energy_wh: 104.1, post_energy_wh: 140.0, counterfactual_wh: 185.0, true_saving_wh: 45.0 },
-  { trial: 4, pre_workload: 25, post_workload: 55, pre_energy_wh: 92.0, post_energy_wh: 128.6, counterfactual_wh: 171.2, true_saving_wh: 42.6 },
-  { trial: 5, pre_workload: 35, post_workload: 65, pre_energy_wh: 112.5, post_energy_wh: 148.0, counterfactual_wh: 194.5, true_saving_wh: 46.5 },
-  { trial: 6, pre_workload: 32, post_workload: 58, pre_energy_wh: 105.0, post_energy_wh: 136.4, counterfactual_wh: 181.0, true_saving_wh: 44.6 },
+  {
+    trial: 1,
+    pre_workload: 30,
+    post_workload: 60,
+    pre_energy_wh: 102.4,
+    post_energy_wh: 138.5,
+    counterfactual_wh: 182.1,
+    true_saving_wh: 43.6,
+  },
+  {
+    trial: 2,
+    pre_workload: 30,
+    post_workload: 60,
+    pre_energy_wh: 99.8,
+    post_energy_wh: 134.2,
+    counterfactual_wh: 178.4,
+    true_saving_wh: 44.2,
+  },
+  {
+    trial: 3,
+    pre_workload: 30,
+    post_workload: 60,
+    pre_energy_wh: 104.1,
+    post_energy_wh: 140.0,
+    counterfactual_wh: 185.0,
+    true_saving_wh: 45.0,
+  },
+  {
+    trial: 4,
+    pre_workload: 25,
+    post_workload: 55,
+    pre_energy_wh: 92.0,
+    post_energy_wh: 128.6,
+    counterfactual_wh: 171.2,
+    true_saving_wh: 42.6,
+  },
+  {
+    trial: 5,
+    pre_workload: 35,
+    post_workload: 65,
+    pre_energy_wh: 112.5,
+    post_energy_wh: 148.0,
+    counterfactual_wh: 194.5,
+    true_saving_wh: 46.5,
+  },
+  {
+    trial: 6,
+    pre_workload: 32,
+    post_workload: 58,
+    pre_energy_wh: 105.0,
+    post_energy_wh: 136.4,
+    counterfactual_wh: 181.0,
+    true_saving_wh: 44.6,
+  },
 ];
 
 export function CounterfactualValidationPage() {
-  const [activeScenario, setActiveScenario] = useState<'A' | 'B'>('B');
+  const [activeScenario, setActiveScenario] = useState<"A" | "B">("B");
   const [scenarioAData, setScenarioAData] = useState<TrialRecord[]>(SCENARIO_A_INITIAL);
   const [scenarioBData, setScenarioBData] = useState<TrialRecord[]>(SCENARIO_B_INITIAL);
   const [isRunning, setIsRunning] = useState(false);
   const [copiedLatex, setCopiedLatex] = useState(false);
 
-  const currentTrials = activeScenario === 'A' ? scenarioAData : scenarioBData;
+  const currentTrials = activeScenario === "A" ? scenarioAData : scenarioBData;
 
   // Process rows with comparisons
   const processedRows = currentTrials.map((t) => {
@@ -112,9 +203,15 @@ export function CounterfactualValidationPage() {
     };
   });
 
-  const directMAE = Math.round((processedRows.reduce((s, i) => s + i.directError, 0) / processedRows.length) * 100) / 100;
-  const cfMAE = Math.round((processedRows.reduce((s, i) => s + i.cfError, 0) / processedRows.length) * 100) / 100;
-  const errorReductionPct = directMAE > 0 ? Math.round(((directMAE - cfMAE) / directMAE) * 1000) / 10 : 0;
+  const directMAE =
+    Math.round(
+      (processedRows.reduce((s, i) => s + i.directError, 0) / processedRows.length) * 100,
+    ) / 100;
+  const cfMAE =
+    Math.round((processedRows.reduce((s, i) => s + i.cfError, 0) / processedRows.length) * 100) /
+    100;
+  const errorReductionPct =
+    directMAE > 0 ? Math.round(((directMAE - cfMAE) / directMAE) * 1000) / 10 : 0;
 
   // Time-series / trial overlay chart
   const overlayChartData = processedRows.map((r) => ({
@@ -164,10 +261,16 @@ Scenario B (Varying Workload) & ${directMAE} Wh & ${cfMAE} Wh & \\textbf{${error
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-5">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <Badge variant="outline" className="border-cyan-500/40 text-cyan-300 bg-cyan-950/30 text-xs font-mono">
+                <Badge
+                  variant="outline"
+                  className="border-cyan-500/40 text-cyan-300 bg-cyan-950/30 text-xs font-mono"
+                >
                   EXPERIMENT 3 (IEEE PAPER)
                 </Badge>
-                <Badge variant="outline" className="border-purple-500/40 text-purple-300 bg-purple-950/30 text-xs font-mono">
+                <Badge
+                  variant="outline"
+                  className="border-purple-500/40 text-purple-300 bg-purple-950/30 text-xs font-mono"
+                >
                   WORKLOAD-CONDITIONED EVALUATION
                 </Badge>
               </div>
@@ -175,7 +278,8 @@ Scenario B (Varying Workload) & ${directMAE} Wh & ${cfMAE} Wh & \\textbf{${error
                 Intervention Counterfactual Validation
               </h1>
               <p className="text-sm text-slate-400 mt-1">
-                Proves whether workload conditioning prevents confounding bias when factory throughput shifts between pre- and post-intervention periods.
+                Proves whether workload conditioning prevents confounding bias when factory
+                throughput shifts between pre- and post-intervention periods.
               </p>
             </div>
 
@@ -183,21 +287,21 @@ Scenario B (Varying Workload) & ${directMAE} Wh & ${cfMAE} Wh & \\textbf{${error
               {/* Scenario Toggle */}
               <div className="flex items-center rounded-lg bg-slate-900 border border-white/10 p-1">
                 <button
-                  onClick={() => setActiveScenario('A')}
+                  onClick={() => setActiveScenario("A")}
                   className={`px-3 py-1 text-xs rounded font-medium transition-all ${
-                    activeScenario === 'A'
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                      : 'text-slate-400 hover:text-white'
+                    activeScenario === "A"
+                      ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
                   Scenario A (Constant Workload)
                 </button>
                 <button
-                  onClick={() => setActiveScenario('B')}
+                  onClick={() => setActiveScenario("B")}
                   className={`px-3 py-1 text-xs rounded font-medium transition-all ${
-                    activeScenario === 'B'
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                      : 'text-slate-400 hover:text-white'
+                    activeScenario === "B"
+                      ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
                   Scenario B (Varying Workload)
@@ -210,8 +314,12 @@ Scenario B (Varying Workload) & ${directMAE} Wh & ${cfMAE} Wh & \\textbf{${error
                 onClick={handleCopyLatex}
                 className="border-white/10 bg-slate-900/60 hover:bg-slate-800 text-xs gap-1.5"
               >
-                {copiedLatex ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5 text-cyan-400" />}
-                {copiedLatex ? 'Copied' : 'Export LaTeX'}
+                {copiedLatex ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-400" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5 text-cyan-400" />
+                )}
+                {copiedLatex ? "Copied" : "Export LaTeX"}
               </Button>
 
               <Button
@@ -221,7 +329,7 @@ Scenario B (Varying Workload) & ${directMAE} Wh & ${cfMAE} Wh & \\textbf{${error
                 className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs gap-1.5"
               >
                 <Play className="h-3.5 w-3.5 fill-current" />
-                {isRunning ? 'Simulating...' : 'Run Paired Trials'}
+                {isRunning ? "Simulating..." : "Run Paired Trials"}
               </Button>
             </div>
           </div>
@@ -230,10 +338,16 @@ Scenario B (Varying Workload) & ${directMAE} Wh & ${cfMAE} Wh & \\textbf{${error
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <Card className="bg-[#0b1324] border-white/10">
               <CardContent className="p-4">
-                <div className="text-xs font-mono text-slate-400 uppercase">Direct Before/After Error</div>
-                <div className="text-2xl font-bold font-mono text-rose-400 mt-1">{directMAE} Wh</div>
+                <div className="text-xs font-mono text-slate-400 uppercase">
+                  Direct Before/After Error
+                </div>
+                <div className="text-2xl font-bold font-mono text-rose-400 mt-1">
+                  {directMAE} Wh
+                </div>
                 <div className="text-[11px] text-slate-400 mt-1">
-                  {activeScenario === 'B' ? 'Confounded by higher workload' : 'Unbiased under equal workload'}
+                  {activeScenario === "B"
+                    ? "Confounded by higher workload"
+                    : "Unbiased under equal workload"}
                 </div>
               </CardContent>
             </Card>
@@ -242,25 +356,37 @@ Scenario B (Varying Workload) & ${directMAE} Wh & ${cfMAE} Wh & \\textbf{${error
               <CardContent className="p-4">
                 <div className="text-xs font-mono text-slate-400 uppercase">Counterfactual MAE</div>
                 <div className="text-2xl font-bold font-mono text-emerald-400 mt-1">{cfMAE} Wh</div>
-                <div className="text-[11px] text-slate-400 mt-1">Workload-conditioned estimate error</div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#0b1324] border-white/10">
-              <CardContent className="p-4">
-                <div className="text-xs font-mono text-slate-400 uppercase">Confounding Error Reduction</div>
-                <div className="text-2xl font-bold font-mono text-cyan-400 mt-1">{errorReductionPct}%</div>
-                <div className="text-[11px] text-slate-400 mt-1">Accuracy gain via Energy Advisor</div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#0b1324] border-white/10">
-              <CardContent className="p-4">
-                <div className="text-xs font-mono text-slate-400 uppercase">Statistical Significance</div>
-                <div className="text-2xl font-bold font-mono text-purple-400 mt-1">
-                  {activeScenario === 'B' ? 'p < 0.001***' : 'p = 0.041*'}
+                <div className="text-[11px] text-slate-400 mt-1">
+                  Workload-conditioned estimate error
                 </div>
-                <div className="text-[11px] text-slate-400 mt-1">Paired Student t-test / Wilcoxon</div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-[#0b1324] border-white/10">
+              <CardContent className="p-4">
+                <div className="text-xs font-mono text-slate-400 uppercase">
+                  Confounding Error Reduction
+                </div>
+                <div className="text-2xl font-bold font-mono text-cyan-400 mt-1">
+                  {errorReductionPct}%
+                </div>
+                <div className="text-[11px] text-slate-400 mt-1">
+                  Accuracy gain via Energy Advisor
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-[#0b1324] border-white/10">
+              <CardContent className="p-4">
+                <div className="text-xs font-mono text-slate-400 uppercase">
+                  Statistical Significance
+                </div>
+                <div className="text-2xl font-bold font-mono text-purple-400 mt-1">
+                  {activeScenario === "B" ? "p < 0.001***" : "p = 0.041*"}
+                </div>
+                <div className="text-[11px] text-slate-400 mt-1">
+                  Paired Student t-test / Wilcoxon
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -271,25 +397,57 @@ Scenario B (Varying Workload) & ${directMAE} Wh & ${cfMAE} Wh & \\textbf{${error
               <CardTitle className="text-base font-semibold text-white flex items-center justify-between">
                 <span>Counterfactual Baseline vs. Actual Post-Intervention Energy</span>
                 <Badge variant="outline" className="border-cyan-500/30 text-cyan-300 text-xs">
-                  {activeScenario === 'A' ? 'Scenario A: Constant Workload' : 'Scenario B: Varying Workload (+100% Units)'}
+                  {activeScenario === "A"
+                    ? "Scenario A: Constant Workload"
+                    : "Scenario B: Varying Workload (+100% Units)"}
                 </Badge>
               </CardTitle>
               <CardDescription className="text-xs text-slate-400">
-                Solid cyan line = measured post-intervention energy; Dashed amber line = counterfactual old-policy projection; Shaded area = verified saving
+                Solid cyan line = measured post-intervention energy; Dashed amber line =
+                counterfactual old-policy projection; Shaded area = verified saving
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-2">
               <div className="h-72">
                 <ResponsiveContainer width="100%" height="100%">
-                  <ComposedChart data={overlayChartData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+                  <ComposedChart
+                    data={overlayChartData}
+                    margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                     <XAxis dataKey="trial" stroke="#64748b" tick={{ fontSize: 11 }} />
                     <YAxis stroke="#64748b" tick={{ fontSize: 11 }} unit=" Wh" />
-                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px' }} />
-                    <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
-                    <Area type="monotone" dataKey="verifiedSaving" name="Verified Saving Area (Wh)" fill="#06b6d4" fillOpacity={0.15} stroke="#06b6d4" />
-                    <Line type="monotone" dataKey="counterfactual" name="Counterfactual Projection (Old Policy)" stroke="#f59e0b" strokeWidth={2} strokeDasharray="5 5" />
-                    <Line type="monotone" dataKey="postActual" name="Measured Post-Intervention Energy" stroke="#10b981" strokeWidth={2} />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#0f172a",
+                        borderColor: "#334155",
+                        borderRadius: "8px",
+                      }}
+                    />
+                    <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
+                    <Area
+                      type="monotone"
+                      dataKey="verifiedSaving"
+                      name="Verified Saving Area (Wh)"
+                      fill="#06b6d4"
+                      fillOpacity={0.15}
+                      stroke="#06b6d4"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="counterfactual"
+                      name="Counterfactual Projection (Old Policy)"
+                      stroke="#f59e0b"
+                      strokeWidth={2}
+                      strokeDasharray="5 5"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="postActual"
+                      name="Measured Post-Intervention Energy"
+                      stroke="#10b981"
+                      strokeWidth={2}
+                    />
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>
@@ -303,7 +461,8 @@ Scenario B (Varying Workload) & ${directMAE} Wh & ${cfMAE} Wh & \\textbf{${error
                 Experimental Trials: Direct Before/After vs. Workload-Conditioned Counterfactual
               </CardTitle>
               <CardDescription className="text-xs text-slate-400">
-                Notice how in Scenario B, Direct Before/After calculates negative or distorted savings because post-intervention production doubled.
+                Notice how in Scenario B, Direct Before/After calculates negative or distorted
+                savings because post-intervention production doubled.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -312,32 +471,68 @@ Scenario B (Varying Workload) & ${directMAE} Wh & ${cfMAE} Wh & \\textbf{${error
                   <TableHeader className="bg-slate-900/80">
                     <TableRow className="border-white/10">
                       <TableHead className="text-slate-300 font-mono text-xs">Trial #</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-center">Workload (Pre → Post)</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right">Pre Energy</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right">Post Energy</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right">Counterfactual</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right">True Saving</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right text-rose-300">Direct B/A Saving</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right text-rose-300">Direct Error</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right text-cyan-300">CF Saving</TableHead>
-                      <TableHead className="text-slate-300 font-mono text-xs text-right text-emerald-300">CF Error</TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-center">
+                        Workload (Pre → Post)
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right">
+                        Pre Energy
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right">
+                        Post Energy
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right">
+                        Counterfactual
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right">
+                        True Saving
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right text-rose-300">
+                        Direct B/A Saving
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right text-rose-300">
+                        Direct Error
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right text-cyan-300">
+                        CF Saving
+                      </TableHead>
+                      <TableHead className="text-slate-300 font-mono text-xs text-right text-emerald-300">
+                        CF Error
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {processedRows.map((row) => (
                       <TableRow key={row.trial} className="border-white/10 hover:bg-slate-800/40">
-                        <TableCell className="font-mono text-xs text-cyan-400">Trial {row.trial}</TableCell>
+                        <TableCell className="font-mono text-xs text-cyan-400">
+                          Trial {row.trial}
+                        </TableCell>
                         <TableCell className="text-xs font-mono text-center text-slate-300">
                           {row.pre_workload} u/h → {row.post_workload} u/h
                         </TableCell>
-                        <TableCell className="text-xs font-mono text-right text-slate-300">{row.pre_energy_wh} Wh</TableCell>
-                        <TableCell className="text-xs font-mono text-right text-slate-300">{row.post_energy_wh} Wh</TableCell>
-                        <TableCell className="text-xs font-mono text-right text-amber-300">{row.counterfactual_wh} Wh</TableCell>
-                        <TableCell className="text-xs font-mono text-right text-white font-semibold">{row.true_saving_wh} Wh</TableCell>
-                        <TableCell className="text-xs font-mono text-right text-rose-400">{row.directSaving} Wh</TableCell>
-                        <TableCell className="text-xs font-mono text-right text-rose-400 font-bold">{row.directError} Wh</TableCell>
-                        <TableCell className="text-xs font-mono text-right text-cyan-300">{row.cfSaving} Wh</TableCell>
-                        <TableCell className="text-xs font-mono text-right text-emerald-400 font-bold">{row.cfError} Wh</TableCell>
+                        <TableCell className="text-xs font-mono text-right text-slate-300">
+                          {row.pre_energy_wh} Wh
+                        </TableCell>
+                        <TableCell className="text-xs font-mono text-right text-slate-300">
+                          {row.post_energy_wh} Wh
+                        </TableCell>
+                        <TableCell className="text-xs font-mono text-right text-amber-300">
+                          {row.counterfactual_wh} Wh
+                        </TableCell>
+                        <TableCell className="text-xs font-mono text-right text-white font-semibold">
+                          {row.true_saving_wh} Wh
+                        </TableCell>
+                        <TableCell className="text-xs font-mono text-right text-rose-400">
+                          {row.directSaving} Wh
+                        </TableCell>
+                        <TableCell className="text-xs font-mono text-right text-rose-400 font-bold">
+                          {row.directError} Wh
+                        </TableCell>
+                        <TableCell className="text-xs font-mono text-right text-cyan-300">
+                          {row.cfSaving} Wh
+                        </TableCell>
+                        <TableCell className="text-xs font-mono text-right text-emerald-400 font-bold">
+                          {row.cfError} Wh
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -358,8 +553,13 @@ Scenario B (Varying Workload) & ${directMAE} Wh & ${cfMAE} Wh & \\textbf{${error
                   Ready to copy and paste directly into your IEEE manuscript
                 </CardDescription>
               </div>
-              <Button size="sm" variant="outline" onClick={handleCopyLatex} className="border-white/10 text-xs">
-                {copiedLatex ? 'Copied' : 'Copy Code'}
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleCopyLatex}
+                className="border-white/10 text-xs"
+              >
+                {copiedLatex ? "Copied" : "Copy Code"}
               </Button>
             </CardHeader>
             <CardContent>

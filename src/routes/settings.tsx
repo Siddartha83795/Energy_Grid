@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-import { useEnergyAdvisor } from '@/lib/energy-advisor-context';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
+import React, { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEnergyAdvisor } from "@/lib/energy-advisor-context";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
 import {
   Bell,
   CheckCircle2,
@@ -17,16 +17,16 @@ import {
   Sliders,
   Sparkles,
   Zap,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
-import { Badge } from '@/components/ui/badge';
-import { toast } from 'sonner';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 
-export const Route = createFileRoute('/settings')({
+export const Route = createFileRoute("/settings")({
   head: () => ({
-    meta: [{ title: 'System Settings & Telemetry Config — Energy Advisor' }],
+    meta: [{ title: "System Settings & Telemetry Config — Energy Advisor" }],
   }),
   component: SettingsPage,
 });
@@ -34,15 +34,15 @@ export const Route = createFileRoute('/settings')({
 export function SettingsPage() {
   const { isDemoMode, setIsDemoMode } = useEnergyAdvisor();
 
-  const [toleranceWatts, setToleranceWatts] = useState('5');
-  const [minDurationMinutes, setMinDurationMinutes] = useState('15');
-  const [confidenceThreshold, setConfidenceThreshold] = useState('85');
-  const [esp32BrokerHost, setEsp32BrokerHost] = useState('mqtt://192.168.1.105:1883');
-  const [samplingFrequencyHz, setSamplingFrequencyHz] = useState('1');
+  const [toleranceWatts, setToleranceWatts] = useState("5");
+  const [minDurationMinutes, setMinDurationMinutes] = useState("15");
+  const [confidenceThreshold, setConfidenceThreshold] = useState("85");
+  const [esp32BrokerHost, setEsp32BrokerHost] = useState("mqtt://192.168.1.105:1883");
+  const [samplingFrequencyHz, setSamplingFrequencyHz] = useState("1");
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success('Research baseline parameters & ESP32 broker configurations saved successfully.');
+    toast.success("Research baseline parameters & ESP32 broker configurations saved successfully.");
   };
 
   return (
@@ -63,7 +63,8 @@ export function SettingsPage() {
                 </h1>
               </div>
               <p className="text-xs text-slate-400 mt-1 font-mono">
-                Configure edge IoT nodes, ML expected-energy regression hyperparameters, and anomaly thresholds.
+                Configure edge IoT nodes, ML expected-energy regression hyperparameters, and anomaly
+                thresholds.
               </p>
             </div>
 
@@ -86,7 +87,10 @@ export function SettingsPage() {
                   </h3>
                 </div>
                 {isDemoMode && (
-                  <Badge variant="outline" className="bg-amber-500/10 text-amber-300 border-amber-500/30 text-[10px]">
+                  <Badge
+                    variant="outline"
+                    className="bg-amber-500/10 text-amber-300 border-amber-500/30 text-[10px]"
+                  >
                     DEMO DATA ACTIVE
                   </Badge>
                 )}
@@ -118,7 +122,9 @@ export function SettingsPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="text-slate-300 block mb-1">Baseline Tolerance Margin (±W)</label>
+                  <label className="text-slate-300 block mb-1">
+                    Baseline Tolerance Margin (±W)
+                  </label>
                   <Input
                     type="number"
                     value={toleranceWatts}
@@ -131,7 +137,9 @@ export function SettingsPage() {
                 </div>
 
                 <div>
-                  <label className="text-slate-300 block mb-1">Minimum Anomaly Duration (Minutes)</label>
+                  <label className="text-slate-300 block mb-1">
+                    Minimum Anomaly Duration (Minutes)
+                  </label>
                   <Input
                     type="number"
                     value={minDurationMinutes}
@@ -144,7 +152,9 @@ export function SettingsPage() {
                 </div>
 
                 <div>
-                  <label className="text-slate-300 block mb-1">Multi-Signal Confidence Threshold (%)</label>
+                  <label className="text-slate-300 block mb-1">
+                    Multi-Signal Confidence Threshold (%)
+                  </label>
                   <Input
                     type="number"
                     value={confidenceThreshold}

@@ -26,7 +26,7 @@ export const Route = createFileRoute("/api/digital-twin")({
               success: true,
               machines: Object.values(MACHINES),
             }),
-            { status: 200, headers: { "Content-Type": "application/json" } }
+            { status: 200, headers: { "Content-Type": "application/json" } },
           );
         }
 
@@ -39,7 +39,7 @@ export const Route = createFileRoute("/api/digital-twin")({
               machine_id: mId,
               telemetry: state.recent_telemetry,
             }),
-            { status: 200, headers: { "Content-Type": "application/json" } }
+            { status: 200, headers: { "Content-Type": "application/json" } },
           );
         }
 
@@ -87,7 +87,7 @@ export const Route = createFileRoute("/api/digital-twin")({
             anomalies,
             recommendations,
           }),
-          { status: 200, headers: { "Content-Type": "application/json" } }
+          { status: 200, headers: { "Content-Type": "application/json" } },
         );
       },
 
@@ -101,11 +101,7 @@ export const Route = createFileRoute("/api/digital-twin")({
             if (protocol) setActiveProtocol(protocol);
 
             const mId = machine_id || "Machine A";
-            const reading = generateMachineTelemetry(
-              mId,
-              state || "Running",
-              load_pct || 80
-            );
+            const reading = generateMachineTelemetry(mId, state || "Running", load_pct || 80);
             pushTelemetryReading(reading);
 
             return new Response(
@@ -114,7 +110,7 @@ export const Route = createFileRoute("/api/digital-twin")({
                 message: "Telemetry ingested into Digital Twin pipeline.",
                 reading,
               }),
-              { status: 200, headers: { "Content-Type": "application/json" } }
+              { status: 200, headers: { "Content-Type": "application/json" } },
             );
           }
 
@@ -133,13 +129,17 @@ export const Route = createFileRoute("/api/digital-twin")({
           }
 
           return new Response(
-            JSON.stringify({ error: "Unknown payload type. Supported: 'telemetry_post', 'what_if_simulation'." }),
-            { status: 400, headers: { "Content-Type": "application/json" } }
+            JSON.stringify({
+              error: "Unknown payload type. Supported: 'telemetry_post', 'what_if_simulation'.",
+            }),
+            { status: 400, headers: { "Content-Type": "application/json" } },
           );
         } catch (e) {
           return new Response(
-            JSON.stringify({ error: e instanceof Error ? e.message : "Failed to process Digital Twin request" }),
-            { status: 500, headers: { "Content-Type": "application/json" } }
+            JSON.stringify({
+              error: e instanceof Error ? e.message : "Failed to process Digital Twin request",
+            }),
+            { status: 500, headers: { "Content-Type": "application/json" } },
           );
         }
       },

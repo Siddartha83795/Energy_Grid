@@ -30,7 +30,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { uploadFiles, analyze, setRunId, getRunId, getPastRunsList } from "@/lib/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
@@ -131,11 +138,7 @@ export function UploadPage() {
   // Handler to inspect and load a file
   const handleFileUpload = async (type: FileSlotType, file: File) => {
     const setSlot =
-      type === "energy"
-        ? setEnergySlot
-        : type === "operation"
-        ? setOperationSlot
-        : setContextSlot;
+      type === "energy" ? setEnergySlot : type === "operation" ? setOperationSlot : setContextSlot;
 
     setSlot((prev) => ({ ...prev, isValidating: true }));
 
@@ -162,11 +165,7 @@ export function UploadPage() {
   // Handler to clear a slot
   const handleClearSlot = (type: FileSlotType) => {
     const setSlot =
-      type === "energy"
-        ? setEnergySlot
-        : type === "operation"
-        ? setOperationSlot
-        : setContextSlot;
+      type === "energy" ? setEnergySlot : type === "operation" ? setOperationSlot : setContextSlot;
 
     setSlot({
       file: null,
@@ -308,7 +307,7 @@ export function UploadPage() {
       setAnalysisStage("5/5: Analysis complete! Generated cause ledger & counterfactual savings.");
 
       toast.success(
-        `Analysis complete! Identified ${output.excessEnergyWh} Wh excess across ${output.machinesAnalyzed} machines.`
+        `Analysis complete! Identified ${output.excessEnergyWh} Wh excess across ${output.machinesAnalyzed} machines.`,
       );
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Analysis run encountered an error");
@@ -398,13 +397,22 @@ export function UploadPage() {
           {run.summary && (
             <div className="mt-2 flex gap-4 text-xs text-slate-600 dark:text-slate-300 flex-wrap font-mono">
               <span className="glassoneu-sunken px-2.5 py-1">
-                Total: <strong className="text-slate-900 dark:text-white">{run.summary.total_kwh?.toFixed(1) || 0} kWh</strong>
+                Total:{" "}
+                <strong className="text-slate-900 dark:text-white">
+                  {run.summary.total_kwh?.toFixed(1) || 0} kWh
+                </strong>
               </span>
               <span className="glassoneu-sunken px-2.5 py-1">
-                Idle: <strong className="text-amber-600 dark:text-amber-400">{run.summary.idle_kwh?.toFixed(1) || 0} kWh</strong>
+                Idle:{" "}
+                <strong className="text-amber-600 dark:text-amber-400">
+                  {run.summary.idle_kwh?.toFixed(1) || 0} kWh
+                </strong>
               </span>
               <span className="glassoneu-sunken px-2.5 py-1">
-                Machines: <strong className="text-slate-900 dark:text-white">{run.summary.machines_analyzed || 0}</strong>
+                Machines:{" "}
+                <strong className="text-slate-900 dark:text-white">
+                  {run.summary.machines_analyzed || 0}
+                </strong>
               </span>
             </div>
           )}
@@ -446,7 +454,8 @@ export function UploadPage() {
           Upload Energy Advisor Data
         </h1>
         <p className="text-slate-600 dark:text-slate-300 text-base max-w-3xl leading-relaxed">
-          Upload energy, machine operation, and workload data to build a context-aware energy analysis.
+          Upload energy, machine operation, and workload data to build a context-aware energy
+          analysis.
         </p>
 
         {/* Methodological Context Alert */}
@@ -454,7 +463,9 @@ export function UploadPage() {
           <Info className="h-4 w-4 text-sky-400 mt-0.5 shrink-0" />
           <div>
             <span className="font-semibold text-sky-300">Context-Aware Requirement: </span>
-            Context-aware energy diagnosis requires energy meter data alongside machine operation schedules or production telemetry. If contextual data is omitted, the system falls back to standard baseline regression.
+            Context-aware energy diagnosis requires energy meter data alongside machine operation
+            schedules or production telemetry. If contextual data is omitted, the system falls back
+            to standard baseline regression.
           </div>
         </div>
       </header>
@@ -471,7 +482,8 @@ export function UploadPage() {
                 Quick-Load Preloaded Research Datasets
               </h3>
               <p className="text-xs text-slate-600 dark:text-slate-400">
-                Evaluate Energy Advisor immediately using real-world benchmark datasets with pre-configured ground truth anomalies.
+                Evaluate Energy Advisor immediately using real-world benchmark datasets with
+                pre-configured ground truth anomalies.
               </p>
             </div>
           </div>
@@ -495,7 +507,9 @@ export function UploadPage() {
                     {pkg.machineCount} devices
                   </span>
                 </div>
-                <h4 className="text-xs font-bold leading-snug text-slate-900 dark:text-white">{pkg.name}</h4>
+                <h4 className="text-xs font-bold leading-snug text-slate-900 dark:text-white">
+                  {pkg.name}
+                </h4>
                 <p className="text-[11px] text-slate-600 dark:text-slate-400 line-clamp-2">
                   {pkg.description}
                 </p>
@@ -550,7 +564,9 @@ export function UploadPage() {
           templateFileName="machine_operation_template.csv"
           onFileSelect={(file) => handleFileUpload("operation", file)}
           onClear={() => handleClearSlot("operation")}
-          onPreview={() => openPreview("Machine Operation & Workload Preview", operationSlot.summary)}
+          onPreview={() =>
+            openPreview("Machine Operation & Workload Preview", operationSlot.summary)
+          }
           disabled={isAnalyzing}
         />
 
@@ -576,10 +592,8 @@ export function UploadPage() {
       <div
         className={cn(
           "glassoneu-card p-6 transition-all overflow-hidden relative",
-          isReady
-            ? "border-emerald-500/40 shadow-[0_0_30px_rgba(51,214,166,0.15)]"
-            : "opacity-90",
-          isAnalyzing && "loading-shimmer-flow"
+          isReady ? "border-emerald-500/40 shadow-[0_0_30px_rgba(51,214,166,0.15)]" : "opacity-90",
+          isAnalyzing && "loading-shimmer-flow",
         )}
       >
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
@@ -591,7 +605,8 @@ export function UploadPage() {
               </h3>
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-300 max-w-xl">
-              Aligns high-frequency meter streams with operation schedules to attribute cause-level excess (Wh) and calculate workload-conditioned counterfactual savings.
+              Aligns high-frequency meter streams with operation schedules to attribute cause-level
+              excess (Wh) and calculate workload-conditioned counterfactual savings.
             </p>
           </div>
 
@@ -640,9 +655,7 @@ export function UploadPage() {
           <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-white/10">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-emerald-400" />
-              <h3 className="text-lg font-bold text-white">
-                Analysis Run Completed Successfully
-              </h3>
+              <h3 className="text-lg font-bold text-white">Analysis Run Completed Successfully</h3>
               <span className="glassoneu-badge px-2 py-0.5 text-xs font-mono text-emerald-300">
                 {latestAnalysis.runId}
               </span>
@@ -652,7 +665,8 @@ export function UploadPage() {
             </span>
           </div>
           <p className="text-xs text-slate-300">
-            Aligned multi-source data across {latestAnalysis.machinesAnalyzed} machines and generated cause-level ledger entries.
+            Aligned multi-source data across {latestAnalysis.machinesAnalyzed} machines and
+            generated cause-level ledger entries.
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -720,7 +734,9 @@ export function UploadPage() {
       <div className="space-y-6 pt-6 border-t border-slate-200/60 dark:border-white/10">
         <div className="flex items-center gap-2">
           <History className="h-5 w-5 text-emerald-500 dark:text-emerald-400" />
-          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Analysis History</h2>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Analysis History
+          </h2>
         </div>
 
         {isLoadingHistory ? (
@@ -775,7 +791,8 @@ export function UploadPage() {
               {previewTitle}
             </DialogTitle>
             <DialogDescription className="text-xs text-slate-300">
-              Showing first {previewSummary?.sampleRows?.length || 0} rows of inspected CSV dataset ({previewSummary?.fileName}).
+              Showing first {previewSummary?.sampleRows?.length || 0} rows of inspected CSV dataset
+              ({previewSummary?.fileName}).
             </DialogDescription>
           </DialogHeader>
 
@@ -805,7 +822,10 @@ export function UploadPage() {
                   <TableHeader>
                     <TableRow className="border-b border-white/10">
                       {previewSummary.columns.map((c) => (
-                        <TableHead key={c} className="text-xs font-semibold font-mono whitespace-nowrap text-emerald-400">
+                        <TableHead
+                          key={c}
+                          className="text-xs font-semibold font-mono whitespace-nowrap text-emerald-400"
+                        >
                           {c}
                         </TableHead>
                       ))}
@@ -815,7 +835,10 @@ export function UploadPage() {
                     {previewSummary.sampleRows.map((row, idx) => (
                       <TableRow key={idx} className="border-b border-white/5 hover:bg-white/5">
                         {previewSummary.columns.map((c) => (
-                          <TableCell key={c} className="text-xs font-mono whitespace-nowrap py-2 text-slate-200">
+                          <TableCell
+                            key={c}
+                            className="text-xs font-mono whitespace-nowrap py-2 text-slate-200"
+                          >
                             {String(row[c] ?? "—")}
                           </TableCell>
                         ))}
@@ -890,7 +913,9 @@ function UploadCard({
     <div
       className={cn(
         "glassoneu-card p-6 flex flex-col justify-between space-y-4 transition-all duration-300",
-        isLoaded ? "border-emerald-500/40 shadow-[0_0_24px_rgba(51,214,166,0.12)]" : "hover:border-white/20"
+        isLoaded
+          ? "border-emerald-500/40 shadow-[0_0_24px_rgba(51,214,166,0.12)]"
+          : "hover:border-white/20",
       )}
     >
       <div className="space-y-3">
@@ -907,7 +932,9 @@ function UploadCard({
             <span
               className={cn(
                 "glassoneu-badge text-[10px] px-2.5 py-0.5 font-bold uppercase",
-                summary.status === "valid" ? "text-emerald-400 border-emerald-500/30" : "text-amber-400 border-amber-500/30"
+                summary.status === "valid"
+                  ? "text-emerald-400 border-emerald-500/30"
+                  : "text-amber-400 border-amber-500/30",
               )}
             >
               {summary.status === "valid" ? "✓ Validated" : "⚠ Warning"}
@@ -916,7 +943,9 @@ function UploadCard({
         </div>
 
         <div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">{label}</h3>
+          <h3 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
+            {label}
+          </h3>
           <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed line-clamp-2">
             {description}
           </p>
@@ -924,7 +953,9 @@ function UploadCard({
 
         <div className="text-[11px] text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-200/60 dark:border-white/10">
           <span className="font-semibold text-slate-700 dark:text-slate-200">Required: </span>
-          <span className="font-mono text-emerald-600 dark:text-emerald-400/90">{requiredCols.join(", ")}</span>
+          <span className="font-mono text-emerald-600 dark:text-emerald-400/90">
+            {requiredCols.join(", ")}
+          </span>
         </div>
       </div>
 
@@ -997,7 +1028,10 @@ function UploadCard({
                 )}
                 {summary.timeRange && (
                   <div className="text-[10px] text-slate-400 truncate">
-                    <span>Time: {summary.timeRange.start.slice(5, 16)} → {summary.timeRange.end.slice(5, 16)}</span>
+                    <span>
+                      Time: {summary.timeRange.start.slice(5, 16)} →{" "}
+                      {summary.timeRange.end.slice(5, 16)}
+                    </span>
                   </div>
                 )}
                 {summary.warnings && summary.warnings.length > 0 && (

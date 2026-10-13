@@ -63,14 +63,18 @@ function ClusterDevicesPage() {
   // Grid AI Scheduler State
   const [totalUsers, setTotalUsers] = useState<number>(1000);
   const [gridSurplusKw, setGridSurplusKw] = useState<number>(180);
-  const [schedulingStrategy, setSchedulingStrategy] = useState<"green_surplus_boost" | "carbon_cost_minimizer" | "high_throughput_balanced">("green_surplus_boost");
+  const [schedulingStrategy, setSchedulingStrategy] = useState<
+    "green_surplus_boost" | "carbon_cost_minimizer" | "high_throughput_balanced"
+  >("green_surplus_boost");
   const [schedulingResult, setSchedulingResult] = useState<GridSchedulingResponse | null>(null);
   const [schedulerBusy, setSchedulerBusy] = useState(false);
 
   // Manual Builder State
   const [tier, setTier] = useState<"tier1" | "tier2" | "tier3">("tier1");
   const [jobName, setJobName] = useState("pytorch-workload-01");
-  const [workloadType, setWorkloadType] = useState<"jupyter" | "pytorch_training" | "vllm_inference" | "distributed_deepspeed">("jupyter");
+  const [workloadType, setWorkloadType] = useState<
+    "jupyter" | "pytorch_training" | "vllm_inference" | "distributed_deepspeed"
+  >("jupyter");
   const [gpuType, setGpuType] = useState<DeviceProfileRequest["gpuType"]>("mig_1g_10gb");
   const [gpuCount, setGpuCount] = useState<number>(1);
   const [cpuCores, setCpuCores] = useState<number>(4);
@@ -78,12 +82,18 @@ function ClusterDevicesPage() {
   const [numaBinding, setNumaBinding] = useState<boolean>(true);
   const [numaNode, setNumaNode] = useState<number>(0);
   const [systemMemoryGb, setSystemMemoryGb] = useState<number>(32);
-  const [storageType, setStorageType] = useState<"ephemeral" | "nvme_local" | "shared_nfs">("ephemeral");
+  const [storageType, setStorageType] = useState<"ephemeral" | "nvme_local" | "shared_nfs">(
+    "ephemeral",
+  );
   const [storageSizeGb, setStorageSizeGb] = useState<number>(50);
-  const [networkInterconnect, setNetworkInterconnect] = useState<"standard_eth" | "sriov_rdma_ib" | "roce_v2">("standard_eth");
+  const [networkInterconnect, setNetworkInterconnect] = useState<
+    "standard_eth" | "sriov_rdma_ib" | "roce_v2"
+  >("standard_eth");
 
   const [builderTab, setBuilderTab] = useState<"k8s" | "slurm" | "jupyter" | "host_cli">("k8s");
-  const [policyTab, setPolicyTab] = useState<"slurm_conf" | "k8s_kueue" | "power_script">("slurm_conf");
+  const [policyTab, setPolicyTab] = useState<"slurm_conf" | "k8s_kueue" | "power_script">(
+    "slurm_conf",
+  );
   const [copied, setCopied] = useState(false);
   const [configs, setConfigs] = useState<GeneratedConfigs | null>(null);
 
@@ -171,11 +181,16 @@ function ClusterDevicesPage() {
             </h1>
           </div>
           <p className="text-sm text-muted-foreground mt-1.5 max-w-3xl">
-            Autonomous energy-aware GPU/CPU scheduling across 120 bare-metal nodes and 160 physical GPUs. Dynamically partitions hardware MIG, Time-Slices, and direct NVMe storage while routing grid surplus power and consolidating idle standby waste.
+            Autonomous energy-aware GPU/CPU scheduling across 120 bare-metal nodes and 160 physical
+            GPUs. Dynamically partitions hardware MIG, Time-Slices, and direct NVMe storage while
+            routing grid surplus power and consolidating idle standby waste.
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 px-3 py-1.5 gap-1.5 font-mono text-xs">
+          <Badge
+            variant="outline"
+            className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 px-3 py-1.5 gap-1.5 font-mono text-xs"
+          >
             <Activity className="h-3.5 w-3.5 animate-pulse" /> Fleet: 120 Nodes | 160 GPUs Online
           </Badge>
         </div>
@@ -189,7 +204,10 @@ function ClusterDevicesPage() {
             <Server className="h-4 w-4 text-primary" />
           </div>
           <div className="text-2xl font-bold font-mono text-foreground">
-            {fleetData?.fleet.totalNodes ?? 120} <span className="text-xs text-muted-foreground font-sans font-normal">nodes</span> / {fleetData?.fleet.totalGpus ?? 160} <span className="text-xs text-muted-foreground font-sans font-normal">GPUs</span>
+            {fleetData?.fleet.totalNodes ?? 120}{" "}
+            <span className="text-xs text-muted-foreground font-sans font-normal">nodes</span> /{" "}
+            {fleetData?.fleet.totalGpus ?? 160}{" "}
+            <span className="text-xs text-muted-foreground font-sans font-normal">GPUs</span>
           </div>
           <div className="text-[11px] text-muted-foreground font-mono">
             40x SXM4 A100 | 40x PCIe A100 | 80x RTX 4090
@@ -202,7 +220,8 @@ function ClusterDevicesPage() {
             <Layers className="h-4 w-4 text-emerald-400" />
           </div>
           <div className="text-2xl font-bold font-mono text-emerald-400">
-            {fleetData?.slicingCapacity.migSlicesTotal ?? 1120} <span className="text-xs text-muted-foreground font-sans font-normal">total</span>
+            {fleetData?.slicingCapacity.migSlicesTotal ?? 1120}{" "}
+            <span className="text-xs text-muted-foreground font-sans font-normal">total</span>
           </div>
           <div className="text-[11px] text-muted-foreground">
             {fleetData?.slicingCapacity.migSlicesAllocated ?? 684} active hardware instances
@@ -215,7 +234,8 @@ function ClusterDevicesPage() {
             <Zap className="h-4 w-4 text-cyan-400" />
           </div>
           <div className="text-2xl font-bold font-mono text-cyan-400">
-            {fleetData?.slicingCapacity.timeSlicesTotal ?? 1280} <span className="text-xs text-muted-foreground font-sans font-normal">virtual</span>
+            {fleetData?.slicingCapacity.timeSlicesTotal ?? 1280}{" "}
+            <span className="text-xs text-muted-foreground font-sans font-normal">virtual</span>
           </div>
           <div className="text-[11px] text-muted-foreground">
             8x–10x oversubscription multiplier
@@ -228,7 +248,8 @@ function ClusterDevicesPage() {
             <ShieldCheck className="h-4 w-4 text-violet-400" />
           </div>
           <div className="text-2xl font-bold font-mono text-violet-400">
-            {totalUsers} <span className="text-xs text-muted-foreground font-sans font-normal">members</span>
+            {totalUsers}{" "}
+            <span className="text-xs text-muted-foreground font-sans font-normal">members</span>
           </div>
           <div className="text-[11px] text-muted-foreground">
             70% Dev | 25% Fine-Tune | 5% Heavy ML
@@ -268,10 +289,12 @@ function ClusterDevicesPage() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border/40 pb-4">
               <div>
                 <h2 className="text-base font-bold flex items-center gap-2">
-                  <Gauge className="h-5 w-5 text-emerald-400" /> Grid Energy & Capacity Scheduling Parameters
+                  <Gauge className="h-5 w-5 text-emerald-400" /> Grid Energy & Capacity Scheduling
+                  Parameters
                 </h2>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  Configure member demand, grid renewable surplus, and power optimization goals for Groq AI.
+                  Configure member demand, grid renewable surplus, and power optimization goals for
+                  Groq AI.
                 </p>
               </div>
               <Button
@@ -347,9 +370,15 @@ function ClusterDevicesPage() {
                   onChange={(e) => setSchedulingStrategy(e.target.value as any)}
                   className="w-full bg-background border border-border/60 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-primary font-medium"
                 >
-                  <option value="green_surplus_boost">🌿 Green Surplus Boost (Turbocharge high-impact jobs with solar kW)</option>
-                  <option value="carbon_cost_minimizer">💰 Carbon & Cost Minimizer (Power down idle nodes & cap TDP)</option>
-                  <option value="high_throughput_balanced">⚖️ High Throughput Fair-Share (Maximize simultaneous active slots)</option>
+                  <option value="green_surplus_boost">
+                    🌿 Green Surplus Boost (Turbocharge high-impact jobs with solar kW)
+                  </option>
+                  <option value="carbon_cost_minimizer">
+                    💰 Carbon & Cost Minimizer (Power down idle nodes & cap TDP)
+                  </option>
+                  <option value="high_throughput_balanced">
+                    ⚖️ High Throughput Fair-Share (Maximize simultaneous active slots)
+                  </option>
                 </select>
               </div>
             </div>
@@ -376,7 +405,8 @@ function ClusterDevicesPage() {
                     <TrendingDown className="h-4 w-4 text-emerald-400" />
                   </div>
                   <div className="text-2xl font-bold font-mono text-emerald-400">
-                    {schedulingResult.power_saved_kw} <span className="text-xs text-muted-foreground font-sans font-normal">kW</span>
+                    {schedulingResult.power_saved_kw}{" "}
+                    <span className="text-xs text-muted-foreground font-sans font-normal">kW</span>
                   </div>
                   <div className="text-[10px] text-muted-foreground">
                     From dynamic node consolidation
@@ -402,7 +432,12 @@ function ClusterDevicesPage() {
                     <Server className="h-4 w-4 text-primary" />
                   </div>
                   <div className="text-2xl font-bold font-mono text-foreground">
-                    {schedulingResult.active_nodes_count} <span className="text-xs text-muted-foreground font-sans font-normal">active</span> / {schedulingResult.sleeping_consolidated_nodes} <span className="text-xs text-amber-400 font-sans font-normal">sleep</span>
+                    {schedulingResult.active_nodes_count}{" "}
+                    <span className="text-xs text-muted-foreground font-sans font-normal">
+                      active
+                    </span>{" "}
+                    / {schedulingResult.sleeping_consolidated_nodes}{" "}
+                    <span className="text-xs text-amber-400 font-sans font-normal">sleep</span>
                   </div>
                   <div className="text-[10px] text-muted-foreground">
                     {schedulingResult.sleeping_consolidated_nodes} idle nodes powered down (C6)
@@ -415,7 +450,8 @@ function ClusterDevicesPage() {
                     <Zap className="h-4 w-4 text-amber-400" />
                   </div>
                   <div className="text-2xl font-bold font-mono text-amber-400">
-                    {schedulingResult.grid_surplus_utilized_kw} <span className="text-xs text-muted-foreground font-sans font-normal">kW</span>
+                    {schedulingResult.grid_surplus_utilized_kw}{" "}
+                    <span className="text-xs text-muted-foreground font-sans font-normal">kW</span>
                   </div>
                   <div className="text-[10px] text-muted-foreground">
                     Directly routed into high-priority compute
@@ -430,29 +466,43 @@ function ClusterDevicesPage() {
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {schedulingResult.tier_allocations.map((ta, idx) => (
-                    <div key={idx} className="rounded-2xl border border-border/50 bg-card p-4 space-y-3">
+                    <div
+                      key={idx}
+                      className="rounded-2xl border border-border/50 bg-card p-4 space-y-3"
+                    >
                       <div className="flex items-center justify-between border-b border-border/40 pb-2">
                         <span className="font-bold text-sm text-foreground">{ta.tier}</span>
-                        <Badge variant="outline" className="font-mono text-xs bg-primary/10 text-primary border-primary/20">
+                        <Badge
+                          variant="outline"
+                          className="font-mono text-xs bg-primary/10 text-primary border-primary/20"
+                        >
                           {ta.member_count} Members
                         </Badge>
                       </div>
                       <div className="space-y-2 text-xs">
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">GPU Profile:</span>
-                          <span className="font-mono font-medium text-foreground text-right">{ta.gpu_profile}</span>
+                          <span className="font-mono font-medium text-foreground text-right">
+                            {ta.gpu_profile}
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">Assigned Nodes:</span>
-                          <span className="font-mono font-bold text-emerald-400">{ta.assigned_nodes}</span>
+                          <span className="font-mono font-bold text-emerald-400">
+                            {ta.assigned_nodes}
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">Power Cap / GPU:</span>
-                          <span className="font-mono text-amber-400 font-bold">{ta.power_cap_watts_per_gpu} Watts</span>
+                          <span className="font-mono text-amber-400 font-bold">
+                            {ta.power_cap_watts_per_gpu} Watts
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">CPU Cores / User:</span>
-                          <span className="font-mono text-foreground">{ta.cpu_cores_per_user} Cores (Pinned)</span>
+                          <span className="font-mono text-foreground">
+                            {ta.cpu_cores_per_user} Cores (Pinned)
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -463,7 +513,8 @@ function ClusterDevicesPage() {
               {/* Node Power State Matrix Table */}
               <div className="rounded-2xl border border-border/50 bg-card p-5 space-y-4">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                  <Power className="h-4 w-4 text-emerald-400" /> Node Fleet Power State & Slicing Matrix
+                  <Power className="h-4 w-4 text-emerald-400" /> Node Fleet Power State & Slicing
+                  Matrix
                 </h3>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs font-mono">
@@ -494,7 +545,9 @@ function ClusterDevicesPage() {
                             </Badge>
                           </td>
                           <td className="py-3 px-3 text-cyan-300">{act.action}</td>
-                          <td className="py-3 px-3 text-muted-foreground font-sans">{act.target_users}</td>
+                          <td className="py-3 px-3 text-muted-foreground font-sans">
+                            {act.target_users}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -507,7 +560,9 @@ function ClusterDevicesPage() {
                 <div className="flex items-center justify-between flex-wrap gap-2 border-b border-border/40 pb-3">
                   <div className="flex items-center gap-2">
                     <Terminal className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-bold">Deployable Energy Grid Scheduling Policies</span>
+                    <span className="text-sm font-bold">
+                      Deployable Energy Grid Scheduling Policies
+                    </span>
                   </div>
                   <Button
                     variant="outline"
@@ -517,18 +572,26 @@ function ClusterDevicesPage() {
                         policyTab === "slurm_conf"
                           ? schedulingResult.slurm_dynamic_partition_conf
                           : policyTab === "k8s_kueue"
-                          ? schedulingResult.k8s_kueue_energy_manifest
-                          : schedulingResult.power_capping_bash_script;
+                            ? schedulingResult.k8s_kueue_energy_manifest
+                            : schedulingResult.power_capping_bash_script;
                       copyToClipboard(code);
                     }}
                     className="gap-1.5 h-8 text-xs font-mono"
                   >
-                    {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                    {copied ? (
+                      <Check className="h-3.5 w-3.5 text-emerald-400" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
+                    )}
                     {copied ? "Copied" : "Copy Policy"}
                   </Button>
                 </div>
 
-                <Tabs value={policyTab} onValueChange={(v) => setPolicyTab(v as any)} className="w-full">
+                <Tabs
+                  value={policyTab}
+                  onValueChange={(v) => setPolicyTab(v as any)}
+                  className="w-full"
+                >
                   <TabsList className="grid grid-cols-3 w-full bg-background/80 p-1 border border-border/60 rounded-xl">
                     <TabsTrigger value="slurm_conf" className="text-xs gap-1">
                       ⚡ Slurm Dynamic Partitioning
@@ -602,7 +665,9 @@ function ClusterDevicesPage() {
                   }`}
                 >
                   <div className="font-bold text-xs">Tier 1: Dev</div>
-                  <div className="text-[10px] text-muted-foreground mt-1">70% users (1/7 MIG, 4 Cores)</div>
+                  <div className="text-[10px] text-muted-foreground mt-1">
+                    70% users (1/7 MIG, 4 Cores)
+                  </div>
                 </button>
 
                 <button
@@ -625,7 +690,9 @@ function ClusterDevicesPage() {
                   }`}
                 >
                   <div className="font-bold text-xs">Tier 2: Fine-Tune</div>
-                  <div className="text-[10px] text-muted-foreground mt-1">25% users (2/7 MIG, NVMe)</div>
+                  <div className="text-[10px] text-muted-foreground mt-1">
+                    25% users (2/7 MIG, NVMe)
+                  </div>
                 </button>
 
                 <button
@@ -648,7 +715,9 @@ function ClusterDevicesPage() {
                   }`}
                 >
                   <div className="font-bold text-xs">Tier 3: Full ML</div>
-                  <div className="text-[10px] text-muted-foreground mt-1">5% users (Full SXM, RDMA)</div>
+                  <div className="text-[10px] text-muted-foreground mt-1">
+                    5% users (Full SXM, RDMA)
+                  </div>
                 </button>
               </div>
             </div>
@@ -660,7 +729,9 @@ function ClusterDevicesPage() {
               </h2>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-foreground">Job / Workspace Identifier</label>
+                <label className="text-xs font-semibold text-foreground">
+                  Job / Workspace Identifier
+                </label>
                 <input
                   type="text"
                   value={jobName}
@@ -673,7 +744,9 @@ function ClusterDevicesPage() {
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-foreground flex items-center justify-between">
                   <span>GPU Acceleration & Slicing Model</span>
-                  <span className="text-[10px] text-muted-foreground font-mono">MIG / MPS / Bare-Metal</span>
+                  <span className="text-[10px] text-muted-foreground font-mono">
+                    MIG / MPS / Bare-Metal
+                  </span>
                 </label>
                 <select
                   value={gpuType}
@@ -681,13 +754,27 @@ function ClusterDevicesPage() {
                   className="w-full bg-background border border-border/60 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-primary"
                 >
                   <option value="none">No GPU (CPU-Only Analytics Node)</option>
-                  <option value="mig_1g_10gb">NVIDIA A100/H100 1/7 Hardware MIG (1g.10gb - 10GB VRAM)</option>
-                  <option value="mig_2g_20gb">NVIDIA A100/H100 2/7 Hardware MIG (2g.20gb - 20GB VRAM)</option>
-                  <option value="mig_3g_40gb">NVIDIA A100/H100 3/7 Hardware MIG (3g.40gb - 40GB VRAM)</option>
-                  <option value="rtx4090_slice">NVIDIA RTX 4090 Software Time-Slice / MPS (1/8th VRAM)</option>
-                  <option value="full_a100_80gb">1x Full Physical NVIDIA A100/H100 (80GB VRAM, Un-sliced)</option>
-                  <option value="multi_gpu_4x">4x Full Physical NVIDIA A100 SXM4 (320GB NVLink)</option>
-                  <option value="multi_gpu_8x">8x Full Physical NVIDIA H100 SXM5 (640GB NVLink HGX)</option>
+                  <option value="mig_1g_10gb">
+                    NVIDIA A100/H100 1/7 Hardware MIG (1g.10gb - 10GB VRAM)
+                  </option>
+                  <option value="mig_2g_20gb">
+                    NVIDIA A100/H100 2/7 Hardware MIG (2g.20gb - 20GB VRAM)
+                  </option>
+                  <option value="mig_3g_40gb">
+                    NVIDIA A100/H100 3/7 Hardware MIG (3g.40gb - 40GB VRAM)
+                  </option>
+                  <option value="rtx4090_slice">
+                    NVIDIA RTX 4090 Software Time-Slice / MPS (1/8th VRAM)
+                  </option>
+                  <option value="full_a100_80gb">
+                    1x Full Physical NVIDIA A100/H100 (80GB VRAM, Un-sliced)
+                  </option>
+                  <option value="multi_gpu_4x">
+                    4x Full Physical NVIDIA A100 SXM4 (320GB NVLink)
+                  </option>
+                  <option value="multi_gpu_8x">
+                    8x Full Physical NVIDIA H100 SXM5 (640GB NVLink HGX)
+                  </option>
                 </select>
               </div>
 
@@ -732,8 +819,12 @@ function ClusterDevicesPage() {
               <div className="p-3 rounded-xl bg-accent/20 border border-border/40 space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-xs font-semibold text-foreground">NUMA Node & CPU Core Pinning</div>
-                    <div className="text-[10px] text-muted-foreground">Locks memory to GPU's local PCIe controller</div>
+                    <div className="text-xs font-semibold text-foreground">
+                      NUMA Node & CPU Core Pinning
+                    </div>
+                    <div className="text-[10px] text-muted-foreground">
+                      Locks memory to GPU's local PCIe controller
+                    </div>
                   </div>
                   <Switch checked={numaBinding} onCheckedChange={setNumaBinding} />
                 </div>
@@ -744,7 +835,9 @@ function ClusterDevicesPage() {
                   <span className="flex items-center gap-1">
                     <HardDrive className="h-3.5 w-3.5 text-cyan-400" /> Scratch Storage Device
                   </span>
-                  <span className="text-[10px] text-muted-foreground font-mono">{storageSizeGb} GB</span>
+                  <span className="text-[10px] text-muted-foreground font-mono">
+                    {storageSizeGb} GB
+                  </span>
                 </label>
                 <select
                   value={storageType}
@@ -752,7 +845,9 @@ function ClusterDevicesPage() {
                   className="w-full bg-background border border-border/60 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-primary"
                 >
                   <option value="ephemeral">Ephemeral Host Overlay Storage (50-100GB)</option>
-                  <option value="nvme_local">Direct Dedicated NVMe Block Scratch (/dev/nvme0n1)</option>
+                  <option value="nvme_local">
+                    Direct Dedicated NVMe Block Scratch (/dev/nvme0n1)
+                  </option>
                   <option value="shared_nfs">Distributed High-Throughput NFS Home Storage</option>
                 </select>
               </div>
@@ -770,7 +865,9 @@ function ClusterDevicesPage() {
                   className="w-full bg-background border border-border/60 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-primary"
                 >
                   <option value="standard_eth">Standard Virtual Ethernet NIC (10GbE)</option>
-                  <option value="sriov_rdma_ib">InfiniBand Mellanox ConnectX-6/7 RDMA Direct VF (100/200Gbps)</option>
+                  <option value="sriov_rdma_ib">
+                    InfiniBand Mellanox ConnectX-6/7 RDMA Direct VF (100/200Gbps)
+                  </option>
                   <option value="roce_v2">RoCE v2 Low-Latency Lossless Ethernet</option>
                 </select>
               </div>
@@ -793,20 +890,28 @@ function ClusterDevicesPage() {
                       builderTab === "k8s"
                         ? configs?.kubernetesYaml
                         : builderTab === "slurm"
-                        ? configs?.slurmScript
-                        : builderTab === "jupyter"
-                        ? configs?.jupyterHubProfile
-                        : configs?.hostCliCommands;
+                          ? configs?.slurmScript
+                          : builderTab === "jupyter"
+                            ? configs?.jupyterHubProfile
+                            : configs?.hostCliCommands;
                     if (code) copyToClipboard(code);
                   }}
                   className="gap-1.5 h-8 text-xs font-mono"
                 >
-                  {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                  {copied ? (
+                    <Check className="h-3.5 w-3.5 text-emerald-400" />
+                  ) : (
+                    <Copy className="h-3.5 w-3.5" />
+                  )}
                   {copied ? "Copied" : "Copy Manifest"}
                 </Button>
               </div>
 
-              <Tabs value={builderTab} onValueChange={(v) => setBuilderTab(v as any)} className="w-full">
+              <Tabs
+                value={builderTab}
+                onValueChange={(v) => setBuilderTab(v as any)}
+                className="w-full"
+              >
                 <TabsList className="grid grid-cols-4 w-full bg-background/80 p-1 border border-border/60 rounded-xl">
                   <TabsTrigger value="k8s" className="text-xs gap-1">
                     ☸️ K8s Pod
@@ -842,7 +947,9 @@ function ClusterDevicesPage() {
 
                 <TabsContent value="host_cli" className="mt-4">
                   <pre className="p-4 rounded-xl bg-black/90 text-violet-300 font-mono text-xs overflow-x-auto leading-relaxed border border-white/10 max-h-[500px]">
-                    <code>{configs?.hostCliCommands ?? "# Generating host verification CLI commands..."}</code>
+                    <code>
+                      {configs?.hostCliCommands ?? "# Generating host verification CLI commands..."}
+                    </code>
                   </pre>
                 </TabsContent>
               </Tabs>

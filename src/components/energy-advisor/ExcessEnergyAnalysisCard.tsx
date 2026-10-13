@@ -1,7 +1,16 @@
-import React from 'react';
-import { AlertCircle, ArrowUpRight, CheckCircle2, Clock, Gauge, ShieldAlert, Sparkles, Zap } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
+import React from "react";
+import {
+  AlertCircle,
+  ArrowUpRight,
+  CheckCircle2,
+  Clock,
+  Gauge,
+  ShieldAlert,
+  Sparkles,
+  Zap,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 interface Props {
   currentState?: string;
@@ -10,17 +19,17 @@ interface Props {
   durationMinutes?: number;
   estimatedExcessWh?: number;
   confidencePercent?: number;
-  verificationStatus?: 'NORMAL' | 'DETECTED' | 'VERIFIED' | 'UNDER_REVIEW';
+  verificationStatus?: "NORMAL" | "DETECTED" | "VERIFIED" | "UNDER_REVIEW";
 }
 
 export function ExcessEnergyAnalysisCard({
-  currentState = 'IDLE',
+  currentState = "IDLE",
   expectedPowerW = 43,
   actualPowerW = 92,
   durationMinutes = 38,
   estimatedExcessWh = 31,
   confidencePercent = 91,
-  verificationStatus = 'VERIFIED',
+  verificationStatus = "VERIFIED",
 }: Props) {
   const excessPowerW = Math.max(0, actualPowerW - expectedPowerW);
   const excessPercentage = Math.round((excessPowerW / expectedPowerW) * 100);
@@ -53,32 +62,42 @@ export function ExcessEnergyAnalysisCard({
             variant="outline"
             className="bg-amber-500/10 text-amber-300 border-amber-500/30 text-xs font-mono px-2.5 py-1"
           >
-            {verificationStatus === 'VERIFIED' ? 'Verified Excess' : 'Potential Excess Energy'}
+            {verificationStatus === "VERIFIED" ? "Verified Excess" : "Potential Excess Energy"}
           </Badge>
         </div>
 
         {/* Top Key Metrics Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-5 font-mono">
           <div className="p-3 rounded-xl bg-slate-900/80 border border-white/5">
-            <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Current State</span>
+            <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
+              Current State
+            </span>
             <span className="text-sm font-bold text-cyan-400 mt-0.5 block">{currentState}</span>
             <span className="text-[9px] text-slate-400">Classified State</span>
           </div>
 
           <div className="p-3 rounded-xl bg-slate-900/80 border border-white/5">
-            <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Expected Power</span>
-            <span className="text-sm font-bold text-slate-200 mt-0.5 block">{expectedPowerW} W</span>
+            <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
+              Expected Power
+            </span>
+            <span className="text-sm font-bold text-slate-200 mt-0.5 block">
+              {expectedPowerW} W
+            </span>
             <span className="text-[9px] text-slate-400">Learned Baseline</span>
           </div>
 
           <div className="p-3 rounded-xl bg-slate-900/80 border border-white/5">
-            <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Actual Power</span>
+            <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
+              Actual Power
+            </span>
             <span className="text-sm font-bold text-red-400 mt-0.5 block">{actualPowerW} W</span>
             <span className="text-[9px] text-red-400/80">Real-time Draw</span>
           </div>
 
           <div className="p-3 rounded-xl bg-amber-950/40 border border-amber-500/30">
-            <span className="text-[10px] text-amber-300 uppercase tracking-wider block">Excess Power</span>
+            <span className="text-[10px] text-amber-300 uppercase tracking-wider block">
+              Excess Power
+            </span>
             <span className="text-sm font-bold text-amber-400 mt-0.5 block">+{excessPowerW} W</span>
             <span className="text-[9px] text-amber-300">+{excessPercentage}% above baseline</span>
           </div>
@@ -87,7 +106,9 @@ export function ExcessEnergyAnalysisCard({
         {/* Visual Dual Comparison Bars */}
         <div className="p-4 rounded-xl bg-slate-900/90 border border-white/5 mb-5 space-y-3">
           <div className="flex items-center justify-between text-xs font-mono text-slate-300">
-            <span className="font-semibold text-slate-400 text-[11px]">BASELINE VS MEASURED CONSUMPTION METER</span>
+            <span className="font-semibold text-slate-400 text-[11px]">
+              BASELINE VS MEASURED CONSUMPTION METER
+            </span>
             <span className="text-[10px] text-cyan-400">Scale: 0 – {maxBarValue} W</span>
           </div>
 
@@ -150,11 +171,10 @@ export function ExcessEnergyAnalysisCard({
             <Gauge className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs font-bold text-amber-200">
-              Potential Excess Energy Detected
-            </div>
+            <div className="text-xs font-bold text-amber-200">Potential Excess Energy Detected</div>
             <div className="text-[10px] text-amber-300/80 font-mono">
-              Model confidence: <span className="font-bold text-white">{confidencePercent}%</span> based on multi-signal correlation
+              Model confidence: <span className="font-bold text-white">{confidencePercent}%</span>{" "}
+              based on multi-signal correlation
             </div>
           </div>
         </div>

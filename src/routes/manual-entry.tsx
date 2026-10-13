@@ -275,60 +275,58 @@ function ManualEntryPage() {
       <div className="glass-neumorph overflow-hidden">
         <div className="p-5 border-b border-slate-200/60 font-bold text-base text-slate-900 flex items-center justify-between">
           <span>Recent Manual Entries</span>
-          <span className="text-xs font-normal text-slate-500">
-            {entries.length} recorded
-          </span>
+          <span className="text-xs font-normal text-slate-500">{entries.length} recorded</span>
         </div>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className="border-b border-slate-200/60 hover:bg-transparent">
-              <TableHead>Type</TableHead>
-              <TableHead>Machine</TableHead>
-              <TableHead>When</TableHead>
-              <TableHead className="text-right">kWh</TableHead>
-              <TableHead className="text-right">Idle kWh</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {entries.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={7} className="text-center text-sm text-muted-foreground py-8">
-                  No entries yet.
-                </TableCell>
+                <TableHead>Type</TableHead>
+                <TableHead>Machine</TableHead>
+                <TableHead>When</TableHead>
+                <TableHead className="text-right">kWh</TableHead>
+                <TableHead className="text-right">Idle kWh</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead></TableHead>
               </TableRow>
-            )}
-            {entries.map((e) => (
-              <TableRow key={e.id}>
-                <TableCell className="capitalize">{e.kind}</TableCell>
-                <TableCell>{e.machine_name}</TableCell>
-                <TableCell className="text-sm text-muted-foreground">
-                  {e.kind === "detailed"
-                    ? e.recorded_at
-                      ? new Date(e.recorded_at).toLocaleString()
-                      : "—"
-                    : e.entry_date}
-                </TableCell>
-                <TableCell className="text-right">
-                  {e.kind === "detailed" ? e.kwh : e.total_kwh}
-                </TableCell>
-                <TableCell className="text-right">
-                  {e.kind === "daily" ? e.idle_kwh : "—"}
-                </TableCell>
-                <TableCell>{e.status ?? "—"}</TableCell>
-                <TableCell>
-                  <Button variant="ghost" size="icon" onClick={() => remove(e.id)}>
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {entries.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center text-sm text-muted-foreground py-8">
+                    No entries yet.
+                  </TableCell>
+                </TableRow>
+              )}
+              {entries.map((e) => (
+                <TableRow key={e.id}>
+                  <TableCell className="capitalize">{e.kind}</TableCell>
+                  <TableCell>{e.machine_name}</TableCell>
+                  <TableCell className="text-sm text-muted-foreground">
+                    {e.kind === "detailed"
+                      ? e.recorded_at
+                        ? new Date(e.recorded_at).toLocaleString()
+                        : "—"
+                      : e.entry_date}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {e.kind === "detailed" ? e.kwh : e.total_kwh}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {e.kind === "daily" ? e.idle_kwh : "—"}
+                  </TableCell>
+                  <TableCell>{e.status ?? "—"}</TableCell>
+                  <TableCell>
+                    <Button variant="ghost" size="icon" onClick={() => remove(e.id)}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </div>
-  </div>
   );
 }

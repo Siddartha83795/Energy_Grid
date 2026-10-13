@@ -77,11 +77,11 @@ describe("Industrial Digital Twin Engine", () => {
   it("returns research-grade metrics comparing static baseline vs multi-modal AI", () => {
     const research = getResearchMetrics();
     expect(research.anomaly_detection_comparison.ai_multimodal_fusion.precision).toBeGreaterThan(
-      research.anomaly_detection_comparison.static_threshold.precision
+      research.anomaly_detection_comparison.static_threshold.precision,
     );
-    expect(research.anomaly_detection_comparison.ai_multimodal_fusion.false_positive_rate_pct).toBeLessThan(
-      research.anomaly_detection_comparison.static_threshold.false_positive_rate_pct
-    );
+    expect(
+      research.anomaly_detection_comparison.ai_multimodal_fusion.false_positive_rate_pct,
+    ).toBeLessThan(research.anomaly_detection_comparison.static_threshold.false_positive_rate_pct);
   });
 
   it("returns global factory command overview stats", () => {

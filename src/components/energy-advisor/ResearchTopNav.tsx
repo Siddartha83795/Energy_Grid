@@ -1,16 +1,28 @@
-import React from 'react';
-import { useEnergyAdvisor } from '@/lib/energy-advisor-context';
-import { Activity, Bell, Cpu, Radio, Search, Shield, Sparkles, SwitchCamera, User, Zap } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import { Link } from '@tanstack/react-router';
+import React from "react";
+import { useEnergyAdvisor } from "@/lib/energy-advisor-context";
+import {
+  Activity,
+  Bell,
+  Cpu,
+  Radio,
+  Search,
+  Shield,
+  Sparkles,
+  SwitchCamera,
+  User,
+  Zap,
+} from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Link } from "@tanstack/react-router";
 
 export function ResearchTopNav() {
-  const { isDemoMode, setIsDemoMode, searchQuery, setSearchQuery, liveLastSyncSeconds, alerts } = useEnergyAdvisor();
+  const { isDemoMode, setIsDemoMode, searchQuery, setSearchQuery, liveLastSyncSeconds, alerts } =
+    useEnergyAdvisor();
 
-  const unreadAlertsCount = alerts.filter((a) => a.status === 'UNREAD').length;
+  const unreadAlertsCount = alerts.filter((a) => a.status === "UNREAD").length;
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#070b14]/90 backdrop-blur-md px-4 sm:px-6 py-3">
@@ -55,7 +67,9 @@ export function ResearchTopNav() {
           {/* Real-time Monitoring indicator */}
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/80 border border-white/5 font-mono text-xs">
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-slate-300 font-medium text-[11px] hidden sm:inline">Real-time Monitoring</span>
+            <span className="text-slate-300 font-medium text-[11px] hidden sm:inline">
+              Real-time Monitoring
+            </span>
             <span className="text-emerald-400 font-bold text-[10px]">LIVE</span>
           </div>
 
@@ -68,7 +82,10 @@ export function ResearchTopNav() {
               className="data-[state=checked]:bg-cyan-500"
             />
             {isDemoMode && (
-              <Badge variant="outline" className="bg-amber-500/10 text-amber-300 border-amber-500/40 text-[9px] px-1.5 py-0">
+              <Badge
+                variant="outline"
+                className="bg-amber-500/10 text-amber-300 border-amber-500/40 text-[9px] px-1.5 py-0"
+              >
                 DEMO DATA
               </Badge>
             )}

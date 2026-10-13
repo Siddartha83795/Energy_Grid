@@ -36,10 +36,7 @@ function AntiGravityPage() {
           >
             Soft UI View
           </Link>
-          <Link
-            to="/auth"
-            className="glass-neumorph-btn-primary px-4 py-2 text-xs font-semibold"
-          >
+          <Link to="/auth" className="glass-neumorph-btn-primary px-4 py-2 text-xs font-semibold">
             Access Industrial Console
           </Link>
         </div>

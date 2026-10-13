@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-import { useEnergyAdvisor } from '@/lib/energy-advisor-context';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
+import React, { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEnergyAdvisor } from "@/lib/energy-advisor-context";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
 import {
   Layers,
   Filter,
@@ -20,16 +20,10 @@ import {
   Info,
   ShieldCheck,
   TrendingDown,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -37,7 +31,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
   ResponsiveContainer,
   BarChart,
@@ -50,14 +44,14 @@ import {
   PieChart,
   Pie,
   Cell,
-} from 'recharts';
-import { CauseType, ValidationStatus } from '@/lib/energy-advisor-research';
+} from "recharts";
+import { CauseType, ValidationStatus } from "@/lib/energy-advisor-research";
 
-export const Route = createFileRoute('/excess-ledger')({
+export const Route = createFileRoute("/excess-ledger")({
   head: () => ({
     meta: [
       {
-        title: 'Cause-Level Excess Energy Ledger — Energy Advisor Research',
+        title: "Cause-Level Excess Energy Ledger — Energy Advisor Research",
       },
     ],
   }),
@@ -65,47 +59,42 @@ export const Route = createFileRoute('/excess-ledger')({
 });
 
 export function ExcessLedgerPage() {
-  const {
-    causeLedger,
-    devices,
-    selectedDevice,
-    addLedgerEntry,
-    updateLedgerStatus,
-  } = useEnergyAdvisor();
+  const { causeLedger, devices, selectedDevice, addLedgerEntry, updateLedgerStatus } =
+    useEnergyAdvisor();
 
   // Filter States
-  const [deviceFilter, setDeviceFilter] = useState<string>('ALL');
-  const [causeFilter, setCauseFilter] = useState<string>('ALL');
-  const [statusFilter, setStatusFilter] = useState<string>('ALL');
+  const [deviceFilter, setDeviceFilter] = useState<string>("ALL");
+  const [causeFilter, setCauseFilter] = useState<string>("ALL");
+  const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
 
   // New Entry Form State
-  const [newCause, setNewCause] = useState<CauseType>('PROLONGED_IDLE');
+  const [newCause, setNewCause] = useState<CauseType>("PROLONGED_IDLE");
   const [newDurationMin, setNewDurationMin] = useState<number>(60);
   const [newActualPower, setNewActualPower] = useState<number>(90);
   const [newExpectedPower, setNewExpectedPower] = useState<number>(43);
   const [newEvidence, setNewEvidence] = useState<string>(
-    'Inactivity detected for 60 mins; temperature normal; zero user interaction.'
+    "Inactivity detected for 60 mins; temperature normal; zero user interaction.",
   );
 
   // Filtering Logic
   const filteredLedger = causeLedger.filter((entry) => {
-    if (deviceFilter !== 'ALL' && entry.device_id !== deviceFilter) return false;
-    if (causeFilter !== 'ALL' && entry.cause !== causeFilter) return false;
-    if (statusFilter !== 'ALL' && entry.validation_status !== statusFilter) return false;
+    if (deviceFilter !== "ALL" && entry.device_id !== deviceFilter) return false;
+    if (causeFilter !== "ALL" && entry.cause !== causeFilter) return false;
+    if (statusFilter !== "ALL" && entry.validation_status !== statusFilter) return false;
     return true;
   });
 
   // Calculate Totals
-  const totalPotentialExcessWh = Math.round(
-    causeLedger.reduce((sum, item) => sum + item.estimated_excess_wh, 0) * 10
-  ) / 10;
+  const totalPotentialExcessWh =
+    Math.round(causeLedger.reduce((sum, item) => sum + item.estimated_excess_wh, 0) * 10) / 10;
 
-  const totalVerifiedExcessWh = Math.round(
-    causeLedger
-      .filter((item) => item.validation_status === 'VERIFIED_EXCESS')
-      .reduce((sum, item) => sum + item.estimated_excess_wh, 0) * 10
-  ) / 10;
+  const totalVerifiedExcessWh =
+    Math.round(
+      causeLedger
+        .filter((item) => item.validation_status === "VERIFIED_EXCESS")
+        .reduce((sum, item) => sum + item.estimated_excess_wh, 0) * 10,
+    ) / 10;
 
   // Breakdown by Physical Cause
   const causeBreakdownMap: Record<string, number> = {};
@@ -114,7 +103,7 @@ export function ExcessLedgerPage() {
   });
 
   const causeBreakdownData = Object.entries(causeBreakdownMap).map(([cause, wh]) => ({
-    name: cause.replace('_', ' '),
+    name: cause.replace("_", " "),
     rawCause: cause,
     excessWh: Math.round(wh * 10) / 10,
     percentage: Math.round((wh / totalPotentialExcessWh) * 100),
@@ -123,17 +112,22 @@ export function ExcessLedgerPage() {
   // Cause Attribution Waterfall
   let runningCum = 45.0;
   const waterfallData = [
-    { step: 'Expected Baseline', value: 45.0, cumulative: 45.0, fill: '#10b981' },
+    { step: "Expected Baseline", value: 45.0, cumulative: 45.0, fill: "#10b981" },
     ...causeBreakdownData.map((c) => {
       runningCum += c.excessWh;
       return {
         step: `+ ${c.name}`,
         value: c.excessWh,
         cumulative: Math.round(runningCum * 10) / 10,
-        fill: '#f59e0b',
+        fill: "#f59e0b",
       };
     }),
-    { step: 'Actual Total Energy', value: Math.round(runningCum * 10) / 10, cumulative: Math.round(runningCum * 10) / 10, fill: '#06b6d4' },
+    {
+      step: "Actual Total Energy",
+      value: Math.round(runningCum * 10) / 10,
+      cumulative: Math.round(runningCum * 10) / 10,
+      fill: "#06b6d4",
+    },
   ];
 
   const handleCreateEntry = (e: React.FormEvent) => {
@@ -152,8 +146,8 @@ export function ExcessLedgerPage() {
       estimated_excess_wh: wh,
       evidence: [newEvidence],
       confidence: 0.91,
-      operating_state: 'IDLE',
-      validation_status: 'POTENTIAL_EXCESS',
+      operating_state: "IDLE",
+      validation_status: "POTENTIAL_EXCESS",
     });
 
     setShowAddModal(false);
@@ -161,18 +155,18 @@ export function ExcessLedgerPage() {
 
   const exportLedgerCSV = () => {
     const headers = [
-      'Ledger ID',
-      'Device ID',
-      'Device Name',
-      'Start Time',
-      'End Time',
-      'Duration (min)',
-      'Physical Cause',
-      'Estimated Excess Wh',
-      'Actual Power W',
-      'Expected Power W',
-      'Confidence',
-      'Validation Status',
+      "Ledger ID",
+      "Device ID",
+      "Device Name",
+      "Start Time",
+      "End Time",
+      "Duration (min)",
+      "Physical Cause",
+      "Estimated Excess Wh",
+      "Actual Power W",
+      "Expected Power W",
+      "Confidence",
+      "Validation Status",
     ];
     const rows = filteredLedger.map((r) => [
       r.ledger_id,
@@ -189,12 +183,12 @@ export function ExcessLedgerPage() {
       r.validation_status,
     ]);
     const csvContent =
-      'data:text/csv;charset=utf-8,' +
-      [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+      "data:text/csv;charset=utf-8," +
+      [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
     const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', 'cause_level_excess_energy_ledger.csv');
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "cause_level_excess_energy_ledger.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -224,7 +218,11 @@ export function ExcessLedgerPage() {
                   CAUSE-LEVEL EXCESS ENERGY ACCOUNTING LEDGER
                 </h1>
                 <p className="text-xs text-slate-400 font-mono max-w-3xl leading-relaxed">
-                  Moving beyond opaque anomaly scores to exact physical energy waste accounting: <span className="text-cyan-300 font-semibold">E_excess = E_actual - E_expected(state, workload, context)</span>. Every excess entry is linked to an experimentally verifiable physical cause.
+                  Moving beyond opaque anomaly scores to exact physical energy waste accounting:{" "}
+                  <span className="text-cyan-300 font-semibold">
+                    E_excess = E_actual - E_expected(state, workload, context)
+                  </span>
+                  . Every excess entry is linked to an experimentally verifiable physical cause.
                 </p>
               </div>
 
@@ -256,7 +254,8 @@ export function ExcessLedgerPage() {
                 <Layers className="h-4 w-4 text-cyan-400" />
               </div>
               <div className="text-2xl sm:text-3xl font-bold text-white font-display">
-                {totalPotentialExcessWh} <span className="text-sm font-normal text-slate-400 font-mono">Wh</span>
+                {totalPotentialExcessWh}{" "}
+                <span className="text-sm font-normal text-slate-400 font-mono">Wh</span>
               </div>
               <div className="text-[11px] text-cyan-400 flex items-center gap-1">
                 <span>Cumulative identified waste</span>
@@ -269,10 +268,14 @@ export function ExcessLedgerPage() {
                 <CheckCircle2 className="h-4 w-4 text-emerald-400" />
               </div>
               <div className="text-2xl sm:text-3xl font-bold text-emerald-400 font-display">
-                {totalVerifiedExcessWh} <span className="text-sm font-normal text-slate-400 font-mono">Wh</span>
+                {totalVerifiedExcessWh}{" "}
+                <span className="text-sm font-normal text-slate-400 font-mono">Wh</span>
               </div>
               <div className="text-[11px] text-emerald-300/80">
-                <span>{Math.round((totalVerifiedExcessWh / totalPotentialExcessWh) * 100)}% verified via controlled trials</span>
+                <span>
+                  {Math.round((totalVerifiedExcessWh / totalPotentialExcessWh) * 100)}% verified via
+                  controlled trials
+                </span>
               </div>
             </div>
 
@@ -282,7 +285,8 @@ export function ExcessLedgerPage() {
                 <Zap className="h-4 w-4 text-amber-400" />
               </div>
               <div className="text-2xl sm:text-3xl font-bold text-white font-display">
-                {Object.keys(causeBreakdownMap).length} <span className="text-sm font-normal text-slate-400 font-mono">Types</span>
+                {Object.keys(causeBreakdownMap).length}{" "}
+                <span className="text-sm font-normal text-slate-400 font-mono">Types</span>
               </div>
               <div className="text-[11px] text-slate-400">
                 <span>Top: PROLONGED_IDLE</span>
@@ -295,7 +299,8 @@ export function ExcessLedgerPage() {
                 <FileSpreadsheet className="h-4 w-4 text-purple-400" />
               </div>
               <div className="text-2xl sm:text-3xl font-bold text-white font-display">
-                {causeLedger.length} <span className="text-sm font-normal text-slate-400 font-mono">Events</span>
+                {causeLedger.length}{" "}
+                <span className="text-sm font-normal text-slate-400 font-mono">Events</span>
               </div>
               <div className="text-[11px] text-purple-300">
                 <span>Avg Confidence: 91.2%</span>
@@ -312,7 +317,10 @@ export function ExcessLedgerPage() {
                     <BarChart3 className="h-4 w-4" />
                     FIGURE 2: Potential Excess Energy by Physical Cause (Wh)
                   </CardTitle>
-                  <Badge variant="outline" className="border-cyan-500/40 text-cyan-300 text-[10px] font-mono">
+                  <Badge
+                    variant="outline"
+                    className="border-cyan-500/40 text-cyan-300 text-[10px] font-mono"
+                  >
                     Ledger Aggregation
                   </Badge>
                 </div>
@@ -323,13 +331,26 @@ export function ExcessLedgerPage() {
               <CardContent className="space-y-4 pt-2">
                 <div className="h-64 w-full">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={causeBreakdownData} margin={{ top: 10, right: 20, left: 10, bottom: 20 }}>
+                    <BarChart
+                      data={causeBreakdownData}
+                      margin={{ top: 10, right: 20, left: 10, bottom: 20 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                      <XAxis dataKey="name" stroke="#94a3b8" tick={{ fontSize: 9 }} angle={-15} textAnchor="end" />
+                      <XAxis
+                        dataKey="name"
+                        stroke="#94a3b8"
+                        tick={{ fontSize: 9 }}
+                        angle={-15}
+                        textAnchor="end"
+                      />
                       <YAxis stroke="#64748b" tickFormatter={(v) => `${v} Wh`} />
                       <Tooltip
-                        contentStyle={{ backgroundColor: '#090e17', borderColor: '#334155', borderRadius: '8px' }}
-                        formatter={(val: any) => [`${val} Wh`, 'Excess Energy']}
+                        contentStyle={{
+                          backgroundColor: "#090e17",
+                          borderColor: "#334155",
+                          borderRadius: "8px",
+                        }}
+                        formatter={(val: any) => [`${val} Wh`, "Excess Energy"]}
                       />
                       <Bar dataKey="excessWh" fill="#06b6d4" radius={[6, 6, 0, 0]}>
                         {causeBreakdownData.map((entry, index) => (
@@ -370,8 +391,12 @@ export function ExcessLedgerPage() {
                         ))}
                       </Pie>
                       <Tooltip
-                        contentStyle={{ backgroundColor: '#090e17', borderColor: '#334155', borderRadius: '8px' }}
-                        formatter={(val: any) => [`${val} Wh`, 'Excess']}
+                        contentStyle={{
+                          backgroundColor: "#090e17",
+                          borderColor: "#334155",
+                          borderRadius: "8px",
+                        }}
+                        formatter={(val: any) => [`${val} Wh`, "Excess"]}
                       />
                     </PieChart>
                   </ResponsiveContainer>
@@ -379,12 +404,20 @@ export function ExcessLedgerPage() {
 
                 <div className="space-y-1.5 font-mono text-[11px] max-h-32 overflow-y-auto">
                   {causeBreakdownData.map((item, idx) => (
-                    <div key={item.name} className="flex items-center justify-between text-slate-300">
+                    <div
+                      key={item.name}
+                      className="flex items-center justify-between text-slate-300"
+                    >
                       <div className="flex items-center gap-2">
-                        <span className="h-2 w-2 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
+                        <span
+                          className="h-2 w-2 rounded-full"
+                          style={{ backgroundColor: COLORS[idx % COLORS.length] }}
+                        />
                         <span className="truncate max-w-[140px]">{item.name}</span>
                       </div>
-                      <span className="font-bold text-white">{item.percentage}% ({item.excessWh} Wh)</span>
+                      <span className="font-bold text-white">
+                        {item.percentage}% ({item.excessWh} Wh)
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -398,21 +431,40 @@ export function ExcessLedgerPage() {
                   <CardTitle className="text-sm font-bold font-display uppercase tracking-wider text-cyan-300">
                     Cause Attribution Waterfall Decomposition (Wh)
                   </CardTitle>
-                  <Badge variant="outline" className="border-cyan-500/40 text-cyan-300 text-[10px] font-mono">
+                  <Badge
+                    variant="outline"
+                    className="border-cyan-500/40 text-cyan-300 text-[10px] font-mono"
+                  >
                     Expected → Causes → Actual
                   </Badge>
                 </div>
                 <CardDescription className="text-xs text-slate-400 font-mono">
-                  Accounting reconciliation: Expected Baseline + Σ Physical Inefficiencies = Actual Measured Consumption
+                  Accounting reconciliation: Expected Baseline + Σ Physical Inefficiencies = Actual
+                  Measured Consumption
                 </CardDescription>
               </CardHeader>
               <CardContent className="h-64 pt-2">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={waterfallData} margin={{ top: 10, right: 20, left: 10, bottom: 20 }}>
+                  <BarChart
+                    data={waterfallData}
+                    margin={{ top: 10, right: 20, left: 10, bottom: 20 }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                    <XAxis dataKey="step" stroke="#94a3b8" tick={{ fontSize: 9 }} angle={-10} textAnchor="end" />
+                    <XAxis
+                      dataKey="step"
+                      stroke="#94a3b8"
+                      tick={{ fontSize: 9 }}
+                      angle={-10}
+                      textAnchor="end"
+                    />
                     <YAxis stroke="#64748b" tickFormatter={(v) => `${v} Wh`} />
-                    <Tooltip contentStyle={{ backgroundColor: '#090e17', borderColor: '#334155', borderRadius: '8px' }} />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#090e17",
+                        borderColor: "#334155",
+                        borderRadius: "8px",
+                      }}
+                    />
                     <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                       {waterfallData.map((entry, index) => (
                         <Cell key={`wf-${index}`} fill={entry.fill} />
@@ -479,12 +531,12 @@ export function ExcessLedgerPage() {
                 </select>
               </div>
 
-              {(deviceFilter !== 'ALL' || causeFilter !== 'ALL' || statusFilter !== 'ALL') && (
+              {(deviceFilter !== "ALL" || causeFilter !== "ALL" || statusFilter !== "ALL") && (
                 <Button
                   onClick={() => {
-                    setDeviceFilter('ALL');
-                    setCauseFilter('ALL');
-                    setStatusFilter('ALL');
+                    setDeviceFilter("ALL");
+                    setCauseFilter("ALL");
+                    setStatusFilter("ALL");
                   }}
                   variant="ghost"
                   className="text-xs text-cyan-400 hover:text-cyan-300 p-1 h-auto"
@@ -504,11 +556,13 @@ export function ExcessLedgerPage() {
                     TABLE 3: Cause-Level Physical Energy Ledger
                   </CardTitle>
                   <CardDescription className="text-xs text-slate-400 font-mono">
-                    Filterable ledger of detected excess energy events with contextual sensor evidence and validation confidence
+                    Filterable ledger of detected excess energy events with contextual sensor
+                    evidence and validation confidence
                   </CardDescription>
                 </div>
                 <div className="text-xs font-mono text-slate-400">
-                  Showing <span className="text-cyan-300 font-bold">{filteredLedger.length}</span> of {causeLedger.length} records
+                  Showing <span className="text-cyan-300 font-bold">{filteredLedger.length}</span>{" "}
+                  of {causeLedger.length} records
                 </div>
               </div>
             </CardHeader>
@@ -534,7 +588,9 @@ export function ExcessLedgerPage() {
                     {filteredLedger.map((row) => (
                       <TableRow key={row.ledger_id} className="hover:bg-slate-800/40">
                         <TableCell className="font-bold text-cyan-400">{row.ledger_id}</TableCell>
-                        <TableCell className="font-semibold text-white">{row.device_name}</TableCell>
+                        <TableCell className="font-semibold text-white">
+                          {row.device_name}
+                        </TableCell>
                         <TableCell className="text-slate-400">
                           {row.start_time} - {row.end_time} ({row.duration_minutes}m)
                         </TableCell>
@@ -542,13 +598,13 @@ export function ExcessLedgerPage() {
                           <Badge
                             variant="outline"
                             className={`text-[10px] font-mono font-bold border ${
-                              row.operating_state.includes('ACTIVE')
-                                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                                : row.operating_state.includes('LOAD')
-                                ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                                : row.estimated_excess_wh > 10
-                                ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
-                                : 'bg-slate-800 text-slate-300 border-slate-700'
+                              row.operating_state.includes("ACTIVE")
+                                ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
+                                : row.operating_state.includes("LOAD")
+                                  ? "bg-amber-500/20 text-amber-300 border-amber-500/40"
+                                  : row.estimated_excess_wh > 10
+                                    ? "bg-rose-500/20 text-rose-300 border-rose-500/40"
+                                    : "bg-slate-800 text-slate-300 border-slate-700"
                             }`}
                           >
                             {row.operating_state}
@@ -556,10 +612,16 @@ export function ExcessLedgerPage() {
                         </TableCell>
                         <TableCell className="font-bold text-cyan-300">{row.cause}</TableCell>
                         <TableCell className="text-slate-400">{row.expected_power_w} W</TableCell>
-                        <TableCell className="text-white font-bold">{row.actual_power_w} W</TableCell>
+                        <TableCell className="text-white font-bold">
+                          {row.actual_power_w} W
+                        </TableCell>
                         <TableCell>
-                          <div className="text-amber-400 font-extrabold text-sm">{row.estimated_excess_wh} Wh</div>
-                          <div className="text-[10px] text-slate-400 font-normal">± 1.8 Wh [95% CI]</div>
+                          <div className="text-amber-400 font-extrabold text-sm">
+                            {row.estimated_excess_wh} Wh
+                          </div>
+                          <div className="text-[10px] text-slate-400 font-normal">
+                            ± 1.8 Wh [95% CI]
+                          </div>
                         </TableCell>
                         <TableCell className="text-slate-300">
                           {Math.round(row.confidence * 100)}%
@@ -567,14 +629,14 @@ export function ExcessLedgerPage() {
                         <TableCell>
                           <span
                             className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
-                              row.validation_status === 'VERIFIED_EXCESS'
-                                ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
-                                : row.validation_status === 'POTENTIAL_EXCESS'
-                                ? 'bg-amber-500/20 text-amber-400 border-amber-500/30'
-                                : 'bg-blue-500/20 text-blue-400 border-blue-500/30'
+                              row.validation_status === "VERIFIED_EXCESS"
+                                ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                                : row.validation_status === "POTENTIAL_EXCESS"
+                                  ? "bg-amber-500/20 text-amber-400 border-amber-500/30"
+                                  : "bg-blue-500/20 text-blue-400 border-blue-500/30"
                             }`}
                           >
-                            {row.validation_status.replace('_', ' ')}
+                            {row.validation_status.replace("_", " ")}
                           </span>
                         </TableCell>
                         <TableCell className="text-right">
@@ -584,9 +646,9 @@ export function ExcessLedgerPage() {
                             onClick={() =>
                               updateLedgerStatus(
                                 row.ledger_id,
-                                row.validation_status === 'VERIFIED_EXCESS'
-                                  ? 'POTENTIAL_EXCESS'
-                                  : 'VERIFIED_EXCESS'
+                                row.validation_status === "VERIFIED_EXCESS"
+                                  ? "POTENTIAL_EXCESS"
+                                  : "VERIFIED_EXCESS",
                               )
                             }
                             className="text-[10px] text-cyan-400 hover:text-cyan-300 h-6 px-2"
@@ -676,7 +738,9 @@ export function ExcessLedgerPage() {
                   </div>
 
                   <div>
-                    <label className="text-slate-400 block mb-1">Sensor & Contextual Evidence</label>
+                    <label className="text-slate-400 block mb-1">
+                      Sensor & Contextual Evidence
+                    </label>
                     <textarea
                       rows={2}
                       value={newEvidence}

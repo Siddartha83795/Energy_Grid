@@ -54,4 +54,3 @@ export const SECONDARY_NAV_ITEMS = [
   { to: "/multi-signal", label: "Multi-Signal", icon: Activity },
   { to: "/admin", label: "Admin", icon: Shield, isAdminOnly: true },
 ] as const;
-

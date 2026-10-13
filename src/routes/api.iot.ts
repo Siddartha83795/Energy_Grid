@@ -20,12 +20,12 @@ export const Route = createFileRoute("/api/iot")({
               "Fuse / MCB Protection",
               "Mushroom Emergency Stop (E-Stop Safety Interlock)",
               "0.96 inch SSD1306 OLED (Local Status Display)",
-              "5V Active Buzzer (Audible Alarm)"
+              "5V Active Buzzer (Audible Alarm)",
             ],
             endpoints: {
               post_telemetry: "/api/iot",
               method: "POST",
-              headers: { "Content-Type": "application/json" }
+              headers: { "Content-Type": "application/json" },
             },
           }),
           {
@@ -45,14 +45,14 @@ export const Route = createFileRoute("/api/iot")({
             email,
             userId: customUserId,
             machine_id = "ESP32_Industrial_Node_01",
-            
+
             // 1. PZEM-004T V3 Electrical readings
             voltage_v,
             current_a,
             power_w,
             energy_wh,
             kwh,
-            power_factor = 0.90,
+            power_factor = 0.9,
             frequency_hz = 50.0,
             harmonics_thd_pct,
 
@@ -116,25 +116,49 @@ export const Route = createFileRoute("/api/iot")({
           // Normalize values
           const numVoltage = Number(voltage_v ?? 230.0);
           const numCurrent = Number(current_a ?? sct_current_a ?? 0.0);
-          const numPF = Math.min(1.0, Math.max(0.1, Number(power_factor ?? 0.90)));
-          const numPowerW = power_w !== undefined ? Number(power_w) : (numVoltage * numCurrent * numPF);
-          const numKwh = kwh !== undefined ? Number(kwh) : (energy_wh !== undefined ? Number(energy_wh) / 1000 : (numPowerW * (1 / 3600)));
+          const numPF = Math.min(1.0, Math.max(0.1, Number(power_factor ?? 0.9)));
+          const numPowerW =
+            power_w !== undefined ? Number(power_w) : numVoltage * numCurrent * numPF;
+          const numKwh =
+            kwh !== undefined
+              ? Number(kwh)
+              : energy_wh !== undefined
+                ? Number(energy_wh) / 1000
+                : numPowerW * (1 / 3600);
           const numTemp = Number(temperature ?? temperature_c ?? 25.0);
-          
-          // Normalized vibration in G / RMS
-          const numVibG = vibration_g !== undefined 
-            ? Number(vibration_g) 
-            : vibration_rms !== undefined 
-              ? Number(vibration_rms) 
-              : vibration_db !== undefined 
-                ? (Number(vibration_db) / 100) 
-                : 0.15;
-          const numVibDb = vibration_db !== undefined ? Number(vibration_db) : (numVibG * 100);
 
-          const isPirActive = Boolean(pir_motion === 1 || pir_motion === true || hvac_occupancy === true);
-          const isProximityActive = Boolean(proximity_detected === 1 || proximity_detected === true || limit_switch === "Active (Closed)" || limit_switch === "1");
-          const isEstopActive = Boolean(estop_active === 1 || estop_active === true || estop_pressed === 1 || estop_pressed === true);
-          const currentRelay = relay_state !== undefined ? (relay_state === 1 || relay_state === "ON" ? "ON" : "OFF") : (actuator_relay ?? "ON");
+          // Normalized vibration in G / RMS
+          const numVibG =
+            vibration_g !== undefined
+              ? Number(vibration_g)
+              : vibration_rms !== undefined
+                ? Number(vibration_rms)
+                : vibration_db !== undefined
+                  ? Number(vibration_db) / 100
+                  : 0.15;
+          const numVibDb = vibration_db !== undefined ? Number(vibration_db) : numVibG * 100;
+
+          const isPirActive = Boolean(
+            pir_motion === 1 || pir_motion === true || hvac_occupancy === true,
+          );
+          const isProximityActive = Boolean(
+            proximity_detected === 1 ||
+            proximity_detected === true ||
+            limit_switch === "Active (Closed)" ||
+            limit_switch === "1",
+          );
+          const isEstopActive = Boolean(
+            estop_active === 1 ||
+            estop_active === true ||
+            estop_pressed === 1 ||
+            estop_pressed === true,
+          );
+          const currentRelay =
+            relay_state !== undefined
+              ? relay_state === 1 || relay_state === "ON"
+                ? "ON"
+                : "OFF"
+              : (actuator_relay ?? "ON");
 
           // -------------------------------------------------------------
           // MULTI-MODAL SIGNAL FUSION & AI PREDICTIVE REASONING ENGINE
@@ -157,7 +181,8 @@ export const Route = createFileRoute("/api/iot")({
             aiState = "EMERGENCY_STOP_TRIPPED";
             severity = "CRITICAL";
             diagnosis = "Physical Emergency Stop mushroom switch engaged! Safety circuit open.";
-            recommendation = "Maintain contactor de-energized. Inspect cell for safety hazard before resetting E-stop.";
+            recommendation =
+              "Maintain contactor de-energized. Inspect cell for safety hazard before resetting E-stop.";
             commandRelay = "OFF";
             commandBuzzer = "ALARM";
             oledLine1 = "E-STOP ACTIVATED";
@@ -169,7 +194,8 @@ export const Route = createFileRoute("/api/iot")({
             aiState = "OVERCURRENT_ANOMALY";
             severity = "CRITICAL";
             diagnosis = `Current draw (${numCurrent.toFixed(2)} A) exceeds continuous rating. Risk of thermal degradation or MCB trip.`;
-            recommendation = "Immediate load shedding recommended. Check motor stator and mechanical binding.";
+            recommendation =
+              "Immediate load shedding recommended. Check motor stator and mechanical binding.";
             commandRelay = "OFF";
             commandBuzzer = "ALARM";
             oledLine1 = `I:${numCurrent.toFixed(1)}A OVERCUR`;
@@ -181,7 +207,8 @@ export const Route = createFileRoute("/api/iot")({
             aiState = "MECHANICAL_VIBRATION_THERMAL_FAULT";
             severity = "WARNING";
             diagnosis = `Co-occurrence of high vibration (${numVibG.toFixed(2)} G) and elevated temp (${numTemp.toFixed(1)} °C). Indicates bearing defect or misalignment.`;
-            recommendation = "Schedule predictive maintenance window. Lubricate bearings and check rotor balancing.";
+            recommendation =
+              "Schedule predictive maintenance window. Lubricate bearings and check rotor balancing.";
             commandRelay = "KEEP";
             commandBuzzer = "BEEP";
             oledLine1 = `WARN: VIB ${numVibG.toFixed(1)}G`;
@@ -206,7 +233,8 @@ export const Route = createFileRoute("/api/iot")({
           else if (numPowerW > 25.0 && (isPirActive || isProximityActive)) {
             aiState = "ACTIVE_PRODUCTION";
             severity = "NORMAL";
-            diagnosis = "Normal loaded operation confirmed by active workpiece cycles and operator presence.";
+            diagnosis =
+              "Normal loaded operation confirmed by active workpiece cycles and operator presence.";
             recommendation = "Optimal throughput. Maintain standard power policy.";
             commandRelay = "ON";
             commandBuzzer = "OFF";
@@ -228,12 +256,15 @@ export const Route = createFileRoute("/api/iot")({
           }
 
           // Status string
-          const finalStatusString = incomingStatus || (
-            severity === "CRITICAL" ? "Critical Safety Alert" :
-            severity === "WARNING" ? "Possible stuck-on fault — investigate" :
-            severity === "WASTE" ? "Likely true idle waste" :
-            "Active operation"
-          );
+          const finalStatusString =
+            incomingStatus ||
+            (severity === "CRITICAL"
+              ? "Critical Safety Alert"
+              : severity === "WARNING"
+                ? "Possible stuck-on fault — investigate"
+                : severity === "WASTE"
+                  ? "Likely true idle waste"
+                  : "Active operation");
 
           // -------------------------------------------------------------
           // DATABASE PERSISTENCE (MONGODB)
@@ -267,19 +298,30 @@ export const Route = createFileRoute("/api/iot")({
                 vibration_g: numVibG,
                 power_factor: numPF,
                 harmonics_thd_pct: harmonics_thd_pct ? Number(harmonics_thd_pct) : 2.5,
-                acoustic_db: acoustic_db ? Number(acoustic_db) : (numVibG > 0.5 ? 75.0 : 38.0),
-                current_signature: numPowerW > 50 ? "loaded-draw" : (numPowerW > 15 ? "idle-draw" : "no-draw"),
-                compressed_air_pressure_bar: compressed_air_pressure_bar ? Number(compressed_air_pressure_bar) : 6.5,
-                compressed_air_flow_rate: compressed_air_flow_rate ? Number(compressed_air_flow_rate) : (isProximityActive ? 4.2 : 0.0),
+                acoustic_db: acoustic_db ? Number(acoustic_db) : numVibG > 0.5 ? 75.0 : 38.0,
+                current_signature:
+                  numPowerW > 50 ? "loaded-draw" : numPowerW > 15 ? "idle-draw" : "no-draw",
+                compressed_air_pressure_bar: compressed_air_pressure_bar
+                  ? Number(compressed_air_pressure_bar)
+                  : 6.5,
+                compressed_air_flow_rate: compressed_air_flow_rate
+                  ? Number(compressed_air_flow_rate)
+                  : isProximityActive
+                    ? 4.2
+                    : 0.0,
                 hvac_occupancy: isPirActive,
-                lux_level: lux_level ? Number(lux_level) : (isPirActive ? 350 : 80),
+                lux_level: lux_level ? Number(lux_level) : isPirActive ? 350 : 80,
                 water_flow_rate: water_flow_rate ? Number(water_flow_rate) : 0.0,
                 limit_switch: limit_switch || (isProximityActive ? "Active (Closed)" : "Open"),
                 operator_beacon: isPirActive ? "Present" : "Absent",
                 protocol: protocol,
                 actuator_relay: currentRelay,
-                vfd_speed_pct: vfd_speed_pct ? Number(vfd_speed_pct) : (isProximityActive ? 85.0 : 0.0),
-                
+                vfd_speed_pct: vfd_speed_pct
+                  ? Number(vfd_speed_pct)
+                  : isProximityActive
+                    ? 85.0
+                    : 0.0,
+
                 // Hardware specific fields
                 voltage_v: numVoltage,
                 current_a: numCurrent,
@@ -294,14 +336,17 @@ export const Route = createFileRoute("/api/iot")({
                 excess_power_w: excessPowerW,
               };
 
-              await db.collection("sensor_readings").updateOne(
-                { user_id: userId, machine_id: machine_id },
-                { $set: updateDoc },
-                { upsert: true }
-              );
+              await db
+                .collection("sensor_readings")
+                .updateOne(
+                  { user_id: userId, machine_id: machine_id },
+                  { $set: updateDoc },
+                  { upsert: true },
+                );
 
               // Insert energy entry for forecasting
-              const isIdle = severity === "WASTE" || finalStatusString.toLowerCase().includes("idle");
+              const isIdle =
+                severity === "WASTE" || finalStatusString.toLowerCase().includes("idle");
               await db.collection("energy_entries").insertOne({
                 user_id: userId,
                 kind: "detailed",
@@ -326,7 +371,7 @@ export const Route = createFileRoute("/api/iot")({
                   machine_id: machine_id,
                   issue: diagnosis,
                   action: recommendation,
-                  estimated_weekly_savings_inr: (estimatedWasteCostPerHourInr * 40),
+                  estimated_weekly_savings_inr: estimatedWasteCostPerHourInr * 40,
                   root_cause: diagnosis,
                   risk_level: severity === "CRITICAL" ? "High" : "Low",
                   status: severity === "CRITICAL" ? "Executed" : "Pending",
@@ -378,7 +423,7 @@ export const Route = createFileRoute("/api/iot")({
             {
               status: 200,
               headers: { "Content-Type": "application/json" },
-            }
+            },
           );
         } catch (e) {
           return new Response(
@@ -395,4 +440,3 @@ export const Route = createFileRoute("/api/iot")({
     },
   },
 });
-

@@ -1,10 +1,10 @@
-import React from 'react';
-import { createFileRoute, useSearch, Link } from '@tanstack/react-router';
-import { useEnergyAdvisor } from '@/lib/energy-advisor-context';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
-import { ActualVsExpectedChart } from '@/components/energy-advisor/ActualVsExpectedChart';
-import { MultiSignalVerificationCard } from '@/components/energy-advisor/MultiSignalVerificationCard';
+import React from "react";
+import { createFileRoute, useSearch, Link } from "@tanstack/react-router";
+import { useEnergyAdvisor } from "@/lib/energy-advisor-context";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
+import { ActualVsExpectedChart } from "@/components/energy-advisor/ActualVsExpectedChart";
+import { MultiSignalVerificationCard } from "@/components/energy-advisor/MultiSignalVerificationCard";
 import {
   Bar,
   BarChart,
@@ -15,7 +15,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from 'recharts';
+} from "recharts";
 import {
   Activity,
   ArrowLeft,
@@ -28,22 +28,22 @@ import {
   Radio,
   Sparkles,
   Zap,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute('/device-details')({
+export const Route = createFileRoute("/device-details")({
   head: () => ({
-    meta: [{ title: 'Device Details & State Model — Energy Advisor' }],
+    meta: [{ title: "Device Details & State Model — Energy Advisor" }],
   }),
   validateSearch: (search: Record<string, unknown>) => ({
-    deviceId: (search.deviceId as string) || 'dev-01',
+    deviceId: (search.deviceId as string) || "dev-01",
   }),
   component: DeviceDetailsPage,
 });
 
 export function DeviceDetailsPage() {
-  const { deviceId } = useSearch({ from: '/device-details' });
+  const { deviceId } = useSearch({ from: "/device-details" });
   const { devices, timeSeriesData } = useEnergyAdvisor();
 
   const device = devices.find((d) => d.id === deviceId) || devices[0];
@@ -56,11 +56,16 @@ export function DeviceDetailsPage() {
   }));
 
   const stateTimeline = [
-    { time: '08:00 - 08:45', state: 'IDLE', power: '42 W', status: 'Baseline Matched' },
-    { time: '08:45 - 09:15', state: 'BROWSING', power: '59 W', status: 'Baseline Matched' },
-    { time: '09:15 - 09:56', state: 'IDLE (ANOMALOUS)', power: '92 W', status: 'Excess Detected (+49W)' },
-    { time: '09:56 - 10:20', state: 'HEAVY LOAD', power: '95 W', status: 'Baseline Matched' },
-    { time: '10:20 - Present', state: 'IDLE / SLEEP', power: '44 W', status: 'Action Active' },
+    { time: "08:00 - 08:45", state: "IDLE", power: "42 W", status: "Baseline Matched" },
+    { time: "08:45 - 09:15", state: "BROWSING", power: "59 W", status: "Baseline Matched" },
+    {
+      time: "09:15 - 09:56",
+      state: "IDLE (ANOMALOUS)",
+      power: "92 W",
+      status: "Excess Detected (+49W)",
+    },
+    { time: "09:56 - 10:20", state: "HEAVY LOAD", power: "95 W", status: "Baseline Matched" },
+    { time: "10:20 - Present", state: "IDLE / SLEEP", power: "44 W", status: "Action Active" },
   ];
 
   return (
@@ -109,25 +114,39 @@ export function DeviceDetailsPage() {
           {/* 4 Core Quantitative Metrics Banner (Section 11) */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
             <div className="p-4 rounded-2xl bg-[#0d131f] border border-white/10 shadow-lg">
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Current Power</span>
-              <span className="text-2xl font-black text-white mt-1 block">{device.currentPowerW} W</span>
+              <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
+                Current Power
+              </span>
+              <span className="text-2xl font-black text-white mt-1 block">
+                {device.currentPowerW} W
+              </span>
               <span className="text-[9px] text-red-400">Live edge telemetry</span>
             </div>
 
             <div className="p-4 rounded-2xl bg-[#0d131f] border border-white/10 shadow-lg">
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Expected Power</span>
-              <span className="text-2xl font-black text-cyan-300 mt-1 block">{device.expectedPowerW} W</span>
+              <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
+                Expected Power
+              </span>
+              <span className="text-2xl font-black text-cyan-300 mt-1 block">
+                {device.expectedPowerW} W
+              </span>
               <span className="text-[9px] text-slate-400">Learned for {device.currentState}</span>
             </div>
 
             <div className="p-4 rounded-2xl bg-amber-950/30 border border-amber-500/30 shadow-lg">
-              <span className="text-[10px] text-amber-300 uppercase tracking-wider block font-bold">Excess Power</span>
-              <span className="text-2xl font-black text-amber-400 mt-1 block">+{device.excessPowerW} W</span>
+              <span className="text-[10px] text-amber-300 uppercase tracking-wider block font-bold">
+                Excess Power
+              </span>
+              <span className="text-2xl font-black text-amber-400 mt-1 block">
+                +{device.excessPowerW} W
+              </span>
               <span className="text-[9px] text-amber-300">+114% above baseline</span>
             </div>
 
             <div className="p-4 rounded-2xl bg-[#0d131f] border border-white/10 shadow-lg">
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Excess Energy</span>
+              <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
+                Excess Energy
+              </span>
               <span className="text-2xl font-black text-cyan-400 mt-1 block">31 Wh</span>
               <span className="text-[9px] text-slate-400">Integrated over 38 min</span>
             </div>
@@ -148,7 +167,10 @@ export function DeviceDetailsPage() {
                 </p>
               </div>
 
-              <Badge variant="outline" className="bg-amber-500/10 text-amber-300 border-amber-500/30 text-xs font-mono">
+              <Badge
+                variant="outline"
+                className="bg-amber-500/10 text-amber-300 border-amber-500/30 text-xs font-mono"
+              >
                 DEMO DATA
               </Badge>
             </div>
@@ -157,7 +179,10 @@ export function DeviceDetailsPage() {
               {/* Bar Chart of States */}
               <div className="lg:col-span-7 h-[280px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={barChartData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
+                  <BarChart
+                    data={barChartData}
+                    margin={{ top: 20, right: 20, left: -10, bottom: 0 }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
                     <XAxis dataKey="state" stroke="#64748b" fontSize={11} fontFamily="monospace" />
                     <YAxis stroke="#64748b" fontSize={11} fontFamily="monospace" unit=" W" />
@@ -168,8 +193,13 @@ export function DeviceDetailsPage() {
                         return (
                           <div className="p-3 rounded-xl bg-slate-900 border border-white/10 text-xs font-mono text-white shadow-xl">
                             <div className="font-bold text-cyan-300 mb-1">State: {label}</div>
-                            <div>Expected Power: <span className="font-bold">{d.expectedPowerW} W</span></div>
-                            <div className="text-slate-400 text-[10px]">Trained Samples: {d.samples.toLocaleString()}</div>
+                            <div>
+                              Expected Power:{" "}
+                              <span className="font-bold">{d.expectedPowerW} W</span>
+                            </div>
+                            <div className="text-slate-400 text-[10px]">
+                              Trained Samples: {d.samples.toLocaleString()}
+                            </div>
                           </div>
                         );
                       }}
@@ -178,7 +208,7 @@ export function DeviceDetailsPage() {
                       {barChartData.map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}
-                          fill={entry.state === device.currentState ? '#f59e0b' : '#06b6d4'}
+                          fill={entry.state === device.currentState ? "#f59e0b" : "#06b6d4"}
                         />
                       ))}
                     </Bar>
@@ -220,7 +250,8 @@ export function DeviceDetailsPage() {
                 </div>
 
                 <div className="mt-3 p-2 rounded bg-amber-950/40 border border-amber-500/20 text-[10px] text-amber-300 leading-relaxed">
-                  Notice: Model statistics displayed here are derived from laboratory calibration baseline dataset and explicitly marked as Demo Data.
+                  Notice: Model statistics displayed here are derived from laboratory calibration
+                  baseline dataset and explicitly marked as Demo Data.
                 </div>
               </div>
             </div>
@@ -238,9 +269,9 @@ export function DeviceDetailsPage() {
                 <div
                   key={idx}
                   className={`p-3 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-2 ${
-                    item.status.includes('Excess')
-                      ? 'bg-amber-950/30 border-amber-500/30 text-amber-200'
-                      : 'bg-slate-900/60 border-white/5 text-slate-300'
+                    item.status.includes("Excess")
+                      ? "bg-amber-950/30 border-amber-500/30 text-amber-200"
+                      : "bg-slate-900/60 border-white/5 text-slate-300"
                   }`}
                 >
                   <div className="flex items-center gap-3">

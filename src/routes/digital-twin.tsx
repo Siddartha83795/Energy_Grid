@@ -78,8 +78,12 @@ function DigitalTwinDashboardPage() {
 
   // Live polling state
   const [isLiveStreaming, setIsLiveStreaming] = useState(true);
-  const [selectedProtocol, setSelectedProtocol] = useState<"MQTT" | "OPC-UA" | "Modbus TCP">("MQTT");
-  const [activeTab, setActiveTab] = useState<"twin" | "forecast" | "anomalies" | "whatif" | "research">("twin");
+  const [selectedProtocol, setSelectedProtocol] = useState<"MQTT" | "OPC-UA" | "Modbus TCP">(
+    "MQTT",
+  );
+  const [activeTab, setActiveTab] = useState<
+    "twin" | "forecast" | "anomalies" | "whatif" | "research"
+  >("twin");
 
   // What-If Scenario state
   const [selectedMachine, setSelectedMachine] = useState("Machine A");
@@ -196,7 +200,9 @@ function DigitalTwinDashboardPage() {
             <Cpu className="h-8 w-8 text-primary" /> Industrial Digital Twin & Energy Optimizer
           </h1>
           <p className="text-muted-foreground text-sm mt-1 max-w-3xl">
-            Real-time IoT telemetry sensing for Machine A (Lathe), Machine B (Press), and Machine C (Compressor) with dual-core AI forecasting, multi-modal anomaly detection, and what-if simulation.
+            Real-time IoT telemetry sensing for Machine A (Lathe), Machine B (Press), and Machine C
+            (Compressor) with dual-core AI forecasting, multi-modal anomaly detection, and what-if
+            simulation.
           </p>
         </div>
 
@@ -212,7 +218,7 @@ function DigitalTwinDashboardPage() {
                   "px-2.5 py-1 rounded-md transition-all",
                   selectedProtocol === proto
                     ? "bg-primary text-primary-foreground font-semibold shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
+                    : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {proto}
@@ -340,7 +346,8 @@ function DigitalTwinDashboardPage() {
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-base font-semibold flex items-center gap-2">
-                <Layers className="h-5 w-5 text-primary" /> End-to-End System Topology (Physical Factory → Digital Twin → Closed-Loop Action)
+                <Layers className="h-5 w-5 text-primary" /> End-to-End System Topology (Physical
+                Factory → Digital Twin → Closed-Loop Action)
               </CardTitle>
               <CardDescription className="text-xs mt-0.5">
                 Live packet flow and node state propagation across all 11 stages of the pipeline.
@@ -379,7 +386,9 @@ function DigitalTwinDashboardPage() {
           <div className="min-w-[900px] flex items-center justify-between gap-2 text-center text-xs">
             {/* Stage 1 */}
             <div className="flex-1 p-3 rounded-lg border bg-muted/20 flex flex-col items-center gap-1.5 relative group">
-              <span className="text-[10px] font-mono text-muted-foreground uppercase">1. Physical Factory</span>
+              <span className="text-[10px] font-mono text-muted-foreground uppercase">
+                1. Physical Factory
+              </span>
               <span className="font-bold text-foreground flex items-center gap-1">
                 <Wrench className="h-3.5 w-3.5 text-primary" /> Machines A, B, C
               </span>
@@ -391,7 +400,9 @@ function DigitalTwinDashboardPage() {
 
             {/* Stage 2 */}
             <div className="flex-1 p-3 rounded-lg border bg-muted/20 flex flex-col items-center gap-1.5">
-              <span className="text-[10px] font-mono text-muted-foreground uppercase">2. IoT Sensors</span>
+              <span className="text-[10px] font-mono text-muted-foreground uppercase">
+                2. IoT Sensors
+              </span>
               <span className="font-bold text-foreground">Multi-Signal Stream</span>
               <span className="text-[10px] text-muted-foreground">V, A, kW, Temp, Vib</span>
             </div>
@@ -400,7 +411,9 @@ function DigitalTwinDashboardPage() {
 
             {/* Stage 3 */}
             <div className="flex-1 p-3 rounded-lg border bg-muted/20 flex flex-col items-center gap-1.5">
-              <span className="text-[10px] font-mono text-muted-foreground uppercase">3. IoT Gateway</span>
+              <span className="text-[10px] font-mono text-muted-foreground uppercase">
+                3. IoT Gateway
+              </span>
               <span className="font-bold text-sky-400">{selectedProtocol} Broker</span>
               <span className="text-[10px] text-muted-foreground">50ms Sampling Rate</span>
             </div>
@@ -409,7 +422,9 @@ function DigitalTwinDashboardPage() {
 
             {/* Stage 4 */}
             <div className="flex-1 p-3 rounded-lg border bg-muted/20 flex flex-col items-center gap-1.5">
-              <span className="text-[10px] font-mono text-muted-foreground uppercase">4. Data Processing</span>
+              <span className="text-[10px] font-mono text-muted-foreground uppercase">
+                4. Data Processing
+              </span>
               <span className="font-bold text-foreground">Dynamic Baseline</span>
               <span className="text-[10px] text-muted-foreground">THD & Signal Filter</span>
             </div>
@@ -429,7 +444,9 @@ function DigitalTwinDashboardPage() {
 
             {/* Stage 6 */}
             <div className="flex-1 p-3 rounded-lg border bg-muted/20 flex flex-col items-center gap-1.5">
-              <span className="text-[10px] font-mono text-muted-foreground uppercase">6. Anomaly Engine</span>
+              <span className="text-[10px] font-mono text-muted-foreground uppercase">
+                6. Anomaly Engine
+              </span>
               <span className="font-bold text-rose-400">Multi-Modal Fusion</span>
               <span className="text-[10px] text-muted-foreground">IsolationForest + Rules</span>
             </div>
@@ -438,7 +455,9 @@ function DigitalTwinDashboardPage() {
 
             {/* Stage 7 */}
             <div className="flex-1 p-3 rounded-lg border bg-muted/20 flex flex-col items-center gap-1.5">
-              <span className="text-[10px] font-mono text-muted-foreground uppercase">7. Optimizer</span>
+              <span className="text-[10px] font-mono text-muted-foreground uppercase">
+                7. Optimizer
+              </span>
               <span className="font-bold text-emerald-400">3-Channel Engine</span>
               <span className="text-[10px] text-muted-foreground">Saving, Schedule, Load</span>
             </div>
@@ -447,7 +466,9 @@ function DigitalTwinDashboardPage() {
 
             {/* Stage 8 */}
             <div className="flex-1 p-3 rounded-lg border bg-muted/20 flex flex-col items-center gap-1.5">
-              <span className="text-[10px] font-mono text-muted-foreground uppercase">8. Human Handoff</span>
+              <span className="text-[10px] font-mono text-muted-foreground uppercase">
+                8. Human Handoff
+              </span>
               <span className="font-bold text-indigo-400 flex items-center gap-1">
                 <ShieldCheck className="h-3.5 w-3.5" /> Approval Queue
               </span>
@@ -514,9 +535,14 @@ function DigitalTwinDashboardPage() {
                           {mKey.slice(-1)}
                         </div>
                         <div>
-                          <CardTitle className="text-base font-bold">{twin.machine_name || mKey}</CardTitle>
+                          <CardTitle className="text-base font-bold">
+                            {twin.machine_name || mKey}
+                          </CardTitle>
                           <CardDescription className="text-xs mt-0.5">
-                            Packet: <span className="font-mono text-[10px]">{latest.packet_id || "PKT-LIVE-01"}</span>
+                            Packet:{" "}
+                            <span className="font-mono text-[10px]">
+                              {latest.packet_id || "PKT-LIVE-01"}
+                            </span>
                           </CardDescription>
                         </div>
                       </div>
@@ -524,7 +550,8 @@ function DigitalTwinDashboardPage() {
                         variant={twin.operating_state === "Running" ? "default" : "secondary"}
                         className={cn(
                           "font-mono text-xs uppercase",
-                          twin.operating_state === "Running" && "bg-emerald-500/15 text-emerald-400 border-emerald-500/30"
+                          twin.operating_state === "Running" &&
+                            "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
                         )}
                       >
                         {twin.operating_state}
@@ -536,25 +563,33 @@ function DigitalTwinDashboardPage() {
                     {/* Live Telemetry Values Grid */}
                     <div className="grid grid-cols-2 gap-2 text-xs">
                       <div className="p-2 rounded-md bg-muted/30 border">
-                        <span className="text-[10px] text-muted-foreground block">Power Demand</span>
+                        <span className="text-[10px] text-muted-foreground block">
+                          Power Demand
+                        </span>
                         <span className="font-mono font-bold text-sm text-yellow-400">
                           {twin.current_power_kw} kW
                         </span>
                       </div>
                       <div className="p-2 rounded-md bg-muted/30 border">
-                        <span className="text-[10px] text-muted-foreground block">Cumulative Energy</span>
+                        <span className="text-[10px] text-muted-foreground block">
+                          Cumulative Energy
+                        </span>
                         <span className="font-mono font-bold text-sm text-sky-400">
                           {twin.cumulative_energy_kwh} kWh
                         </span>
                       </div>
                       <div className="p-2 rounded-md bg-muted/30 border">
-                        <span className="text-[10px] text-muted-foreground block">Voltage / Current</span>
+                        <span className="text-[10px] text-muted-foreground block">
+                          Voltage / Current
+                        </span>
                         <span className="font-mono font-medium text-foreground">
                           {latest.voltage_v || 401}V / {latest.current_a || 46.2}A
                         </span>
                       </div>
                       <div className="p-2 rounded-md bg-muted/30 border">
-                        <span className="text-[10px] text-muted-foreground block">Power Factor / THD</span>
+                        <span className="text-[10px] text-muted-foreground block">
+                          Power Factor / THD
+                        </span>
                         <span className="font-mono font-medium text-foreground">
                           {latest.power_factor || 0.92} / {latest.harmonics_thd_pct || 4.2}%
                         </span>
@@ -573,8 +608,8 @@ function DigitalTwinDashboardPage() {
                             twin.temperature_status === "Critical"
                               ? "text-rose-500 animate-pulse"
                               : twin.temperature_status === "Elevated"
-                              ? "text-amber-400"
-                              : "text-emerald-400"
+                                ? "text-amber-400"
+                                : "text-emerald-400",
                           )}
                         >
                           {twin.temperature_c} °C ({twin.temperature_status})
@@ -591,8 +626,8 @@ function DigitalTwinDashboardPage() {
                             twin.vibration_status === "Critical"
                               ? "text-rose-500 animate-pulse"
                               : twin.vibration_status === "Elevated"
-                              ? "text-amber-400"
-                              : "text-emerald-400"
+                                ? "text-amber-400"
+                                : "text-emerald-400",
                           )}
                         >
                           {twin.vibration_db} dB ({twin.vibration_status})
@@ -613,8 +648,12 @@ function DigitalTwinDashboardPage() {
                     <div className="space-y-2 pt-2 border-t text-xs">
                       <div>
                         <div className="flex justify-between mb-1">
-                          <span className="text-muted-foreground">Engineering Condition Health Score</span>
-                          <span className="font-bold font-mono text-emerald-400">{twin.health_score}/100</span>
+                          <span className="text-muted-foreground">
+                            Engineering Condition Health Score
+                          </span>
+                          <span className="font-bold font-mono text-emerald-400">
+                            {twin.health_score}/100
+                          </span>
                         </div>
                         <div className="w-full bg-muted h-2 rounded-full overflow-hidden">
                           <div
@@ -623,8 +662,8 @@ function DigitalTwinDashboardPage() {
                               twin.health_score > 80
                                 ? "bg-emerald-500"
                                 : twin.health_score > 60
-                                ? "bg-amber-500"
-                                : "bg-rose-500"
+                                  ? "bg-amber-500"
+                                  : "bg-rose-500",
                             )}
                             style={{ width: `${twin.health_score}%` }}
                           />
@@ -634,7 +673,9 @@ function DigitalTwinDashboardPage() {
                       <div>
                         <div className="flex justify-between mb-1">
                           <span className="text-muted-foreground">Energy Efficiency Score</span>
-                          <span className="font-bold font-mono text-sky-400">{twin.energy_efficiency_score}/100</span>
+                          <span className="font-bold font-mono text-sky-400">
+                            {twin.energy_efficiency_score}/100
+                          </span>
                         </div>
                         <div className="w-full bg-muted h-2 rounded-full overflow-hidden">
                           <div
@@ -687,12 +728,16 @@ function DigitalTwinDashboardPage() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <CardTitle className="text-lg font-bold flex items-center gap-2">
-                    <Sparkles className="h-5 w-5 text-primary" /> AI Energy Demand Forecasting (24-48h Horizon)
+                    <Sparkles className="h-5 w-5 text-primary" /> AI Energy Demand Forecasting
+                    (24-48h Horizon)
                   </CardTitle>
                   <CardDescription className="text-xs mt-1">
-                    Model: <span className="font-mono text-primary">{forecast?.model_name}</span> | MAPE:{" "}
-                    <span className="font-bold text-emerald-400">{forecast?.mape_pct}%</span> | Confidence:{" "}
-                    <span className="font-bold text-emerald-400">{forecast?.forecast_confidence_pct}%</span>
+                    Model: <span className="font-mono text-primary">{forecast?.model_name}</span> |
+                    MAPE: <span className="font-bold text-emerald-400">{forecast?.mape_pct}%</span>{" "}
+                    | Confidence:{" "}
+                    <span className="font-bold text-emerald-400">
+                      {forecast?.forecast_confidence_pct}%
+                    </span>
                   </CardDescription>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
@@ -703,7 +748,8 @@ function DigitalTwinDashboardPage() {
                     <span className="w-3 h-3 rounded bg-emerald-400 inline-block" /> AI Predicted
                   </span>
                   <span className="flex items-center gap-1">
-                    <span className="w-3 h-3 rounded bg-emerald-500/20 inline-block border border-dashed border-emerald-500" /> Upper/Lower Bound
+                    <span className="w-3 h-3 rounded bg-emerald-500/20 inline-block border border-dashed border-emerald-500" />{" "}
+                    Upper/Lower Bound
                   </span>
                 </div>
               </div>
@@ -719,14 +765,55 @@ function DigitalTwinDashboardPage() {
                   >
                     <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
                     <XAxis dataKey="timestamp" stroke="#888888" fontSize={11} />
-                    <YAxis stroke="#888888" fontSize={11} label={{ value: "Power kW", angle: -90, position: "insideLeft", fontSize: 11 }} />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "12px" }}
+                    <YAxis
+                      stroke="#888888"
+                      fontSize={11}
+                      label={{
+                        value: "Power kW",
+                        angle: -90,
+                        position: "insideLeft",
+                        fontSize: 11,
+                      }}
                     />
-                    <Area type="monotone" dataKey="upper_bound" stroke="none" fill="#10b981" fillOpacity={0.1} />
-                    <Area type="monotone" dataKey="lower_bound" stroke="none" fill="#000" fillOpacity={0.0} />
-                    <Line type="monotone" dataKey="actual_kw" stroke="#3b82f6" strokeWidth={2.5} dot={false} name="Actual kW" />
-                    <Line type="monotone" dataKey="predicted_kw" stroke="#10b981" strokeWidth={2.5} strokeDasharray="4 4" dot={false} name="Predicted kW" />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#0f172a",
+                        borderColor: "#334155",
+                        borderRadius: "8px",
+                        fontSize: "12px",
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="upper_bound"
+                      stroke="none"
+                      fill="#10b981"
+                      fillOpacity={0.1}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="lower_bound"
+                      stroke="none"
+                      fill="#000"
+                      fillOpacity={0.0}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="actual_kw"
+                      stroke="#3b82f6"
+                      strokeWidth={2.5}
+                      dot={false}
+                      name="Actual kW"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="predicted_kw"
+                      stroke="#10b981"
+                      strokeWidth={2.5}
+                      strokeDasharray="4 4"
+                      dot={false}
+                      name="Predicted kW"
+                    />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -751,7 +838,9 @@ function DigitalTwinDashboardPage() {
                   </p>
                 </div>
                 <div className="p-3 rounded-lg bg-muted/20 border">
-                  <div className="text-muted-foreground font-medium">Peak Demand Threshold Warning</div>
+                  <div className="text-muted-foreground font-medium">
+                    Peak Demand Threshold Warning
+                  </div>
                   <div className="text-xl font-extrabold mt-1 text-yellow-400">
                     105 kW Peak at 16:00
                   </div>
@@ -774,17 +863,20 @@ function DigitalTwinDashboardPage() {
               <Card className="border-border/60 bg-card/80 backdrop-blur-md">
                 <CardHeader>
                   <CardTitle className="text-base font-bold flex items-center gap-2">
-                    <AlertTriangle className="h-5 w-5 text-rose-500" /> Active Multi-Modal Telemetry Anomalies ({anomalies.length})
+                    <AlertTriangle className="h-5 w-5 text-rose-500" /> Active Multi-Modal Telemetry
+                    Anomalies ({anomalies.length})
                   </CardTitle>
                   <CardDescription className="text-xs">
-                    Cross-validates electrical telemetry (kW, PF, THD) with thermal (°C) & mechanical vibration (dB).
+                    Cross-validates electrical telemetry (kW, PF, THD) with thermal (°C) &
+                    mechanical vibration (dB).
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {anomalies.length === 0 ? (
                     <div className="p-6 text-center text-muted-foreground text-xs border border-dashed rounded-lg">
                       <CheckCircle2 className="h-8 w-8 text-emerald-500 mx-auto mb-2" />
-                      No active anomalies detected across Machine A, B, or C. Fleet operating within baseline parameters.
+                      No active anomalies detected across Machine A, B, or C. Fleet operating within
+                      baseline parameters.
                     </div>
                   ) : (
                     anomalies.map((anom: any) => (
@@ -800,12 +892,14 @@ function DigitalTwinDashboardPage() {
                                 "font-mono uppercase text-[10px]",
                                 anom.severity === "Critical"
                                   ? "border-rose-500 text-rose-500 bg-rose-500/10"
-                                  : "border-amber-500 text-amber-500 bg-amber-500/10"
+                                  : "border-amber-500 text-amber-500 bg-amber-500/10",
                               )}
                             >
                               {anom.severity}
                             </Badge>
-                            <span className="font-bold text-foreground text-sm">{anom.machine_name}</span>
+                            <span className="font-bold text-foreground text-sm">
+                              {anom.machine_name}
+                            </span>
                           </div>
                           <span className="text-[10px] text-muted-foreground font-mono">
                             {new Date(anom.detected_at).toLocaleTimeString()}
@@ -840,24 +934,33 @@ function DigitalTwinDashboardPage() {
                     <Zap className="h-5 w-5 text-amber-400" /> Optimization Engine Actions
                   </CardTitle>
                   <CardDescription className="text-xs">
-                    Generates closed-loop actions across Energy Saving, Schedule, and Production channels.
+                    Generates closed-loop actions across Energy Saving, Schedule, and Production
+                    channels.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {recommendations.map((rec: any) => (
-                    <div key={rec.id} className="p-3.5 rounded-lg border bg-muted/30 space-y-2 text-xs">
+                    <div
+                      key={rec.id}
+                      className="p-3.5 rounded-lg border bg-muted/30 space-y-2 text-xs"
+                    >
                       <div className="flex items-center justify-between">
                         <Badge variant="secondary" className="font-mono text-[10px]">
                           {rec.category}
                         </Badge>
-                        <span className="font-mono font-bold text-emerald-400">{inr(rec.estimated_weekly_savings_inr)}/wk</span>
+                        <span className="font-mono font-bold text-emerald-400">
+                          {inr(rec.estimated_weekly_savings_inr)}/wk
+                        </span>
                       </div>
 
                       <div className="font-medium text-foreground">{rec.recommendation}</div>
 
                       <div className="flex items-center justify-between pt-2 border-t text-[11px]">
                         <span className="text-muted-foreground">
-                          CO2 Offset: <strong className="text-emerald-400">{rec.estimated_co2_reduction_kg} kg/wk</strong>
+                          CO2 Offset:{" "}
+                          <strong className="text-emerald-400">
+                            {rec.estimated_co2_reduction_kg} kg/wk
+                          </strong>
                         </span>
                         <Button
                           size="sm"
@@ -896,14 +999,18 @@ function DigitalTwinDashboardPage() {
                 <Sliders className="h-5 w-5 text-primary" /> What-If Digital Twin Scenario Simulator
               </CardTitle>
               <CardDescription className="text-xs">
-                Modulate load %, operating schedule shifts, or production targets to simulate real-time energy, cost, and efficiency impacts before deploying changes to the factory floor.
+                Modulate load %, operating schedule shifts, or production targets to simulate
+                real-time energy, cost, and efficiency impacts before deploying changes to the
+                factory floor.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Controls */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-4 rounded-lg bg-muted/20 border text-xs">
                 <div className="space-y-2">
-                  <label className="font-semibold block text-foreground">Select Target Machine</label>
+                  <label className="font-semibold block text-foreground">
+                    Select Target Machine
+                  </label>
                   <select
                     value={selectedMachine}
                     onChange={(e) => setSelectedMachine(e.target.value)}
@@ -927,7 +1034,9 @@ function DigitalTwinDashboardPage() {
                     step={1}
                     onValueChange={(v) => setLoadChangePct(v[0])}
                   />
-                  <span className="text-[10px] text-muted-foreground block">Adjust motor drive throttling</span>
+                  <span className="text-[10px] text-muted-foreground block">
+                    Adjust motor drive throttling
+                  </span>
                 </div>
 
                 <div className="space-y-2">
@@ -942,7 +1051,9 @@ function DigitalTwinDashboardPage() {
                     step={1}
                     onValueChange={(v) => setScheduleShiftHours(v[0])}
                   />
-                  <span className="text-[10px] text-muted-foreground block">Shift to night tariff band</span>
+                  <span className="text-[10px] text-muted-foreground block">
+                    Shift to night tariff band
+                  </span>
                 </div>
 
                 <div className="space-y-2">
@@ -957,7 +1068,9 @@ function DigitalTwinDashboardPage() {
                     step={1}
                     onValueChange={(v) => setProdTargetChangePct(v[0])}
                   />
-                  <span className="text-[10px] text-muted-foreground block">Throughput quota factor</span>
+                  <span className="text-[10px] text-muted-foreground block">
+                    Throughput quota factor
+                  </span>
                 </div>
               </div>
 
@@ -965,8 +1078,12 @@ function DigitalTwinDashboardPage() {
               {whatIfResult && (
                 <div className="space-y-4 pt-2">
                   <div className="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-xs space-y-2">
-                    <div className="font-bold text-emerald-400 text-sm">{whatIfResult.scenario_name}</div>
-                    <p className="text-muted-foreground leading-relaxed">{whatIfResult.explanation}</p>
+                    <div className="font-bold text-emerald-400 text-sm">
+                      {whatIfResult.scenario_name}
+                    </div>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {whatIfResult.explanation}
+                    </p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs">
@@ -993,7 +1110,8 @@ function DigitalTwinDashboardPage() {
                     <div className="p-3 rounded-lg border bg-card text-center space-y-1">
                       <span className="text-muted-foreground block">Net Energy Savings</span>
                       <span className="text-xl font-bold font-mono text-emerald-400">
-                        {whatIfResult.savings?.pct_energy_saved}% ({whatIfResult.savings?.kwh_saved_daily} kWh)
+                        {whatIfResult.savings?.pct_energy_saved}% (
+                        {whatIfResult.savings?.kwh_saved_daily} kWh)
                       </span>
                       <span className="text-[10px] text-emerald-400 block font-semibold">
                         Saved: {inr(whatIfResult.savings?.cost_saved_daily_inr)}/day
@@ -1003,9 +1121,12 @@ function DigitalTwinDashboardPage() {
                     <div className="p-3 rounded-lg border bg-card text-center space-y-1">
                       <span className="text-muted-foreground block">Efficiency Delta</span>
                       <span className="text-xl font-bold font-mono text-indigo-400">
-                        {whatIfResult.baseline?.efficiency_pct}% → {whatIfResult.simulated?.efficiency_pct}%
+                        {whatIfResult.baseline?.efficiency_pct}% →{" "}
+                        {whatIfResult.simulated?.efficiency_pct}%
                       </span>
-                      <span className="text-[10px] text-muted-foreground block">Production-adjusted ratio</span>
+                      <span className="text-[10px] text-muted-foreground block">
+                        Production-adjusted ratio
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1021,16 +1142,20 @@ function DigitalTwinDashboardPage() {
           <Card className="border-border/60 bg-card/80 backdrop-blur-md">
             <CardHeader>
               <CardTitle className="text-lg font-bold flex items-center gap-2">
-                <BarChart3 className="h-5 w-5 text-primary" /> Empirical Research Metrics & Baseline Comparison Matrix
+                <BarChart3 className="h-5 w-5 text-primary" /> Empirical Research Metrics & Baseline
+                Comparison Matrix
               </CardTitle>
               <CardDescription className="text-xs">
-                Quantitative comparative analysis designed for academic benchmarking and empirical journal validation.
+                Quantitative comparative analysis designed for academic benchmarking and empirical
+                journal validation.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6 text-xs">
               {/* Table 1: Anomaly Detection Methods */}
               <div className="space-y-2">
-                <h3 className="font-semibold text-foreground text-sm">1. Static Threshold vs Multi-Modal AI Anomaly Detection</h3>
+                <h3 className="font-semibold text-foreground text-sm">
+                  1. Static Threshold vs Multi-Modal AI Anomaly Detection
+                </h3>
                 <div className="overflow-x-auto border rounded-lg">
                   <table className="w-full text-left">
                     <thead className="bg-muted/40 border-b font-semibold">
@@ -1044,17 +1169,23 @@ function DigitalTwinDashboardPage() {
                     </thead>
                     <tbody className="divide-y font-mono">
                       <tr>
-                        <td className="p-2.5 font-sans font-medium text-muted-foreground">Static kW Threshold (Legacy)</td>
+                        <td className="p-2.5 font-sans font-medium text-muted-foreground">
+                          Static kW Threshold (Legacy)
+                        </td>
                         <td className="p-2.5">68.0%</td>
                         <td className="p-2.5">72.0%</td>
                         <td className="p-2.5 text-rose-400">24.5% (High Alert Fatigue)</td>
                         <td className="p-2.5">0.70</td>
                       </tr>
                       <tr className="bg-primary/5">
-                        <td className="p-2.5 font-sans font-bold text-primary">Multi-Modal AI Signal Fusion (Proposed)</td>
+                        <td className="p-2.5 font-sans font-bold text-primary">
+                          Multi-Modal AI Signal Fusion (Proposed)
+                        </td>
                         <td className="p-2.5 text-emerald-400 font-bold">94.0%</td>
                         <td className="p-2.5 text-emerald-400 font-bold">96.0%</td>
-                        <td className="p-2.5 text-emerald-400 font-bold">2.8% (&gt;90% FPR Reduction)</td>
+                        <td className="p-2.5 text-emerald-400 font-bold">
+                          2.8% (&gt;90% FPR Reduction)
+                        </td>
                         <td className="p-2.5 text-emerald-400 font-bold">0.95</td>
                       </tr>
                     </tbody>
@@ -1064,7 +1195,9 @@ function DigitalTwinDashboardPage() {
 
               {/* Table 2: Baseline Energy Comparison */}
               <div className="space-y-2 pt-2">
-                <h3 className="font-semibold text-foreground text-sm">2. Raw Baseline vs Production-Adjusted Baseline</h3>
+                <h3 className="font-semibold text-foreground text-sm">
+                  2. Raw Baseline vs Production-Adjusted Baseline
+                </h3>
                 <div className="overflow-x-auto border rounded-lg">
                   <table className="w-full text-left">
                     <thead className="bg-muted/40 border-b font-semibold">
@@ -1083,10 +1216,14 @@ function DigitalTwinDashboardPage() {
                         <td className="p-2.5 text-rose-400">+19.3% Variance Error</td>
                       </tr>
                       <tr className="bg-primary/5">
-                        <td className="p-2.5 font-sans font-bold text-primary">Production-Adjusted Dynamic Baseline</td>
+                        <td className="p-2.5 font-sans font-bold text-primary">
+                          Production-Adjusted Dynamic Baseline
+                        </td>
                         <td className="p-2.5 text-emerald-400 font-bold">1,180.0 kWh</td>
                         <td className="p-2.5 text-emerald-400 font-bold">1,215.0 kWh</td>
-                        <td className="p-2.5 text-emerald-400 font-bold">2.9% High Model Alignment</td>
+                        <td className="p-2.5 text-emerald-400 font-bold">
+                          2.9% High Model Alignment
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -1095,23 +1232,33 @@ function DigitalTwinDashboardPage() {
 
               {/* Table 3: Empirical Optimization Impact */}
               <div className="space-y-2 pt-2">
-                <h3 className="font-semibold text-foreground text-sm">3. Pre- vs Post-Optimization Energy Efficiency</h3>
+                <h3 className="font-semibold text-foreground text-sm">
+                  3. Pre- vs Post-Optimization Energy Efficiency
+                </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-center">
                   <div className="p-3 rounded-lg border bg-card">
                     <span className="text-muted-foreground block">Pre-Optimization Draw</span>
-                    <span className="text-lg font-bold font-mono text-rose-400">1.84 kWh / Unit</span>
+                    <span className="text-lg font-bold font-mono text-rose-400">
+                      1.84 kWh / Unit
+                    </span>
                   </div>
                   <div className="p-3 rounded-lg border bg-card">
                     <span className="text-muted-foreground block">Post-Optimization Draw</span>
-                    <span className="text-lg font-bold font-mono text-emerald-400">1.48 kWh / Unit</span>
+                    <span className="text-lg font-bold font-mono text-emerald-400">
+                      1.48 kWh / Unit
+                    </span>
                   </div>
                   <div className="p-3 rounded-lg border bg-card">
                     <span className="text-muted-foreground block">Specific Energy Gain</span>
-                    <span className="text-lg font-bold font-mono text-emerald-400">+19.5% Gain</span>
+                    <span className="text-lg font-bold font-mono text-emerald-400">
+                      +19.5% Gain
+                    </span>
                   </div>
                   <div className="p-3 rounded-lg border bg-card">
                     <span className="text-muted-foreground block">Verified Savings Log</span>
-                    <span className="text-lg font-bold font-mono text-emerald-400">₹17,400 / week</span>
+                    <span className="text-lg font-bold font-mono text-emerald-400">
+                      ₹17,400 / week
+                    </span>
                   </div>
                 </div>
               </div>

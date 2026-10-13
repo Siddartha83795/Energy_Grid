@@ -56,12 +56,12 @@ export const PRODUCTION_CONTEXT_TEMPLATE_CSV = `timestamp,machine_id,workload,sh
  * Downloads a string as a CSV file in the browser
  */
 export function downloadCsvFile(filename: string, content: string) {
-  if (typeof window === 'undefined') return;
-  const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+  if (typeof window === "undefined") return;
+  const blob = new Blob([content], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.setAttribute('href', url);
-  link.setAttribute('download', filename);
+  const link = document.createElement("a");
+  link.setAttribute("href", url);
+  link.setAttribute("download", filename);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);

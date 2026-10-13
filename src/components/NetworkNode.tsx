@@ -93,7 +93,7 @@ export function NetworkNode({
           colorClasses.bg,
           colorClasses.border,
           isSelected && "ring-2 ring-amber-400 shadow-lg scale-[1.01]",
-          className
+          className,
         )}
       >
         <div className="flex items-center gap-3 min-w-0">
@@ -102,7 +102,7 @@ export function NetworkNode({
               "w-10 h-10 rounded-lg border flex items-center justify-center shrink-0",
               colorClasses.bg,
               colorClasses.border,
-              colorClasses.text
+              colorClasses.text,
             )}
           >
             <IconComponent className="w-5 h-5" />
@@ -139,7 +139,7 @@ export function NetworkNode({
       onClick={() => onSelect(node)}
       className={cn(
         "absolute group cursor-pointer transition-all duration-300 select-none z-20",
-        className
+        className,
       )}
     >
       {/* Outer Pulse Ring for Active Nodes */}
@@ -147,7 +147,7 @@ export function NetworkNode({
         <div
           className={cn(
             "absolute -inset-2 rounded-full border opacity-75 animate-ping pointer-events-none",
-            colorClasses.pulse
+            colorClasses.pulse,
           )}
         />
       )}
@@ -159,7 +159,7 @@ export function NetworkNode({
           colorClasses.bg,
           colorClasses.border,
           colorClasses.glow,
-          isSelected && "ring-2 ring-amber-400 scale-105 z-30"
+          isSelected && "ring-2 ring-amber-400 scale-105 z-30",
         )}
       >
         {/* Connection Type Indicator Badge */}
@@ -184,7 +184,7 @@ export function NetworkNode({
             "w-9 h-9 rounded-xl border flex items-center justify-center mb-1.5 transition-colors",
             colorClasses.bg,
             colorClasses.border,
-            colorClasses.text
+            colorClasses.text,
           )}
         >
           <IconComponent className="w-4 h-4" />

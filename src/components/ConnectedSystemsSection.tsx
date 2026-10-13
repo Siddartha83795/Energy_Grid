@@ -121,7 +121,7 @@ export function ConnectedSystemsSection() {
               start: "top 80%",
               toggleActions: "play none none reverse",
             },
-          }
+          },
         );
 
         gsap.fromTo(
@@ -137,7 +137,7 @@ export function ConnectedSystemsSection() {
               start: "top 75%",
               toggleActions: "play none none reverse",
             },
-          }
+          },
         );
       }
     }
@@ -235,7 +235,11 @@ export function ConnectedSystemsSection() {
                         {registeredToken}
                       </code>
                       <Button size="icon" variant="outline" onClick={copyToken} className="h-9 w-9">
-                        {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                        {copied ? (
+                          <Check className="w-4 h-4 text-emerald-400" />
+                        ) : (
+                          <Copy className="w-4 h-4" />
+                        )}
                       </Button>
                     </div>
                   </div>
@@ -418,7 +422,10 @@ export function ConnectedSystemsSection() {
                 className="hidden md:block relative w-full h-[560px] overflow-hidden select-none"
               >
                 {/* SVG Line Connections Canvas */}
-                <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1000 560">
+                <svg
+                  className="absolute inset-0 w-full h-full pointer-events-none"
+                  viewBox="0 0 1000 560"
+                >
                   {nodes.map((node, i) => {
                     const pos = getRadialPosition(i, nodes.length);
                     const isWireless = node.connection_type === "iot_wireless";
@@ -435,8 +442,8 @@ export function ConnectedSystemsSection() {
                           isOffline
                             ? "rgba(100, 116, 139, 0.25)"
                             : isWireless
-                            ? "rgba(245, 158, 11, 0.6)"
-                            : "rgba(56, 189, 248, 0.6)"
+                              ? "rgba(245, 158, 11, 0.6)"
+                              : "rgba(56, 189, 248, 0.6)"
                         }
                         strokeWidth={isWireless ? "2" : "2.5"}
                         strokeDasharray={isWireless ? "6 6" : "none"}
@@ -534,11 +541,7 @@ export function ConnectedSystemsSection() {
       </Card>
 
       {/* Node Detail Side Drawer */}
-      <NodeDetailDrawer
-        node={selectedNode}
-        open={drawerOpen}
-        onOpenChange={setDrawerOpen}
-      />
+      <NodeDetailDrawer node={selectedNode} open={drawerOpen} onOpenChange={setDrawerOpen} />
     </div>
   );
 }

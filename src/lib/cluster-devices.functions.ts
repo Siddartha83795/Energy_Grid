@@ -2,7 +2,15 @@ import { createServerFn } from "@tanstack/react-start";
 
 export interface DeviceProfileRequest {
   tier: "tier1" | "tier2" | "tier3";
-  gpuType: "none" | "mig_1g_10gb" | "mig_2g_20gb" | "mig_3g_40gb" | "full_a100_80gb" | "rtx4090_slice" | "multi_gpu_4x" | "multi_gpu_8x";
+  gpuType:
+    | "none"
+    | "mig_1g_10gb"
+    | "mig_2g_20gb"
+    | "mig_3g_40gb"
+    | "full_a100_80gb"
+    | "rtx4090_slice"
+    | "multi_gpu_4x"
+    | "multi_gpu_8x";
   gpuCount: number;
   cpuCores: number;
   cpuIsolation: "shared" | "pinned_exclusive";
@@ -78,15 +86,48 @@ export const getClusterFleetStatus = createServerFn({ method: "GET" }).handler(a
       fullGpusAllocated: 28,
     },
     nodeGroups: [
-      { name: "node[001-040]", type: "40x SXM4 A100 80GB (Heavy Training / Full GRES)", count: 40, gpus: 40, targetTier: "Tier 3" },
-      { name: "node[041-080]", type: "40x PCIe A100 80GB (Hardware MIG 7x 1g.10gb)", count: 40, gpus: 40, targetTier: "Tier 1 & 2" },
-      { name: "node[081-120]", type: "40x Dual RTX 4090 (Software MPS / Time-Slicing 8x)", count: 40, gpus: 80, targetTier: "Tier 1 Dev" },
+      {
+        name: "node[001-040]",
+        type: "40x SXM4 A100 80GB (Heavy Training / Full GRES)",
+        count: 40,
+        gpus: 40,
+        targetTier: "Tier 3",
+      },
+      {
+        name: "node[041-080]",
+        type: "40x PCIe A100 80GB (Hardware MIG 7x 1g.10gb)",
+        count: 40,
+        gpus: 40,
+        targetTier: "Tier 1 & 2",
+      },
+      {
+        name: "node[081-120]",
+        type: "40x Dual RTX 4090 (Software MPS / Time-Slicing 8x)",
+        count: 40,
+        gpus: 80,
+        targetTier: "Tier 1 Dev",
+      },
     ],
     tierBreakdown: {
-      tier1: { label: "Tier 1: Dev / Light", users: 700, sharePct: 70, quota: "1/7 MIG or 1/8 Time-Slice (~10GB VRAM), 4 vCPUs, 16-32GB RAM" },
-      tier2: { label: "Tier 2: Fine-Tuning", users: 250, sharePct: 25, quota: "2/7 MIG or 1/2 GPU (~20-40GB VRAM), 16 vCPUs (Pinned), 64-128GB RAM" },
-      tier3: { label: "Tier 3: Distributed ML", users: 50, sharePct: 5, quota: "1-8 Full GPUs (80GB), 32-64 Pinned Cores, 256GB+ RAM, IB RDMA" },
-    }
+      tier1: {
+        label: "Tier 1: Dev / Light",
+        users: 700,
+        sharePct: 70,
+        quota: "1/7 MIG or 1/8 Time-Slice (~10GB VRAM), 4 vCPUs, 16-32GB RAM",
+      },
+      tier2: {
+        label: "Tier 2: Fine-Tuning",
+        users: 250,
+        sharePct: 25,
+        quota: "2/7 MIG or 1/2 GPU (~20-40GB VRAM), 16 vCPUs (Pinned), 64-128GB RAM",
+      },
+      tier3: {
+        label: "Tier 3: Distributed ML",
+        users: 50,
+        sharePct: 5,
+        quota: "1-8 Full GPUs (80GB), 32-64 Pinned Cores, 256GB+ RAM, IB RDMA",
+      },
+    },
   };
 });
 
@@ -94,7 +135,9 @@ export const scheduleGridComputeWithAi = createServerFn({ method: "POST" })
   .validator((input: unknown) => input as GridSchedulingRequest)
   .handler(async ({ data }): Promise<GridSchedulingResponse> => {
     const rawKey = (process.env.GROQ_API_KEY || "").replace(/^["']|["']$/g, "").trim();
-    const rawModel = (process.env.GROQ_MODEL || "openai/gpt-oss-120b").replace(/^["']|["']$/g, "").trim();
+    const rawModel = (process.env.GROQ_MODEL || "openai/gpt-oss-120b")
+      .replace(/^["']|["']$/g, "")
+      .trim();
     const users = data.totalUsers || 1000;
     const surplusKw = data.gridSurplusKw || 150;
     const tariff = data.energyTariffInr || 8.0;
@@ -180,7 +223,9 @@ Reply ONLY with strict JSON (no code fences, no markdown) matching this JSON sha
 
     const activeNodes = Math.min(120, Math.ceil(users / 10) + 15);
     const sleepingNodes = 120 - activeNodes;
-    const powerSavedKw = Math.round(sleepingNodes * 0.45 + (120 - activeNodes) * 0.25 * (surplusKw > 100 ? 1.2 : 1.0));
+    const powerSavedKw = Math.round(
+      sleepingNodes * 0.45 + (120 - activeNodes) * 0.25 * (surplusKw > 100 ? 1.2 : 1.0),
+    );
     const monthlySavings = Math.round(powerSavedKw * 24 * 30 * tariff);
 
     return {
@@ -300,18 +345,25 @@ export const generateClusterWorkloadConfig = createServerFn({ method: "POST" })
   .validator((input: unknown) => input as DeviceProfileRequest)
   .handler(async ({ data }) => {
     const job = data.jobName.trim().replace(/[^a-zA-Z0-9_-]/g, "_") || "heterogeneous_job";
-    const ns = data.tier === "tier3" ? "user-tier-3" : data.tier === "tier2" ? "user-tier-2" : "user-tier-1";
+    const ns =
+      data.tier === "tier3" ? "user-tier-3" : data.tier === "tier2" ? "user-tier-2" : "user-tier-1";
 
     let k8sGpuLimit = "";
-    if (data.gpuType === "mig_1g_10gb") k8sGpuLimit = '          nvidia.com/mig-1g.10gb: ' + data.gpuCount;
-    else if (data.gpuType === "mig_2g_20gb") k8sGpuLimit = '          nvidia.com/mig-2g.20gb: ' + data.gpuCount;
-    else if (data.gpuType === "mig_3g_40gb") k8sGpuLimit = '          nvidia.com/mig-3g.40gb: ' + data.gpuCount;
-    else if (data.gpuType === "full_a100_80gb") k8sGpuLimit = '          nvidia.com/gpu: ' + data.gpuCount;
-    else if (data.gpuType === "rtx4090_slice") k8sGpuLimit = '          nvidia.com/gpu: 1 # Time-sliced 1/8 virtual share';
-    else if (data.gpuType === "multi_gpu_4x") k8sGpuLimit = '          nvidia.com/gpu: 4';
-    else if (data.gpuType === "multi_gpu_8x") k8sGpuLimit = '          nvidia.com/gpu: 8';
+    if (data.gpuType === "mig_1g_10gb")
+      k8sGpuLimit = "          nvidia.com/mig-1g.10gb: " + data.gpuCount;
+    else if (data.gpuType === "mig_2g_20gb")
+      k8sGpuLimit = "          nvidia.com/mig-2g.20gb: " + data.gpuCount;
+    else if (data.gpuType === "mig_3g_40gb")
+      k8sGpuLimit = "          nvidia.com/mig-3g.40gb: " + data.gpuCount;
+    else if (data.gpuType === "full_a100_80gb")
+      k8sGpuLimit = "          nvidia.com/gpu: " + data.gpuCount;
+    else if (data.gpuType === "rtx4090_slice")
+      k8sGpuLimit = "          nvidia.com/gpu: 1 # Time-sliced 1/8 virtual share";
+    else if (data.gpuType === "multi_gpu_4x") k8sGpuLimit = "          nvidia.com/gpu: 4";
+    else if (data.gpuType === "multi_gpu_8x") k8sGpuLimit = "          nvidia.com/gpu: 8";
 
-    const k8sRdmaLimit = data.networkInterconnect === "sriov_rdma_ib" ? '          rdma/hca_shared: 1\n' : '';
+    const k8sRdmaLimit =
+      data.networkInterconnect === "sriov_rdma_ib" ? "          rdma/hca_shared: 1\n" : "";
 
     const k8sYaml = `apiVersion: v1
 kind: Pod
@@ -368,13 +420,15 @@ ${k8sGpuLimit ? k8sGpuLimit + "\n" : ""}          cpu: "${data.cpuCores}"
     if (data.storageType === "nvme_local") slurmGres += (slurmGres ? "," : "") + "nvme:1";
     if (data.networkInterconnect === "sriov_rdma_ib") slurmGres += (slurmGres ? "," : "") + "ib:1";
 
-    const partition = data.tier === "tier3" ? "tier3_heavy" : data.tier === "tier2" ? "tier2_inter" : "tier1_dev";
+    const partition =
+      data.tier === "tier3" ? "tier3_heavy" : data.tier === "tier2" ? "tier2_inter" : "tier1_dev";
     const qos = data.tier + "_qos";
-    const timeLimit = data.tier === "tier3" ? "72:00:00" : data.tier === "tier2" ? "48:00:00" : "12:00:00";
+    const timeLimit =
+      data.tier === "tier3" ? "72:00:00" : data.tier === "tier2" ? "48:00:00" : "12:00:00";
 
     const numaExec = data.numaBinding
-      ? 'numactl --cpunodebind=' + data.numaNode + ' --membind=' + data.numaNode + ' '
-      : '';
+      ? "numactl --cpunodebind=" + data.numaNode + " --membind=" + data.numaNode + " "
+      : "";
 
     const slurmScript = `#!/bin/bash
 #SBATCH --job-name=${job}

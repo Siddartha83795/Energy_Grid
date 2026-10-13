@@ -1,16 +1,16 @@
-import React from 'react';
-import { Check, ChevronRight, Clock, History, Repeat, Sparkles, Timer } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import React from "react";
+import { Check, ChevronRight, Clock, History, Repeat, Sparkles, Timer } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export function TemporalPatternCard() {
   const transitions = [
-    { time: '08:30', label: 'Normal Operation', state: 'Work Load (85W)', type: 'normal' },
-    { time: '09:10', label: 'State Shift: Idle', state: 'User Inactive', type: 'state' },
-    { time: '09:18', label: 'Excess Detected', state: 'Power: 88W (+45W)', type: 'alert' },
-    { time: '09:20', label: 'Multi-Signal Verified', state: 'Confidence: 91%', type: 'verified' },
-    { time: '09:55', label: 'Recommendation Generated', state: 'Sleep Policy', type: 'rec' },
-    { time: '10:05', label: 'Action Applied', state: 'Sleep Triggered', type: 'action' },
-    { time: '10:15', label: 'Consumption Reduced', state: 'Down to 55W', type: 'success' },
+    { time: "08:30", label: "Normal Operation", state: "Work Load (85W)", type: "normal" },
+    { time: "09:10", label: "State Shift: Idle", state: "User Inactive", type: "state" },
+    { time: "09:18", label: "Excess Detected", state: "Power: 88W (+45W)", type: "alert" },
+    { time: "09:20", label: "Multi-Signal Verified", state: "Confidence: 91%", type: "verified" },
+    { time: "09:55", label: "Recommendation Generated", state: "Sleep Policy", type: "rec" },
+    { time: "10:05", label: "Action Applied", state: "Sleep Triggered", type: "action" },
+    { time: "10:15", label: "Consumption Reduced", state: "Down to 55W", type: "success" },
   ];
 
   return (
@@ -29,7 +29,10 @@ export function TemporalPatternCard() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="bg-cyan-500/10 text-cyan-300 border-cyan-500/30 text-[11px] font-mono">
+          <Badge
+            variant="outline"
+            className="bg-cyan-500/10 text-cyan-300 border-cyan-500/30 text-[11px] font-mono"
+          >
             <Repeat className="h-3 w-3 mr-1" /> Recurring: 4 occurrences this week
           </Badge>
         </div>
@@ -51,7 +54,9 @@ export function TemporalPatternCard() {
           </div>
         </div>
         <div className="text-right shrink-0">
-          <span className="text-[10px] text-slate-400 font-mono uppercase block">Estimated Energy Lost:</span>
+          <span className="text-[10px] text-slate-400 font-mono uppercase block">
+            Estimated Energy Lost:
+          </span>
           <span className="text-base font-bold text-amber-400 font-mono">31 Wh (0.031 kWh)</span>
         </div>
       </div>
@@ -63,24 +68,24 @@ export function TemporalPatternCard() {
         </span>
         <div className="grid grid-cols-1 sm:grid-cols-7 gap-2">
           {transitions.map((t, idx) => {
-            const isAlert = t.type === 'alert';
-            const isSuccess = t.type === 'success';
-            const isAction = t.type === 'action';
-            const isVerified = t.type === 'verified';
+            const isAlert = t.type === "alert";
+            const isSuccess = t.type === "success";
+            const isAction = t.type === "action";
+            const isVerified = t.type === "verified";
 
             return (
               <div
                 key={idx}
                 className={`p-2.5 rounded-xl border text-xs font-mono relative transition-all ${
                   isAlert
-                    ? 'bg-amber-950/40 border-amber-500/40 text-amber-200'
+                    ? "bg-amber-950/40 border-amber-500/40 text-amber-200"
                     : isVerified
-                    ? 'bg-cyan-950/40 border-cyan-500/40 text-cyan-200'
-                    : isSuccess
-                    ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200'
-                    : isAction
-                    ? 'bg-blue-950/40 border-blue-500/40 text-blue-200'
-                    : 'bg-slate-900/60 border-white/5 text-slate-300'
+                      ? "bg-cyan-950/40 border-cyan-500/40 text-cyan-200"
+                      : isSuccess
+                        ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-200"
+                        : isAction
+                          ? "bg-blue-950/40 border-blue-500/40 text-blue-200"
+                          : "bg-slate-900/60 border-white/5 text-slate-300"
                 }`}
               >
                 <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">

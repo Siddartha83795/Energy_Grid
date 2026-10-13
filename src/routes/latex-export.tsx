@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-import { ResearchTopNav } from '@/components/energy-advisor/ResearchTopNav';
-import { ResearchSidebar } from '@/components/energy-advisor/ResearchSidebar';
+import React, { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { ResearchTopNav } from "@/components/energy-advisor/ResearchTopNav";
+import { ResearchSidebar } from "@/components/energy-advisor/ResearchSidebar";
 import {
   FileText,
   Copy,
@@ -12,22 +12,16 @@ import {
   Sparkles,
   Layers,
   CheckCircle2,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-export const Route = createFileRoute('/latex-export')({
+export const Route = createFileRoute("/latex-export")({
   head: () => ({
     meta: [
       {
-        title: 'IEEE LaTeX Table Exporter — Energy Advisor Research',
+        title: "IEEE LaTeX Table Exporter — Energy Advisor Research",
       },
     ],
   }),
@@ -36,8 +30,8 @@ export const Route = createFileRoute('/latex-export')({
 
 const TABLE_SNIPPETS: Record<string, { title: string; label: string; code: string }> = {
   tab1: {
-    title: 'Table I: Device State Power Baselines & Tolerances',
-    label: 'tab:device_states',
+    title: "Table I: Device State Power Baselines & Tolerances",
+    label: "tab:device_states",
     code: `\\begin{table}[htbp]
 \\centering
 \\caption{Device Operating States, Power Baselines, and Tolerances}
@@ -55,8 +49,8 @@ Deep Sleep / Off & 1.2 & 0.4 & 0.0 & 2.0 \\\\
 \\end{table}`,
   },
   tab3: {
-    title: 'Table III: Experiment 1 Expected-Energy Estimation Comparison',
-    label: 'tab:exp1_expected_energy',
+    title: "Table III: Experiment 1 Expected-Energy Estimation Comparison",
+    label: "tab:exp1_expected_energy",
     code: `\\begin{table}[htbp]
 \\centering
 \\caption{Experiment 1: Comparison of Expected-Energy Baseline Estimation and Waste Detection Approaches}
@@ -73,8 +67,8 @@ Global Anomaly (IsoForest) & 19.2 & 25.6 & 0.68 & 72.4\\% & 84.5\\% & 78.0\\% & 
 \\end{table}`,
   },
   tab4: {
-    title: 'Table IV: Experiment 2 Cause-Level Excess-Energy Ledger Validation',
-    label: 'tab:exp2_ledger_validation',
+    title: "Table IV: Experiment 2 Cause-Level Excess-Energy Ledger Validation",
+    label: "tab:exp2_ledger_validation",
     code: `\\begin{table}[htbp]
 \\centering
 \\caption{Experiment 2: Cause-Level Excess-Energy Ledger Validation Under Controlled Hardware Injections}
@@ -95,8 +89,8 @@ Unexpected High Load & 60 min & 65.0 Wh & 62.4 Wh & 2.6 Wh & 4.00\\% \\\\
 \\end{table}`,
   },
   tab5: {
-    title: 'Table V: Experiment 3 Counterfactual Intervention Evaluation',
-    label: 'tab:exp3_counterfactual',
+    title: "Table V: Experiment 3 Counterfactual Intervention Evaluation",
+    label: "tab:exp3_counterfactual",
     code: `\\begin{table}[htbp]
 \\centering
 \\caption{Experiment 3: Counterfactual vs. Direct Before/After Intervention Evaluation}
@@ -112,8 +106,8 @@ Scenario B (Varying Workload) & 44.18 Wh & 1.84 Wh & \\textbf{95.8\\%} & $\\math
 \\end{table}`,
   },
   tab6: {
-    title: 'Table VI: Experiment 4 Intervention Recommendation Effectiveness',
-    label: 'tab:exp4_recommendations',
+    title: "Table VI: Experiment 4 Intervention Recommendation Effectiveness",
+    label: "tab:exp4_recommendations",
     code: `\\begin{table}[htbp]
 \\centering
 \\caption{Experiment 4: Intervention Recommendation Effectiveness and Verified Energy Conservation}
@@ -132,12 +126,12 @@ Anomaly-Triggered & 188.5 kWh & 122.0 kWh & 35.3\\% & 62.0\\% \\\\
 };
 
 export function LatexExportPage() {
-  const [selectedKey, setSelectedKey] = useState<string>('ALL');
+  const [selectedKey, setSelectedKey] = useState<string>("ALL");
   const [copied, setCopied] = useState(false);
 
   const getCombinedCode = () => {
-    if (selectedKey !== 'ALL') {
-      return TABLE_SNIPPETS[selectedKey]?.code || '';
+    if (selectedKey !== "ALL") {
+      return TABLE_SNIPPETS[selectedKey]?.code || "";
     }
     return (
       `% ========================================================================\n` +
@@ -147,7 +141,7 @@ export function LatexExportPage() {
       `% ========================================================================\n\n` +
       Object.values(TABLE_SNIPPETS)
         .map((s) => `% --- ${s.title} ---\n` + s.code)
-        .join('\n\n')
+        .join("\n\n")
     );
   };
 
@@ -158,10 +152,11 @@ export function LatexExportPage() {
   };
 
   const handleDownload = () => {
-    const element = document.createElement('a');
-    const file = new Blob([getCombinedCode()], { type: 'text/plain' });
+    const element = document.createElement("a");
+    const file = new Blob([getCombinedCode()], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = selectedKey === 'ALL' ? 'energy_advisor_ieee_tables.tex' : `${selectedKey}.tex`;
+    element.download =
+      selectedKey === "ALL" ? "energy_advisor_ieee_tables.tex" : `${selectedKey}.tex`;
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -179,10 +174,16 @@ export function LatexExportPage() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-5">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <Badge variant="outline" className="border-cyan-500/40 text-cyan-300 bg-cyan-950/30 text-xs font-mono">
+                <Badge
+                  variant="outline"
+                  className="border-cyan-500/40 text-cyan-300 bg-cyan-950/30 text-xs font-mono"
+                >
                   MANUSCRIPT ASSETS
                 </Badge>
-                <Badge variant="outline" className="border-purple-500/40 text-purple-300 bg-purple-950/30 text-xs font-mono">
+                <Badge
+                  variant="outline"
+                  className="border-purple-500/40 text-purple-300 bg-purple-950/30 text-xs font-mono"
+                >
                   IEEE TRANSACTION FORMAT
                 </Badge>
               </div>
@@ -190,7 +191,8 @@ export function LatexExportPage() {
                 IEEE Publication LaTeX Table Exporter
               </h1>
               <p className="text-sm text-slate-400 mt-1">
-                Export all experimental validation results directly as IEEE-formatted LaTeX tables with exact captions, labels, and alignment.
+                Export all experimental validation results directly as IEEE-formatted LaTeX tables
+                with exact captions, labels, and alignment.
               </p>
             </div>
 
@@ -201,8 +203,12 @@ export function LatexExportPage() {
                 onClick={handleCopy}
                 className="border-white/10 bg-slate-900/60 hover:bg-slate-800 text-xs gap-1.5"
               >
-                {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5 text-cyan-400" />}
-                {copied ? 'Copied to Clipboard' : 'Copy LaTeX'}
+                {copied ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-400" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5 text-cyan-400" />
+                )}
+                {copied ? "Copied to Clipboard" : "Copy LaTeX"}
               </Button>
 
               <Button
@@ -219,11 +225,11 @@ export function LatexExportPage() {
           {/* Table Selector Tabs */}
           <div className="flex flex-wrap gap-2">
             <button
-              onClick={() => setSelectedKey('ALL')}
+              onClick={() => setSelectedKey("ALL")}
               className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
-                selectedKey === 'ALL'
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
-                  : 'bg-slate-900/60 text-slate-400 border border-white/5 hover:text-white'
+                selectedKey === "ALL"
+                  ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold"
+                  : "bg-slate-900/60 text-slate-400 border border-white/5 hover:text-white"
               }`}
             >
               All Tables Combined
@@ -234,11 +240,11 @@ export function LatexExportPage() {
                 onClick={() => setSelectedKey(key)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                   selectedKey === key
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
-                    : 'bg-slate-900/60 text-slate-400 border border-white/5 hover:text-white'
+                    ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold"
+                    : "bg-slate-900/60 text-slate-400 border border-white/5 hover:text-white"
                 }`}
               >
-                {item.title.split(':')[0]}
+                {item.title.split(":")[0]}
               </button>
             ))}
           </div>
@@ -249,7 +255,9 @@ export function LatexExportPage() {
               <div>
                 <CardTitle className="text-base font-semibold text-white flex items-center gap-2">
                   <Code2 className="h-4 w-4 text-cyan-400" />
-                  {selectedKey === 'ALL' ? 'Complete Manuscript Tables (.tex)' : TABLE_SNIPPETS[selectedKey]?.title}
+                  {selectedKey === "ALL"
+                    ? "Complete Manuscript Tables (.tex)"
+                    : TABLE_SNIPPETS[selectedKey]?.title}
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-400">
                   Standard IEEE LaTeX table syntax using standard booktabs / tabular notation

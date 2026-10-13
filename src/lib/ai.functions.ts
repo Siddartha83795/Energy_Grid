@@ -67,7 +67,9 @@ export const analyzeEnergy = createServerFn({ method: "POST" })
 
         // Generate rich insights on demand for this run!
         const key = (process.env.GROQ_API_KEY || "").replace(/^["']|["']$/g, "").trim();
-        const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b").replace(/^["']|["']$/g, "").trim();
+        const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b")
+          .replace(/^["']|["']$/g, "")
+          .trim();
         if (!key) throw new Error("GROQ_API_KEY not configured in .env");
 
         const machines = run.machines || [];
@@ -153,7 +155,9 @@ Tariff for INR conversion: ${tariff} INR/kWh. Top 5 recommendations max. Predict
     }));
 
     const key = (process.env.GROQ_API_KEY || "").replace(/^["']|["']$/g, "").trim();
-    const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b").replace(/^["']|["']$/g, "").trim();
+    const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b")
+      .replace(/^["']|["']$/g, "")
+      .trim();
     if (!key) throw new Error("GROQ_API_KEY not configured in .env");
 
     const rowsSlice = rows.slice(0, 50);
@@ -235,7 +239,9 @@ export const getRecommendationRootCauses = createServerFn({ method: "GET" })
     if (recommendations.length === 0) return [];
 
     const key = (process.env.GROQ_API_KEY || "").replace(/^["']|["']$/g, "").trim();
-    const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b").replace(/^["']|["']$/g, "").trim();
+    const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b")
+      .replace(/^["']|["']$/g, "")
+      .trim();
 
     const results: Array<{ rank: number; root_cause: string }> = [];
 
@@ -419,7 +425,9 @@ export const askEnergyData = createServerFn({ method: "POST" })
     }));
 
     const key = (process.env.GROQ_API_KEY || "").replace(/^["']|["']$/g, "").trim();
-    const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b").replace(/^["']|["']$/g, "").trim();
+    const model = (process.env.GROQ_MODEL || "openai/gpt-oss-120b")
+      .replace(/^["']|["']$/g, "")
+      .trim();
 
     if (key && contextMachines.length > 0) {
       try {

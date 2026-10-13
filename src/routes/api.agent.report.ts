@@ -7,13 +7,12 @@ export const Route = createFileRoute("/api/agent/report")({
       POST: async ({ request }) => {
         try {
           const token =
-            request.headers.get("x-device-token") ||
-            new URL(request.url).searchParams.get("token");
+            request.headers.get("x-device-token") || new URL(request.url).searchParams.get("token");
 
           if (!token) {
             return new Response(
               JSON.stringify({ success: false, error: "Missing x-device-token header" }),
-              { status: 401, headers: { "Content-Type": "application/json" } }
+              { status: 401, headers: { "Content-Type": "application/json" } },
             );
           }
 
@@ -27,7 +26,7 @@ export const Route = createFileRoute("/api/agent/report")({
           ) {
             return new Response(
               JSON.stringify({ success: false, error: "Invalid telemetry payload" }),
-              { status: 400, headers: { "Content-Type": "application/json" } }
+              { status: 400, headers: { "Content-Type": "application/json" } },
             );
           }
 
@@ -41,9 +40,7 @@ export const Route = createFileRoute("/api/agent/report")({
 
           if (!node) {
             // Find any unassigned computer node
-            node = await db
-              .collection("connected_systems")
-              .findOne({ type: "computer" });
+            node = await db.collection("connected_systems").findOne({ type: "computer" });
           }
 
           const nodeId = node ? node.id : "node-2";
@@ -55,7 +52,10 @@ export const Route = createFileRoute("/api/agent/report")({
             cpu_freq_ghz: Number(body.cpu_freq_ghz || 2.4),
             memory_used_gb: Number(body.memory_used_gb),
             memory_total_gb: Number(body.memory_total_gb),
-            memory_percent: Number(body.memory_percent || ((body.memory_used_gb / body.memory_total_gb) * 100).toFixed(1)),
+            memory_percent: Number(
+              body.memory_percent ||
+                ((body.memory_used_gb / body.memory_total_gb) * 100).toFixed(1),
+            ),
             disk_percent: Number(body.disk_percent || 0),
             network_send_kbps: Number(body.network_send_kbps || 0),
             network_recv_kbps: Number(body.network_recv_kbps || 0),
@@ -76,7 +76,7 @@ export const Route = createFileRoute("/api/agent/report")({
           const computedWatts = Math.round(80 + (computerTelemetry.cpu_percent / 100) * 270);
           const computedEfficiency = Math.max(
             10,
-            Math.min(99, Math.round(100 - (100 - computerTelemetry.cpu_percent) * 0.4))
+            Math.min(99, Math.round(100 - (100 - computerTelemetry.cpu_percent) * 0.4)),
           );
 
           // Update computer node status & telemetry in connected_systems
@@ -90,7 +90,7 @@ export const Route = createFileRoute("/api/agent/report")({
                 efficiency_score: computedEfficiency,
                 computer_telemetry: computerTelemetry,
               },
-            }
+            },
           );
 
           return new Response(
@@ -100,7 +100,7 @@ export const Route = createFileRoute("/api/agent/report")({
               node_id: nodeId,
               recorded_at: nowISO,
             }),
-            { status: 200, headers: { "Content-Type": "application/json" } }
+            { status: 200, headers: { "Content-Type": "application/json" } },
           );
         } catch (error) {
           console.error("Agent telemetry report error:", error);
@@ -109,7 +109,7 @@ export const Route = createFileRoute("/api/agent/report")({
               success: false,
               error: "Server error recording agent telemetry",
             }),
-            { status: 500, headers: { "Content-Type": "application/json" } }
+            { status: 500, headers: { "Content-Type": "application/json" } },
           );
         }
       },

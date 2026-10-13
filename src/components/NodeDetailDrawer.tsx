@@ -74,8 +74,8 @@ export function NodeDetailDrawer({ node, open, onOpenChange }: NodeDetailDrawerP
                 isOffline
                   ? "border-red-500/40 bg-red-950/30 text-red-400 font-mono"
                   : isIdle
-                  ? "border-amber-500/40 bg-amber-950/30 text-amber-400 font-mono"
-                  : "border-[#33D6A6]/40 bg-[#33D6A6]/20 text-[#33D6A6] font-mono"
+                    ? "border-amber-500/40 bg-amber-950/30 text-amber-400 font-mono"
+                    : "border-[#33D6A6]/40 bg-[#33D6A6]/20 text-[#33D6A6] font-mono"
               }
             >
               {isOffline ? "OFFLINE / STALE" : node.status.toUpperCase()}
@@ -104,7 +104,8 @@ export function NodeDetailDrawer({ node, open, onOpenChange }: NodeDetailDrawerP
               <span className="font-bold text-red-200 block">Offline / Not Reporting</span>
               <p className="mt-0.5 text-[11px] text-red-300/80 leading-relaxed">
                 No telemetry reported within the sampling interval. Check if{" "}
-                <code className="font-mono text-red-200">energyiq-agent.py</code> is running on this device.
+                <code className="font-mono text-red-200">energyiq-agent.py</code> is running on this
+                device.
               </p>
             </div>
           </div>
@@ -117,7 +118,9 @@ export function NodeDetailDrawer({ node, open, onOpenChange }: NodeDetailDrawerP
               <div className="flex items-center justify-between text-xs text-slate-400 font-mono pb-2 border-b border-slate-800/80">
                 <span>Task Manager OS Telemetry</span>
                 <span className="text-amber-400 font-bold">
-                  {telemetry ? `${telemetry.os_type} (${telemetry.hostname})` : "Awaiting First Report"}
+                  {telemetry
+                    ? `${telemetry.os_type} (${telemetry.hostname})`
+                    : "Awaiting First Report"}
                 </span>
               </div>
 
@@ -147,12 +150,16 @@ export function NodeDetailDrawer({ node, open, onOpenChange }: NodeDetailDrawerP
                         <HardDrive className="w-4 h-4 text-[#33D6A6]" /> Memory (RAM)
                       </span>
                       <span className="font-mono font-bold text-[#33D6A6] text-sm">
-                        {telemetry.memory_used_gb} / {telemetry.memory_total_gb} GB ({telemetry.memory_percent}%)
+                        {telemetry.memory_used_gb} / {telemetry.memory_total_gb} GB (
+                        {telemetry.memory_percent}%)
                       </span>
                     </div>
                     <Progress value={telemetry.memory_percent} className="h-2.5 bg-slate-800" />
                     <div className="text-[10px] text-slate-400 flex justify-between font-mono">
-                      <span>Available: {(telemetry.memory_total_gb - telemetry.memory_used_gb).toFixed(1)} GB</span>
+                      <span>
+                        Available:{" "}
+                        {(telemetry.memory_total_gb - telemetry.memory_used_gb).toFixed(1)} GB
+                      </span>
                       <span>Total: {telemetry.memory_total_gb} GB</span>
                     </div>
                   </div>
@@ -233,8 +240,8 @@ export function NodeDetailDrawer({ node, open, onOpenChange }: NodeDetailDrawerP
                     {isOffline
                       ? "0 W"
                       : node.current_power_draw_w >= 1000
-                      ? `${(node.current_power_draw_w / 1000).toFixed(2)} kW`
-                      : `${node.current_power_draw_w} W`}
+                        ? `${(node.current_power_draw_w / 1000).toFixed(2)} kW`
+                        : `${node.current_power_draw_w} W`}
                   </div>
                   <div className="text-[10px] text-slate-400">Today: {node.today_kwh} kWh</div>
                 </div>
@@ -248,8 +255,8 @@ export function NodeDetailDrawer({ node, open, onOpenChange }: NodeDetailDrawerP
                     {isOffline
                       ? "0 W"
                       : node.estimated_heat_output_w >= 1000
-                      ? `${(node.estimated_heat_output_w / 1000).toFixed(2)} kW`
-                      : `${node.estimated_heat_output_w} W`}
+                        ? `${(node.estimated_heat_output_w / 1000).toFixed(2)} kW`
+                        : `${node.estimated_heat_output_w} W`}
                   </div>
                   <div className="text-[9px] text-amber-400/80 font-mono tracking-tight uppercase">
                     * Derived Estimate
@@ -263,7 +270,9 @@ export function NodeDetailDrawer({ node, open, onOpenChange }: NodeDetailDrawerP
                   <span className="font-mono text-slate-300 flex items-center gap-1.5">
                     <Gauge className="w-3.5 h-3.5 text-[#33D6A6]" /> Efficiency Rating
                   </span>
-                  <span className="font-mono font-bold text-[#33D6A6]">{node.efficiency_score}%</span>
+                  <span className="font-mono font-bold text-[#33D6A6]">
+                    {node.efficiency_score}%
+                  </span>
                 </div>
                 <Progress value={node.efficiency_score} className="h-2 bg-slate-800" />
               </div>

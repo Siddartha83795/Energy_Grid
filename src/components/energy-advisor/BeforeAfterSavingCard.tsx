@@ -1,7 +1,17 @@
-import React from 'react';
-import { BeforeAfterMeasurement } from '@/lib/energy-advisor-research';
-import { ArrowDownRight, Award, CheckCircle2, Clock, Leaf, ShieldCheck, Sparkles, TrendingDown, Zap } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import React from "react";
+import { BeforeAfterMeasurement } from "@/lib/energy-advisor-research";
+import {
+  ArrowDownRight,
+  Award,
+  CheckCircle2,
+  Clock,
+  Leaf,
+  ShieldCheck,
+  Sparkles,
+  TrendingDown,
+  Zap,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface Props {
   measurement: BeforeAfterMeasurement;
@@ -35,30 +45,42 @@ export function BeforeAfterSavingCard({ measurement }: Props) {
           variant="outline"
           className={`text-xs font-mono px-2.5 py-1 ${
             measurement.isMeasured
-              ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
-              : 'bg-amber-500/10 text-amber-300 border-amber-500/30'
+              ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
+              : "bg-amber-500/10 text-amber-300 border-amber-500/30"
           }`}
         >
-          {measurement.isMeasured ? '✓ Measured Post-Action Sensor Data' : '⏳ Awaiting Post-Action Measurement'}
+          {measurement.isMeasured
+            ? "✓ Measured Post-Action Sensor Data"
+            : "⏳ Awaiting Post-Action Measurement"}
         </Badge>
       </div>
 
       {/* 4 Quantitative KPI Highlights */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5 font-mono">
         <div className="p-3 rounded-xl bg-slate-900/80 border border-white/5">
-          <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Before Action</span>
-          <span className="text-base font-bold text-slate-200 mt-0.5 block">{measurement.beforePowerW} W</span>
+          <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
+            Before Action
+          </span>
+          <span className="text-base font-bold text-slate-200 mt-0.5 block">
+            {measurement.beforePowerW} W
+          </span>
           <span className="text-[9px] text-red-400 block mt-0.5">Pre-intervention load</span>
         </div>
 
         <div className="p-3 rounded-xl bg-slate-900/80 border border-emerald-500/30">
-          <span className="text-[10px] text-emerald-400 uppercase tracking-wider block font-bold">After Action</span>
-          <span className="text-base font-bold text-emerald-400 mt-0.5 block">{measurement.afterPowerW} W</span>
+          <span className="text-[10px] text-emerald-400 uppercase tracking-wider block font-bold">
+            After Action
+          </span>
+          <span className="text-base font-bold text-emerald-400 mt-0.5 block">
+            {measurement.afterPowerW} W
+          </span>
           <span className="text-[9px] text-emerald-400/80 block mt-0.5">Verified steady-state</span>
         </div>
 
         <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40">
-          <span className="text-[10px] text-emerald-300 uppercase tracking-wider block font-bold">Reduction</span>
+          <span className="text-[10px] text-emerald-300 uppercase tracking-wider block font-bold">
+            Reduction
+          </span>
           <span className="text-base font-bold text-emerald-300 mt-0.5 block">
             -{measurement.reductionW} W ({measurement.reductionPercent}%)
           </span>
@@ -66,11 +88,15 @@ export function BeforeAfterSavingCard({ measurement }: Props) {
         </div>
 
         <div className="p-3 rounded-xl bg-slate-900/80 border border-white/5">
-          <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Energy Saved</span>
+          <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
+            Energy Saved
+          </span>
           <span className="text-base font-bold text-cyan-400 mt-0.5 block">
             {measurement.measuredEnergySavedKWh} kWh
           </span>
-          <span className="text-[9px] text-slate-400 block mt-0.5">{measurement.durationMinutes} min interval</span>
+          <span className="text-[9px] text-slate-400 block mt-0.5">
+            {measurement.durationMinutes} min interval
+          </span>
         </div>
       </div>
 
@@ -100,7 +126,8 @@ export function BeforeAfterSavingCard({ measurement }: Props) {
         <div className="space-y-1">
           <div className="flex justify-between text-xs text-slate-400">
             <span className="flex items-center gap-1.5 text-emerald-400">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" /> AFTER ACTION (SLEEP POLICY APPLIED)
+              <span className="h-2 w-2 rounded-full bg-emerald-500" /> AFTER ACTION (SLEEP POLICY
+              APPLIED)
             </span>
             <span className="font-bold text-emerald-400">{measurement.afterPowerW} W</span>
           </div>

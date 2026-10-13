@@ -48,7 +48,6 @@ export const Route = createFileRoute("/dashboard")({
   component: DashboardPage,
 });
 
-
 const fmt = (n: number) => n.toLocaleString("en-IN", { maximumFractionDigits: 1 });
 const inr = (n: number) => "₹" + n.toLocaleString("en-IN", { maximumFractionDigits: 0 });
 

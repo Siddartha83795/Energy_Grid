@@ -325,8 +325,8 @@ export const getConnectedSystemsFn = createServerFn({ method: "GET" }).handler(a
         estimated_heat_output_w:
           status === "offline"
             ? 0
-            : n.estimated_heat_output_w ??
-              Math.round(n.current_power_draw_w * (1 - (n.efficiency_score || 70) / 100)),
+            : (n.estimated_heat_output_w ??
+              Math.round(n.current_power_draw_w * (1 - (n.efficiency_score || 70) / 100))),
         efficiency_score: status === "offline" ? 0 : n.efficiency_score,
         status: status,
         last_reading_at: n.last_reading_at,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Area,
   AreaChart,
@@ -12,19 +12,19 @@ import {
   XAxis,
   YAxis,
   ComposedChart,
-} from 'recharts';
-import { TimeSeriesPoint } from '@/lib/energy-advisor-research';
-import { Activity, AlertCircle, Info, Zap, ZoomIn } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+} from "recharts";
+import { TimeSeriesPoint } from "@/lib/energy-advisor-research";
+import { Activity, AlertCircle, Info, Zap, ZoomIn } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   data: TimeSeriesPoint[];
   deviceName?: string;
 }
 
-export function ActualVsExpectedChart({ data, deviceName = 'Desktop PC (Workstation)' }: Props) {
-  const [selectedInterval, setSelectedInterval] = useState<'realtime' | '1h' | '24h'>('realtime');
+export function ActualVsExpectedChart({ data, deviceName = "Desktop PC (Workstation)" }: Props) {
+  const [selectedInterval, setSelectedInterval] = useState<"realtime" | "1h" | "24h">("realtime");
 
   // Format data for difference shading
   const chartData = data.map((d) => ({
@@ -47,12 +47,17 @@ export function ActualVsExpectedChart({ data, deviceName = 'Desktop PC (Workstat
             <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
               Actual vs Expected Energy
             </h3>
-            <Badge variant="outline" className="text-[10px] font-mono border-amber-500/30 bg-amber-500/10 text-amber-300">
+            <Badge
+              variant="outline"
+              className="text-[10px] font-mono border-amber-500/30 bg-amber-500/10 text-amber-300"
+            >
               EXCESS DETECTED
             </Badge>
           </div>
           <p className="text-xs text-slate-400 mt-1">
-            Real-time multi-state baseline tracking for <span className="text-slate-200 font-semibold">{deviceName}</span>. Excess energy is shaded in amber.
+            Real-time multi-state baseline tracking for{" "}
+            <span className="text-slate-200 font-semibold">{deviceName}</span>. Excess energy is
+            shaded in amber.
           </p>
         </div>
 
@@ -110,7 +115,7 @@ export function ActualVsExpectedChart({ data, deviceName = 'Desktop PC (Workstat
             <Tooltip
               content={({ active, payload, label }) => {
                 if (!active || !payload || !payload.length) return null;
-                const d = payload[0].payload as typeof chartData[0];
+                const d = payload[0].payload as (typeof chartData)[0];
                 const delta = d.actualPower - d.expectedPower;
                 const isAbove = delta > 0;
 
@@ -136,10 +141,12 @@ export function ActualVsExpectedChart({ data, deviceName = 'Desktop PC (Workstat
                         <span className="font-bold text-white">{d.expectedPower} W</span>
                       </div>
                       <div className="flex items-center justify-between gap-6 pt-1.5 border-t border-white/5 font-semibold">
-                        <span className={isAbove ? 'text-amber-400' : 'text-emerald-400'}>
-                          {isAbove ? 'Excess Power (Deviation):' : 'Efficiency Surplus:'}
+                        <span className={isAbove ? "text-amber-400" : "text-emerald-400"}>
+                          {isAbove ? "Excess Power (Deviation):" : "Efficiency Surplus:"}
                         </span>
-                        <span className={`text-sm ${isAbove ? 'text-amber-400 font-bold' : 'text-emerald-400'}`}>
+                        <span
+                          className={`text-sm ${isAbove ? "text-amber-400 font-bold" : "text-emerald-400"}`}
+                        >
                           {isAbove ? `+${delta} W` : `${delta} W`}
                         </span>
                       </div>
@@ -175,8 +182,8 @@ export function ActualVsExpectedChart({ data, deviceName = 'Desktop PC (Workstat
               dataKey="actualPower"
               stroke="#ef4444"
               strokeWidth={2.5}
-              dot={{ r: 3, fill: '#ef4444', strokeWidth: 1, stroke: '#ffffff' }}
-              activeDot={{ r: 6, fill: '#ef4444', stroke: '#ffffff' }}
+              dot={{ r: 3, fill: "#ef4444", strokeWidth: 1, stroke: "#ffffff" }}
+              activeDot={{ r: 6, fill: "#ef4444", stroke: "#ffffff" }}
               name="Actual Power (W)"
             />
           </ComposedChart>
@@ -200,12 +207,16 @@ export function ActualVsExpectedChart({ data, deviceName = 'Desktop PC (Workstat
         </div>
         <div className="p-3 rounded-lg bg-slate-900/50 border border-white/5">
           <span className="text-slate-400 block text-[11px]">Peak Excess Encountered:</span>
-          <span className="text-sm font-bold text-amber-400 mt-0.5 block">+50 W (+116% above model)</span>
+          <span className="text-sm font-bold text-amber-400 mt-0.5 block">
+            +50 W (+116% above model)
+          </span>
           <span className="text-[10px] text-slate-400">At timestamp 09:35 AM</span>
         </div>
         <div className="p-3 rounded-lg bg-slate-900/50 border border-white/5">
           <span className="text-slate-400 block text-[11px]">Corrective Action Response:</span>
-          <span className="text-sm font-bold text-emerald-400 mt-0.5 block">Sleep Policy Applied (10:05)</span>
+          <span className="text-sm font-bold text-emerald-400 mt-0.5 block">
+            Sleep Policy Applied (10:05)
+          </span>
           <span className="text-[10px] text-slate-400">Consumption dropped to 44 W</span>
         </div>
       </div>
