@@ -1,0 +1,9 @@
+# Prevent Vercel from downloading and building local Python/hardware assets
+requirements.txt
+dashboard/
+analytics-engine/
+agents/
+data-ingestion/
+esp32_firmware/
+infra/
+agent/
