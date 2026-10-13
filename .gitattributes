@@ -1,0 +1,28 @@
+# GitHub Linguist Language Configuration
+# Controls language statistics breakdown on GitHub
+
+# 1. Ignore auto-generated files from repository language statistics
+src/routeTree.gen.ts linguist-generated=true
+*.gen.ts linguist-generated=true
+*.gen.tsx linguist-generated=true
+package-lock.json linguist-generated=true
+*.lock linguist-generated=true
+
+# 2. Reclassify React TSX files as JavaScript (React JSX)
+*.tsx linguist-language=JavaScript
+src/components/**/*.tsx linguist-language=JavaScript
+src/routes/**/*.tsx linguist-language=JavaScript
+src/hooks/**/*.tsx linguist-language=JavaScript
+frontend/**/*.jsx linguist-language=JavaScript
+frontend/**/*.js linguist-language=JavaScript
+
+# 3. Explicitly detect HTML and CSS
+*.html linguist-language=HTML
+frontend/**/*.html linguist-language=HTML
+public/**/*.html linguist-language=HTML
+*.css linguist-language=CSS
+src/styles.css linguist-language=CSS
+frontend/**/*.css linguist-language=CSS
+
+# 4. Firmware and scripts
+esp32_firmware/*.ino linguist-language=C++
