@@ -41,11 +41,16 @@ export const Route = createFileRoute("/api/auth/google/login")({
 
         const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
 
+        const headers = new Headers();
+        headers.set("Location", googleAuthUrl);
+        headers.append(
+          "Set-Cookie",
+          `oauth_state=${encodeURIComponent(state)}; Path=/; Max-Age=900; HttpOnly; SameSite=Lax${origin.startsWith("https") ? "; Secure" : ""}`,
+        );
+
         return new Response(null, {
           status: 302,
-          headers: {
-            Location: googleAuthUrl,
-          },
+          headers,
         });
       },
     },

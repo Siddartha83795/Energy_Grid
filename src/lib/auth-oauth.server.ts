@@ -1,20 +1,44 @@
 import crypto from "node:crypto";
+import process from "node:process";
 import { getDb } from "./mongodb.server";
 
+const OAUTH_SECRET =
+  process.env.JWT_SECRET || "oauth-csrf-state-secret-energy-grid-secure-production";
+
 export function generateOAuthState(): string {
-  return crypto.randomBytes(32).toString("hex");
+  const timestamp = Date.now().toString();
+  const nonce = crypto.randomBytes(16).toString("hex");
+  const data = `${timestamp}.${nonce}`;
+  const hmac = crypto.createHmac("sha256", OAUTH_SECRET).update(data).digest("hex");
+  return `${data}.${hmac}`;
 }
 
 export function verifyOAuthState(cookieState?: string, queryState?: string): boolean {
-  if (!cookieState || !queryState) return false;
-  if (cookieState.length !== queryState.length) return false;
-  try {
-    const a = Buffer.from(cookieState, "utf8");
-    const b = Buffer.from(queryState, "utf8");
-    return crypto.timingSafeEqual(a, b);
-  } catch {
-    return false;
+  if (!queryState) return false;
+
+  // 1. Direct match with stored cookie if available
+  if (cookieState && cookieState === queryState) {
+    return true;
   }
+
+  // 2. Cryptographic signature and timestamp verification (resilient against cookie stripping on cross-site redirect)
+  const parts = queryState.split(".");
+  if (parts.length === 3) {
+    const [timestampStr, nonce, hmac] = parts;
+    const timestamp = parseInt(timestampStr, 10);
+    if (isNaN(timestamp)) return false;
+
+    // Check expiration: valid for 15 minutes
+    if (Date.now() - timestamp > 15 * 60 * 1000) return false;
+
+    const data = `${timestampStr}.${nonce}`;
+    const expectedHmac = crypto.createHmac("sha256", OAUTH_SECRET).update(data).digest("hex");
+
+    if (hmac.length !== expectedHmac.length) return false;
+    return crypto.timingSafeEqual(Buffer.from(hmac, "hex"), Buffer.from(expectedHmac, "hex"));
+  }
+
+  return false;
 }
 
 export type GoogleProfileInput = {

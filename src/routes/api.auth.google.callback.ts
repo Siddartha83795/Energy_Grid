@@ -35,7 +35,6 @@ export const Route = createFileRoute("/api/auth/google/callback")({
 
         const clientId = (process.env.GOOGLE_CLIENT_ID || "").trim();
         const clientSecret = (process.env.GOOGLE_CLIENT_SECRET || "").trim();
-        const url = new URL(request.url);
         const proto = request.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
         const host =
           request.headers.get("x-forwarded-host") || request.headers.get("host") || url.host;
@@ -137,9 +136,17 @@ export const Route = createFileRoute("/api/auth/google/callback")({
               ? "/dashboard"
               : "/pending-approval";
 
+          const headers = new Headers();
+          headers.set("Location", destination);
+          headers.append(
+            "Set-Cookie",
+            `session_token=${encodeURIComponent(token)}; Path=/; Max-Age=${30 * 24 * 60 * 60}; HttpOnly; SameSite=Lax${origin.startsWith("https") ? "; Secure" : ""}`,
+          );
+          headers.append("Set-Cookie", "oauth_state=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax");
+
           return new Response(null, {
             status: 302,
-            headers: { Location: destination },
+            headers,
           });
         } catch (err: any) {
           console.error("Google OAuth callback exception:", err);
